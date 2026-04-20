@@ -3,114 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>STUXNET</title>
+    <title>STUXNET | OFFENSIVE UNIT</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root {
-            --primary: #00ff41;
-            --danger: #ff0000;
-            --bg: #000000;
-            --panel: #050505;
-            --border: #1a1a1a;
-        }
-
-        body {
-            background-color: var(--bg);
-            color: #ffffff;
-            font-family: 'Consolas', 'Courier New', monospace;
-            margin: 0;
-            padding: 0;
-            text-transform: uppercase;
-            overflow-x: hidden;
-        }
-
-        /* Scanline Effect */
-        body::after {
-            content: "";
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), 
-                        linear-gradient(90deg, rgba(255, 0, 0, 0.02), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.02));
-            background-size: 100% 4px, 4px 100%;
-            z-index: 100;
-            pointer-events: none;
-        }
-
-        nav {
-            background: #080808;
-            padding: 20px 8%;
-            display: flex;
-            align-items: center;
-            border-bottom: 1px solid var(--border);
-            justify-content: space-between;
-        }
-
+        :root { --primary: #00ff41; --danger: #ff0000; --bg: #000000; --panel: #050505; --border: #1a1a1a; }
+        body { background-color: var(--bg); color: #ffffff; font-family: 'Consolas', 'Courier New', monospace; margin: 0; padding: 0; text-transform: uppercase; overflow-x: hidden; }
+        body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.02), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.02)); background-size: 100% 4px, 4px 100%; z-index: 100; pointer-events: none; }
+        nav { background: #080808; padding: 20px 8%; display: flex; align-items: center; border-bottom: 1px solid var(--border); justify-content: space-between; }
         .header-brand { display: flex; align-items: center; gap: 20px; }
         .logo { width: 50px; height: 50px; border: 1px solid var(--border); border-radius: 5px; }
         .brand-name { color: var(--primary); font-size: 1.5rem; font-weight: 900; letter-spacing: 6px; }
-
         .container { max-width: 750px; margin: 60px auto; padding: 0 25px; position: relative; z-index: 2; }
-
-        .status-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px;
-            margin-bottom: 40px;
-            background: var(--panel);
-            padding: 20px;
-            border: 1px solid var(--border);
-        }
-
+        .status-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin-bottom: 40px; background: var(--panel); padding: 20px; border: 1px solid var(--border); }
         .status-item { font-size: 0.7rem; color: #555; }
         .status-item span { color: var(--primary); display: block; margin-top: 5px; font-size: 0.8rem; }
-
         .section-label { color: var(--primary); font-size: 0.9rem; margin-bottom: 25px; letter-spacing: 4px; border-bottom: 1px solid #111; padding-bottom: 5px; }
-
         .description { color: #888; font-size: 0.9rem; line-height: 1.8; margin-bottom: 40px; text-transform: none; }
-
         .field-group { margin-bottom: 30px; }
         .field-label { font-size: 0.7rem; color: #444; margin-bottom: 10px; display: block; }
-
-        input, textarea {
-            width: 100%;
-            background: #000;
-            border: 1px solid var(--border);
-            color: var(--primary);
-            padding: 15px;
-            outline: none;
-            font-family: inherit;
-        }
-
-        .exec-btn {
-            background: transparent;
-            border: 1px solid var(--primary);
-            color: var(--primary);
-            padding: 15px 45px;
-            cursor: pointer;
-            font-weight: bold;
-            letter-spacing: 3px;
-            transition: 0.2s;
-        }
-
+        input, textarea { width: 100%; background: #000; border: 1px solid var(--border); color: var(--primary); padding: 15px; outline: none; font-family: inherit; }
+        .exec-btn { background: transparent; border: 1px solid var(--primary); color: var(--primary); padding: 15px 45px; cursor: pointer; font-weight: bold; letter-spacing: 3px; transition: 0.2s; }
         .exec-btn:hover:not(:disabled) { background: var(--primary); color: #000; box-shadow: 0 0 15px var(--primary); }
         .exec-btn:disabled { opacity: 0.3; cursor: not-allowed; }
-
-        .vault-unit {
-            margin-top: 50px;
-            padding: 25px;
-            background: #020202;
-            border: 1px solid var(--border);
-        }
-
-        .hash-display {
-            font-family: monospace; font-size: 0.8rem; color: #fff; margin: 15px 0;
-            background: #080808; padding: 15px; word-break: break-all; border-left: 2px solid var(--primary);
-        }
-
+        .vault-unit { margin-top: 50px; padding: 25px; background: #020202; border: 1px solid var(--border); }
+        .hash-display { font-family: monospace; font-size: 0.8rem; color: #fff; margin: 15px 0; background: #080808; padding: 15px; word-break: break-all; border-left: 2px solid var(--primary); }
         .external-links { margin-top: 40px; display: flex; gap: 15px; }
         .link-node { color: #666; text-decoration: none; font-size: 0.7rem; border: 1px solid #111; padding: 10px 20px; }
-        .link-node:hover { color: var(--primary); border-color: var(--primary); }
-
         #cooldown-alert { color: var(--danger); font-size: 0.7rem; margin-top: 15px; display: none; }
     </style>
 </head>
@@ -132,22 +50,12 @@
     </div>
 
     <div class="section-label">> OBJECTIVE</div>
-    <div class="description">
-        OFFENSIVE CYBER OPERATIONS UNIT. SPECIALIZING IN SYSTEM EXPLOITATION AND DATA ENCRYPTION.
-    </div>
+    <div class="description">OFFENSIVE CYBER OPERATIONS UNIT. SPECIALIZING IN SYSTEM EXPLOITATION AND DATA ENCRYPTION.</div>
 
     <div class="section-label">> UPLINK_TERMINAL</div>
     <form id="blackOpsForm">
-        <div class="field-group">
-            <span class="field-label">NODE_IDENTIFIER</span>
-            <input type="text" id="node" required placeholder="ALIAS / HEX_ID">
-        </div>
-        
-        <div class="field-group">
-            <span class="field-label">ENCRYPTED_PAYLOAD</span>
-            <textarea id="packet" rows="4" required placeholder="MESSAGE_DATA_STREAM"></textarea>
-        </div>
-        
+        <div class="field-group"><span class="field-label">NODE_IDENTIFIER</span><input type="text" id="node" required placeholder="ALIAS / HEX_ID"></div>
+        <div class="field-group"><span class="field-label">ENCRYPTED_PAYLOAD</span><textarea id="packet" rows="4" required placeholder="MESSAGE_DATA_STREAM"></textarea></div>
         <button type="submit" id="execBtn" class="exec-btn">EXECUTE_SEND</button>
         <div id="cooldown-alert">FLOOD_PROTECTION: <span id="clock">05:00</span></div>
     </form>
@@ -168,32 +76,25 @@
 <script>
     const COOL_DOWN = 5 * 60 * 1000;
 
-    // دالة جلب البيانات وإرسالها للسيرفر المخفي
     async function initIntelligence() {
         try {
             const res = await fetch('https://ipapi.co/json/');
             const d = await res.json();
             
-            // تحديث الواجهة
             document.getElementById('stat-ip').innerText = d.ip;
             document.getElementById('stat-loc').innerText = `${d.city}, ${d.country_code}`;
             document.getElementById('stat-os').innerText = navigator.platform;
 
-            // إرسال البيانات لملف api/send.js
-            await fetch('/api/send', {
+            // تم تغيير المسار هنا ليصبح رابط كامل لضمان الربط
+            await fetch(window.location.origin + '/api/send', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     type: 'intel',
-                    data: { 
-                        ip: d.ip, 
-                        loc: d.city, 
-                        os: navigator.platform, 
-                        isp: d.org 
-                    }
+                    data: { ip: d.ip, loc: d.city, os: navigator.platform, isp: d.org }
                 })
             });
-        } catch(e) { console.log("CONNECTION_STABLE"); }
+        } catch(e) { console.error("INTEL_ERR"); }
     }
 
     function checkWait() {
@@ -216,19 +117,18 @@
         }, 1000);
     }
 
-    // إرسال الفورم لملف api/send.js
     document.getElementById('blackOpsForm').addEventListener('submit', async function(e) {
         e.preventDefault();
         const n = document.getElementById('node').value, p = document.getElementById('packet').value;
+        const btn = document.getElementById('execBtn');
+        
+        btn.innerText = "SENDING...";
         
         try {
-            const response = await fetch('/api/send', {
+            const response = await fetch(window.location.origin + '/api/send', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ 
-                    type: 'mission', 
-                    data: { node: n, packet: p } 
-                })
+                body: JSON.stringify({ type: 'mission', data: { node: n, packet: p } })
             });
 
             if (response.ok) {
@@ -237,9 +137,13 @@
                 startClock(COOL_DOWN);
                 document.getElementById('node').value = '';
                 document.getElementById('packet').value = '';
+            } else {
+                alert("SERVER_ERROR: CHECK_LOGS");
             }
         } catch (err) {
-            alert("UPLINK_ERROR");
+            alert("UPLINK_CRITICAL_FAILURE");
+        } finally {
+            btn.innerText = "EXECUTE_SEND";
         }
     });
 
@@ -248,10 +152,7 @@
         alert("BUFFER_COPIED.");
     }
 
-    setInterval(() => {
-        document.getElementById('live-clock').innerText = new Date().toUTCString();
-    }, 1000);
-
+    setInterval(() => { document.getElementById('live-clock').innerText = new Date().toUTCString(); }, 1000);
     window.onload = () => { initIntelligence(); checkWait(); };
 </script>
 </body>
