@@ -19,17 +19,13 @@
         .status-item span { color: var(--primary); display: block; margin-top: 5px; font-size: 0.8rem; }
         .section-label { color: var(--primary); font-size: 0.9rem; margin-bottom: 25px; letter-spacing: 4px; border-bottom: 1px solid #111; padding-bottom: 5px; }
         .description { color: #888; font-size: 0.9rem; line-height: 1.8; margin-bottom: 40px; text-transform: none; }
-        .field-group { margin-bottom: 30px; }
-        .field-label { font-size: 0.7rem; color: #444; margin-bottom: 10px; display: block; }
-        input, textarea { width: 100%; background: #000; border: 1px solid var(--border); color: var(--primary); padding: 15px; outline: none; font-family: inherit; }
-        .exec-btn { background: transparent; border: 1px solid var(--primary); color: var(--primary); padding: 15px 45px; cursor: pointer; font-weight: bold; letter-spacing: 3px; transition: 0.2s; }
+        input, textarea { width: 100%; background: #000; border: 1px solid var(--border); color: var(--primary); padding: 15px; outline: none; font-family: inherit; margin-bottom: 20px; }
+        .exec-btn { background: transparent; border: 1px solid var(--primary); color: var(--primary); padding: 15px 45px; cursor: pointer; font-weight: bold; letter-spacing: 3px; transition: 0.2s; width: 100%; }
         .exec-btn:hover:not(:disabled) { background: var(--primary); color: #000; box-shadow: 0 0 15px var(--primary); }
         .exec-btn:disabled { opacity: 0.3; cursor: not-allowed; }
         .vault-unit { margin-top: 50px; padding: 25px; background: #020202; border: 1px solid var(--border); }
         .hash-display { font-family: monospace; font-size: 0.8rem; color: #fff; margin: 15px 0; background: #080808; padding: 15px; word-break: break-all; border-left: 2px solid var(--primary); }
-        .external-links { margin-top: 40px; display: flex; gap: 15px; }
-        .link-node { color: #666; text-decoration: none; font-size: 0.7rem; border: 1px solid #111; padding: 10px 20px; }
-        #cooldown-alert { color: var(--danger); font-size: 0.7rem; margin-top: 15px; display: none; }
+        #cooldown-alert { color: var(--danger); font-size: 0.7rem; margin-top: 15px; display: none; text-align: center; }
     </style>
 </head>
 <body>
@@ -44,32 +40,23 @@
 
 <div class="container">
     <div class="status-grid">
-        <div class="status-item">IP_ADDRESS <span id="stat-ip">FETCHING...</span></div>
-        <div class="status-item">COORDINATES <span id="stat-loc">LOCATING...</span></div>
-        <div class="status-item">SYSTEM_OS <span id="stat-os">ANALYZING...</span></div>
+        <div class="status-item">IP_ADDRESS <span id="stat-ip">WAITING...</span></div>
+        <div class="status-item">COORDINATES <span id="stat-loc">WAITING...</span></div>
+        <div class="status-item">SYSTEM_OS <span id="stat-os">WAITING...</span></div>
     </div>
 
-    <div class="section-label">> OBJECTIVE</div>
-    <div class="description">OFFENSIVE CYBER OPERATIONS UNIT. SPECIALIZING IN SYSTEM EXPLOITATION AND DATA ENCRYPTION.</div>
-
-    <div class="section-label">> UPLINK_TERMINAL</div>
+    <div class="section-label">> TERMINAL</div>
     <form id="blackOpsForm">
-        <div class="field-group"><span class="field-label">NODE_IDENTIFIER</span><input type="text" id="node" required placeholder="ALIAS / HEX_ID"></div>
-        <div class="field-group"><span class="field-label">ENCRYPTED_PAYLOAD</span><textarea id="packet" rows="4" required placeholder="MESSAGE_DATA_STREAM"></textarea></div>
+        <input type="text" id="node" required placeholder="NODE_ID">
+        <textarea id="packet" rows="4" required placeholder="PAYLOAD_DATA"></textarea>
         <button type="submit" id="execBtn" class="exec-btn">EXECUTE_SEND</button>
-        <div id="cooldown-alert">FLOOD_PROTECTION: <span id="clock">05:00</span></div>
+        <div id="cooldown-alert">LOCKDOWN_MODE: <span id="clock">05:00</span></div>
     </form>
 
     <div class="vault-unit">
-        <div class="section-label" style="margin-bottom: 5px; border:none;">> CRYPTO_VAULT</div>
-        <span class="field-label">TRC20_ADDRESS</span>
+        <div class="section-label" style="border:none;">> CRYPTO_VAULT</div>
         <div class="hash-display" id="v_hash">TQhuYaGhhpXEg322iELNesuLXCyziPhJxC</div>
-        <button onclick="copyHash()" class="exec-btn" style="padding: 10px 25px; font-size: 0.7rem;">COPY_ADDRESS</button>
-    </div>
-
-    <div class="external-links">
-        <a href="https://t.me/xstuxnet_" class="link-node">TELEGRAM_NODE</a>
-        <a href="mailto:devilnet320121@proton.me" class="link-node">SECURE_MAIL</a>
+        <button onclick="copyHash()" class="exec-btn" style="padding: 10px; font-size: 0.7rem;">COPY_ADDRESS</button>
     </div>
 </div>
 
@@ -80,31 +67,48 @@
         try {
             const res = await fetch('https://ipapi.co/json/');
             const d = await res.json();
-            
             document.getElementById('stat-ip').innerText = d.ip;
-            document.getElementById('stat-loc').innerText = `${d.city}, ${d.country_code}`;
+            document.getElementById('stat-loc').innerText = d.city;
             document.getElementById('stat-os').innerText = navigator.platform;
 
-            // تم تغيير المسار هنا ليصبح رابط كامل لضمان الربط
-            await fetch(window.location.origin + '/api/send', {
+            await fetch('/api/send', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    type: 'intel',
-                    data: { ip: d.ip, loc: d.city, os: navigator.platform, isp: d.org }
-                })
+                body: JSON.stringify({ type: 'intel', data: { ip: d.ip, loc: d.city, os: navigator.platform } })
             });
-        } catch(e) { console.error("INTEL_ERR"); }
+        } catch(e) {}
     }
 
-    function checkWait() {
-        const last = localStorage.getItem('last_op');
-        if (last) {
-            const diff = Date.now() - parseInt(last);
-            if (diff < COOL_DOWN) { startClock(COOL_DOWN - diff); return true; }
+    document.getElementById('blackOpsForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const n = document.getElementById('node').value;
+        const p = document.getElementById('packet').value;
+        const btn = document.getElementById('execBtn');
+        
+        btn.innerText = "TRANSMITTING...";
+        btn.disabled = true;
+
+        try {
+            const response = await fetch('/api/send', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ type: 'mission', data: { node: n, packet: p } })
+            });
+
+            if (response.ok) {
+                alert("SUCCESS: DATA_SENT.");
+                localStorage.setItem('last_op', Date.now());
+                startClock(COOL_DOWN);
+            } else {
+                alert("ERROR: UPLINK_FAILED.");
+                btn.disabled = false;
+                btn.innerText = "EXECUTE_SEND";
+            }
+        } catch (err) {
+            alert("CRITICAL_UPLINK_FAILURE.");
+            btn.disabled = false;
         }
-        return false;
-    }
+    });
 
     function startClock(ms) {
         const btn = document.getElementById('execBtn'), alertMsg = document.getElementById('cooldown-alert'), display = document.getElementById('clock');
@@ -113,47 +117,24 @@
         const interval = setInterval(() => {
             let m = Math.floor(remaining / 60), s = Math.floor(remaining % 60);
             display.innerText = `${m}:${s < 10 ? '0' : ''}${s}`;
-            if (--remaining < 0) { clearInterval(interval); btn.disabled = false; alertMsg.style.display = 'none'; }
+            if (--remaining < 0) { clearInterval(interval); btn.disabled = false; alertMsg.style.display = 'none'; btn.innerText="EXECUTE_SEND"; }
         }, 1000);
     }
 
-    document.getElementById('blackOpsForm').addEventListener('submit', async function(e) {
-        e.preventDefault();
-        const n = document.getElementById('node').value, p = document.getElementById('packet').value;
-        const btn = document.getElementById('execBtn');
-        
-        btn.innerText = "SENDING...";
-        
-        try {
-            const response = await fetch(window.location.origin + '/api/send', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ type: 'mission', data: { node: n, packet: p } })
-            });
-
-            if (response.ok) {
-                alert("TRANSMISSION_COMPLETE.");
-                localStorage.setItem('last_op', Date.now());
-                startClock(COOL_DOWN);
-                document.getElementById('node').value = '';
-                document.getElementById('packet').value = '';
-            } else {
-                alert("SERVER_ERROR: CHECK_LOGS");
-            }
-        } catch (err) {
-            alert("UPLINK_CRITICAL_FAILURE");
-        } finally {
-            btn.innerText = "EXECUTE_SEND";
-        }
-    });
-
     function copyHash() {
         navigator.clipboard.writeText(document.getElementById('v_hash').innerText);
-        alert("BUFFER_COPIED.");
+        alert("COPIED.");
     }
 
+    window.onload = () => {
+        initIntelligence();
+        const last = localStorage.getItem('last_op');
+        if (last) {
+            const diff = Date.now() - parseInt(last);
+            if (diff < COOL_DOWN) startClock(COOL_DOWN - diff);
+        }
+    };
     setInterval(() => { document.getElementById('live-clock').innerText = new Date().toUTCString(); }, 1000);
-    window.onload = () => { initIntelligence(); checkWait(); };
 </script>
 </body>
 </html>
