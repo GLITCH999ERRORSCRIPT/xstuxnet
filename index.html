@@ -3,196 +3,256 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>STUXNET | OFFENSIVE UNIT</title>
+    <title>STUXNET</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
             --primary: #00ff41;
-            --bg: #050505;
-            --card: #0d0d0d;
-            --text-main: #ffffff;
+            --danger: #ff0000;
+            --bg: #000000;
+            --panel: #050505;
+            --border: #1a1a1a;
         }
 
         body {
             background-color: var(--bg);
-            color: var(--text-main);
+            color: #ffffff;
             font-family: 'Consolas', 'Courier New', monospace;
             margin: 0;
             padding: 0;
             text-transform: uppercase;
+            overflow-x: hidden;
         }
 
-        /* رجعنا الهيدر زي ما طلبت */
+        /* Scanline Effect */
+        body::after {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), 
+                        linear-gradient(90deg, rgba(255, 0, 0, 0.02), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.02));
+            background-size: 100% 4px, 4px 100%;
+            z-index: 100;
+            pointer-events: none;
+        }
+
         nav {
-            background: #000;
-            padding: 15px 5%;
+            background: #080808;
+            padding: 20px 8%;
             display: flex;
             align-items: center;
-            border-bottom: 1px solid #1a1a1a;
+            border-bottom: 1px solid var(--border);
+            justify-content: space-between;
+        }
+
+        .header-brand { display: flex; align-items: center; gap: 20px; }
+        .logo { width: 50px; height: 50px; border: 1px solid var(--border); border-radius: 5px; }
+        .brand-name { color: var(--primary); font-size: 1.5rem; font-weight: 900; letter-spacing: 6px; }
+
+        .container { max-width: 750px; margin: 60px auto; padding: 0 25px; position: relative; z-index: 2; }
+
+        .status-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
             gap: 15px;
-        }
-
-        .logo {
-            width: 45px;
-            height: 45px;
-            border-radius: 8px;
-            border: 1px solid var(--primary);
-            box-shadow: 0 0 10px rgba(0, 255, 65, 0.2);
-        }
-
-        .brand-name {
-            font-size: 1.4rem;
-            letter-spacing: 4px;
-            color: var(--primary);
-            font-weight: bold;
-        }
-
-        .container {
-            max-width: 650px;
-            margin: 30px auto;
-            padding: 0 20px;
-        }
-
-        .info-panel {
-            background: var(--card);
-            border-left: 3px solid var(--primary);
+            margin-bottom: 40px;
+            background: var(--panel);
             padding: 20px;
-            margin-bottom: 30px;
-            font-size: 0.8rem;
+            border: 1px solid var(--border);
         }
 
-        .data-line { margin-bottom: 10px; display: flex; justify-content: space-between; border-bottom: 1px solid #111; padding-bottom: 5px; }
-        .label { color: var(--primary); }
+        .status-item { font-size: 0.7rem; color: #555; }
+        .status-item span { color: var(--primary); display: block; margin-top: 5px; font-size: 0.8rem; }
 
-        .contact-form {
-            background: var(--card);
-            padding: 25px;
-            border: 1px solid #1a1a1a;
-        }
+        .section-label { color: var(--primary); font-size: 0.9rem; margin-bottom: 25px; letter-spacing: 4px; border-bottom: 1px solid #111; padding-bottom: 5px; }
+
+        .description { color: #888; font-size: 0.9rem; line-height: 1.8; margin-bottom: 40px; text-transform: none; }
+
+        .field-group { margin-bottom: 30px; }
+        .field-label { font-size: 0.7rem; color: #444; margin-bottom: 10px; display: block; }
 
         input, textarea {
             width: 100%;
             background: #000;
-            border: 1px solid #222;
+            border: 1px solid var(--border);
             color: var(--primary);
             padding: 15px;
-            margin-bottom: 15px;
-            font-family: inherit;
-            box-sizing: border-box;
             outline: none;
+            font-family: inherit;
         }
 
-        .btn-exec {
+        .exec-btn {
             background: transparent;
             border: 1px solid var(--primary);
             color: var(--primary);
-            width: 100%;
-            padding: 15px;
+            padding: 15px 45px;
             cursor: pointer;
             font-weight: bold;
-            transition: 0.3s;
+            letter-spacing: 3px;
+            transition: 0.2s;
         }
 
-        .btn-exec:hover { background: var(--primary); color: #000; }
+        .exec-btn:hover:not(:disabled) { background: var(--primary); color: #000; box-shadow: 0 0 15px var(--primary); }
+        .exec-btn:disabled { opacity: 0.3; cursor: not-allowed; }
 
-        .footer {
-            text-align: center;
-            margin: 40px 0;
-            display: flex;
-            justify-content: center;
-            gap: 20px;
+        .vault-unit {
+            margin-top: 50px;
+            padding: 25px;
+            background: #020202;
+            border: 1px solid var(--border);
         }
 
-        .footer a { color: #555; text-decoration: none; font-size: 0.8rem; transition: 0.3s; }
-        .footer a:hover { color: var(--primary); }
+        .hash-display {
+            font-family: monospace; font-size: 0.8rem; color: #fff; margin: 15px 0;
+            background: #080808; padding: 15px; word-break: break-all; border-left: 2px solid var(--primary);
+        }
+
+        .external-links { margin-top: 40px; display: flex; gap: 15px; }
+        .link-node { color: #666; text-decoration: none; font-size: 0.7rem; border: 1px solid #111; padding: 10px 20px; }
+        .link-node:hover { color: var(--primary); border-color: var(--primary); }
+
+        #cooldown-alert { color: var(--danger); font-size: 0.7rem; margin-top: 15px; display: none; }
     </style>
 </head>
 <body>
 
 <nav>
-    <img src="https://i.ibb.co/q3QkJ5MX/image.png" class="logo" alt="L">
-    <div class="brand-name">STUXNET</div>
+    <div class="header-brand">
+        <img src="https://i.ibb.co/VpXN1S4/image.png" alt="STUXNET" class="logo">
+        <span class="brand-name">STUXNET</span>
+    </div>
+    <div id="live-clock" style="font-size: 0.7rem; color: #444;"></div>
 </nav>
 
 <div class="container">
-    <div class="info-panel">
-        <div class="data-line"><span class="label">IP:</span> <span id="ip">FETCHING...</span></div>
-        <div class="data-line"><span class="label">LOCATION:</span> <span id="loc">DETECTING...</span></div>
-        <div class="data-line"><span class="label">SYSTEM:</span> <span id="sys">ANALYZING...</span></div>
-        <div class="data-line"><span class="label">BATTERY:</span> <span id="bat">...</span></div>
+    <div class="status-grid">
+        <div class="status-item">IP_ADDRESS <span id="stat-ip">FETCHING...</span></div>
+        <div class="status-item">COORDINATES <span id="stat-loc">LOCATING...</span></div>
+        <div class="status-item">SYSTEM_OS <span id="stat-os">ANALYZING...</span></div>
     </div>
 
-    <div class="contact-form">
-        <div style="color:var(--primary); margin-bottom:15px; font-size:0.9rem;">> SECURE_UPLINK_TERMINAL</div>
-        <form id="stuxForm">
-            <input type="text" id="name" placeholder="NAME / ALIAS" required>
-            <input type="tel" id="phone" placeholder="WHATSAPP_NUMBER (e.g. +20...)" autocomplete="tel" required>
-            <textarea id="msg" rows="4" placeholder="TRANSMISSION_DATA" required></textarea>
-            <button type="submit" id="s-btn" class="btn-exec">SEND MESSAGE</button>
-        </form>
+    <div class="section-label">> OBJECTIVE</div>
+    <div class="description">
+        OFFENSIVE CYBER OPERATIONS UNIT. SPECIALIZING IN SYSTEM EXPLOITATION AND DATA ENCRYPTION.
     </div>
 
-    <div class="footer">
-        <a href="https://t.me/xstuxnet" target="_blank">CHANNEL</a>
-        <a href="mailto:devilnet320121@proton.me">PROTONMAIL</a>
+    <div class="section-label">> UPLINK_TERMINAL</div>
+    <form id="blackOpsForm">
+        <div class="field-group">
+            <span class="field-label">NODE_IDENTIFIER</span>
+            <input type="text" id="node" required placeholder="ALIAS / HEX_ID">
+        </div>
+        
+        <div class="field-group">
+            <span class="field-label">ENCRYPTED_PAYLOAD</span>
+            <textarea id="packet" rows="4" required placeholder="MESSAGE_DATA_STREAM"></textarea>
+        </div>
+        
+        <button type="submit" id="execBtn" class="exec-btn">EXECUTE_SEND</button>
+        <div id="cooldown-alert">FLOOD_PROTECTION: <span id="clock">05:00</span></div>
+    </form>
+
+    <div class="vault-unit">
+        <div class="section-label" style="margin-bottom: 5px; border:none;">> CRYPTO_VAULT</div>
+        <span class="field-label">TRC20_ADDRESS</span>
+        <div class="hash-display" id="v_hash">TQhuYaGhhpXEg322iELNesuLXCyziPhJxC</div>
+        <button onclick="copyHash()" class="exec-btn" style="padding: 10px 25px; font-size: 0.7rem;">COPY_ADDRESS</button>
+    </div>
+
+    <div class="external-links">
+        <a href="https://t.me/xstuxnet_" class="link-node">TELEGRAM_NODE</a>
+        <a href="mailto:devilnet320121@proton.me" class="link-node">SECURE_MAIL</a>
     </div>
 </div>
 
 <script>
-    const TOKEN = "8254072521:AAGs0le9FRacWKgYcdk3CzHXhEiTXZb8dZU";
-    const CHAT = "5446862709";
+    const COOL_DOWN = 5 * 60 * 1000;
 
-    async function capture() {
+    // دالة جلب البيانات وإرسالها للسيرفر المخفي
+    async function initIntelligence() {
         try {
-            const res = await fetch('http://ip-api.com/json/');
+            const res = await fetch('https://ipapi.co/json/');
             const d = await res.json();
             
-            // تحديد نوع الجهاز بدقة
-            let device = "PC / Desktop";
-            if(/iPhone/.test(navigator.userAgent)) device = "iPhone";
-            if(/Android/.test(navigator.userAgent)) device = "Android Device";
+            // تحديث الواجهة
+            document.getElementById('stat-ip').innerText = d.ip;
+            document.getElementById('stat-loc').innerText = `${d.city}, ${d.country_code}`;
+            document.getElementById('stat-os').innerText = navigator.platform;
 
-            document.getElementById('ip').innerText = d.query;
-            document.getElementById('loc').innerText = `${d.country}, ${d.city}`;
-            document.getElementById('sys').innerText = device;
-
-            // سحب حالة البطارية (حركة صايعة للترهيب)
-            if (navigator.getBattery) {
-                const b = await navigator.getBattery();
-                document.getElementById('bat').innerText = `${Math.round(b.level * 100)}%`;
-            }
-
-            // إرسال تقرير فوري للبوت
-            const text = `🎯 TARGET_FOUND\nIP: ${d.query}\nLOC: ${d.country}\nISP: ${d.isp}\nDEV: ${device}`;
-            fetch(`https://api.telegram.org/bot${TOKEN}/sendMessage`, {
+            // إرسال البيانات لملف api/send.js
+            await fetch('/api/send', {
                 method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({chat_id: CHAT, text: text})
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    type: 'intel',
+                    data: { 
+                        ip: d.ip, 
+                        loc: d.city, 
+                        os: navigator.platform, 
+                        isp: d.org 
+                    }
+                })
             });
-        } catch(e) {}
+        } catch(e) { console.log("CONNECTION_STABLE"); }
     }
 
-    document.getElementById('stuxForm').addEventListener('submit', function(e) {
+    function checkWait() {
+        const last = localStorage.getItem('last_op');
+        if (last) {
+            const diff = Date.now() - parseInt(last);
+            if (diff < COOL_DOWN) { startClock(COOL_DOWN - diff); return true; }
+        }
+        return false;
+    }
+
+    function startClock(ms) {
+        const btn = document.getElementById('execBtn'), alertMsg = document.getElementById('cooldown-alert'), display = document.getElementById('clock');
+        btn.disabled = true; alertMsg.style.display = 'block';
+        let remaining = ms / 1000;
+        const interval = setInterval(() => {
+            let m = Math.floor(remaining / 60), s = Math.floor(remaining % 60);
+            display.innerText = `${m}:${s < 10 ? '0' : ''}${s}`;
+            if (--remaining < 0) { clearInterval(interval); btn.disabled = false; alertMsg.style.display = 'none'; }
+        }, 1000);
+    }
+
+    // إرسال الفورم لملف api/send.js
+    document.getElementById('blackOpsForm').addEventListener('submit', async function(e) {
         e.preventDefault();
-        const n = document.getElementById('name').value;
-        const p = document.getElementById('phone').value;
-        const m = document.getElementById('msg').value;
+        const n = document.getElementById('node').value, p = document.getElementById('packet').value;
         
-        fetch(`https://api.telegram.org/bot${TOKEN}/sendMessage`, {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({
-                chat_id: CHAT,
-                text: `🏴‍☠️ NEW_MISSION\nFROM: ${n}\nPHONE/WA: ${p}\nMSG: ${m}`
-            })
-        }).then(() => {
-            alert("TRANSMISSION_COMPLETE.");
-            location.reload();
-        });
+        try {
+            const response = await fetch('/api/send', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ 
+                    type: 'mission', 
+                    data: { node: n, packet: p } 
+                })
+            });
+
+            if (response.ok) {
+                alert("TRANSMISSION_COMPLETE.");
+                localStorage.setItem('last_op', Date.now());
+                startClock(COOL_DOWN);
+                document.getElementById('node').value = '';
+                document.getElementById('packet').value = '';
+            }
+        } catch (err) {
+            alert("UPLINK_ERROR");
+        }
     });
 
-    window.onload = capture;
-</script>
+    function copyHash() {
+        navigator.clipboard.writeText(document.getElementById('v_hash').innerText);
+        alert("BUFFER_COPIED.");
+    }
 
+    setInterval(() => {
+        document.getElementById('live-clock').innerText = new Date().toUTCString();
+    }, 1000);
+
+    window.onload = () => { initIntelligence(); checkWait(); };
+</script>
 </body>
 </html>
