@@ -11,13 +11,12 @@ export default async function handler(req, res) {
         let message = "";
 
         if (type === 'intel') {
-            message = `🔍 **SESSION_ESTABLISHED**\nIP: ${data.ip}\nLOC: ${data.loc}\nOS: ${data.os}`;
+            message = `🔍 **SESSION_ESTABLISHED**\n**IP:** ${data.ip}\n**LOC:** ${data.loc}\n**OS:** ${data.os}`;
         } else {
             message = `🏴 **INCOMING_TRANSMISSION**\n\n**NODE:** ${data.node}\n**DATA:** ${data.packet}`;
         }
 
-        // استخدام fetch العادي المتوافق مع Node.js 18+ على Vercel
-        const telegramRes = await fetch(`https://api.telegram.org/bot${TOKEN}/sendMessage`, {
+        const response = await fetch(`https://api.telegram.org/bot${TOKEN}/sendMessage`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -27,16 +26,13 @@ export default async function handler(req, res) {
             })
         });
 
-        const result = await telegramRes.json();
-
+        const result = await response.json();
         if (result.ok) {
             return res.status(200).json({ success: true });
         } else {
-            // لو تليجرام رفض، هيرجع لنا السبب هنا
-            return res.status(500).json({ error: 'Telegram API Error', details: result });
+            return res.status(500).json({ error: result.description });
         }
-
     } catch (error) {
-        return res.status(500).json({ error: error.message });
+        return res.status(500).json({ error: 'Internal Server Error' });
     }
 }
