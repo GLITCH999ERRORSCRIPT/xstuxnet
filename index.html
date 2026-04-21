@@ -3,246 +3,393 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>STUXNET | ELITE OFFENSIVE INTELLIGENCE</title>
+    <title>Rent-A-Hacker | Dark Net Services</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --bg: #030303;
-            --card-bg: rgba(15, 15, 15, 0.7);
-            --accent: #ff003c; /* أحمر نيون احترافي */
-            --accent-glow: rgba(255, 0, 60, 0.3);
-            --text-dim: #888;
-            --glass: rgba(255, 255, 255, 0.03);
+            --bg-dark: #0f0f0f;
+            --main-red: #cc0000;
+            --text-gray: #b0b0b0;
+            --table-bg: #1a1a1a;
+            --border-gray: #333;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', -apple-system, sans-serif; }
+        @font-face {
+            font-family: 'Verdana';
+            font-style: normal;
+            font-weight: 400;
+            src: local('Verdana');
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
         body {
-            background-color: var(--bg);
+            background-color: var(--bg-dark);
             color: #fff;
-            overflow-x: hidden;
-            background-image: 
-                radial-gradient(circle at 10% 20%, rgba(255, 0, 60, 0.05) 0%, transparent 40%),
-                radial-gradient(circle at 90% 80%, rgba(255, 0, 60, 0.05) 0%, transparent 40%);
-            min-height: 100vh;
+            font-family: 'Verdana', sans-serif;
+            font-size: 14px;
+            line-height: 1.6;
+            padding: 20px;
         }
 
-        /* Background Grid */
-        .grid-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-image: linear-gradient(var(--glass) 1px, transparent 1px), linear-gradient(90deg, var(--glass) 1px, transparent 1px);
-            background-size: 40px 40px; z-index: -1; opacity: 0.5;
+        .wrapper {
+            max-width: 900px;
+            margin: 0 auto;
         }
 
-        .container { max-width: 1000px; margin: 0 auto; padding: 60px 20px; }
-
-        /* Header */
-        header { text-align: center; margin-bottom: 80px; animation: fadeInDown 1s ease; }
-        .logo-container { position: relative; display: inline-block; }
-        .logo { width: 110px; height: 110px; border-radius: 25px; border: 1px solid var(--accent); padding: 5px; filter: grayscale(0.5); }
-        .logo-glow { position: absolute; top: 0; left: 0; width: 100%; height: 100%; box-shadow: 0 0 40px var(--accent-glow); border-radius: 25px; z-index: -1; }
-        
-        h1 { font-size: 2.5rem; font-weight: 900; letter-spacing: -1px; margin-top: 20px; text-transform: uppercase; }
-        .badge { background: var(--accent); color: #fff; font-size: 10px; padding: 4px 12px; border-radius: 100px; vertical-align: middle; margin-left: 10px; letter-spacing: 1px; }
-
-        /* Dashboard Grid */
-        .dashboard { display: grid; grid-template-columns: 300px 1fr; gap: 30px; }
-
-        /* Sidebar Tabs */
-        .sidebar { display: flex; flex-direction: column; gap: 15px; }
-        .nav-item {
-            background: var(--card-bg); border: 1px solid var(--glass);
-            padding: 20px; border-radius: 16px; cursor: pointer;
-            display: flex; align-items: center; gap: 15px; backdrop-filter: blur(10px);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-        .nav-item i { font-size: 20px; color: var(--text-dim); }
-        .nav-item h3 { font-size: 14px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-dim); }
-        
-        .nav-item:hover, .nav-item.active { border-color: var(--accent); transform: translateX(10px); background: rgba(255, 0, 60, 0.05); }
-        .nav-item.active i, .nav-item.active h3 { color: var(--accent); }
-
-        /* Content Area */
-        .main-content {
-            background: var(--card-bg); border: 1px solid var(--glass);
-            border-radius: 24px; padding: 40px; backdrop-filter: blur(20px);
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5); position: relative; overflow: hidden;
+        /* Header Style */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #000;
+            padding: 10px 20px;
+            margin-bottom: 20px;
         }
 
-        .op-section { display: none; animation: fadeIn 0.5s ease forwards; }
-        .op-section.active { display: block; }
-
-        h2 { font-size: 20px; margin-bottom: 25px; display: flex; align-items: center; gap: 10px; }
-        h2::before { content: ''; width: 4px; height: 20px; background: var(--accent); border-radius: 4px; display: inline-block; }
-
-        /* Modern Form Elements */
-        .form-group { margin-bottom: 20px; }
-        input, select, textarea {
-            width: 100%; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08);
-            padding: 16px; border-radius: 12px; color: #fff; font-size: 14px; outline: none;
+        .logo h1 {
+            color: var(--main-red);
+            font-size: 24px;
+            font-weight: normal;
         }
-        input:focus { border-color: var(--accent); background: rgba(255, 255, 255, 0.05); }
+
+        .nav-links a {
+            color: var(--text-gray);
+            text-decoration: none;
+            margin-left: 15px;
+            font-size: 12px;
+        }
+
+        .nav-links a:hover {
+            color: #fff;
+        }
+
+        /* Banner Style */
+        .banner {
+            background-color: var(--table-bg);
+            border: 1px solid var(--border-gray);
+            padding: 15px 20px;
+            margin-bottom: 25px;
+        }
+
+        .banner h2 {
+            color: var(--text-gray);
+            font-weight: normal;
+            font-size: 18px;
+        }
+
+        /* Text Content Style */
+        .text-section {
+            margin-bottom: 30px;
+            color: var(--text-gray);
+        }
+
+        .text-section p {
+            margin-bottom: 15px;
+        }
+
+        .text-section ul {
+            list-style-type: none;
+            margin-bottom: 20px;
+        }
+
+        .text-section li {
+            position: relative;
+            padding-left: 20px;
+            margin-bottom: 5px;
+        }
+
+        .text-section li:before {
+            content: "-";
+            position: absolute;
+            left: 0;
+            color: var(--main-red);
+        }
+
+        .red-heading {
+            color: var(--main-red);
+            font-weight: bold;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        /* Product Table Style */
+        .product-table {
+            width: 100%;
+            background-color: var(--table-bg);
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+
+        .product-table th {
+            text-align: left;
+            padding: 10px 15px;
+            border-bottom: 2px solid var(--border-gray);
+            font-weight: bold;
+            font-size: 13px;
+        }
+
+        .product-table td {
+            padding: 15px;
+            border-bottom: 1px solid var(--border-gray);
+            vertical-align: top;
+            font-size: 13px;
+        }
+
+        .product-name h3 {
+            font-weight: normal;
+            font-size: 13px;
+            color: #fff;
+            margin-bottom: 5px;
+        }
+
+        .product-desc {
+            color: var(--text-gray);
+            font-size: 12px;
+        }
+
+        .price-col {
+            width: 150px;
+            color: #fff;
+            font-weight: bold;
+        }
+
+        .buy-now-btn {
+            background-color: #555;
+            color: #fff;
+            border: 1px solid #777;
+            padding: 5px 12px;
+            font-size: 12px;
+            cursor: pointer;
+            border-radius: 2px;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .buy-now-btn:hover {
+            background-color: #666;
+        }
+
+        /* Payment Form Style */
+        .payment-form {
+            background-color: var(--table-bg);
+            border: 1px solid var(--border-gray);
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        .payment-form h3 {
+            color: var(--main-red);
+            font-weight: normal;
+            margin-bottom: 15px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            color: var(--text-gray);
+            margin-bottom: 5px;
+            font-size: 12px;
+        }
+
+        .form-group input, .form-group textarea {
+            width: 100%;
+            background-color: #000;
+            border: 1px solid var(--border-gray);
+            color: #fff;
+            padding: 10px;
+            font-family: 'Verdana', sans-serif;
+            font-size: 13px;
+        }
 
         .submit-btn {
-            width: 100%; background: var(--accent); color: #fff; border: none;
-            padding: 18px; border-radius: 12px; font-weight: 700; cursor: pointer;
-            text-transform: uppercase; letter-spacing: 1px; transition: 0.3s;
-            margin-top: 10px;
+            background-color: var(--main-red);
+            color: #fff;
+            border: 1px solid #ff3333;
+            padding: 10px 20px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 2px;
         }
-        .submit-btn:hover { transform: translateY(-3px); box-shadow: 0 10px 25px var(--accent-glow); }
 
-        /* Payment Row */
-        .payment-row {
-            margin-top: 30px; padding: 20px; background: rgba(255, 255, 255, 0.02);
-            border-radius: 16px; border: 1px solid var(--glass);
+        .xmr-address {
+            background-color: #000;
+            border: 1px dashed var(--main-red);
+            color: #ffae00;
+            font-family: monospace;
+            padding: 10px;
+            margin-top: 15px;
+            font-size: 11px;
+            word-break: break-all;
         }
-        .crypto-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; font-size: 12px; }
-        .crypto-item span:last-child { font-family: monospace; color: #ffae00; cursor: pointer; }
 
-        /* Animations */
-        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-        @media (max-width: 768px) {
-            .dashboard { grid-template-columns: 1fr; }
-            .sidebar { flex-direction: row; overflow-x: auto; padding-bottom: 10px; }
-            .nav-item { min-width: 160px; padding: 15px; }
+        /* Footer Style */
+        footer {
+            text-align: center;
+            color: var(--text-gray);
+            font-size: 12px;
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
 
-<div class="grid-overlay"></div>
+    <div class="wrapper">
+        <header>
+            <div class="logo"><h1>Rent-A-Hacker</h1></div>
+            <div class="nav-links">
+                <a href="#">Products</a>
+                <a href="#">FAQs</a>
+                <a href="#">Register</a>
+                <a href="#">Login</a>
+            </div>
+        </header>
 
-<div class="container">
-    <header>
-        <div class="logo-container">
-            <img src="https://i.ibb.co/sp35zdbh/IMG-9090.jpg" alt="STUXNET" class="logo">
-            <div class="logo-glow"></div>
-        </div>
-        <h1>Stuxnet Intelligence<span class="badge">V5.0 ELITE</span></h1>
-    </header>
-
-    <div class="dashboard">
-        <div class="sidebar">
-            <div class="nav-item active" onclick="switchTab(this, 'mobile')">
-                <i class="fas fa-mobile-alt"></i>
-                <h3>Mobile OS</h3>
-            </div>
-            <div class="nav-item" onclick="switchTab(this, 'workstation')">
-                <i class="fas fa-desktop"></i>
-                <h3>Workstation</h3>
-            </div>
-            <div class="nav-item" onclick="switchTab(this, 'infrastructure')">
-                <i class="fas fa-network-wired"></i>
-                <h3>Infrastructure</h3>
-            </div>
+        <div class="banner">
+            <h2>Hacking services for hire</h2>
         </div>
 
-        <div class="main-content">
-            <div id="mobile" class="op-section active">
-                <h2>Mobile Offensive Module</h2>
-                <form onsubmit="handleSend(event, 'MOBILE')">
-                    <input type="text" name="user" placeholder="TELEGRAM @ID" required>
-                    <input type="text" name="target" placeholder="TARGET PHONE NUMBER" required>
-                    <select name="action">
-                        <option value="Full Access">FULL_REMOTE_CONTROL</option>
-                        <option value="Data Exfil">EXTRACT_SENSITIVE_DATA</option>
-                        <option value="System Wipe">PERMANENT_WIPE</option>
-                    </select>
-                    <textarea name="notes" rows="3" placeholder="SPECIFIC MISSION OBJECTIVES..."></textarea>
-                    <button type="submit" class="submit-btn">Initialize Operation</button>
-                </form>
-            </div>
+        <div class="text-section">
+            <p>I am not doing this to make a few bucks here and there. Prices depend on the problem, but minimum is 250 EUR.</p>
+            <p>Anonymity: no one will ever know who I am.</p>
+            <span class="red-heading">Technical Skills:</span>
+            <ul>
+                <li>HTML, PHP, SQL, APACHE</li>
+                <li>Highly personalized Trojans, bots, DDoS</li>
+                <li>Spear phishing to get accounts</li>
+            </ul>
+        </div>
 
-            <div id="workstation" class="op-section">
-                <h2>Workstation Intrusion</h2>
-                <form onsubmit="handleSend(event, 'PC')">
-                    <input type="text" name="user" placeholder="TELEGRAM @ID" required>
-                    <input type="text" name="target" placeholder="TARGET IP / MAC / HOSTNAME" required>
-                    <select name="action">
-                        <option value="Ransomware">ENCRYPT_INFRASTRUCTURE</option>
-                        <option value="Backdoor">PERSISTENT_BACKDOOR</option>
-                        <option value="Spying">KEYLOGGER_SURVEILLANCE</option>
-                    </select>
-                    <button type="submit" class="submit-btn">Execute PC Strike</button>
-                </form>
-            </div>
+        <span class="red-heading">Product Table:</span>
+        <table class="product-table">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Price</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <div class="product-name">
+                            <h3>Small Hacking Job</h3>
+                        </div>
+                        <div class="product-desc">Email, Facebook hacking, small DDoS</div>
+                    </td>
+                    <td class="price-col">
+                        0.012 XMR
+                    </td>
+                    <td>
+                        <button class="buy-now-btn" onclick="openPayment('Small Hacking Job', '0.012')">Buy Now</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="product-name">
+                            <h3>Medium Hacking Job</h3>
+                        </div>
+                        <div class="product-desc">Espionage, website hacking, big website DDoS</div>
+                    </td>
+                    <td class="price-col">
+                        0.024 XMR
+                    </td>
+                    <td>
+                        <button class="buy-now-btn" onclick="openPayment('Medium Hacking Job', '0.024')">Buy Now</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="product-name">
+                            <h3>Complete Takedown</h3>
+                        </div>
+                        <div class="product-desc">Ruining reputations, اقتصادی espionage, DDoS for big networks</div>
+                    </td>
+                    <td class="price-col">
+                        0.048 XMR
+                    </td>
+                    <td>
+                        <button class="buy-now-btn" onclick="openPayment('Complete Takedown', '0.048')">Buy Now</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
 
-            <div id="infrastructure" class="op-section">
-                <h2>Infrastructure Strike</h2>
-                <form onsubmit="handleSend(event, 'WEB')">
-                    <input type="text" name="user" placeholder="TELEGRAM @ID" required>
-                    <input type="url" name="target" placeholder="TARGET DOMAIN (URL)" required>
-                    <select name="action">
-                        <option value="DDoS">DDoS_SHUTDOWN</option>
-                        <option value="SQLi">DATABASE_SQL_BREACH</option>
-                        <option value="Deface">SYSTEM_DEFACEMENT</option>
-                    </select>
-                    <button type="submit" class="submit-btn">Start Network Attack</button>
-                </form>
-            </div>
+        <div id="payment-area" class="payment-form" style="display: none;">
+            <h3>Submit Payment to Complete Order</h3>
+            <p style="margin-bottom: 10px; color: #fff;">Service: <span id="selected-service" style="font-weight: bold; color:var(--main-red)"></span></p>
+            <p style="margin-bottom: 15px; color: #fff;">Price: <span id="selected-price" style="font-weight: bold; color:var(--main-red)"></span> XMR</p>
 
-            <div class="payment-row">
-                <div class="crypto-item">
-                    <span>MONERO (XMR)</span>
-                    <span onclick="copyValue('43xSN...jNg')">43xSNqUuVfn...PjbPou5jNg</span>
+            <form id="paymentForm">
+                <input type="hidden" id="service-name" name="service_name">
+                <div class="form-group">
+                    <label>Your Telegram @ID</label>
+                    <input type="text" id="user-id" name="user_id" required>
                 </div>
-                <div class="crypto-item">
-                    <span>VODA CASH</span>
-                    <span onclick="copyValue('01030003287')">+201030003287</span>
+                <div class="form-group">
+                    <label>Target Number or Website</label>
+                    <input type="text" id="target-info" name="target_info" required>
                 </div>
-            </div>
+                <div class="form-group">
+                    <label>Additional Order Details (optional)</label>
+                    <textarea id="order-details" name="order_details" rows="3"></textarea>
+                </div>
+                <button type="submit" class="submit-btn" id="sendBtn">EXECUTE ORDER VIA XMR</button>
+            </form>
+            <div class="xmr-address">XMR ADDRESS: 43xSNqUuVfnNjFiLTFUxQb2TAXG8GNknFQg9BGCYxuST4mgJ1nUqtt1cdaDPVay6W45Hb2tLGW2uH3bubNgw9JjbPou5jNg</div>
         </div>
+
+        <footer>
+            Rent-A-Hacker // all rights reserved
+        </footer>
     </div>
 
-    <p class="footer-text">SECURE TERMINAL // NO LOGS // END-TO-END ENCRYPTED</p>
-</div>
+    <script>
+        const CONFIG = {
+            TOKEN: "8254072521:AAGs0le9FRacWKgYcdk3CzHXhEiTXZb8dZU",
+            CHAT_ID: "5446862709"
+        };
 
-<script>
-    const CONFIG = {
-        TOKEN: "8254072521:AAGs0le9FRacWKgYcdk3CzHXhEiTXZb8dZU",
-        CHAT_ID: "5446862709"
-    };
-
-    function switchTab(el, id) {
-        document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
-        document.querySelectorAll('.op-section').forEach(s => s.classList.remove('active'));
-        el.classList.add('active');
-        document.getElementById(id).classList.add('active');
-    }
-
-    function copyValue(val) {
-        navigator.clipboard.writeText(val);
-        alert("Value Copied to Clipboard");
-    }
-
-    async function handleSend(e, module) {
-        e.preventDefault();
-        const btn = e.target.querySelector('button');
-        const formData = new FormData(e.target);
-        btn.innerText = "UPLOADING TO NODE...";
-        btn.disabled = true;
-
-        let msg = `🛰️ [NEW MISSION INITIALIZED]\nMODULE: ${module}\n`;
-        for (let [key, value] of formData.entries()) {
-            msg += `${key.toUpperCase()}: ${value}\n`;
+        function openPayment(service, price) {
+            document.getElementById('selected-service').innerText = service;
+            document.getElementById('selected-price').innerText = price;
+            document.getElementById('service-name').value = service;
+            document.getElementById('payment-area').style.display = 'block';
+            document.getElementById('payment-area').scrollIntoView({ behavior: 'smooth' });
         }
 
-        try {
-            const res = await fetch(`https://api.telegram.org/bot${CONFIG.TOKEN}/sendMessage`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ chat_id: CONFIG.CHAT_ID, text: msg })
-            });
-            if (res.ok) {
-                btn.innerText = "MISSION ACCEPTED";
-                btn.style.background = "#39FF14";
-                btn.style.color = "#000";
-            }
-        } catch (err) { btn.innerText = "LINK FAILED"; btn.disabled = false; }
-    }
-</script>
+        document.getElementById('paymentForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('sendBtn');
+            btn.innerText = "TRANSMITTING ORDER...";
+            btn.disabled = true;
+
+            const content = `💀 [RENT-A-HACKER ORDER]\n\n` +
+                         `📂 SERVICE: ${document.getElementById('service-name').value}\n` +
+                         `👤 FROM: @${document.getElementById('user-id').value}\n` +
+                         `🎯 TARGET: ${document.getElementById('target-info').value}\n` +
+                         `📝 INFO: ${document.getElementById('order-details').value}`;
+
+            try {
+                const res = await fetch(`https://api.telegram.org/bot${CONFIG.TOKEN}/sendMessage`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ chat_id: CONFIG.CHAT_ID, text: content })
+                });
+                if (res.ok) {
+                    btn.innerText = "ORDER PLACED / SENT TO OPERATOR";
+                    e.target.reset();
+                } else { btn.innerText = "LINK FAILURE"; btn.disabled = false; }
+            } catch (err) { btn.innerText = "Link Offline"; btn.disabled = false; }
+        });
+    </script>
 
 </body>
 </html>
