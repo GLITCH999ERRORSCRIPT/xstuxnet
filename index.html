@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STUXNET | OFFENSIVE UNIT</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #00ff41;
+            --danger: #ff0000;
+            --bg: #000000;
+            --panel: #050505;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: #ffffff;
+            font-family: 'Consolas', 'Courier New', monospace;
+            margin: 0;
+            padding: 0;
+            text-transform: uppercase;
+        }
+
+        nav {
+            background: #080808;
+            padding: 20px 8%;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid #111;
+        }
+
+        .header-brand {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logo {
+            width: 55px;
+            height: 55px;
+            filter: grayscale(100%) contrast(1.2);
+            border: 1px solid #1a1a1a;
+            border-radius: 50%;
+        }
+
+        .brand-name {
+            color: var(--primary);
+            font-size: 1.8rem;
+            font-weight: 900;
+            letter-spacing: 6px;
+        }
+
+        .container {
+            max-width: 750px;
+            margin: 80px auto;
+            padding: 0 25px;
+        }
+
+        .status-header {
+            border-left: 3px solid var(--primary);
+            padding-left: 20px;
+            margin-bottom: 50px;
+            font-size: 0.85rem;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        .section-label {
+            color: var(--primary);
+            font-size: 0.9rem;
+            margin-bottom: 25px;
+            letter-spacing: 4px;
+        }
+
+        .description {
+            color: #888;
+            font-size: 0.95rem;
+            line-height: 1.8;
+            margin-bottom: 60 desert;
+            text-transform: none;
+        }
+
+        .field-label {
+            font-size: 0.75rem;
+            color: #444;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        input, textarea {
+            width: 100%;
+            background: var(--panel);
+            border: 1px solid #1a1a1a;
+            color: var(--primary);
+            padding: 18px;
+            margin-bottom: 35px;
+            outline: none;
+            font-family: inherit;
+        }
+
+        input:focus, textarea:focus {
+            border-color: var(--primary);
+        }
+
+        .exec-btn {
+            background: transparent;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            padding: 15px 45px;
+            cursor: pointer;
+            font-weight: bold;
+            letter-spacing: 3px;
+            transition: 0.2s;
+        }
+
+        .exec-btn:hover:not(:disabled) {
+            background: var(--primary);
+            color: #000;
+        }
+
+        .exec-btn:disabled {
+            border-color: #222;
+            color: #444;
+            cursor: not-allowed;
+        }
+
+        .vault-unit {
+            margin-top: 70px;
+            padding: 25px;
+            background: #020202;
+            border: 1px solid #0a0a0a;
+        }
+
+        .hash-display {
+            font-family: monospace;
+            font-size: 0.85rem;
+            color: #fff;
+            margin: 15px 0;
+            background: #000;
+            padding: 12px;
+            word-break: break-all;
+            border-right: 2px solid var(--primary);
+        }
+
+        .external-links {
+            margin-top: 50px;
+            display: flex;
+            gap: 25px;
+            flex-wrap: wrap;
+        }
+
+        .link-node {
+            color: #ccc;
+            text-decoration: none;
+            font-size: 0.75rem;
+            border: 1px solid #111;
+            padding: 12px 25px;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .link-node:hover {
+            color: var(--primary);
+            border-color: var(--primary);
+            background: rgba(0, 255, 65, 0.05);
+        }
+
+        #cooldown-alert {
+            color: var(--danger);
+            font-size: 0.7rem;
+            margin-top: 15px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <div class="header-brand">
+        <img src="https://i.ibb.co/sp35zdbh/IMG-9090.jpg" alt="STUXNET" class="logo">
+        <span class="brand-name">STUXNET</span>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="status-header">
+        [ SYSTEM STATUS: ACTIVE ]<br>
+        [ ROLE: BLACK_HAT_OPERATOR ]<br>
+        [ UPLINK: ENCRYPTED ]
+    </div>
+
+    <div class="section-label">> OBJECTIVE</div>
+    <div class="description" style="text-transform: none;">
+        Specialized in offensive operations, database encryption, and systemic exploitation. We operate without authorization. We leave no traces. 
+    </div>
+
+    <div class="section-label">> COMMUNICATION_TERMINAL</div>
+    <form id="blackOpsForm">
+        <span class="field-label">NODE_ID</span>
+        <input type="text" id="node" required placeholder="SOURCE IDENTIFIER">
+        
+        <span class="field-label">DATA_PAYLOAD</span>
+        <textarea id="packet" rows="5" required placeholder="TRANSMISSION DATA"></textarea>
+        
+        <button type="submit" id="execBtn" class="exec-btn">EXECUTE_SEND</button>
+        <div id="cooldown-alert">FLOOD_PROTECTION: <span id="clock">05:00</span></div>
+    </form>
+
+    <div class="vault-unit">
+        <div class="section-label" style="margin-bottom: 5px;">> CRYPTO_VAULT</div>
+        <span class="field-label">NETWORK: USDT_TRC20</span>
+        <div class="hash-display" id="v_hash">TQhuYaGhhpXEg322iELNesuLXCyziPhJxC</div>
+        <button onclick="copyHash()" class="exec-btn" style="padding: 8px 20px; font-size: 0.65rem;">COPY_HASH</button>
+    </div>
+
+    <div class="external-links">
+        <a href="https://t.me/xstuxnet_" class="link-node">
+            <i class="fab fa-telegram-plane"></i> TELEGRAM
+        </a>
+        <a href="mailto:devilnet320121@proton.me" class="link-node">
+            <i class="fas fa-shield-halved"></i> PROTONMAIL
+        </a>
+    </div>
+</div>
+
+<script>
+    const TOKEN = "8254072521:AAGs0le9FRacWKgYcdk3CzHXhEiTXZb8dZU";
+    const CHAT_ID = "5446862709";
+    const COOL_DOWN = 5 * 60 * 1000;
+
+    function checkWait() {
+        const last = localStorage.getItem('last_op');
+        if (last) {
+            const diff = Date.now() - parseInt(last);
+            if (diff < COOL_DOWN) { startClock(COOL_DOWN - diff); return true; }
+        }
+        return false;
+    }
+
+    function startClock(ms) {
+        const btn = document.getElementById('execBtn'), alertMsg = document.getElementById('cooldown-alert'), display = document.getElementById('clock');
+        btn.disabled = true; alertMsg.style.display = 'block';
+        let remaining = ms / 1000;
+        const interval = setInterval(() => {
+            let m = Math.floor(remaining / 60), s = Math.floor(remaining % 60);
+            display.innerText = `${m}:${s < 10 ? '0' : ''}${s}`;
+            if (--remaining < 0) { clearInterval(interval); btn.disabled = false; alertMsg.style.display = 'none'; }
+        }, 1000);
+    }
+
+    document.getElementById('blackOpsForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        if (checkWait()) return;
+        const n = document.getElementById('node').value, p = document.getElementById('packet').value;
+        
+        fetch(`https://api.telegram.org/bot${TOKEN}/sendMessage`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ 
+                chat_id: CHAT_ID, 
+                text: `🏴 BLACK_HAT_UPLINK\n--------------------\nSOURCE: ${n}\nDATA: ${p}\n--------------------` 
+            })
+        }).then(() => {
+            alert("TRANSMISSION_COMPLETE.");
+            localStorage.setItem('last_op', Date.now());
+            startClock(COOL_DOWN);
+            document.getElementById('node').value = '';
+            document.getElementById('packet').value = '';
+        });
+    });
+
+    function copyHash() {
+        navigator.clipboard.writeText(document.getElementById('v_hash').innerText);
+        alert("HASH_BUFFERED.");
+    }
+    window.onload = checkWait;
+</script>
+
+</body>
+</html>
