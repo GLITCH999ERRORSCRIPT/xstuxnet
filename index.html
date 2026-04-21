@@ -3,356 +3,222 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>STUXNET | OFFENSIVE UNIT</title>
+    <title>STUXNET | BLACK OPS</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap');
-
         :root {
-            --primary: #00ff41;
-            --danger: #ff3e3e;
-            --bg: #050505;
-            --panel: #0d0d0d;
-            --glow: 0 0 15px rgba(0, 255, 65, 0.3);
-            --border: #1a1a1a;
+            --primary: #39FF14; /* Neon Green matching your logo */
+            --bg: #000000;
+            --panel: #0a0a0a;
+            --glow: 0 0 15px rgba(57, 255, 20, 0.2);
         }
 
         body {
             background-color: var(--bg);
-            color: #e0e0e0;
-            font-family: 'JetBrains Mono', monospace;
+            color: #fff;
+            font-family: 'Courier New', Courier, monospace;
             margin: 0;
             overflow-x: hidden;
-            line-height: 1.6;
         }
 
-        /* تأثير الـ Scanline */
-        body::before {
-            content: " ";
-            display: block;
+        /* Scanline Effect */
+        body::after {
+            content: "";
             position: fixed;
-            top: 0; left: 0; bottom: 0; right: 0;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), 
-                        linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
-            z-index: 100;
-            background-size: 100% 3px, 3px 100%;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: repeating-linear-gradient(0deg, rgba(0,0,0,0.1), rgba(0,0,0,0.1) 1px, transparent 1px, transparent 2px);
             pointer-events: none;
-        }
-
-        nav {
-            background: rgba(0, 0, 0, 0.9);
-            padding: 12px 5%;
-            display: flex;
-            align-items: center;
-            border-bottom: 2px solid var(--primary);
-            backdrop-filter: blur(10px);
-            position: sticky;
-            top: 0;
             z-index: 1000;
         }
 
-        .logo {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            margin-right: 15px;
-            border: 2px solid var(--primary);
-            filter: drop-shadow(var(--glow));
+        nav {
+            padding: 20px 5%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #1a1a1a;
+            background: rgba(0,0,0,0.8);
         }
 
-        .brand-name {
-            color: var(--primary);
-            font-size: 1.4rem;
-            font-weight: 700;
-            letter-spacing: 4px;
-            text-transform: uppercase;
-        }
+        .profile-section { display: flex; align-items: center; }
+        .logo { width: 60px; height: 60px; border-radius: 50%; border: 2px solid var(--primary); margin-right: 15px; box-shadow: var(--glow); }
 
-        .container {
-            max-width: 700px;
-            margin: 50px auto;
-            padding: 0 20px;
-        }
+        .container { max-width: 900px; margin: 40px auto; padding: 20px; }
+
+        .main-grid { display: grid; grid-template-columns: 1fr 350px; gap: 20px; }
 
         .terminal-window {
             background: var(--panel);
-            border: 1px solid var(--border);
-            padding: 35px;
-            border-radius: 8px;
+            border: 1px solid #1a1a1a;
+            padding: 25px;
             position: relative;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
         }
 
-        .terminal-window::after {
-            content: "SECURE_ENVIRONMENT";
-            position: absolute;
-            top: -10px; right: 20px;
-            background: var(--primary);
-            color: #000;
-            padding: 2px 10px;
-            font-size: 10px;
-            font-weight: bold;
-        }
-
-        .status-header {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 10px;
-            margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid #222;
-        }
-
-        .status-item {
-            font-size: 11px;
-            color: var(--primary);
-            text-transform: uppercase;
-        }
-
-        .field-group { margin-bottom: 25px; }
-
-        .field-label {
-            font-size: 11px;
-            color: #555;
-            margin-bottom: 8px;
-            display: block;
-            font-weight: bold;
-        }
+        .field-label { color: var(--primary); font-size: 12px; margin-bottom: 8px; display: block; letter-spacing: 2px; }
 
         input, textarea {
-            width: 100%;
-            background: #000;
-            border: 1px solid #222;
-            color: var(--primary);
-            padding: 14px;
-            border-radius: 4px;
-            box-sizing: border-box;
-            font-family: inherit;
-            transition: all 0.2s ease;
+            width: 100%; background: #050505; border: 1px solid #222; color: #fff;
+            padding: 12px; margin-bottom: 20px; font-family: inherit; outline: none;
         }
 
-        input:focus, textarea:focus {
-            border-color: var(--primary);
-            outline: none;
-            background: #080808;
+        input:focus { border-color: var(--primary); }
+
+        .btn {
+            background: transparent; border: 1px solid var(--primary); color: var(--primary);
+            padding: 15px 25px; cursor: pointer; width: 100%; font-weight: bold;
+            transition: 0.3s; text-transform: uppercase;
         }
 
-        .exec-btn {
-            width: 100%;
-            background: transparent;
-            border: 1px solid var(--primary);
-            color: var(--primary);
-            padding: 15px;
-            font-weight: bold;
-            letter-spacing: 2px;
-            cursor: pointer;
-            transition: 0.3s;
+        .btn:hover { background: var(--primary); color: #000; box-shadow: var(--glow); }
+
+        /* Telegram Feed Simulator */
+        .tg-channel-view {
+            background: #111; border: 1px solid #1a1a1a; height: 500px; overflow: hidden;
         }
 
-        .exec-btn:hover:not(:disabled) {
-            background: rgba(0, 255, 65, 0.1);
-            box-shadow: var(--glow);
+        .vault-card {
+            margin-top: 20px; background: #0d0d0d; padding: 15px; border-left: 4px solid var(--primary);
         }
 
-        .exec-btn:active { transform: scale(0.98); }
+        .crypto-tag { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; color: var(--primary); font-size: 14px; }
 
-        .vault-section {
-            margin-top: 40px;
-            background: rgba(255, 255, 255, 0.02);
-            padding: 20px;
-            border-radius: 4px;
-        }
-
-        .hash-box {
-            background: #000;
-            padding: 12px;
-            font-size: 12px;
-            border: 1px solid #222;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        #v_hash { color: #aaa; }
-
-        .social-nodes {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin-top: 30px;
-        }
-
-        .node-link {
-            color: #444;
-            text-decoration: none;
-            font-size: 12px;
-            transition: 0.3s;
-        }
-
-        .node-link:hover { color: var(--primary); }
-
-        .blinking { animation: pulse 1s infinite; }
-        @keyframes pulse { 50% { opacity: 0.3; } }
-
-        /* مخصص للإشعارات */
-        .toast {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            padding: 15px 25px;
-            background: var(--panel);
-            border-left: 4px solid var(--primary);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
-            display: none;
-            z-index: 9999;
-        }
+        #clock { color: #ff3e3e; font-weight: bold; }
+        
+        @media (max-width: 800px) { .main-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
 
+<audio id="clickSound" src="https://www.soundjay.com/communication/sounds/typewriter-key-1.mp3" preload="auto"></audio>
+
 <nav>
-    <img src="https://i.ibb.co/sp35zdbh/IMG-9090.jpg" alt="Logo" class="logo">
-    <span class="brand-name">STUXNET_V3</span>
+    <div class="profile-section">
+        <img src="https://i.ibb.co/sp35zdbh/IMG-9090.jpg" alt="STUXNET" class="logo">
+        <div>
+            <div style="font-size: 1.5rem; font-weight: bold; color: var(--primary);">STUXNET_OFFENSIVE</div>
+            <div style="font-size: 10px; color: #666;">SUBS: 1,396 | STATUS: UNTRACEABLE</div>
+        </div>
+    </div>
+    <a href="https://t.me/xstuxnet" class="btn" style="width: auto; padding: 8px 20px;" onclick="playSound()">JOIN_CHANNEL</a>
 </nav>
 
 <div class="container">
-    <div class="terminal-window">
-        <div class="status-header">
-            <div class="status-item"><i class="fas fa-circle blinking"></i> SYST_ACTIVE</div>
-            <div class="status-item"><i class="fas fa-shield-alt"></i> AES_256_ON</div>
-            <div class="status-item"><i class="fas fa-user-shield"></i> LVL_04_OP</div>
-        </div>
-
-        <form id="opsForm">
-            <div class="field-group">
-                <span class="field-label">TARGET_NODE_IDENTIFIER</span>
-                <input type="text" id="node" required placeholder="IDENTIFY_TARGET_HOST...">
-            </div>
+    <div class="main-grid">
+        <div class="terminal-window">
+            <div style="margin-bottom: 20px; font-size: 13px; color: #444;">// DIRECT_ENCRYPTED_UPLINK</div>
             
-            <div class="field-group">
-                <span class="field-label">ENCRYPTED_PAYLOAD_DATA</span>
-                <textarea id="packet" rows="5" required placeholder="WAITING_FOR_DATA_STREAM..."></textarea>
-            </div>
-            
-            <button type="submit" id="execBtn" class="exec-btn">INITIATE_TRANSMISSION</button>
-            <div id="cooldown-msg" style="display:none; color: var(--danger); text-align: center; margin-top: 15px; font-size: 12px;">
-                SYSTEM LOCKOUT: <span id="clock">05:00</span>
-            </div>
-        </form>
+            <form id="contactForm">
+                <span class="field-label">OPERATOR_NAME / ALIAS</span>
+                <input type="text" id="username" placeholder="Who is calling?" required>
 
-        <div class="vault-section">
-            <span class="field-label">CONTRIBUTION_VAULT (USDT_TRC20)</span>
-            <div class="hash-box">
-                <code id="v_hash">TQhuYaGhhpXEg322iELNesuLXCyziPhJxC</code>
-                <i class="fas fa-copy" onclick="copyHash()" style="cursor:pointer; color:var(--primary)"></i>
+                <span class="field-label">MISSION_DETAILS / MESSAGE</span>
+                <textarea id="message" rows="6" placeholder="Describe your target or request..." required></textarea>
+
+                <button type="submit" id="execBtn" class="btn" onclick="playSound()">EXECUTE_REQUEST</button>
+                <p id="cooldown-msg" style="display:none; text-align: center; color:#ff3e3e; font-size: 12px;">
+                    UPLINK_SATURATED: PLEASE WAIT <span id="clock">60</span>s
+                </p>
+            </form>
+
+            <div class="vault-card">
+                <div class="crypto-tag"><i class="fas fa-shield-virus"></i> SUPPORT_THE_CAUSE</div>
+                <div style="font-size: 11px; color: #888; margin-bottom: 5px;">USDT (TRC20) ADDRESS:</div>
+                <div style="display: flex; justify-content: space-between; align-items: center; background: #000; padding: 10px; border: 1px dashed #333;">
+                    <code id="wallet" style="font-size: 10px;">TQhuYaGhhpXEg322iELNesuLXCyziPhJxC</code>
+                    <i class="fas fa-copy" style="color: var(--primary); cursor: pointer;" onclick="copyWallet()"></i>
+                </div>
             </div>
         </div>
 
-        <div class="social-nodes">
-            <a href="https://t.me/xstuxnet_" target="_blank" class="node-link"><i class="fab fa-telegram"></i> TELEGRAM</a>
-            <a href="mailto:devilnet320121@proton.me" class="node-link"><i class="fas fa-envelope"></i> SECURE_MAIL</a>
+        <div class="terminal-window">
+            <span class="field-label">LIVE_CHANNEL_FEED</span>
+            <div class="tg-channel-view">
+                <script async src="https://telegram.org/js/telegram-widget.js?22" data-telegram-discussion="xstuxnet" data-comments-limit="5" data-dark="1"></script>
+                <div style="padding: 20px; text-align: center;">
+                    <i class="fab fa-telegram-plane" style="font-size: 40px; color: var(--primary); margin-bottom: 10px;"></i>
+                    <p style="font-size: 12px;">Monitoring @xstuxnet...</p>
+                    <a href="https://t.me/xstuxnet" class="btn" style="font-size: 10px;">OPEN_IN_TELEGRAM</a>
+                </div>
+            </div>
         </div>
     </div>
 </div>
-
-<div id="toast" class="toast"></div>
 
 <script>
     const CONFIG = {
         TOKEN: "8254072521:AAGs0le9FRacWKgYcdk3CzHXhEiTXZb8dZU",
         CHAT_ID: "5446862709",
-        COOLDOWN: 5 * 60 * 1000
+        COOLDOWN: 60 * 1000 // دقيقة واحدة
     };
 
-    const execBtn = document.getElementById('execBtn');
-    const toast = document.getElementById('toast');
-
-    function showNotification(msg, color = "#00ff41") {
-        toast.innerText = msg;
-        toast.style.borderLeftColor = color;
-        toast.style.display = 'block';
-        setTimeout(() => { toast.style.display = 'none'; }, 4000);
+    function playSound() {
+        const audio = document.getElementById('clickSound');
+        audio.currentTime = 0;
+        audio.play();
     }
 
-    function checkCooldown() {
-        const lastOp = localStorage.getItem('last_op');
-        if (lastOp) {
-            const diff = Date.now() - parseInt(lastOp);
-            if (diff < CONFIG.COOLDOWN) {
-                startTimer(CONFIG.COOLDOWN - diff);
-                return true;
-            }
-        }
-        return false;
+    function copyWallet() {
+        playSound();
+        const address = document.getElementById('wallet').innerText;
+        navigator.clipboard.writeText(address);
+        alert("ADDRESS_COPIED_TO_CLIPBOARD");
     }
 
+    // إدارة الـ Timer
     function startTimer(ms) {
-        execBtn.disabled = true;
-        document.getElementById('cooldown-msg').style.display = 'block';
-        let remaining = Math.floor(ms / 1000);
+        const btn = document.getElementById('execBtn');
+        const msg = document.getElementById('cooldown-msg');
+        const clock = document.getElementById('clock');
+        
+        btn.disabled = true;
+        msg.style.display = 'block';
+        let timeLeft = Math.floor(ms / 1000);
 
         const countdown = setInterval(() => {
-            const m = Math.floor(remaining / 60);
-            const s = remaining % 60;
-            document.getElementById('clock').innerText = `${m}:${s < 10 ? '0' : ''}${s}`;
-            
-            if (--remaining < 0) {
+            clock.innerText = timeLeft;
+            if (--timeLeft < 0) {
                 clearInterval(countdown);
-                execBtn.disabled = false;
-                document.getElementById('cooldown-msg').style.display = 'none';
+                btn.disabled = false;
+                msg.style.display = 'none';
             }
         }, 1000);
     }
 
-    document.getElementById('opsForm').addEventListener('submit', async (e) => {
+    document.getElementById('contactForm').addEventListener('submit', async (e) => {
         e.preventDefault();
-        
-        const node = document.getElementById('node').value.trim();
-        const packet = document.getElementById('packet').value.trim();
+        const user = document.getElementById('username').value;
+        const msg = document.getElementById('message').value;
+        const btn = document.getElementById('execBtn');
 
-        if(!node || !packet) return;
+        btn.innerText = "TRANSMITTING...";
 
-        execBtn.innerText = "UPLOADING...";
-        execBtn.disabled = true;
-
-        const text = `🛠 **STUXNET SYSTEM REPORT**\n\n` +
-                     `📡 **Node:** \`${node}\`\n` +
-                     `💾 **Payload:** \`\`\`\n${packet}\n\`\`\`\n` +
-                     `⏰ **Time:** ${new Date().toLocaleString()}`;
+        const payload = `🚨 **NEW MISSION REQUEST**\n\n👤 **From:** \`${user}\`\n💬 **Message:**\n\`\`\`\n${msg}\n\`\`\`\n\n⚡ _Sent from Stuxnet Web Terminal_`;
 
         try {
-            const res = await fetch(`https://api.telegram.org/bot${CONFIG.TOKEN}/sendMessage`, {
+            await fetch(`https://api.telegram.org/bot${CONFIG.TOKEN}/sendMessage`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    chat_id: CONFIG.CHAT_ID,
-                    text: text,
-                    parse_mode: "Markdown"
-                })
+                body: JSON.stringify({ chat_id: CONFIG.CHAT_ID, text: payload, parse_mode: "Markdown" })
             });
-
-            if (res.ok) {
-                showNotification("✓ TRANSMISSION_COMPLETE");
-                localStorage.setItem('last_op', Date.now());
-                startTimer(CONFIG.COOLDOWN);
-                e.target.reset();
-            } else {
-                throw new Error();
-            }
+            
+            alert("✓ MESSAGE_DELIVERED_TO_STUXNET");
+            localStorage.setItem('last_msg', Date.now());
+            startTimer(CONFIG.COOLDOWN);
+            e.target.reset();
         } catch (err) {
-            showNotification("❌ UPLINK_FAILURE", "#ff3e3e");
-            execBtn.disabled = false;
+            alert("❌ LINK_FAILURE");
         } finally {
-            execBtn.innerText = "INITIATE_TRANSMISSION";
+            btn.innerText = "EXECUTE_REQUEST";
         }
     });
 
-    function copyHash() {
-        navigator.clipboard.writeText(document.getElementById('v_hash').innerText);
-        showNotification("✓ HASH_COPIED");
-    }
-
-    window.onload = checkCooldown;
+    window.onload = () => {
+        const last = localStorage.getItem('last_msg');
+        if(last) {
+            const diff = Date.now() - parseInt(last);
+            if(diff < CONFIG.COOLDOWN) startTimer(CONFIG.COOLDOWN - diff);
+        }
+    };
 </script>
 
 </body>
