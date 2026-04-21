@@ -50,22 +50,24 @@
             top: 50%; left: 50%;
             transform: translate(-50%, -50%);
             width: 140px; height: 140px;
-            background: radial-gradient(circle, rgba(157, 78, 221, 0.5) 0%, transparent 70%);
+            background: radial-gradient(circle, rgba(157, 78, 221, 0.4) 0%, transparent 70%);
             filter: blur(15px);
             z-index: 0;
             animation: pulse 2s infinite;
         }
 
         @keyframes pulse {
-            0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); }
-            50% { opacity: 0.8; transform: translate(-50%, -50%) scale(1.1); }
+            0% { opacity: 0.5; transform: translate(-50%, -50%) scale(0.95); }
+            50% { opacity: 0.8; transform: translate(-50%, -50%) scale(1.05); }
+            100% { opacity: 0.5; transform: translate(-50%, -50%) scale(0.95); }
         }
 
         .logo {
-            width: 110px; height: 110px;
+            width: 110px;
+            height: 110px;
             border-radius: 50%;
             border: 3px solid var(--primary-green);
-            box-shadow: 0 0 30px rgba(57, 255, 20, 0.4);
+            box-shadow: 0 0 30px rgba(57, 255, 20, 0.5);
             position: relative;
             z-index: 1;
             object-fit: cover;
@@ -179,26 +181,25 @@
             outline: none;
         }
 
-        /* Improved File Input Style */
-        .file-upload-section {
+        .file-input-container {
             text-align: left;
             margin-bottom: 15px;
         }
 
-        .file-upload-section label {
-            font-size: 11px;
-            color: #888;
-            margin-bottom: 5px;
+        .file-input-container label {
             display: block;
+            font-size: 11px;
+            color: #aaa;
+            margin-bottom: 8px;
             padding-left: 5px;
         }
 
         input[type="file"] {
-            padding: 10px;
-            font-size: 12px;
-            background: rgba(157, 78, 221, 0.05);
+            background: rgba(0,0,0,0.3);
             border: 1px dashed var(--accent-purple);
+            padding: 10px;
             cursor: pointer;
+            font-size: 12px;
         }
 
         .submit-btn {
@@ -254,11 +255,11 @@
     <div class="section-card">
         <span class="label-small">CONTACT ADMIN</span>
         <form id="contactForm">
-            <input type="text" id="name" placeholder="Your Name / Alias" required>
-            <textarea id="message" rows="3" placeholder="Message details..." required></textarea>
+            <input type="text" id="name" placeholder="Your Name" required>
+            <textarea id="message" rows="3" placeholder="Your Message..." required></textarea>
             
-            <div class="file-upload-section">
-                <label>ATTACH FILE (IMAGE, DOC, ZIP...)</label>
+            <div class="file-input-container">
+                <label>ATTACH FILE (OPTIONAL)</label>
                 <input type="file" id="fileInput">
             </div>
 
@@ -273,28 +274,59 @@
         CHAT_ID: "5446862709"
     };
 
+    window.onload = checkCooldown;
+
     function copyWallet() {
         navigator.clipboard.writeText(document.getElementById('wallet').innerText);
-        alert("Wallet Copied!");
+        alert("Copied!");
+    }
+
+    function checkCooldown() {
+        const btn = document.getElementById('sendBtn');
+        const lastSent = localStorage.getItem('lastSentTime');
+        if (lastSent) {
+            const timePassed = Date.now() - lastSent;
+            if (timePassed < 10000) {
+                startTimer(Math.ceil((10000 - timePassed) / 1000));
+            }
+        }
+    }
+
+    function startTimer(seconds) {
+        const btn = document.getElementById('sendBtn');
+        btn.disabled = true;
+        const timer = setInterval(() => {
+            btn.innerText = `WAIT ${seconds}S`;
+            seconds--;
+            if (seconds < 0) {
+                clearInterval(timer);
+                btn.disabled = false;
+                btn.innerText = "SEND MESSAGE";
+                localStorage.removeItem('lastSentTime');
+            }
+        }, 1000);
     }
 
     document.getElementById('contactForm').addEventListener('submit', async (e) => {
         e.preventDefault();
         const btn = document.getElementById('sendBtn');
-        const file = document.getElementById('fileInput').files[0];
-        const caption = `👤 FROM: ${document.getElementById('name').value}\n💬 MSG: ${document.getElementById('message').value}`;
+        const fileInput = document.getElementById('fileInput');
+        const file = fileInput.files[0];
+        const name = document.getElementById('name').value;
+        const message = document.getElementById('message').value;
 
-        btn.innerText = "SENDING...";
+        btn.innerText = "UPLOADING...";
         btn.disabled = true;
 
         const formData = new FormData();
         formData.append('chat_id', CONFIG.CHAT_ID);
+        const caption = `👤 FROM: ${name}\n💬 MSG: ${message}`;
 
-        let endpoint = "sendMessage";
+        let url = `https://api.telegram.org/bot${CONFIG.TOKEN}/sendMessage`;
         
         if (file) {
-            // Using sendDocument for high speed and support for all extensions
-            endpoint = "sendDocument";
+            // Using sendDocument to support all file types (Images, Videos, ZIP, etc.)
+            url = `https://api.telegram.org/bot${CONFIG.TOKEN}/sendDocument`;
             formData.append('document', file);
             formData.append('caption', caption);
         } else {
@@ -302,24 +334,22 @@
         }
 
         try {
-            const response = await fetch(`https://api.telegram.org/bot${CONFIG.TOKEN}/${endpoint}`, {
+            const response = await fetch(url, {
                 method: 'POST',
                 body: formData
             });
 
             if (response.ok) {
-                btn.innerText = "SENT SUCCESSFULLY";
+                localStorage.setItem('lastSentTime', Date.now());
+                startTimer(10);
                 e.target.reset();
-                setTimeout(() => {
-                    btn.innerText = "SEND MESSAGE";
-                    btn.disabled = false;
-                }, 3000);
             } else {
-                throw new Error();
+                btn.innerText = "ERROR";
+                setTimeout(() => { btn.innerText = "SEND MESSAGE"; btn.disabled = false; }, 2000);
             }
-        } catch (err) {
-            btn.innerText = "FAILED - TRY AGAIN";
-            btn.disabled = false;
+        } catch (err) { 
+            btn.innerText = "FAILED";
+            setTimeout(() => { btn.innerText = "SEND MESSAGE"; btn.disabled = false; }, 2000);
         }
     });
 </script>
