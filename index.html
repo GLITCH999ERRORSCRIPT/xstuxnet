@@ -26,7 +26,6 @@
             flex-direction: column;
             align-items: center;
             min-height: 100vh;
-            /* أنيميشن الدخول المباشر */
             animation: fadeIn 1s ease-in-out;
         }
 
@@ -46,11 +45,18 @@
             object-fit: cover;
         }
 
+        /* التعديل هنا: لفرد الاسم بالكامل في سطر واحد */
         .brand-info h1 {
-            margin: 0; font-size: 1.8rem; letter-spacing: 2px;
+            margin: 0; 
+            font-size: 1.6rem; /* صغرت الخط سنة عشان يفرش جنب بعض */
+            letter-spacing: 2px;
             background: linear-gradient(to right, var(--primary-green), var(--accent-purple));
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            -webkit-background-clip: text; 
+            -webkit-text-fill-color: transparent;
             font-weight: bold;
+            display: flex; /* لضمان إنهم جنب بعض تماما */
+            justify-content: center;
+            flex-wrap: nowrap; /* عشان مينزلوش سطر جديد */
         }
 
         .brand-info p { margin: 8px 0 0; font-size: 13px; color: #777; }
@@ -133,10 +139,11 @@
 <div class="container">
 
     <div class="section-card">
-        <div style="display: flex; justify-content: center; align-items: center; gap: 8px; margin-bottom: 10px;">
-            <div style="background: var(--usdt-teal); width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px;">₮</div>
-            <span style="font-weight: bold; color: var(--accent-purple);">DONATE STUXNET</span>
+        <div style="display: flex; justify-content: center; align-items: center; gap: 8px; margin-bottom: 15px;">
+            <div style="background: var(--usdt-teal); width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; color: white;">₮</div>
+            <span style="font-weight: bold; font-size: 15px; color: var(--accent-purple);">DONATE STUXNET</span>
         </div>
+        <p style="font-size: 11px; color: #555; margin-bottom: 12px; text-align: center;">USDT TRC20 ADDRESS:</p>
         <div class="address-container">
             <span class="address-text" id="wallet">TQhuYaGhhpXEg322iELNesuLXCyziPhJxC</span>
             <i class="fas fa-copy" style="color: var(--primary-green); cursor: pointer;" onclick="copyWallet()"></i>
