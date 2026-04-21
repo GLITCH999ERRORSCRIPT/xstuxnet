@@ -26,12 +26,13 @@
         .typing-text {
             color: var(--primary-green);
             font-family: monospace;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             white-space: nowrap;
             overflow: hidden;
             border-right: 3px solid var(--primary-green);
             width: 0;
-            animation: typing 2s steps(30, end) forwards, blink 0.5s step-end infinite;
+            max-width: fit-content;
+            animation: typing 1.5s steps(25, end) forwards, blink 0.5s step-end infinite;
         }
 
         @keyframes typing { from { width: 0 } to { width: 100% } }
