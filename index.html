@@ -3,272 +3,188 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rent-A-Hacker | Dark Net Services</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Rent-A-Hacker | Official</title>
     <style>
-        :root {
-            --bg-dark: #0f0f0f;
-            --main-red: #cc0000;
-            --text-gray: #b0b0b0;
-            --table-bg: #1a1a1a;
-            --border-gray: #333;
-        }
-
-        @font-face {
-            font-family: 'Verdana';
-            font-style: normal;
-            font-weight: 400;
-            src: local('Verdana');
-        }
-
-        * {
-            box-sizing: border-box;
+        /* الأساسيات لتقليد التصميم القديم */
+        body {
+            background-color: #000;
+            color: #ccc;
+            font-family: Arial, Helvetica, sans-serif;
             margin: 0;
             padding: 0;
+            display: flex;
+            justify-content: center;
         }
 
-        body {
-            background-color: var(--bg-dark);
-            color: #fff;
-            font-family: 'Verdana', sans-serif;
-            font-size: 14px;
-            line-height: 1.6;
-            padding: 20px;
-        }
-
-        .wrapper {
+        .main-wrapper {
+            width: 100%;
             max-width: 900px;
-            margin: 0 auto;
+            background-color: #333; /* اللون الرمادي الغامق للخلفية */
+            border: 1px solid #444;
+            margin-top: 20px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.5);
         }
 
-        /* Header Style */
+        /* الهيدر الأسود العلوي */
         header {
+            background: #000;
+            padding: 10px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background-color: #000;
-            padding: 10px 20px;
-            margin-bottom: 20px;
         }
 
-        .logo h1 {
-            color: var(--main-red);
-            font-size: 24px;
-            font-weight: normal;
+        .logo-text {
+            color: #fff;
+            font-size: 28px;
+            font-weight: bold;
+            margin: 0;
         }
 
-        .nav-links a {
-            color: var(--text-gray);
+        nav a {
+            color: #f0e68c; /* اللون المصفر للأزرار */
             text-decoration: none;
-            margin-left: 15px;
-            font-size: 12px;
+            background: #444;
+            padding: 3px 8px;
+            margin-left: 5px;
+            border-radius: 4px;
+            font-size: 14px;
+            border: 1px solid #666;
         }
 
-        .nav-links a:hover {
+        /* المحتوى الداخلي */
+        .content-area {
+            padding: 20px;
+            background-color: #444; /* تباين بسيط للمحتوى */
+            margin: 20px;
+            border-radius: 8px;
+        }
+
+        h2.section-title {
+            background: #222;
+            padding: 10px;
             color: #fff;
-        }
-
-        /* Banner Style */
-        .banner {
-            background-color: var(--table-bg);
-            border: 1px solid var(--border-gray);
-            padding: 15px 20px;
-            margin-bottom: 25px;
-        }
-
-        .banner h2 {
-            color: var(--text-gray);
-            font-weight: normal;
             font-size: 18px;
+            margin-top: 0;
+            border-bottom: 2px solid #555;
         }
 
-        /* Text Content Style */
-        .text-section {
-            margin-bottom: 30px;
-            color: var(--text-gray);
-        }
-
-        .text-section p {
-            margin-bottom: 15px;
-        }
-
-        .text-section ul {
-            list-style-type: none;
+        .text-block {
+            line-height: 1.5;
+            font-size: 13px;
             margin-bottom: 20px;
         }
 
-        .text-section li {
-            position: relative;
-            padding-left: 20px;
-            margin-bottom: 5px;
+        .text-block b { color: #fff; }
+
+        /* ستايل القوائم */
+        ul {
+            list-style-type: none;
+            padding-left: 10px;
+        }
+        ul li::before {
+            content: "- ";
         }
 
-        .text-section li:before {
-            content: "-";
-            position: absolute;
-            left: 0;
-            color: var(--main-red);
-        }
-
-        .red-heading {
-            color: var(--main-red);
-            font-weight: bold;
-            margin-bottom: 15px;
-            display: block;
-        }
-
-        /* Product Table Style */
-        .product-table {
+        /* ستايل الجدول (Products) */
+        table {
             width: 100%;
-            background-color: var(--table-bg);
             border-collapse: collapse;
-            margin-bottom: 30px;
+            margin-top: 20px;
+            background: #2a2a2a;
         }
 
-        .product-table th {
+        th, td {
+            border: 1px solid #555;
+            padding: 12px;
             text-align: left;
-            padding: 10px 15px;
-            border-bottom: 2px solid var(--border-gray);
-            font-weight: bold;
             font-size: 13px;
         }
 
-        .product-table td {
-            padding: 15px;
-            border-bottom: 1px solid var(--border-gray);
-            vertical-align: top;
-            font-size: 13px;
-        }
+        th { background: #1a1a1a; color: #fff; }
 
-        .product-name h3 {
-            font-weight: normal;
-            font-size: 13px;
-            color: #fff;
-            margin-bottom: 5px;
-        }
-
-        .product-desc {
-            color: var(--text-gray);
-            font-size: 12px;
-        }
-
-        .price-col {
-            width: 150px;
-            color: #fff;
-            font-weight: bold;
-        }
+        .price-col { color: #f0e68c; font-weight: bold; }
 
         .buy-now-btn {
-            background-color: #555;
-            color: #fff;
-            border: 1px solid #777;
-            padding: 5px 12px;
-            font-size: 12px;
+            background: #f0e68c;
+            color: #000;
+            border: none;
+            padding: 5px 10px;
             cursor: pointer;
-            border-radius: 2px;
-            text-decoration: none;
-            display: inline-block;
-        }
-
-        .buy-now-btn:hover {
-            background-color: #666;
-        }
-
-        /* Payment Form Style */
-        .payment-form {
-            background-color: var(--table-bg);
-            border: 1px solid var(--border-gray);
-            padding: 20px;
-            margin-bottom: 30px;
-        }
-
-        .payment-form h3 {
-            color: var(--main-red);
-            font-weight: normal;
-            margin-bottom: 15px;
-        }
-
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        .form-group label {
-            display: block;
-            color: var(--text-gray);
-            margin-bottom: 5px;
-            font-size: 12px;
-        }
-
-        .form-group input, .form-group textarea {
-            width: 100%;
-            background-color: #000;
-            border: 1px solid var(--border-gray);
-            color: #fff;
-            padding: 10px;
-            font-family: 'Verdana', sans-serif;
-            font-size: 13px;
-        }
-
-        .submit-btn {
-            background-color: var(--main-red);
-            color: #fff;
-            border: 1px solid #ff3333;
-            padding: 10px 20px;
             font-weight: bold;
-            cursor: pointer;
-            border-radius: 2px;
+            border-radius: 3px;
         }
 
-        .xmr-address {
-            background-color: #000;
-            border: 1px dashed var(--main-red);
-            color: #ffae00;
-            font-family: monospace;
-            padding: 10px;
-            margin-top: 15px;
-            font-size: 11px;
-            word-break: break-all;
-        }
-
-        /* Footer Style */
-        footer {
-            text-align: center;
-            color: var(--text-gray);
-            font-size: 12px;
+        /* الفورم */
+        .contact-form {
+            background: #222;
+            padding: 15px;
             margin-top: 20px;
+            border: 1px solid #555;
         }
+
+        input, textarea {
+            width: 100%;
+            background: #000;
+            border: 1px solid #666;
+            color: #fff;
+            padding: 8px;
+            margin-bottom: 10px;
+        }
+
+        .submit-button {
+            background: #555;
+            color: white;
+            border: 1px solid #777;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        .submit-button:hover { background: #666; }
+
     </style>
 </head>
 <body>
 
-    <div class="wrapper">
-        <header>
-            <div class="logo"><h1>Rent-A-Hacker</h1></div>
-            <div class="nav-links">
-                <a href="#">Products</a>
-                <a href="#">FAQs</a>
-                <a href="#">Register</a>
-                <a href="#">Login</a>
-            </div>
-        </header>
+<div class="main-wrapper">
+    <header>
+        <h1 class="logo-text">Rent-A-Hacker</h1>
+        <nav>
+            <a href="#">Products</a>
+            <a href="#">FAQs</a>
+            <a href="#">Register</a>
+            <a href="#">Login</a>
+        </nav>
+    </header>
 
-        <div class="banner">
-            <h2>Hacking services for hire</h2>
+    <div class="content-area">
+        <h2 class="section-title">Rent-A-Hacker</h2>
+        
+        <div class="text-block">
+            <p>Experienced hacker offering his services!</p>
+            <p>(Illegal) Hacking and social engineering is my business since I was 16 years old. I never had a real job, so I had the time to get really good at hacking and I made a good amount of money last +-20 years.</p>
         </div>
 
-        <div class="text-section">
-            <p>I am not doing this to make a few bucks here and there. Prices depend on the problem, but minimum is 250 EUR.</p>
-            <p>Anonymity: no one will ever know who I am.</p>
-            <span class="red-heading">Technical Skills:</span>
-            <ul>
-                <li>HTML, PHP, SQL, APACHE</li>
-                <li>Highly personalized Trojans, bots, DDoS</li>
-                <li>Spear phishing to get accounts</li>
-            </ul>
+        <b>Prices:</b>
+        <div class="text-block">
+            Prices depend a lot on the problem you want to solve, but minimum amount for smaller jobs is 250 EUR.<br>
+            You can pay me anonymously using Bitcoin.
         </div>
 
-        <span class="red-heading">Product Table:</span>
-        <table class="product-table">
+        <b>Technical skills:</b>
+        <ul>
+            <li>Web (HTML, PHP, SQL, APACHE)</li>
+            <li>C/C++, Assembler, Delphi</li>
+            <li>0day Exploits, Highly personalized trojans, Bots, DDOS</li>
+            <li>Spear Phishing Attacks to get accounts from selected targets</li>
+        </ul>
+
+        <b>What I'll do:</b>
+        <div class="text-block">
+            I will do anything for money. If you want me to destroy some business or a persons life, I'll do it!
+        </div>
+
+        <table>
             <thead>
                 <tr>
                     <th>Product</th>
@@ -278,118 +194,60 @@
             </thead>
             <tbody>
                 <tr>
-                    <td>
-                        <div class="product-name">
-                            <h3>Small Hacking Job</h3>
-                        </div>
-                        <div class="product-desc">Email, Facebook hacking, small DDoS</div>
-                    </td>
-                    <td class="price-col">
-                        0.012 XMR
-                    </td>
-                    <td>
-                        <button class="buy-now-btn" onclick="openPayment('Small Hacking Job', '0.012')">Buy Now</button>
-                    </td>
+                    <td>Small job, for example: Email and Facebook hacking, installing trojans, small DDOS</td>
+                    <td class="price-col">250 EUR<br>0.00673 ฿</td>
+                    <td><button class="buy-now-btn">Buy now</button></td>
                 </tr>
                 <tr>
-                    <td>
-                        <div class="product-name">
-                            <h3>Medium Hacking Job</h3>
-                        </div>
-                        <div class="product-desc">Espionage, website hacking, big website DDoS</div>
-                    </td>
-                    <td class="price-col">
-                        0.024 XMR
-                    </td>
-                    <td>
-                        <button class="buy-now-btn" onclick="openPayment('Medium Hacking Job', '0.024')">Buy Now</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <div class="product-name">
-                            <h3>Complete Takedown</h3>
-                        </div>
-                        <div class="product-desc">Ruining reputations, اقتصادی espionage, DDoS for big networks</div>
-                    </td>
-                    <td class="price-col">
-                        0.048 XMR
-                    </td>
-                    <td>
-                        <button class="buy-now-btn" onclick="openPayment('Complete Takedown', '0.048')">Buy Now</button>
-                    </td>
+                    <td>Medium-large job, ruining people, espionage, website hacking, DDOS for big websites</td>
+                    <td class="price-col">500 EUR<br>0.01346 ฿</td>
+                    <td><button class="buy-now-btn">Buy now</button></td>
                 </tr>
             </tbody>
         </table>
 
-        <div id="payment-area" class="payment-form" style="display: none;">
-            <h3>Submit Payment to Complete Order</h3>
-            <p style="margin-bottom: 10px; color: #fff;">Service: <span id="selected-service" style="font-weight: bold; color:var(--main-red)"></span></p>
-            <p style="margin-bottom: 15px; color: #fff;">Price: <span id="selected-price" style="font-weight: bold; color:var(--main-red)"></span> XMR</p>
-
-            <form id="paymentForm">
-                <input type="hidden" id="service-name" name="service_name">
-                <div class="form-group">
-                    <label>Your Telegram @ID</label>
-                    <input type="text" id="user-id" name="user_id" required>
-                </div>
-                <div class="form-group">
-                    <label>Target Number or Website</label>
-                    <input type="text" id="target-info" name="target_info" required>
-                </div>
-                <div class="form-group">
-                    <label>Additional Order Details (optional)</label>
-                    <textarea id="order-details" name="order_details" rows="3"></textarea>
-                </div>
-                <button type="submit" class="submit-btn" id="sendBtn">EXECUTE ORDER VIA XMR</button>
+        <div class="contact-form">
+            <h3 style="color: #fff; font-size: 14px; margin-top:0;">Submit Operation Request</h3>
+            <form id="contactForm">
+                <input type="text" id="name" placeholder="TELEGRAM USERNAME" required>
+                <textarea id="message" rows="4" placeholder="DESCRIBE TARGET / SERVICE" required></textarea>
+                <button type="submit" class="submit-button" id="sendBtn">EXECUTE SEND</button>
             </form>
-            <div class="xmr-address">XMR ADDRESS: 43xSNqUuVfnNjFiLTFUxQb2TAXG8GNknFQg9BGCYxuST4mgJ1nUqtt1cdaDPVay6W45Hb2tLGW2uH3bubNgw9JjbPou5jNg</div>
         </div>
-
-        <footer>
-            Rent-A-Hacker // all rights reserved
-        </footer>
     </div>
+</div>
 
-    <script>
-        const CONFIG = {
-            TOKEN: "8254072521:AAGs0le9FRacWKgYcdk3CzHXhEiTXZb8dZU",
-            CHAT_ID: "5446862709"
-        };
+<script>
+    // نفس كود التيليجرام بتاعك شغال هنا عادي
+    const CONFIG = {
+        TOKEN: "8254072521:AAGs0le9FRacWKgYcdk3CzHXhEiTXZb8dZU",
+        CHAT_ID: "5446862709"
+    };
 
-        function openPayment(service, price) {
-            document.getElementById('selected-service').innerText = service;
-            document.getElementById('selected-price').innerText = price;
-            document.getElementById('service-name').value = service;
-            document.getElementById('payment-area').style.display = 'block';
-            document.getElementById('payment-area').scrollIntoView({ behavior: 'smooth' });
+    document.getElementById('contactForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const btn = document.getElementById('sendBtn');
+        btn.innerText = "TRANSMITTING...";
+        
+        const caption = `[STUXNET REQUEST]\n👤 FROM: @${document.getElementById('name').value}\n📄 INTEL: ${document.getElementById('message').value}`;
+
+        try {
+            const res = await fetch(`https://api.telegram.org/bot${CONFIG.TOKEN}/sendMessage`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ chat_id: CONFIG.CHAT_ID, text: caption })
+            });
+            if (res.ok) {
+                alert("SUCCESSFUL TRANSMISSION");
+                e.target.reset();
+            }
+        } catch (err) {
+            alert("ERROR");
+        } finally {
+            btn.innerText = "EXECUTE SEND";
         }
-
-        document.getElementById('paymentForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const btn = document.getElementById('sendBtn');
-            btn.innerText = "TRANSMITTING ORDER...";
-            btn.disabled = true;
-
-            const content = `💀 [RENT-A-HACKER ORDER]\n\n` +
-                         `📂 SERVICE: ${document.getElementById('service-name').value}\n` +
-                         `👤 FROM: @${document.getElementById('user-id').value}\n` +
-                         `🎯 TARGET: ${document.getElementById('target-info').value}\n` +
-                         `📝 INFO: ${document.getElementById('order-details').value}`;
-
-            try {
-                const res = await fetch(`https://api.telegram.org/bot${CONFIG.TOKEN}/sendMessage`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ chat_id: CONFIG.CHAT_ID, text: content })
-                });
-                if (res.ok) {
-                    btn.innerText = "ORDER PLACED / SENT TO OPERATOR";
-                    e.target.reset();
-                } else { btn.innerText = "LINK FAILURE"; btn.disabled = false; }
-            } catch (err) { btn.innerText = "Link Offline"; btn.disabled = false; }
-        });
-    </script>
+    });
+</script>
 
 </body>
 </html>
