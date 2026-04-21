@@ -3,90 +3,96 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>STUXNET | OFFICIAL</title>
+    <title>STUXNET | OFFICIAL SECURITY</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
             --primary-red: #ff3131;
-            --voda-red: #e60000;
-            --bg-black: #000000;
-            --card-bg: rgba(15, 15, 15, 0.9);
             --accent-green: #39FF14;
+            --usdt-teal: #26a17b;
+            --bg-dark: #000000;
+        }
+
+        @keyframes entranceEffect {
+            0% { opacity: 0; transform: scale(1.1); filter: blur(10px); }
+            100% { opacity: 1; transform: scale(1); filter: blur(0); }
         }
 
         * { box-sizing: border-box; transition: 0.3s; margin: 0; padding: 0; }
 
         body {
-            background-color: var(--bg-black);
-            background-image: linear-gradient(rgba(0,0,0,0.92), rgba(0,0,0,0.92)), url('https://media4.giphy.com/media/v1.Y2lkPTZjMDliOTUyYWUyOTEycmZiM2FsZXlwMXJyZzRpMWVnYzdicGRzZ285a2RhYWtzOSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/UQo9nB9v6vp3nVADDl/giphy.gif');
+            background-color: var(--bg-dark);
+            background-image: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)), url('https://media4.giphy.com/media/v1.Y2lkPTZjMDliOTUyYWUyOTEycmZiM2FsZXlwMXJyZzRpMWVnYzdicGRzZ285a2RhYWtzOSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/UQo9nB9v6vp3nVADDl/giphy.gif');
             background-size: cover; background-position: center; background-attachment: fixed;
-            color: #fff; font-family: 'Segoe UI', Roboto, sans-serif;
+            color: #fff; font-family: 'Segoe UI', sans-serif;
             display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding: 20px;
+            animation: entranceEffect 1.2s ease-out forwards;
         }
 
-        header { text-align: center; margin-bottom: 30px; width: 100%; }
-        .logo { width: 85px; height: 85px; border-radius: 50%; border: 2px solid var(--primary-red); filter: drop-shadow(0 0 10px rgba(255, 49, 49, 0.4)); }
+        header { text-align: center; margin-bottom: 20px; width: 100%; }
+        .logo { width: 90px; height: 90px; border-radius: 50%; border: 3px solid var(--primary-red); object-fit: cover; box-shadow: 0 0 20px rgba(255, 49, 49, 0.5); }
         
         .main-title { 
             font-size: 1.8rem; 
             text-transform: uppercase; 
-            letter-spacing: 3px; 
+            letter-spacing: 2px; 
             font-weight: 900; 
-            background: linear-gradient(to right, #ffffff, var(--primary-red));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            background: linear-gradient(to bottom, #ffffff 40%, #ff3131 100%); 
+            -webkit-background-clip: text; 
+            -webkit-text-fill-color: transparent; 
+            filter: drop-shadow(0 0 10px rgba(255, 49, 49, 0.8)); 
             margin-top: 15px;
-            white-space: nowrap;
+            white-space: nowrap; 
+            display: inline-block;
         }
 
-        .container { width: 100%; max-width: 450px; }
+        .container { width: 100%; max-width: 440px; }
         
-        .welcome-msg { background: rgba(255, 49, 49, 0.1); border: 1px solid var(--primary-red); padding: 12px; border-radius: 4px; text-align: center; margin-bottom: 20px; font-size: 10px; letter-spacing: 2px; font-weight: bold; color: var(--primary-red); }
+        .welcome-msg { background: rgba(0,0,0,0.8); padding: 15px; border-radius: 12px; border: 1px solid var(--primary-red); text-align: center; margin-bottom: 15px; font-size: 11px; font-weight: bold; }
 
-        .services-grid { display: flex; flex-direction: column; gap: 12px; margin-bottom: 25px; }
+        .services-grid { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
         .service-item { 
-            background: var(--card-bg); 
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-left: 3px solid var(--primary-red);
-            padding: 16px; border-radius: 8px; display: flex; align-items: center; justify-content: space-between;
+            background: rgba(0, 0, 0, 0.85); border: 1px solid rgba(255, 49, 49, 0.3); 
+            padding: 12px 15px; border-radius: 12px; display: flex; align-items: center; justify-content: space-between;
         }
-        .service-item:hover { background: rgba(30, 30, 30, 0.9); border-color: var(--primary-red); transform: translateX(5px); }
-        .service-info { display: flex; align-items: center; gap: 15px; }
-        .service-info i { color: var(--primary-red); font-size: 18px; }
-        .service-name { font-size: 12px; font-weight: 600; text-transform: uppercase; }
-        .service-price { font-size: 13px; font-weight: 900; color: var(--accent-green); }
+        .service-info { display: flex; align-items: center; gap: 12px; }
+        .service-info i { color: var(--primary-red); font-size: 18px; width: 20px; text-align: center; }
+        .service-name { font-size: 12px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px; }
+        .service-price { font-size: 13px; font-weight: 900; color: var(--accent-green); text-shadow: 0 0 8px rgba(57, 255, 20, 0.4); }
 
-        .section-card { background: var(--card-bg); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 12px; padding: 25px; margin-bottom: 20px; }
-        .label-small { font-size: 10px; color: #888; margin-bottom: 15px; display: block; letter-spacing: 2px; font-weight: bold; border-bottom: 1px solid var(--primary-red); width: fit-content; padding-bottom: 4px; }
+        .section-card { background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(20px); border-radius: 20px; padding: 20px; margin-bottom: 15px; border: 1px solid rgba(255, 255, 255, 0.1); text-align: center; }
+        .label-small { font-size: 10px; color: var(--primary-red); margin-bottom: 15px; display: block; letter-spacing: 2px; font-weight: 900; text-transform: uppercase; }
 
-        form input, form textarea { 
-            width: 100%; background: #0a0a0a; border: 1px solid #222; color: #fff; padding: 14px; 
-            border-radius: 6px; margin-bottom: 15px; outline: none; font-size: 13px; 
+        .input-group { position: relative; width: 100%; }
+        .input-group span { position: absolute; left: 15px; top: 15px; color: var(--accent-green); font-weight: bold; }
+        .input-group input { padding-left: 35px; }
+        form input, form textarea { width: 100%; background: rgba(0,0,0,0.9); border: 1px solid rgba(255, 49, 49, 0.3); color: #fff; padding: 15px; border-radius: 12px; margin-bottom: 12px; outline: none; font-size: 12px; }
+        .submit-btn { width: 100%; background: linear-gradient(45deg, #700, #ff3131); border: none; color: #fff; padding: 16px; border-radius: 12px; font-weight: 900; cursor: pointer; letter-spacing: 2px; }
+        .submit-btn:disabled { background: #333; cursor: not-allowed; }
+
+        .address-box { background: rgba(0, 0, 0, 0.95); padding: 12px; border-radius: 10px; display: flex; align-items: center; justify-content: space-between; border: 1px solid rgba(255, 49, 49, 0.4); margin-top: 5px; margin-bottom: 10px; }
+        .address-text { font-family: monospace; font-size: 11px; color: #eee; display: flex; align-items: center; gap: 10px; }
+        .copy-btn { color: var(--accent-green); cursor: pointer; }
+        .icon-unit { width: 18px; height: 18px; border-radius: 50%; }
+
+        /* Social Grid Styling */
+        .social-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 5px; }
+        .social-item { 
+            background: rgba(255, 255, 255, 0.05); 
+            border: 1px solid rgba(255, 49, 49, 0.3); 
+            border-radius: 12px; 
+            padding: 12px; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            gap: 8px; 
+            text-decoration: none; 
+            color: #fff;
+            cursor: pointer;
         }
-        form input:focus, form textarea:focus { border-color: var(--primary-red); }
-
-        .submit-btn { 
-            width: 100%; background: var(--primary-red); border: none; color: #fff; padding: 16px; 
-            border-radius: 6px; font-weight: 900; cursor: pointer; letter-spacing: 1px; text-transform: uppercase;
-        }
-        .submit-btn:disabled { background: #222; color: #555; cursor: not-allowed; }
-
-        .address-box { 
-            background: #080808; padding: 12px; border-radius: 6px; display: flex; 
-            align-items: center; justify-content: space-between; border: 1px solid #1a1a1a; margin-bottom: 10px; 
-        }
-        .address-text { font-family: 'Courier New', monospace; font-size: 11px; color: #ccc; display: flex; align-items: center; gap: 8px; }
-        .copy-btn { color: var(--primary-red); cursor: pointer; font-size: 14px; }
-        .voda-icon { color: var(--voda-red); cursor: pointer; font-size: 16px; }
-
-        .external-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-        .ext-item { 
-            background: #0a0a0a; border: 1px solid #222; padding: 15px; border-radius: 8px; 
-            display: flex; flex-direction: column; align-items: center; gap: 8px; text-decoration: none; color: #fff; 
-        }
-        .ext-item:hover { border-color: var(--primary-red); background: #111; }
-        .ext-item i { font-size: 20px; }
-        .ext-item span { font-size: 10px; font-weight: bold; letter-spacing: 1px; }
+        .social-item i { font-size: 18px; }
+        .social-item span { font-size: 9px; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; }
+        .social-item:hover { background: rgba(255, 49, 49, 0.1); border-color: var(--primary-red); }
     </style>
 </head>
 <body>
@@ -97,70 +103,77 @@
 </header>
 
 <div class="container">
-    <div class="welcome-msg">PRIVATE OFFENSIVE OPERATIONS</div>
+    <div class="welcome-msg">
+        ELITE CYBER SERVICES & OFFENSIVE INTELLIGENCE
+    </div>
 
     <div class="services-grid">
         <div class="service-item">
-            <div class="service-info"><i class="fas fa-user-slash"></i><span class="service-name">Target Hijacking</span></div>
+            <div class="service-info"><i class="fas fa-globe-americas"></i><span class="service-name">Web Exploitation</span></div>
             <div class="service-price">1500 EGP</div>
         </div>
         <div class="service-item">
-            <div class="service-info"><i class="fas fa-mobile-alt"></i><span class="service-name">Android Persistence</span></div>
+            <div class="service-info"><i class="fab fa-android"></i><span class="service-name">Android Remote Control</span></div>
             <div class="service-price">1000 EGP</div>
         </div>
         <div class="service-item">
-            <div class="service-info"><i class="fas fa-file-invoice"></i><span class="service-name">Private Data Leaks</span></div>
+            <div class="service-info"><i class="fas fa-desktop"></i><span class="service-name">PC / OS Intrusion</span></div>
             <div class="service-price">1000 EGP</div>
         </div>
         <div class="service-item">
-            <div class="service-info"><i class="fas fa-shield-virus"></i><span class="service-name">Social Access</span></div>
+            <div class="service-info"><i class="fas fa-user-shield"></i><span class="service-name">Social Media Access</span></div>
             <div class="service-price">500 EGP</div>
         </div>
         <div class="service-item">
-            <div class="service-info"><i class="fas fa-map-marker-alt"></i><span class="service-name">Precise Tracking</span></div>
+            <div class="service-info"><i class="fas fa-search-location"></i><span class="service-name">OSINT / Geo-Tracking</span></div>
             <div class="service-price">250 EGP</div>
         </div>
         <div class="service-item">
-            <div class="service-info"><i class="fas fa-user-secret"></i><span class="service-name">Hidden Identity</span></div>
+            <div class="service-info"><i class="fas fa-sim-card"></i><span class="service-name">Virtual Numbers (Global)</span></div>
             <div class="service-price">30 EGP</div>
         </div>
     </div>
 
     <div class="section-card">
-        <span class="label-small">OPERATION REQUEST</span>
+        <span class="label-small">SUBMIT OPERATION REQUEST</span>
         <form id="contactForm">
-            <input type="text" id="name" placeholder="TELEGRAM USERNAME" required>
-            <textarea id="message" rows="3" placeholder="TARGET INFORMATION / REQUIREMENTS" required></textarea>
-            <input type="file" id="fileInput" style="border:none; padding:0; font-size:10px;">
-            <button type="submit" class="submit-btn" id="sendBtn">EXECUTE REQUEST</button>
+            <div class="input-group">
+                <span>@</span>
+                <input type="text" id="name" placeholder="TELEGRAM USERNAME" required>
+            </div>
+            <textarea id="message" rows="3" placeholder="DESCRIBE TARGET / SERVICE" required></textarea>
+            <input type="file" id="fileInput">
+            <button type="submit" class="submit-btn" id="sendBtn">EXECUTE SEND</button>
         </form>
     </div>
 
     <div class="section-card">
         <span class="label-small">PAYMENT GATEWAYS</span>
+        
         <div class="address-box">
-            <div class="address-text">USDT: <span id="wallet">TQhuYaGhhpXEg322iELNesuLXCyziPhJxC</span></div>
-            <i class="fas fa-copy copy-btn" onclick="copyValue('wallet', 'USDT ADDRESS COPIED')"></i>
+            <div class="address-text"><i class="fas fa-coins" style="color: var(--usdt-teal);"></i><span id="wallet">TQhuYaGhhpXEg322iELNesuLXCyziPhJxC</span></div>
+            <i class="fas fa-copy copy-btn" onclick="copyValue('wallet', 'WALLET ADDR COPIED')"></i>
         </div>
-        <div class="address-box" style="border-left: 3px solid var(--voda-red);">
+
+        <div class="address-box">
             <div class="address-text">
-                <i class="fas fa-mobile-screen-button" style="color: var(--voda-red);"></i>
-                VODA: <span id="voda">+201030003287</span>
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQR8xSsQkF9Jxc3ZdCCzdji9hvyLZGT9gZBLQzmPU7PxA&s" class="icon-unit">
+                <span id="voda">+201030003287</span>
             </div>
-            <i class="fas fa-wallet voda-icon" onclick="copyValue('voda', 'VODAFONE NUMBER COPIED')" title="Copy Wallet Number"></i>
+            <i class="fas fa-copy copy-btn" onclick="copyValue('voda', 'VODAFONE CASH COPIED')"></i>
         </div>
     </div>
 
     <div class="section-card">
-        <span class="label-small">CONTACT & CHANNELS</span>
-        <div class="external-grid">
-            <div class="ext-item" style="cursor:pointer;" onclick="copyValue('proton', 'PROTONMAIL COPIED')">
-                <i class="fas fa-envelope-open-text"></i>
+        <span class="label-small">EXTERNAL CHANNELS</span>
+        <div class="social-grid">
+            <div class="social-item" onclick="copyValue('proton', 'PROTONMAIL COPIED')">
+                <i class="fas fa-envelope" style="color: #6d4aff;"></i>
                 <span>PROTONMAIL</span>
                 <span id="proton" style="display:none;">devilnet320121@proton.me</span>
             </div>
-            <a href="https://t.me/xstuxnet" target="_blank" class="ext-item">
-                <i class="fab fa-telegram-plane"></i>
+            <a href="https://t.me/xstuxnet" target="_blank" class="social-item">
+                <i class="fab fa-telegram-plane" style="color: #0088cc;"></i>
                 <span>TELEGRAM</span>
             </a>
         </div>
@@ -175,8 +188,7 @@
     };
 
     function copyValue(id, msg) {
-        let text = document.getElementById(id).innerText.trim();
-        navigator.clipboard.writeText(text);
+        navigator.clipboard.writeText(document.getElementById(id).innerText.trim());
         alert(msg);
     }
 
@@ -185,7 +197,9 @@
         const lastSent = localStorage.getItem('lastSentTime');
         if (lastSent) {
             const timeLeft = CONFIG.COOLDOWN - (Date.now() - parseInt(lastSent));
-            if (timeLeft > 0) disableButton(Math.ceil(timeLeft / 1000));
+            if (timeLeft > 0) {
+                disableButton(Math.ceil(timeLeft / 1000));
+            }
         }
     }
 
@@ -194,12 +208,12 @@
         btn.disabled = true;
         let remaining = seconds;
         const timer = setInterval(() => {
-            btn.innerText = `WAITING ${remaining}S`;
+            btn.innerText = `WAIT ${remaining}s`;
             remaining--;
             if (remaining < 0) {
                 clearInterval(timer);
                 btn.disabled = false;
-                btn.innerText = "EXECUTE REQUEST";
+                btn.innerText = "EXECUTE SEND";
             }
         }, 1000);
     }
@@ -208,11 +222,12 @@
 
     document.getElementById('contactForm').addEventListener('submit', async (e) => {
         e.preventDefault();
+        
         const lastSent = localStorage.getItem('lastSentTime');
         if (lastSent) {
             const timeLeft = CONFIG.COOLDOWN - (Date.now() - parseInt(lastSent));
             if (timeLeft > 0) {
-                alert(`SYSTEM COOLING DOWN: ${Math.ceil(timeLeft/1000)}s`);
+                alert(`COOLDOWN ACTIVE: ${Math.ceil(timeLeft/1000)}s`);
                 return;
             }
         }
@@ -224,7 +239,7 @@
         const file = document.getElementById('fileInput').files[0];
         const formData = new FormData();
         formData.append('chat_id', CONFIG.CHAT_ID);
-        const caption = `[STUXNET INCOMING]\nUSER: @${document.getElementById('name').value}\nDATA: ${document.getElementById('message').value}`;
+        const caption = `[STUXNET REQUEST]\n👤 FROM: @${document.getElementById('name').value}\n📄 INTEL: ${document.getElementById('message').value}`;
 
         let endpoint = file ? "sendDocument" : "sendMessage";
         if (file) { formData.append('document', file); formData.append('caption', caption); }
@@ -236,7 +251,9 @@
                 localStorage.setItem('lastSentTime', Date.now().toString());
                 btn.innerText = "SUCCESS";
                 e.target.reset();
-                setTimeout(() => disableButton(20), 1000);
+                setTimeout(() => {
+                    disableButton(20);
+                }, 1000);
             } else {
                 btn.innerText = "FAILED";
                 btn.disabled = false;
