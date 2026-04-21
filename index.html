@@ -13,63 +13,30 @@
             --bg-dark: #000000;
         }
 
-        /* تأثير الدخول الكلاسيكي المميز (Zoom Out Fade In) */
         @keyframes classicEntrance {
-            0% {
-                opacity: 0;
-                transform: scale(1.15);
-                filter: blur(10px);
-            }
-            100% {
-                opacity: 1;
-                transform: scale(1);
-                filter: blur(0);
-            }
+            0% { opacity: 0; transform: scale(1.15); filter: blur(10px); }
+            100% { opacity: 1; transform: scale(1); filter: blur(0); }
         }
 
         * { box-sizing: border-box; transition: 0.3s; margin: 0; padding: 0; }
 
         body {
             background-color: var(--bg-dark);
-            background-image: 
-                linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
-                url('https://media4.giphy.com/media/v1.Y2lkPTZjMDliOTUyYWUyOTEycmZiM2FsZXlwMXJyZzRpMWVnYzdicGRzZ285a2RhYWtzOSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/UQo9nB9v6vp3nVADDl/giphy.gif');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            color: #fff;
-            font-family: 'Segoe UI', Tahoma, sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
-            padding: 20px;
-            /* تطبيق أنيميشن الدخول */
+            background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://media4.giphy.com/media/v1.Y2lkPTZjMDliOTUyYWUyOTEycmZiM2FsZXlwMXJyZzRpMWVnYzdicGRzZ285a2RhYWtzOSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/UQo9nB9v6vp3nVADDl/giphy.gif');
+            background-size: cover; background-position: center; background-attachment: fixed;
+            color: #fff; font-family: 'Segoe UI', Tahoma, sans-serif;
+            display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding: 20px;
             animation: classicEntrance 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
         }
 
-        header {
-            text-align: center;
-            margin-top: 40px;
-            margin-bottom: 30px;
-        }
+        header { text-align: center; margin-top: 40px; margin-bottom: 30px; }
 
-        .logo-container {
-            position: relative;
-            display: inline-block;
-            margin-bottom: 15px;
-        }
+        .logo-container { position: relative; display: inline-block; margin-bottom: 15px; }
 
         .logo-container::before {
-            content: '';
-            position: absolute;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            width: 140px; height: 140px;
-            background: radial-gradient(circle, rgba(157, 78, 221, 0.5) 0%, transparent 70%);
-            filter: blur(15px);
-            z-index: 0;
-            animation: pulse 2s infinite;
+            content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 140px; height: 140px; background: radial-gradient(circle, rgba(157, 78, 221, 0.5) 0%, transparent 70%);
+            filter: blur(15px); z-index: 0; animation: pulse 2s infinite;
         }
 
         @keyframes pulse {
@@ -77,165 +44,41 @@
             50% { opacity: 0.8; transform: translate(-50%, -50%) scale(1.1); }
         }
 
-        .logo {
-            width: 110px; height: 110px;
-            border-radius: 50%;
-            border: 3px solid var(--primary-green);
-            box-shadow: 0 0 30px rgba(57, 255, 20, 0.4);
-            position: relative;
-            z-index: 1;
-            object-fit: cover;
-        }
+        .logo { width: 110px; height: 110px; border-radius: 50%; border: 3px solid var(--primary-green); box-shadow: 0 0 30px rgba(57, 255, 20, 0.4); position: relative; z-index: 1; object-fit: cover; }
 
-        .brand-info h1 {
-            font-size: 1.8rem;
-            font-weight: 900;
-            letter-spacing: 1px;
-            background: linear-gradient(to right, var(--primary-green), var(--accent-purple));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-transform: uppercase;
-        }
+        .brand-info h1 { font-size: 1.8rem; font-weight: 900; letter-spacing: 1px; background: linear-gradient(to right, var(--primary-green), var(--accent-purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; }
 
-        .brand-info p {
-            font-size: 13px;
-            color: #ccc;
-            margin-top: 5px;
-            letter-spacing: 0.5px;
-        }
+        .brand-info p { font-size: 13px; color: #ccc; margin-top: 5px; letter-spacing: 0.5px; }
 
-        .container {
-            width: 100%;
-            max-width: 420px;
-        }
+        .container { width: 100%; max-width: 420px; }
 
-        .section-card {
-            background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            border-radius: 24px;
-            padding: 25px;
-            margin-bottom: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            text-align: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
-        }
+        .section-card { background: rgba(255, 255, 255, 0.08); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border-radius: 24px; padding: 25px; margin-bottom: 20px; border: 1px solid rgba(255, 255, 255, 0.1); text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.4); }
 
-        .card-header {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
+        .card-header { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 15px; }
 
-        .card-header span {
-            font-weight: bold;
-            color: var(--accent-purple);
-            font-size: 14px;
-            text-transform: uppercase;
-        }
+        .network-tag { font-weight: 900; color: var(--usdt-teal); font-size: 14px; letter-spacing: 1px; }
 
-        .address-box {
-            background: rgba(0, 0, 0, 0.6);
-            padding: 15px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            border: 1px solid #333;
-        }
+        .address-box { background: rgba(0, 0, 0, 0.6); padding: 15px; border-radius: 12px; display: flex; align-items: center; justify-content: space-between; border: 1px solid #333; }
 
-        .address-text {
-            font-family: 'Courier New', monospace;
-            font-size: 11px;
-            color: #eee;
-            word-break: break-all;
-            margin-right: 10px;
-        }
+        .address-text { font-family: 'Courier New', monospace; font-size: 11px; color: #eee; word-break: break-all; margin-right: 10px; }
 
-        .copy-btn {
-            color: var(--primary-green);
-            cursor: pointer;
-            font-size: 1.2rem;
-        }
+        .copy-btn { color: var(--primary-green); cursor: pointer; font-size: 1.2rem; }
 
-        .label-small {
-            font-size: 10px;
-            color: var(--accent-purple);
-            margin-bottom: 15px;
-            display: block;
-            letter-spacing: 2px;
-            font-weight: bold;
-        }
+        .label-small { font-size: 10px; color: var(--accent-purple); margin-bottom: 15px; display: block; letter-spacing: 2px; font-weight: bold; }
 
-        .join-btn {
-            background: rgba(0, 0, 0, 0.4);
-            border: 1.5px solid var(--accent-purple);
-            color: #fff;
-            text-decoration: none;
-            padding: 14px;
-            border-radius: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            font-weight: bold;
-            font-size: 14px;
-        }
+        .join-btn { background: rgba(0, 0, 0, 0.4); border: 1.5px solid var(--accent-purple); color: #fff; text-decoration: none; padding: 14px; border-radius: 15px; display: flex; align-items: center; justify-content: center; gap: 10px; font-weight: bold; font-size: 14px; }
 
-        form input, form textarea {
-            width: 100%;
-            background: rgba(0,0,0,0.5);
-            border: 1px solid #333;
-            color: #fff;
-            padding: 15px;
-            border-radius: 12px;
-            margin-bottom: 12px;
-            outline: none;
-        }
+        form input, form textarea { width: 100%; background: rgba(0,0,0,0.5); border: 1px solid #333; color: #fff; padding: 15px; border-radius: 12px; margin-bottom: 12px; outline: none; }
 
-        .file-upload-section {
-            text-align: left;
-            margin-bottom: 15px;
-        }
+        .file-upload-section { text-align: left; margin-bottom: 15px; }
 
-        .file-upload-section label {
-            font-size: 11px;
-            color: #888;
-            margin-bottom: 5px;
-            display: block;
-            padding-left: 5px;
-        }
+        .file-upload-section label { font-size: 11px; color: #888; margin-bottom: 5px; display: block; padding-left: 5px; }
 
-        input[type="file"] {
-            padding: 10px;
-            font-size: 12px;
-            background: rgba(157, 78, 221, 0.05);
-            border: 1px dashed var(--accent-purple);
-            cursor: pointer;
-            width: 100%;
-            color: #ccc;
-            border-radius: 10px;
-        }
+        input[type="file"] { padding: 10px; font-size: 12px; background: rgba(157, 78, 221, 0.05); border: 1px dashed var(--accent-purple); cursor: pointer; width: 100%; color: #ccc; border-radius: 10px; }
 
-        .submit-btn {
-            width: 100%;
-            background: linear-gradient(45deg, var(--accent-purple), #5a189a);
-            border: none;
-            color: #fff;
-            padding: 16px;
-            border-radius: 12px;
-            font-weight: bold;
-            cursor: pointer;
-            text-transform: uppercase;
-        }
+        .submit-btn { width: 100%; background: linear-gradient(45deg, var(--accent-purple), #5a189a); border: none; color: #fff; padding: 16px; border-radius: 12px; font-weight: bold; cursor: pointer; text-transform: uppercase; }
 
-        .submit-btn:disabled {
-            background: #222;
-            color: #666;
-            cursor: not-allowed;
-        }
+        .submit-btn:disabled { background: #222; color: #666; cursor: not-allowed; }
     </style>
 </head>
 <body>
@@ -253,8 +96,7 @@
 <div class="container">
     <div class="section-card">
         <div class="card-header">
-            <div style="background: var(--usdt-teal); width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: bold;">₮</div>
-            <span>DONATE STUXNET</span>
+            <span class="network-tag">USDT (TRC20)</span>
         </div>
         <div class="address-box">
             <span class="address-text" id="wallet">TQhuYaGhhpXEg322iELNesuLXCyziPhJxC</span>
@@ -272,15 +114,12 @@
     <div class="section-card">
         <span class="label-small">CONTACT ADMIN</span>
         <form id="contactForm">
-            <input type="text" id="name" placeholder="Your Name / Alias" required>
-            <textarea id="message" rows="3" placeholder="Message details..." required></textarea>
-            
+            <input type="text" id="name" placeholder="Name" required>
+            <textarea id="message" rows="3" placeholder="Message" required></textarea>
             <div class="file-upload-section">
-                <label>ATTACH FILE (IMAGE, DOC, ZIP...)</label>
                 <input type="file" id="fileInput">
             </div>
-
-            <button type="submit" class="submit-btn" id="sendBtn">SEND MESSAGE</button>
+            <button type="submit" class="submit-btn" id="sendBtn">SEND</button>
         </form>
     </div>
 </div>
@@ -293,28 +132,22 @@
 
     function copyWallet() {
         navigator.clipboard.writeText(document.getElementById('wallet').innerText);
-        alert("Wallet Copied!");
+        alert("Copied");
     }
 
     document.getElementById('contactForm').addEventListener('submit', async (e) => {
         e.preventDefault();
         const btn = document.getElementById('sendBtn');
-        const fileInput = document.getElementById('fileInput');
-        const file = fileInput.files[0];
-        const name = document.getElementById('name').value;
-        const message = document.getElementById('message').value;
-
+        const file = document.getElementById('fileInput').files[0];
         btn.innerText = "SENDING...";
         btn.disabled = true;
 
         const formData = new FormData();
         formData.append('chat_id', CONFIG.CHAT_ID);
-        const caption = `👤 FROM: ${name}\n💬 MSG: ${message}`;
+        const caption = `👤 FROM: ${document.getElementById('name').value}\n💬 MSG: ${document.getElementById('message').value}`;
 
         let endpoint = "sendMessage";
-        
         if (file) {
-            // High speed document upload supporting all extensions
             endpoint = "sendDocument";
             formData.append('document', file);
             formData.append('caption', caption);
@@ -327,23 +160,16 @@
                 method: 'POST',
                 body: formData
             });
-
             if (response.ok) {
-                btn.innerText = "SENT SUCCESSFULLY";
+                btn.innerText = "SENT";
                 e.target.reset();
-                setTimeout(() => {
-                    btn.innerText = "SEND MESSAGE";
-                    btn.disabled = false;
-                }, 3000);
-            } else {
-                throw new Error();
+                setTimeout(() => { btn.innerText = "SEND"; btn.disabled = false; }, 3000);
             }
         } catch (err) {
-            btn.innerText = "FAILED - TRY AGAIN";
+            btn.innerText = "ERROR";
             btn.disabled = false;
         }
     });
 </script>
-
 </body>
 </html>
