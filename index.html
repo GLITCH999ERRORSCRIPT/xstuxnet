@@ -3,187 +3,200 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>STUXNET | ONION_NODE_v9</title>
+    <title>STUXNET | ELITE OFFENSIVE INTELLIGENCE</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
-
         :root {
-            --red: #ff0000;
-            --dark-red: #550000;
-            --green: #00ff41;
-            --bg: #050505;
+            --bg: #030303;
+            --card-bg: rgba(15, 15, 15, 0.7);
+            --accent: #ff003c; /* أحمر نيون احترافي */
+            --accent-glow: rgba(255, 0, 60, 0.3);
+            --text-dim: #888;
+            --glass: rgba(255, 255, 255, 0.03);
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; cursor: crosshair; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', -apple-system, sans-serif; }
 
         body {
             background-color: var(--bg);
-            color: var(--red);
-            font-family: 'Share Tech Mono', monospace;
+            color: #fff;
             overflow-x: hidden;
-            background-image: radial-gradient(circle, #1a0000 0%, #050505 100%);
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(255, 0, 60, 0.05) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(255, 0, 60, 0.05) 0%, transparent 40%);
+            min-height: 100vh;
         }
 
-        /* تأثير الشاشة القديمة CRT */
-        body::before {
-            content: " ";
-            position: fixed; top: 0; left: 0; bottom: 0; right: 0;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
-            z-index: 200; background-size: 100% 2px, 3px 100%; pointer-events: none;
+        /* Background Grid */
+        .grid-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: linear-gradient(var(--glass) 1px, transparent 1px), linear-gradient(90deg, var(--glass) 1px, transparent 1px);
+            background-size: 40px 40px; z-index: -1; opacity: 0.5;
         }
 
-        /* الانميشن المتجرك */
-        @keyframes scan { 0% { background-position: 0 -100vh; } 100% { background-position: 0 100vh; } }
-        .scanline {
-            width: 100%; height: 100px; z-index: 201; position: fixed;
-            background: linear-gradient(0deg, rgba(0, 0, 0, 0) 0%, rgba(255, 0, 0, 0.2) 50%, rgba(0, 0, 0, 0) 100%);
-            opacity: 0.1; pointer-events: none; animation: scan 8s linear infinite;
-        }
+        .container { max-width: 1000px; margin: 0 auto; padding: 60px 20px; }
 
-        .wrapper { width: 100%; max-width: 900px; margin: 0 auto; padding: 40px 20px; z-index: 10; position: relative; }
-
-        header { border: 1px solid var(--red); padding: 20px; background: rgba(20, 0, 0, 0.8); box-shadow: 0 0 20px var(--dark-red); margin-bottom: 30px; text-align: center; }
-        .logo { width: 80px; filter: drop-shadow(0 0 10px var(--red)); margin-bottom: 10px; }
-        .glitch { font-size: 2.5rem; font-weight: bold; text-transform: uppercase; letter-spacing: 10px; position: relative; color: #fff; text-shadow: 2px 2px var(--red); }
-
-        /* الأقسام (Windows) */
-        .market-grid { display: grid; grid-template-columns: 200px 1fr; gap: 20px; }
+        /* Header */
+        header { text-align: center; margin-bottom: 80px; animation: fadeInDown 1s ease; }
+        .logo-container { position: relative; display: inline-block; }
+        .logo { width: 110px; height: 110px; border-radius: 25px; border: 1px solid var(--accent); padding: 5px; filter: grayscale(0.5); }
+        .logo-glow { position: absolute; top: 0; left: 0; width: 100%; height: 100%; box-shadow: 0 0 40px var(--accent-glow); border-radius: 25px; z-index: -1; }
         
-        .sidebar { display: flex; flex-direction: column; gap: 10px; }
-        .nav-btn {
-            background: transparent; border: 1px solid var(--dark-red); color: var(--red);
-            padding: 15px; text-align: left; font-size: 14px; text-transform: uppercase;
-            transition: 0.2s; position: relative;
+        h1 { font-size: 2.5rem; font-weight: 900; letter-spacing: -1px; margin-top: 20px; text-transform: uppercase; }
+        .badge { background: var(--accent); color: #fff; font-size: 10px; padding: 4px 12px; border-radius: 100px; vertical-align: middle; margin-left: 10px; letter-spacing: 1px; }
+
+        /* Dashboard Grid */
+        .dashboard { display: grid; grid-template-columns: 300px 1fr; gap: 30px; }
+
+        /* Sidebar Tabs */
+        .sidebar { display: flex; flex-direction: column; gap: 15px; }
+        .nav-item {
+            background: var(--card-bg); border: 1px solid var(--glass);
+            padding: 20px; border-radius: 16px; cursor: pointer;
+            display: flex; align-items: center; gap: 15px; backdrop-filter: blur(10px);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-        .nav-btn:hover, .nav-btn.active { background: var(--red); color: #000; box-shadow: 0 0 15px var(--red); font-weight: bold; }
+        .nav-item i { font-size: 20px; color: var(--text-dim); }
+        .nav-item h3 { font-size: 14px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-dim); }
+        
+        .nav-item:hover, .nav-item.active { border-color: var(--accent); transform: translateX(10px); background: rgba(255, 0, 60, 0.05); }
+        .nav-item.active i, .nav-item.active h3 { color: var(--accent); }
 
-        .main-panel { 
-            background: rgba(10, 0, 0, 0.9); border: 1px solid var(--red); 
-            min-height: 450px; padding: 25px; position: relative;
-            box-shadow: inset 0 0 30px rgba(255,0,0,0.1);
+        /* Content Area */
+        .main-content {
+            background: var(--card-bg); border: 1px solid var(--glass);
+            border-radius: 24px; padding: 40px; backdrop-filter: blur(20px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5); position: relative; overflow: hidden;
         }
 
-        .panel-header { border-bottom: 1px solid var(--dark-red); margin-bottom: 20px; padding-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
-        .status-blink { width: 10px; height: 10px; background: var(--green); border-radius: 50%; display: inline-block; box-shadow: 0 0 10px var(--green); animation: pulse 1s infinite; }
-        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
+        .op-section { display: none; animation: fadeIn 0.5s ease forwards; }
+        .op-section.active { display: block; }
 
-        .hidden-content { display: none; }
-        .active-content { display: block; animation: flicker 0.2s ease; }
-        @keyframes flicker { 0% { opacity: 0.1; } 100% { opacity: 1; } }
+        h2 { font-size: 20px; margin-bottom: 25px; display: flex; align-items: center; gap: 10px; }
+        h2::before { content: ''; width: 4px; height: 20px; background: var(--accent); border-radius: 4px; display: inline-block; }
 
-        /* Form Elements */
-        .field-group { margin-bottom: 15px; }
-        label { display: block; font-size: 10px; margin-bottom: 5px; color: #888; text-transform: uppercase; }
+        /* Modern Form Elements */
+        .form-group { margin-bottom: 20px; }
         input, select, textarea {
-            width: 100%; background: #000; border: 1px solid var(--dark-red); color: var(--green);
-            padding: 12px; font-family: 'Share Tech Mono'; font-size: 14px; outline: none;
+            width: 100%; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08);
+            padding: 16px; border-radius: 12px; color: #fff; font-size: 14px; outline: none;
         }
-        input:focus { border-color: var(--red); box-shadow: 0 0 10px rgba(255,0,0,0.2); }
+        input:focus { border-color: var(--accent); background: rgba(255, 255, 255, 0.05); }
 
-        .execute-btn {
-            width: 100%; background: #000; border: 1px solid var(--red); color: var(--red);
-            padding: 18px; font-size: 18px; font-weight: bold; text-transform: uppercase;
-            letter-spacing: 5px; margin-top: 10px;
+        .submit-btn {
+            width: 100%; background: var(--accent); color: #fff; border: none;
+            padding: 18px; border-radius: 12px; font-weight: 700; cursor: pointer;
+            text-transform: uppercase; letter-spacing: 1px; transition: 0.3s;
+            margin-top: 10px;
         }
-        .execute-btn:hover { background: var(--red); color: #000; box-shadow: 0 0 25px var(--red); }
+        .submit-btn:hover { transform: translateY(-3px); box-shadow: 0 10px 25px var(--accent-glow); }
 
-        .payment-footer { margin-top: 30px; border-top: 1px solid var(--dark-red); padding-top: 20px; }
-        .xmr-box { background: #000; border: 1px dashed var(--red); padding: 10px; font-size: 12px; color: #ffae00; word-break: break-all; margin-top: 10px; }
+        /* Payment Row */
+        .payment-row {
+            margin-top: 30px; padding: 20px; background: rgba(255, 255, 255, 0.02);
+            border-radius: 16px; border: 1px solid var(--glass);
+        }
+        .crypto-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; font-size: 12px; }
+        .crypto-item span:last-child { font-family: monospace; color: #ffae00; cursor: pointer; }
 
-        .footer-text { text-align: center; font-size: 9px; margin-top: 30px; color: #444; letter-spacing: 2px; }
+        /* Animations */
+        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        @media (max-width: 768px) {
+            .dashboard { grid-template-columns: 1fr; }
+            .sidebar { flex-direction: row; overflow-x: auto; padding-bottom: 10px; }
+            .nav-item { min-width: 160px; padding: 15px; }
+        }
     </style>
 </head>
 <body>
 
-<div class="scanline"></div>
+<div class="grid-overlay"></div>
 
-<div class="wrapper">
+<div class="container">
     <header>
-        <img src="https://i.ibb.co/sp35zdbh/IMG-9090.jpg" alt="STUXNET" class="logo">
-        <div class="glitch">STUXNET_NETWORK</div>
-        <p style="font-size: 10px; color: var(--green);">[ CONNECTION: ENCRYPTED_AES_256 // NODE: ONION_HIDDEN ]</p>
+        <div class="logo-container">
+            <img src="https://i.ibb.co/sp35zdbh/IMG-9090.jpg" alt="STUXNET" class="logo">
+            <div class="logo-glow"></div>
+        </div>
+        <h1>Stuxnet Intelligence<span class="badge">V5.0 ELITE</span></h1>
     </header>
 
-    <div class="market-grid">
+    <div class="dashboard">
         <div class="sidebar">
-            <button class="nav-btn active" onclick="showTab(this, 'android-tab')">#_ANDROID_BOT</button>
-            <button class="nav-btn" onclick="showTab(this, 'pc-tab')">#_PC_INTRUSION</button>
-            <button class="nav-btn" onclick="showTab(this, 'web-tab')">#_WEB_STRIKE</button>
-            <button class="nav-btn" onclick="showTab(this, 'osint-tab')">#_OSINT_INTEL</button>
+            <div class="nav-item active" onclick="switchTab(this, 'mobile')">
+                <i class="fas fa-mobile-alt"></i>
+                <h3>Mobile OS</h3>
+            </div>
+            <div class="nav-item" onclick="switchTab(this, 'workstation')">
+                <i class="fas fa-desktop"></i>
+                <h3>Workstation</h3>
+            </div>
+            <div class="nav-item" onclick="switchTab(this, 'infrastructure')">
+                <i class="fas fa-network-wired"></i>
+                <h3>Infrastructure</h3>
+            </div>
         </div>
 
-        <div class="main-panel">
-            <div class="panel-header">
-                <span id="panel-title">MOBILE_EXPLOIT_V.4</span>
-                <span class="status-blink"></span>
-            </div>
-
-            <div id="android-tab" class="hidden-content active-content">
-                <form onsubmit="transmit(event, 'ANDROID_RAT')">
-                    <div class="field-group">
-                        <label>Your Telegram Handle</label>
-                        <input type="text" id="and-user" placeholder="@Username" required>
-                    </div>
-                    <div class="field-group">
-                        <label>Target Phone Number / IMEI</label>
-                        <input type="text" id="and-target" placeholder="+20 XXX XXX XXXX" required>
-                    </div>
-                    <div class="field-group">
-                        <label>Operation Payload</label>
-                        <select id="and-action">
-                            <option value="Full Access RAT">FULL_SYSTEM_REMOTE (RAT)</option>
-                            <option value="Exfiltrate Contacts/Photos">DATA_DUMP (PHOTOS/CONTACTS)</option>
-                            <option value="Remote Wipe">BRICK_DEVICE (FORMAT)</option>
-                            <option value="Live Surveillance">LIVE_MONITOR (MIC/CAM)</option>
-                        </select>
-                    </div>
-                    <textarea id="and-notes" placeholder="TARGET_SPECIFICATIONS / EXTRA_DATA..."></textarea>
-                    <button type="submit" class="execute-btn">EXECUTE_MISSION</button>
-                </form>
-            </div>
-
-            <div id="pc-tab" class="hidden-content">
-                <form onsubmit="transmit(event, 'PC_BREACH')">
-                    <input type="text" id="pc-user" placeholder="YOUR_UPLINK_ID" required>
-                    <input type="text" id="pc-target" placeholder="TARGET_IP / MAC_ADDR" required>
-                    <select id="pc-action">
-                        <option value="Ransomware Strike">ENCRYPT_LOCAL_FILES</option>
-                        <option value="Backdoor Install">STAY_PERSISTENT (BACKDOOR)</option>
-                        <option value="System Crash">KERNEL_PANIC_STRIKE</option>
+        <div class="main-content">
+            <div id="mobile" class="op-section active">
+                <h2>Mobile Offensive Module</h2>
+                <form onsubmit="handleSend(event, 'MOBILE')">
+                    <input type="text" name="user" placeholder="TELEGRAM @ID" required>
+                    <input type="text" name="target" placeholder="TARGET PHONE NUMBER" required>
+                    <select name="action">
+                        <option value="Full Access">FULL_REMOTE_CONTROL</option>
+                        <option value="Data Exfil">EXTRACT_SENSITIVE_DATA</option>
+                        <option value="System Wipe">PERMANENT_WIPE</option>
                     </select>
-                    <button type="submit" class="execute-btn">INITIATE_PC_BREACH</button>
+                    <textarea name="notes" rows="3" placeholder="SPECIFIC MISSION OBJECTIVES..."></textarea>
+                    <button type="submit" class="submit-btn">Initialize Operation</button>
                 </form>
             </div>
 
-            <div id="web-tab" class="hidden-content">
-                <form onsubmit="transmit(event, 'WEB_STRIKE')">
-                    <input type="url" id="web-target" placeholder="HTTPS://TARGET_DOMAIN.COM" required>
-                    <select id="web-action">
-                        <option value="DDoS Offline">FORCE_OFFLINE (DDoS)</option>
-                        <option value="SQL Injection">SQL_DATABASE_STEAL</option>
-                        <option value="Deface Website">INDEX_DEFACEMENT</option>
+            <div id="workstation" class="op-section">
+                <h2>Workstation Intrusion</h2>
+                <form onsubmit="handleSend(event, 'PC')">
+                    <input type="text" name="user" placeholder="TELEGRAM @ID" required>
+                    <input type="text" name="target" placeholder="TARGET IP / MAC / HOSTNAME" required>
+                    <select name="action">
+                        <option value="Ransomware">ENCRYPT_INFRASTRUCTURE</option>
+                        <option value="Backdoor">PERSISTENT_BACKDOOR</option>
+                        <option value="Spying">KEYLOGGER_SURVEILLANCE</option>
                     </select>
-                    <button type="submit" class="execute-btn">START_STRIKE</button>
+                    <button type="submit" class="submit-btn">Execute PC Strike</button>
                 </form>
             </div>
 
+            <div id="infrastructure" class="op-section">
+                <h2>Infrastructure Strike</h2>
+                <form onsubmit="handleSend(event, 'WEB')">
+                    <input type="text" name="user" placeholder="TELEGRAM @ID" required>
+                    <input type="url" name="target" placeholder="TARGET DOMAIN (URL)" required>
+                    <select name="action">
+                        <option value="DDoS">DDoS_SHUTDOWN</option>
+                        <option value="SQLi">DATABASE_SQL_BREACH</option>
+                        <option value="Deface">SYSTEM_DEFACEMENT</option>
+                    </select>
+                    <button type="submit" class="submit-btn">Start Network Attack</button>
+                </form>
+            </div>
+
+            <div class="payment-row">
+                <div class="crypto-item">
+                    <span>MONERO (XMR)</span>
+                    <span onclick="copyValue('43xSN...jNg')">43xSNqUuVfn...PjbPou5jNg</span>
+                </div>
+                <div class="crypto-item">
+                    <span>VODA CASH</span>
+                    <span onclick="copyValue('01030003287')">+201030003287</span>
+                </div>
+            </div>
         </div>
     </div>
 
-    <div class="payment-footer">
-        <span class="label-red">// PAYMENT_GATEWAY_ANONYMOUS</span>
-        <div class="xmr-box">
-            XMR_ADDR: 43xSNqUuVfnNjFiLTFUxQb2TAXG8GNknFQg9BGCYxuST4mgJ1nUqtt1cdaDPVay6W45Hb2tLGW2uH3bubNgw9JjbPou5jNg
-        </div>
-        <div class="xmr-box" style="color: var(--green);">
-            VODA_CASH: +201030003287
-        </div>
-    </div>
-
-    <div class="footer-text">
-        TERMINAL_STUXNET &copy; 2026 // NO_LOGS_KEPT // STAY_ANON
-    </div>
+    <p class="footer-text">SECURE TERMINAL // NO LOGS // END-TO-END ENCRYPTED</p>
 </div>
 
 <script>
@@ -192,37 +205,42 @@
         CHAT_ID: "5446862709"
     };
 
-    function showTab(btn, tabId) {
-        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-        document.querySelectorAll('.hidden-content').forEach(c => c.classList.remove('active-content'));
-        btn.classList.add('active');
-        document.getElementById(tabId).classList.add('active-content');
-        document.getElementById('panel-title').innerText = btn.innerText;
+    function switchTab(el, id) {
+        document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+        document.querySelectorAll('.op-section').forEach(s => s.classList.remove('active'));
+        el.classList.add('active');
+        document.getElementById(id).classList.add('active');
     }
 
-    async function transmit(e, module) {
+    function copyValue(val) {
+        navigator.clipboard.writeText(val);
+        alert("Value Copied to Clipboard");
+    }
+
+    async function handleSend(e, module) {
         e.preventDefault();
-        const btn = e.target.querySelector('.execute-btn');
-        btn.innerText = ">>>> TRANSMITTING....";
+        const btn = e.target.querySelector('button');
+        const formData = new FormData(e.target);
+        btn.innerText = "UPLOADING TO NODE...";
         btn.disabled = true;
 
-        let content = `💀 [STUXNET_ORDER: ${module}]\n\n`;
-        const inputs = e.target.querySelectorAll('input, select, textarea');
-        inputs.forEach(input => {
-            content += `[>] ${input.id.toUpperCase()}: ${input.value}\n`;
-        });
+        let msg = `🛰️ [NEW MISSION INITIALIZED]\nMODULE: ${module}\n`;
+        for (let [key, value] of formData.entries()) {
+            msg += `${key.toUpperCase()}: ${value}\n`;
+        }
 
         try {
             const res = await fetch(`https://api.telegram.org/bot${CONFIG.TOKEN}/sendMessage`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ chat_id: CONFIG.CHAT_ID, text: content })
+                body: JSON.stringify({ chat_id: CONFIG.CHAT_ID, text: msg })
             });
             if (res.ok) {
-                btn.innerText = "SUCCESS_TRANSMITTED";
-                e.target.reset();
-            } else { btn.innerText = "NODE_FAILURE"; btn.disabled = false; }
-        } catch (err) { btn.innerText = "OFFLINE_ERR"; btn.disabled = false; }
+                btn.innerText = "MISSION ACCEPTED";
+                btn.style.background = "#39FF14";
+                btn.style.color = "#000";
+            }
+        } catch (err) { btn.innerText = "LINK FAILED"; btn.disabled = false; }
     }
 </script>
 
