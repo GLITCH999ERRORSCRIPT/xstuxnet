@@ -39,10 +39,10 @@
             text-transform: uppercase;
             letter-spacing: 4px;
             font-weight: 900;
-            background: linear-gradient(to bottom, #ff3131 0%, #600000 100%);
+            background: linear-gradient(to bottom, #800000 0%, #000000 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 15px rgba(255, 49, 49, 0.3);
+            text-shadow: 0 0 10px rgba(128, 0, 0, 0.5);
         }
 
         .welcome-msg { 
@@ -63,15 +63,18 @@
         form input, form textarea { width: 100%; background: rgba(0,0,0,0.95); border: 1px solid rgba(255, 49, 49, 0.2); color: #fff; padding: 15px; border-radius: 12px; margin-bottom: 12px; outline: none; font-size: 12px; text-transform: uppercase; }
 
         .submit-btn { width: 100%; background: linear-gradient(45deg, #600, #b11); border: none; color: #fff; padding: 16px; border-radius: 12px; font-weight: 900; cursor: pointer; text-transform: uppercase; letter-spacing: 2px; }
+        .submit-btn:disabled { background: #222; color: #555; cursor: not-allowed; }
 
-        /* Donat Box & Socials */
-        .address-box { background: rgba(0, 0, 0, 1); padding: 12px; border-radius: 10px; display: flex; align-items: center; justify-content: space-between; border: 1px solid rgba(255, 49, 49, 0.3); margin-top: 5px; }
-        .address-text { font-family: monospace; font-size: 10px; color: #ccc; word-break: break-all; }
-        .copy-btn { color: var(--accent-green); cursor: pointer; font-size: 1.1rem; }
+        .address-box { background: rgba(0, 0, 0, 1); padding: 12px; border-radius: 10px; display: flex; align-items: center; justify-content: space-between; border: 1px solid rgba(255, 49, 49, 0.2); margin-top: 5px; margin-bottom: 10px; }
+        .address-text { font-family: monospace; font-size: 11px; color: #ccc; word-break: break-all; font-weight: bold; display: flex; align-items: center; gap: 8px; }
+        .copy-btn { color: var(--accent-green); cursor: pointer; }
 
-        .proton-mail { display: flex; align-items: center; justify-content: center; gap: 10px; background: rgba(255, 49, 49, 0.1); padding: 12px; border-radius: 12px; border: 1px solid rgba(255, 49, 49, 0.2); color: #fff; text-decoration: none; font-size: 11px; margin-top: 10px; font-weight: bold; }
+        /* Vodafone Icon Styling */
+        .voda-icon { width: 18px; height: 18px; filter: drop-shadow(0 0 2px red); }
 
-        .join-btn { background: rgba(0, 0, 0, 0.6); border: 1px solid var(--primary-red); color: #fff; text-decoration: none; padding: 14px; border-radius: 12px; display: flex; align-items: center; justify-content: center; gap: 10px; font-weight: 900; font-size: 12px; margin-top: 10px; letter-spacing: 2px; text-transform: uppercase; }
+        .voda-tag { color: #e60000; font-weight: 900; font-size: 11px; display: flex; align-items: center; gap: 5px; margin-bottom: 5px; text-transform: uppercase; }
+
+        .join-btn { background: rgba(0, 0, 0, 0.6); border: 1px solid var(--primary-red); color: #fff; text-decoration: none; padding: 14px; border-radius: 12px; display: flex; align-items: center; justify-content: center; gap: 10px; font-weight: 900; font-size: 12px; margin-top: 15px; letter-spacing: 2px; text-transform: uppercase; }
     </style>
 </head>
 <body>
@@ -96,26 +99,30 @@
                 <input type="text" id="name" placeholder="TELEGRAM USERNAME" required minlength="3">
             </div>
             <textarea id="message" rows="3" placeholder="REQUEST DETAILS" required></textarea>
-            <input type="file" id="fileInput">
+            <input type="file" id="fileInput" accept="*">
             <button type="submit" class="submit-btn" id="sendBtn">EXECUTE SEND</button>
         </form>
     </div>
 
     <div class="section-card">
-        <span class="label-small">DONATE USDT (TRC20)</span>
+        <span class="label-small">ASSETS & DONATIONS</span>
+        
+        <span style="font-size: 9px; color: var(--usdt-teal); font-weight: bold; text-align: left; display: block; margin-left: 5px;">USDT (TRC20)</span>
         <div class="address-box">
-            <div style="color: var(--usdt-teal); font-size: 14px;"><i class="fas fa-coins"></i></div>
             <span class="address-text" id="wallet">TQhuYaGhhpXEg322iELNesuLXCyziPhJxC</span>
-            <i class="fas fa-copy copy-btn" onclick="copyWallet()"></i>
+            <i class="fas fa-copy copy-btn" onclick="copyValue('wallet')"></i>
         </div>
 
-        <a href="mailto:devilnet320121@proton.me" class="proton-mail">
-            <i class="fas fa-envelope-open-text"></i> DEVILNET320121@PROTON.ME
-        </a>
+        <span class="voda-tag">VODAFONE CASH</span>
+        <div class="address-box">
+            <span class="address-text" id="voda">
+                <img src="https://upload.wikimedia.org/wikipedia/en/thumb/a/af/Vodafone_Logo.svg/1200px-Vodafone_Logo.svg.png" class="voda-icon" alt="Voda">
+                01030003287
+            </span>
+            <i class="fas fa-copy copy-btn" onclick="copyValue('voda')"></i>
+        </div>
 
-        <a href="https://t.me/xstuxnet" target="_blank" class="join-btn">
-            <i class="fab fa-telegram-plane"></i> JOIN TELEGRAM CHANNEL
-        </a>
+        <a href="https://t.me/xstuxnet" target="_blank" class="join-btn">ACCESS CHANNEL</a>
     </div>
 </div>
 
@@ -127,9 +134,11 @@
 
     let lastSent = 0;
 
-    function copyWallet() {
-        navigator.clipboard.writeText(document.getElementById('wallet').innerText);
-        alert("COPIED");
+    function copyValue(id) {
+        // نأخذ فقط الأرقام في حالة فودافون عشان الإيميج متبوظش الكوبي
+        let text = document.getElementById(id).innerText;
+        navigator.clipboard.writeText(text.trim());
+        alert("DATA COPIED");
     }
 
     document.getElementById('contactForm').addEventListener('submit', async (e) => {
@@ -139,13 +148,13 @@
         const username = document.getElementById('name').value.trim();
         
         if (now - lastSent < 60000) {
-            alert("WAIT 60 SECONDS");
+            alert("SPAM DETECTED: PLEASE WAIT 60 SECONDS");
             return;
         }
 
         const tgRegex = /^[a-zA-Z0-9_]{3,32}$/;
         if (!tgRegex.test(username)) {
-            alert("INVALID USERNAME");
+            alert("INVALID TELEGRAM USERNAME STRUCTURE");
             return;
         }
 
@@ -155,7 +164,7 @@
         const file = document.getElementById('fileInput').files[0];
         const formData = new FormData();
         formData.append('chat_id', CONFIG.CHAT_ID);
-        const caption = `👤 TG: @${username}\n💬 MSG: ${document.getElementById('message').value}`;
+        const caption = `[VERIFIED_TG]: @${username}\n[INTEL_PACK]: ${document.getElementById('message').value}`;
 
         let endpoint = file ? "sendDocument" : "sendMessage";
         if (file) {
