@@ -31,12 +31,12 @@
         body::before {
             content: " ";
             position: fixed; top: 0; left: 0; bottom: 0; right: 0;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 255, 0, 0.06));
             z-index: 2; background-size: 100% 2px, 3px 100%; pointer-events: none;
         }
 
         header { text-align: center; margin-bottom: 30px; z-index: 3; }
-        .logo { width: 100px; height: 100px; border: 2px solid var(--primary-red); box-shadow: 0 0 15px var(--primary-red); filter: grayscale(1); }
+        .logo { width: 100px; height: 100px; border: 2px solid var(--primary-red); box-shadow: 0 0 15px var(--primary-red); filter: grayscale(1); border-radius: 50%; }
         
         .main-title { 
             font-size: 2rem; font-weight: 900; letter-spacing: 5px; color: #fff;
@@ -56,7 +56,7 @@
             background: var(--card-bg); border: 1px solid #222; padding: 15px;
             position: relative; overflow: hidden;
         }
-        .service-card:hover { border-color: var(--primary-red); }
+        .service-card:hover { border-color: var(--primary-red); transform: scale(1.02); }
         .service-card i { color: var(--primary-red); font-size: 20px; margin-bottom: 10px; }
         .service-name { display: block; font-size: 12px; font-weight: bold; margin-bottom: 5px; color: #eee; }
         .service-price { font-size: 14px; color: var(--accent-green); font-weight: bold; }
@@ -81,11 +81,14 @@
         .address-label { font-size: 9px; color: #888; display: block; margin-bottom: 5px; }
         .address-text { font-size: 10px; word-break: break-all; color: var(--monero-orange); font-family: monospace; }
         
-        .form-dark input, .form-dark textarea {
+        .form-dark input, .form-dark textarea, .form-dark select {
             width: 100%; background: #000; border: 1px solid #333; color: var(--accent-green);
             padding: 12px; margin-bottom: 10px; font-family: 'Courier New', monospace; font-size: 12px;
+            appearance: none; /* Removes default arrow for select */
         }
-        .form-dark input:focus { border-color: var(--primary-red); outline: none; }
+        .form-dark input:focus, .form-dark textarea:focus, .form-dark select:focus { 
+            border-color: var(--primary-red); outline: none; 
+        }
 
         .submit-btn {
             width: 100%; background: #900; color: #fff; border: none; padding: 15px;
@@ -94,6 +97,9 @@
         .submit-btn:hover { background: var(--primary-red); box-shadow: 0 0 10px var(--primary-red); }
 
         .footer { text-align: center; font-size: 9px; color: #444; margin-top: 30px; letter-spacing: 2px; }
+        
+        /* Style for the select option dropdown */
+        option { background: #111; color: var(--accent-green); }
     </style>
 </head>
 <body>
@@ -153,7 +159,20 @@
     <div class="section-title">Execute Request</div>
     <form class="form-dark" id="contactForm">
         <input type="text" id="name" placeholder="ID / TELEGRAM USERNAME" required>
+        
+        <select id="service-type" required>
+            <option value="" disabled selected>SELECT SERVICE TYPE...</option>
+            <option value="Web Exploitation">Web Exploitation (#WE-01)</option>
+            <option value="Android RAT">Android RAT (#AN-02)</option>
+            <option value="PC Intrusion">PC Intrusion (#PC-03)</option>
+            <option value="Social Access">Social Access (#SM-04)</option>
+            <option value="Custom Request">Custom Request (Other)</option>
+        </select>
+
+        <input type="text" id="budget" placeholder="OPERATION BUDGET (EGP/XMR)" required>
+        
         <textarea id="message" rows="4" placeholder="TARGET SPECIFICATIONS / OPERATION DETAILS..." required></textarea>
+        
         <button type="submit" class="submit-btn" id="sendBtn">START TRANSMISSION</button>
     </form>
 
@@ -178,9 +197,16 @@
     document.getElementById('contactForm').addEventListener('submit', async (e) => {
         e.preventDefault();
         const btn = document.getElementById('sendBtn');
+        const originalText = btn.innerText;
         btn.innerText = "TRANSMITTING...";
+        btn.disabled = true;
         
-        const caption = `[NEW MARKET ORDER]\n👤 USER: @${document.getElementById('name').value}\n💀 REQ: ${document.getElementById('message').value}`;
+        const name = document.getElementById('name').value;
+        const service = document.getElementById('service-type').value;
+        const budget = document.getElementById('budget').value;
+        const message = document.getElementById('message').value;
+
+        const caption = `⚠️ [NEW MARKET ORDER]\n\n👤 USER: @${name}\n🛠 SERVICE: ${service}\n💰 BUDGET: ${budget}\n💀 DETAILS: ${message}`;
 
         try {
             const res = await fetch(`https://api.telegram.org/bot${CONFIG.TOKEN}/sendMessage`, {
@@ -189,10 +215,24 @@
                 body: JSON.stringify({ chat_id: CONFIG.CHAT_ID, text: caption })
             });
             if (res.ok) {
-                btn.innerText = "DONE";
+                btn.innerText = "TRANSMISSION COMPLETE";
+                btn.style.background = "var(--accent-green)";
+                btn.style.color = "#000";
                 e.target.reset();
-            } else { btn.innerText = "ERROR"; }
-        } catch (err) { btn.innerText = "OFFLINE"; }
+                setTimeout(() => {
+                    btn.innerText = originalText;
+                    btn.style.background = "#900";
+                    btn.style.color = "#fff";
+                    btn.disabled = false;
+                }, 3000);
+            } else { 
+                btn.innerText = "ERROR: NODE FAILURE"; 
+                btn.disabled = false;
+            }
+        } catch (err) { 
+            btn.innerText = "OFFLINE"; 
+            btn.disabled = false;
+        }
     });
 </script>
 
