@@ -11,21 +11,19 @@
             --accent-purple: #9d4edd;
             --usdt-teal: #26a17b;
             --bg-dark: #050505;
-            /* لون الكروت شفاف سنة عشان يظهر النار */
-            --card-bg: rgba(13, 13, 13, 0.8); 
+            --card-bg: rgba(13, 13, 13, 0.85); 
         }
 
         * { box-sizing: border-box; transition: 0.3s; }
 
         body {
             background-color: var(--bg-dark);
-            /* التعديل هنا: إضافة خلفية نار متحركة شفافة */
             background-image: 
-                linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), /* طبقة سوداء خفيفة فوق النار */
-                url('https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3Y5YXB5Y3F5Zmt6NnI3dmRyYjhkbjVvN3RqdWFveG1uZjRlOHFyeSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3o72EXrXQq6Pj3bC4o/giphy.gif');
+                linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)),
+                url('https://media4.giphy.com/media/v1.Y2lkPTZjMDliOTUyYWUyOTEycmZiM2FsZXlwMXJyZzRpMWVnYzdicGRzZ285a2RhYWtzOSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/UQo9nB9v6vp3nVADDl/giphy.gif');
             background-size: cover;
             background-position: center;
-            background-attachment: fixed; /* عشان النار تفضل ثابتة والكلام يتحرك فوقها */
+            background-attachment: fixed;
             color: #fff;
             font-family: 'Segoe UI', Tahoma, sans-serif;
             margin: 0; padding: 15px;
@@ -64,11 +62,10 @@
             background: var(--card-bg); 
             border-radius: 18px;
             padding: 20px; margin-bottom: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.05); /* إطار خفيف جداً */
+            border: 1px solid rgba(255, 255, 255, 0.05);
             width: 100%; text-align: center;
-            /* تأثير الزجاج الشفاف */
-            backdrop-filter: blur(5px); 
-            -webkit-backdrop-filter: blur(5px);
+            backdrop-filter: blur(8px); 
+            -webkit-backdrop-filter: blur(8px);
         }
 
         .label { font-size: 11px; color: var(--accent-purple); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 15px; display: block; }
@@ -159,9 +156,8 @@
         const lastSent = localStorage.getItem('lastSentTime');
         if (lastSent) {
             const currentTime = Date.now();
-            const timePassed = currentTime - lastSent;
-            if (timePassed < 10000) {
-                startTimer(Math.ceil((10000 - timePassed) / 1000));
+            if (currentTime - lastSent < 10000) {
+                startTimer(Math.ceil((10000 - (currentTime - lastSent)) / 1000));
             }
         }
     }
