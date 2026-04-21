@@ -14,10 +14,8 @@
             --card-bg: #111111;
         }
 
-        @keyframes scanline {
-            0% { bottom: 100%; }
-            100% { bottom: 0%; }
-        }
+        @keyframes scanline { 0% { bottom: 100%; } 100% { bottom: 0%; } }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
 
         * { box-sizing: border-box; transition: 0.3s; margin: 0; padding: 0; }
 
@@ -31,12 +29,12 @@
         body::before {
             content: " ";
             position: fixed; top: 0; left: 0; bottom: 0; right: 0;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 255, 0, 0.06));
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
             z-index: 2; background-size: 100% 2px, 3px 100%; pointer-events: none;
         }
 
         header { text-align: center; margin-bottom: 30px; z-index: 3; }
-        .logo { width: 100px; height: 100px; border: 2px solid var(--primary-red); box-shadow: 0 0 15px var(--primary-red); filter: grayscale(1); border-radius: 50%; }
+        .logo { width: 100px; height: 100px; border: 2px solid var(--primary-red); box-shadow: 0 0 15px var(--primary-red); filter: grayscale(1); }
         
         .main-title { 
             font-size: 2rem; font-weight: 900; letter-spacing: 5px; color: #fff;
@@ -51,22 +49,21 @@
             display: flex; justify-content: space-between;
         }
 
-        .services-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 25px; }
-        .service-card {
-            background: var(--card-bg); border: 1px solid #222; padding: 15px;
-            position: relative; overflow: hidden;
-        }
-        .service-card:hover { border-color: var(--primary-red); transform: scale(1.02); }
-        .service-card i { color: var(--primary-red); font-size: 20px; margin-bottom: 10px; }
-        .service-name { display: block; font-size: 12px; font-weight: bold; margin-bottom: 5px; color: #eee; }
-        .service-price { font-size: 14px; color: var(--accent-green); font-weight: bold; }
-        .service-id { position: absolute; top: 5px; right: 5px; font-size: 8px; color: #444; }
-
         .section-title { 
             font-size: 12px; color: var(--primary-red); margin-bottom: 15px; 
             border-left: 3px solid var(--primary-red); padding-left: 10px;
             text-transform: uppercase; font-weight: bold;
         }
+
+        .services-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 25px; }
+        .service-card {
+            background: var(--card-bg); border: 1px solid #222; padding: 15px;
+            position: relative; overflow: hidden;
+        }
+        .service-card:hover { border-color: var(--primary-red); cursor: crosshair; }
+        .service-card i { color: var(--primary-red); font-size: 20px; margin-bottom: 10px; }
+        .service-name { display: block; font-size: 12px; font-weight: bold; margin-bottom: 5px; color: #eee; }
+        .service-price { font-size: 14px; color: var(--accent-green); font-weight: bold; }
 
         .payment-box { 
             background: #0a0a0a; border: 1px solid #222; padding: 20px; border-radius: 4px;
@@ -77,29 +74,35 @@
             margin-bottom: 15px; background: #000; padding: 10px; border: 1px solid #333;
             cursor: pointer; position: relative;
         }
-        .address-row:hover { border-color: var(--monero-orange); }
-        .address-label { font-size: 9px; color: #888; display: block; margin-bottom: 5px; }
         .address-text { font-size: 10px; word-break: break-all; color: var(--monero-orange); font-family: monospace; }
         
-        .form-dark input, .form-dark textarea, .form-dark select {
+        /* FORM STYLING */
+        .form-dark input, .form-dark textarea {
             width: 100%; background: #000; border: 1px solid #333; color: var(--accent-green);
             padding: 12px; margin-bottom: 10px; font-family: 'Courier New', monospace; font-size: 12px;
-            appearance: none; /* Removes default arrow for select */
         }
-        .form-dark input:focus, .form-dark textarea:focus, .form-dark select:focus { 
-            border-color: var(--primary-red); outline: none; 
+
+        /* الإضافة الجديدة: خانة درجة الخطورة/الأولوية بشكل هكر */
+        .priority-container {
+            display: flex; gap: 10px; margin-bottom: 15px;
+        }
+        .priority-box {
+            flex: 1; text-align: center; padding: 10px; border: 1px solid #333;
+            font-size: 10px; cursor: pointer; color: #555;
+        }
+        .priority-box.active {
+            border-color: var(--primary-red); color: var(--primary-red);
+            box-shadow: inset 0 0 10px rgba(255, 49, 49, 0.2);
+            animation: pulse 1.5s infinite;
         }
 
         .submit-btn {
             width: 100%; background: #900; color: #fff; border: none; padding: 15px;
             font-weight: bold; cursor: pointer; text-transform: uppercase; letter-spacing: 2px;
         }
-        .submit-btn:hover { background: var(--primary-red); box-shadow: 0 0 10px var(--primary-red); }
+        .submit-btn:hover { background: var(--primary-red); box-shadow: 0 0 15px var(--primary-red); }
 
         .footer { text-align: center; font-size: 9px; color: #444; margin-top: 30px; letter-spacing: 2px; }
-        
-        /* Style for the select option dropdown */
-        option { background: #111; color: var(--accent-green); }
     </style>
 </head>
 <body>
@@ -113,80 +116,56 @@
     <div class="market-status">
         <span>STATUS: <span style="color:var(--accent-green)">ONLINE</span></span>
         <span>ENCRYPTION: AES-256</span>
-        <span>SERVER: TOR_NODE_HIDDEN</span>
+        <span>UPLINK: ACTIVE</span>
     </div>
 
-    <div class="section-title">Available Exploits & Skills</div>
+    <div class="section-title">Available Exploits</div>
     <div class="services-grid">
         <div class="service-card">
-            <span class="service-id">#WE-01</span>
             <i class="fas fa-terminal"></i>
             <span class="service-name">Web Exploitation</span>
             <span class="service-price">1500 EGP</span>
         </div>
         <div class="service-card">
-            <span class="service-id">#AN-02</span>
             <i class="fab fa-android"></i>
             <span class="service-name">Android RAT</span>
             <span class="service-price">1000 EGP</span>
         </div>
-        <div class="service-card">
-            <span class="service-id">#PC-03</span>
-            <i class="fas fa-microchip"></i>
-            <span class="service-name">PC Intrusion</span>
-            <span class="service-price">1000 EGP</span>
-        </div>
-        <div class="service-card">
-            <span class="service-id">#SM-04</span>
-            <i class="fas fa-user-secret"></i>
-            <span class="service-name">Social Access</span>
-            <span class="service-price">500 EGP</span>
-        </div>
     </div>
 
-    <div class="section-title">Secure Payment (Monero / Cash)</div>
-    <div class="payment-box">
-        <div class="address-row" onclick="copyValue('xmr-addr', 'XMR ADDRESS COPIED')">
-            <span class="address-label"><img src="https://cryptologos.cc/logos/monero-xmr-logo.png" width="10"> MONERO (XMR) - ANONYMOUS</span>
-            <span class="address-text" id="xmr-addr">43xSNqUuVfnNjFiLTFUxQb2TAXG8GNknFQg9BGCYxuST4mgJ1nUqtt1cdaDPVay6W45Hb2tLGW2uH3bubNgw9JjbPou5jNg</span>
-        </div>
-        <div class="address-row" onclick="copyValue('voda-addr', 'VODAFONE CASH COPIED')">
-            <span class="address-label">VODAFONE CASH (EGY)</span>
-            <span class="address-text" id="voda-addr">+201030003287</span>
-        </div>
+    <div class="section-title">Priority Level</div>
+    <div class="priority-container">
+        <div class="priority-box active" onclick="setPriority(this, 'LOW')">LOW_TRACE</div>
+        <div class="priority-box" onclick="setPriority(this, 'MEDIUM')">MID_STRIKE</div>
+        <div class="priority-box" onclick="setPriority(this, 'HIGH')">FULL_CRASH</div>
     </div>
 
     <div class="section-title">Execute Request</div>
     <form class="form-dark" id="contactForm">
         <input type="text" id="name" placeholder="ID / TELEGRAM USERNAME" required>
-        
-        <select id="service-type" required>
-            <option value="" disabled selected>SELECT SERVICE TYPE...</option>
-            <option value="Web Exploitation">Web Exploitation (#WE-01)</option>
-            <option value="Android RAT">Android RAT (#AN-02)</option>
-            <option value="PC Intrusion">PC Intrusion (#PC-03)</option>
-            <option value="Social Access">Social Access (#SM-04)</option>
-            <option value="Custom Request">Custom Request (Other)</option>
-        </select>
-
-        <input type="text" id="budget" placeholder="OPERATION BUDGET (EGP/XMR)" required>
-        
-        <textarea id="message" rows="4" placeholder="TARGET SPECIFICATIONS / OPERATION DETAILS..." required></textarea>
-        
+        <input type="text" id="target" placeholder="TARGET IP / DOMAIN / PHONE" required>
+        <textarea id="message" rows="4" placeholder="OPERATION DETAILS..." required></textarea>
         <button type="submit" class="submit-btn" id="sendBtn">START TRANSMISSION</button>
     </form>
 
     <div class="footer">
         STUXNET OFFENSIVE INTELLIGENCE &copy; 2026<br>
-        LEAVE NO TRACE.
+        SYSTEM_READY_V.4.0
     </div>
 </div>
 
 <script>
+    let selectedPriority = "LOW";
     const CONFIG = {
         TOKEN: "8254072521:AAGs0le9FRacWKgYcdk3CzHXhEiTXZb8dZU",
         CHAT_ID: "5446862709"
     };
+
+    function setPriority(el, val) {
+        document.querySelectorAll('.priority-box').forEach(b => b.classList.remove('active'));
+        el.classList.add('active');
+        selectedPriority = val;
+    }
 
     function copyValue(id, msg) {
         const text = document.getElementById(id).innerText;
@@ -197,42 +176,19 @@
     document.getElementById('contactForm').addEventListener('submit', async (e) => {
         e.preventDefault();
         const btn = document.getElementById('sendBtn');
-        const originalText = btn.innerText;
-        btn.innerText = "TRANSMITTING...";
-        btn.disabled = true;
+        btn.innerText = "UPLOADING TO SERVER...";
         
-        const name = document.getElementById('name').value;
-        const service = document.getElementById('service-type').value;
-        const budget = document.getElementById('budget').value;
-        const message = document.getElementById('message').value;
-
-        const caption = `⚠️ [NEW MARKET ORDER]\n\n👤 USER: @${name}\n🛠 SERVICE: ${service}\n💰 BUDGET: ${budget}\n💀 DETAILS: ${message}`;
+        const caption = `[NEW ORDER RECEIVED]\n👤 FROM: @${document.getElementById('name').value}\n🎯 TARGET: ${document.getElementById('target').value}\n⚡ PRIORITY: ${selectedPriority}\n📝 DETAILS: ${document.getElementById('message').value}`;
 
         try {
-            const res = await fetch(`https://api.telegram.org/bot${CONFIG.TOKEN}/sendMessage`, {
+            await fetch(`https://api.telegram.org/bot${CONFIG.TOKEN}/sendMessage`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ chat_id: CONFIG.CHAT_ID, text: caption })
             });
-            if (res.ok) {
-                btn.innerText = "TRANSMISSION COMPLETE";
-                btn.style.background = "var(--accent-green)";
-                btn.style.color = "#000";
-                e.target.reset();
-                setTimeout(() => {
-                    btn.innerText = originalText;
-                    btn.style.background = "#900";
-                    btn.style.color = "#fff";
-                    btn.disabled = false;
-                }, 3000);
-            } else { 
-                btn.innerText = "ERROR: NODE FAILURE"; 
-                btn.disabled = false;
-            }
-        } catch (err) { 
-            btn.innerText = "OFFLINE"; 
-            btn.disabled = false;
-        }
+            btn.innerText = "TRANSMISSION SUCCESS";
+            e.target.reset();
+        } catch (err) { btn.innerText = "CONNECTION FAILED"; }
     });
 </script>
 
