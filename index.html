@@ -10,56 +10,77 @@
             --primary-red: #ff3131;
             --accent-green: #39FF14;
             --xmr-orange: #ff6600;
-            --bg-dark: #0a0a0a;
-            --card-bg: #121212;
+            --bg-dark: #000000;
+        }
+
+        @keyframes entranceEffect {
+            0% { opacity: 0; transform: scale(1.1); filter: blur(10px); }
+            100% { opacity: 1; transform: scale(1); filter: blur(0); }
         }
 
         * { box-sizing: border-box; transition: 0.3s; margin: 0; padding: 0; }
 
         body {
             background-color: var(--bg-dark);
-            color: #fff; font-family: 'Courier New', monospace;
+            background-image: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)), url('https://media4.giphy.com/media/v1.Y2lkPTZjMDliOTUyYWUyOTEycmZiM2FsZXlwMXJyZzRpMWVnYzdicGRzZ285a2RhYWtzOSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/UQo9nB9v6vp3nVADDl/giphy.gif');
+            background-size: cover; background-position: center; background-attachment: fixed;
+            color: #fff; font-family: 'Segoe UI', sans-serif;
             display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding: 20px;
+            animation: entranceEffect 1.2s ease-out forwards;
         }
 
-        header { text-align: center; margin-bottom: 20px; width: 100%; border-bottom: 1px solid #333; padding-bottom: 10px; }
-        .logo { width: 90px; height: 90px; border-radius: 50%; border: 2px solid var(--primary-red); object-fit: cover; }
+        header { text-align: center; margin-bottom: 20px; width: 100%; }
+        .logo { width: 90px; height: 90px; border-radius: 50%; border: 3px solid var(--primary-red); object-fit: cover; box-shadow: 0 0 20px rgba(255, 49, 49, 0.5); }
         
         .main-title { 
-            font-size: 1.8rem; text-transform: uppercase; letter-spacing: 2px; font-weight: 900; 
-            color: var(--primary-red); margin-top: 10px;
+            font-size: 1.8rem; 
+            text-transform: uppercase; 
+            letter-spacing: 2px; 
+            font-weight: 900; 
+            background: linear-gradient(to bottom, #ffffff 40%, #ff3131 100%); 
+            -webkit-background-clip: text; 
+            -webkit-text-fill-color: transparent; 
+            filter: drop-shadow(0 0 10px rgba(255, 49, 49, 0.8)); 
+            margin-top: 15px;
         }
 
         .container { width: 100%; max-width: 440px; }
         
-        .welcome-msg { background: #111; padding: 10px; border: 1px solid #333; text-align: center; margin-bottom: 15px; font-size: 10px; color: #888; }
+        .welcome-msg { background: rgba(0,0,0,0.8); padding: 15px; border-radius: 12px; border: 1px solid var(--primary-red); text-align: center; margin-bottom: 15px; font-size: 11px; font-weight: bold; }
 
-        /* ستايل الماركت الحقيقي */
-        .market-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; background: var(--card-bg); border: 1px solid #333; }
-        .market-table th, .market-table td { padding: 12px; border: 1px solid #222; text-align: left; font-size: 11px; }
-        .market-table th { background: #1a1a1a; color: var(--primary-red); text-transform: uppercase; }
-        .market-table tr:hover { background: #161616; }
-        .price-tag { color: var(--accent-green); font-weight: bold; }
+        .services-grid { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+        .service-item { 
+            background: rgba(0, 0, 0, 0.85); border: 1px solid rgba(255, 49, 49, 0.3); 
+            padding: 12px 15px; border-radius: 12px; display: flex; align-items: center; justify-content: space-between;
+        }
+        .service-info { display: flex; align-items: center; gap: 12px; }
+        .service-info i { color: var(--primary-red); font-size: 18px; width: 20px; text-align: center; }
+        .service-name { font-size: 12px; font-weight: bold; text-transform: uppercase; }
+        .service-price { font-size: 13px; font-weight: 900; color: var(--accent-green); }
 
-        .section-card { background: var(--card-bg); border: 1px solid #333; padding: 20px; margin-bottom: 15px; text-align: center; }
+        .section-card { background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(20px); border-radius: 20px; padding: 20px; margin-bottom: 15px; border: 1px solid rgba(255, 255, 255, 0.1); text-align: center; }
         .label-small { font-size: 10px; color: var(--primary-red); margin-bottom: 15px; display: block; letter-spacing: 2px; font-weight: 900; text-transform: uppercase; }
 
         .input-group { position: relative; width: 100%; }
         .input-group span { position: absolute; left: 15px; top: 15px; color: var(--accent-green); font-weight: bold; }
-        form input, form textarea { width: 100%; background: #000; border: 1px solid #333; color: #fff; padding: 12px; margin-bottom: 12px; outline: none; font-size: 12px; font-family: monospace; }
+        form input, form textarea { width: 100%; background: rgba(0,0,0,0.9); border: 1px solid rgba(255, 49, 49, 0.3); color: #fff; padding: 15px; border-radius: 12px; margin-bottom: 12px; outline: none; font-size: 12px; }
         
-        .submit-btn { width: 100%; background: var(--primary-red); border: none; color: #fff; padding: 16px; border-radius: 4px; font-weight: 900; cursor: pointer; text-transform: uppercase; }
+        .submit-btn { width: 100%; background: linear-gradient(45deg, #700, #ff3131); border: none; color: #fff; padding: 16px; border-radius: 12px; font-weight: 900; cursor: pointer; letter-spacing: 2px; }
         .submit-btn:disabled { background: #333; cursor: not-allowed; }
 
-        .address-box { background: #000; padding: 12px; border: 1px solid #333; display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
-        .address-text { font-family: monospace; font-size: 10px; color: #eee; display: flex; align-items: center; gap: 8px; word-break: break-all; }
-        .copy-btn { color: var(--accent-green); cursor: pointer; padding-left: 10px; }
-        .xmr-icon { width: 16px; filter: drop-shadow(0 0 2px var(--xmr-orange)); }
+        .address-box { background: rgba(0, 0, 0, 0.95); padding: 12px; border-radius: 10px; display: flex; align-items: center; justify-content: space-between; border: 1px solid rgba(255, 49, 49, 0.4); margin-bottom: 10px; }
+        .address-text { font-family: monospace; font-size: 11px; color: #eee; display: flex; align-items: center; gap: 10px; word-break: break-all; text-align: left; }
+        .copy-btn { color: var(--accent-green); cursor: pointer; }
+        .xmr-icon { width: 18px; height: 18px; }
 
         .social-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        .social-item { background: #111; border: 1px solid #333; padding: 12px; display: flex; flex-direction: column; align-items: center; gap: 8px; text-decoration: none; color: #fff; cursor: pointer; }
+        .social-item { 
+            background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 49, 49, 0.3); 
+            border-radius: 12px; padding: 12px; display: flex; flex-direction: column; align-items: center; 
+            gap: 8px; text-decoration: none; color: #fff; cursor: pointer;
+        }
         .social-item i { font-size: 18px; }
-        .social-item span { font-size: 9px; font-weight: bold; }
+        .social-item span { font-size: 9px; font-weight: 900; text-transform: uppercase; }
     </style>
 </head>
 <body>
@@ -71,25 +92,35 @@
 
 <div class="container">
     <div class="welcome-msg">
-        -- ANONYMOUS TRADING TERMINAL v2.0 --
+        ELITE CYBER SERVICES & OFFENSIVE INTELLIGENCE
     </div>
 
-    <table class="market-table">
-        <thead>
-            <tr>
-                <th>Service</th>
-                <th>Price</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr><td>Web Exploitation</td><td class="price-tag">1500 EGP</td></tr>
-            <tr><td>Android Remote Control</td><td class="price-tag">1000 EGP</td></tr>
-            <tr><td>PC / OS Intrusion</td><td class="price-tag">1000 EGP</td></tr>
-            <tr><td>Social Media Access</td><td class="price-tag">500 EGP</td></tr>
-            <tr><td>OSINT / Geo-Tracking</td><td class="price-tag">250 EGP</td></tr>
-            <tr><td>Virtual Numbers</td><td class="price-tag">30 EGP</td></tr>
-        </tbody>
-    </table>
+    <div class="services-grid">
+        <div class="service-item">
+            <div class="service-info"><i class="fas fa-globe-americas"></i><span class="service-name">Web Exploitation</span></div>
+            <div class="service-price">1500 EGP</div>
+        </div>
+        <div class="service-item">
+            <div class="service-info"><i class="fab fa-android"></i><span class="service-name">Android Remote Control</span></div>
+            <div class="service-price">1000 EGP</div>
+        </div>
+        <div class="service-item">
+            <div class="service-info"><i class="fas fa-desktop"></i><span class="service-name">PC / OS Intrusion</span></div>
+            <div class="service-price">1000 EGP</div>
+        </div>
+        <div class="service-item">
+            <div class="service-info"><i class="fas fa-user-shield"></i><span class="service-name">Social Media Access</span></div>
+            <div class="service-price">500 EGP</div>
+        </div>
+        <div class="service-item">
+            <div class="service-info"><i class="fas fa-search-location"></i><span class="service-name">OSINT / Geo-Tracking</span></div>
+            <div class="service-price">250 EGP</div>
+        </div>
+        <div class="service-item">
+            <div class="service-info"><i class="fas fa-sim-card"></i><span class="service-name">Virtual Numbers (Global)</span></div>
+            <div class="service-price">30 EGP</div>
+        </div>
+    </div>
 
     <div class="section-card">
         <span class="label-small">SUBMIT OPERATION REQUEST</span>
@@ -99,7 +130,7 @@
                 <input type="text" id="name" style="padding-left:35px" placeholder="TELEGRAM USERNAME" required>
             </div>
             <textarea id="message" rows="3" placeholder="DESCRIBE TARGET / SERVICE" required></textarea>
-            <input type="file" id="fileInput" style="border:none; padding:0; margin-bottom:20px;">
+            <input type="file" id="fileInput" style="margin-bottom: 10px; border: none;">
             <button type="submit" class="submit-btn" id="sendBtn">EXECUTE SEND</button>
         </form>
     </div>
@@ -117,7 +148,7 @@
 
         <div class="address-box">
             <div class="address-text">
-                <i class="fas fa-phone-alt" style="color:var(--primary-red)"></i>
+                <i class="fas fa-phone-alt" style="color:var(--primary-red); margin-left: 5px;"></i>
                 <span id="voda">+201030003287</span>
             </div>
             <i class="fas fa-copy copy-btn" onclick="copyValue('voda', 'VODAFONE CASH COPIED')"></i>
@@ -143,13 +174,11 @@
 <script>
     const CONFIG = {
         TOKEN: "8254072521:AAGs0le9FRacWKgYcdk3CzHXhEiTXZb8dZU",
-        CHAT_ID: "5446862709",
-        COOLDOWN: 20000 
+        CHAT_ID: "5446862709"
     };
 
     function copyValue(id, msg) {
-        let text = document.getElementById(id).innerText;
-        navigator.clipboard.writeText(text.trim());
+        navigator.clipboard.writeText(document.getElementById(id).innerText.trim());
         alert(msg);
     }
 
@@ -165,22 +194,15 @@
         const caption = `[STUXNET REQUEST]\n👤 FROM: @${document.getElementById('name').value}\n📄 INTEL: ${document.getElementById('message').value}`;
 
         let endpoint = file ? "sendDocument" : "sendMessage";
-        if (file) { 
-            formData.append('document', file); 
-            formData.append('caption', caption); 
-        } else { 
-            formData.append('text', caption); 
-        }
+        if (file) { formData.append('document', file); formData.append('caption', caption); }
+        else { formData.append('text', caption); }
 
         try {
-            const res = await fetch(`https://api.telegram.org/bot${CONFIG.TOKEN}/${endpoint}`, { 
-                method: 'POST', 
-                body: formData 
-            });
+            const res = await fetch(`https://api.telegram.org/bot${CONFIG.TOKEN}/${endpoint}`, { method: 'POST', body: formData });
             if (res.ok) {
                 btn.innerText = "SUCCESS";
                 e.target.reset();
-                setTimeout(() => { btn.disabled = false; btn.innerText = "EXECUTE SEND"; }, 5000);
+                setTimeout(() => { btn.disabled = false; btn.innerText = "EXECUTE SEND"; }, 4000);
             } else {
                 btn.innerText = "FAILED";
                 btn.disabled = false;
