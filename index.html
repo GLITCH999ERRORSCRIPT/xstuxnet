@@ -14,31 +14,31 @@
             --card-bg: #0d0d0d;
         }
 
+        /* لودر احترافي */
         #loader {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             background: #000;
             display: flex; justify-content: center; align-items: center;
             z-index: 9999;
-            transition: opacity 0.5s ease;
+            transition: transform 0.8s cubic-bezier(0.87, 0, 0.13, 1), opacity 0.6s ease;
         }
 
         .typing-text {
             color: var(--primary-green);
             font-family: monospace;
-            font-size: 1.1rem;
+            font-size: 1.3rem;
             white-space: nowrap;
             overflow: hidden;
             border-right: 3px solid var(--primary-green);
             width: 0;
-            max-width: fit-content;
             animation: typing 1.5s steps(25, end) forwards, blink 0.5s step-end infinite;
         }
 
         @keyframes typing { from { width: 0 } to { width: 100% } }
         @keyframes blink { from, to { border-color: transparent } 50% { border-color: var(--primary-green) } }
 
-        * { box-sizing: border-box; transition: 0.3s; }
+        /* حركة ظهور محتوى الموقع */
         body {
             background-color: var(--bg-dark);
             color: #fff;
@@ -46,32 +46,31 @@
             margin: 0; padding: 20px;
             display: flex; flex-direction: column; align-items: center;
             opacity: 0;
-            transition: opacity 1s ease;
+            filter: blur(10px);
+            transform: scale(0.9);
+            transition: opacity 1s ease, filter 1.2s ease, transform 1s ease;
         }
 
-        header {
-            text-align: center;
-            margin-bottom: 40px;
-            width: 100%;
+        body.loaded {
+            opacity: 1;
+            filter: blur(0);
+            transform: scale(1);
         }
 
+        header { text-align: center; margin-bottom: 40px; width: 100%; }
         .logo {
             width: 100px; height: 100px; border-radius: 50%;
             border: 3px solid var(--primary-green);
             box-shadow: 0 0 25px rgba(57, 255, 20, 0.3);
             margin-bottom: 15px;
         }
-
         .brand-info h1 {
             margin: 0; font-size: 24px; letter-spacing: 2px;
             background: linear-gradient(to right, var(--primary-green), var(--accent-purple));
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
-
         .brand-info p { margin: 8px 0 0; font-size: 13px; color: #777; }
-
         .container { width: 100%; max-width: 450px; }
-
         .section-card {
             background: var(--card-bg);
             border-radius: 18px;
@@ -80,70 +79,29 @@
             border: 1px solid #1a1a1a;
             text-align: center;
         }
-
         .label {
             font-size: 11px; color: var(--accent-purple);
             text-transform: uppercase; letter-spacing: 2px;
             margin-bottom: 15px; display: block;
         }
-
         .donate-header { display: flex; justify-content: center; align-items: center; gap: 8px; margin-bottom: 15px; }
         .usdt-circle { background: var(--usdt-teal); width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: bold; }
-        
-        .address-container {
-            background: #000;
-            padding: 12px;
-            border-radius: 10px;
-            border: 1px solid #222;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .address-text {
-            font-family: monospace;
-            font-size: 11px;
-            color: #ccc;
-            word-break: break-all;
-            flex: 1;
-            text-align: left;
-        }
-
+        .address-container { background: #000; padding: 12px; border-radius: 10px; border: 1px solid #222; display: flex; align-items: center; gap: 10px; }
+        .address-text { font-family: monospace; font-size: 11px; color: #ccc; word-break: break-all; flex: 1; text-align: left; }
         .join-btn {
-            background: rgba(157, 78, 221, 0.1);
-            border: 1px solid var(--accent-purple);
-            color: #fff; text-decoration: none;
-            padding: 12px; border-radius: 12px;
-            display: flex; align-items: center; justify-content: center; gap: 8px;
-            font-weight: bold; margin-bottom: 15px;
+            background: rgba(157, 78, 221, 0.1); border: 1px solid var(--accent-purple);
+            color: #fff; text-decoration: none; padding: 12px; border-radius: 12px;
+            display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: bold; margin-bottom: 15px;
         }
-
-        input, textarea {
-            width: 100%; background: #000; border: 1px solid #222;
-            color: #fff; padding: 12px; margin-bottom: 15px;
-            border-radius: 10px; outline: none; font-size: 14px;
-        }
-
-        .submit-btn {
-            width: 100%; 
-            background: linear-gradient(45deg, var(--accent-purple), #5a189a);
-            border: none; color: #fff; padding: 14px; border-radius: 10px;
-            font-weight: bold; cursor: pointer;
-            display: block;
-        }
-
-        .submit-btn:disabled {
-            background: #222;
-            color: #555;
-            cursor: not-allowed;
-        }
-
+        input, textarea { width: 100%; background: #000; border: 1px solid #222; color: #fff; padding: 12px; margin-bottom: 15px; border-radius: 10px; outline: none; font-size: 14px; }
+        .submit-btn { width: 100%; background: linear-gradient(45deg, var(--accent-purple), #5a189a); border: none; color: #fff; padding: 14px; border-radius: 10px; font-weight: bold; cursor: pointer; display: block; }
+        .submit-btn:disabled { background: #222; color: #555; cursor: not-allowed; }
     </style>
 </head>
 <body>
 
 <div id="loader">
-    <div class="typing-text">Welcome to STUXNET World</div>
+    <div class="typing-text">WELCOME TO STUXNET</div>
 </div>
 
 <header>
@@ -155,7 +113,6 @@
 </header>
 
 <div class="container">
-
     <div class="section-card">
         <div class="donate-header">
             <div class="usdt-circle">₮</div>
@@ -188,7 +145,6 @@
             <button type="submit" class="submit-btn" id="sendBtn">SEND MESSAGE</button>
         </form>
     </div>
-
 </div>
 
 <script>
@@ -197,16 +153,20 @@
         CHAT_ID: "5446862709"
     };
 
+    // التعديل هنا: مدة اللودر وطريقة الظهور
     window.addEventListener('load', () => {
         checkCooldown();
         setTimeout(() => {
             const loader = document.getElementById('loader');
+            loader.style.transform = 'scale(2)'; // حركة زووم للخارج
             loader.style.opacity = '0';
-            document.body.style.opacity = '1';
+            
+            document.body.classList.add('loaded'); // تفعيل حركة دخول الموقع
+            
             setTimeout(() => {
                 loader.style.display = 'none';
-            }, 500);
-        }, 3000);
+            }, 800);
+        }, 2000); // يظهر لمدة ثانيتين بالظبط
     });
 
     function copyWallet() {
@@ -215,13 +175,10 @@
     }
 
     function checkCooldown() {
-        const btn = document.getElementById('sendBtn');
         const lastSent = localStorage.getItem('lastSentStuxnet');
         if (lastSent) {
             const timeLeft = Math.floor((60000 - (Date.now() - lastSent)) / 1000);
-            if (timeLeft > 0) {
-                startTimer(timeLeft);
-            }
+            if (timeLeft > 0) startTimer(timeLeft);
         }
     }
 
@@ -259,11 +216,10 @@
                 startTimer(60);
                 e.target.reset();
             } else {
-                alert("Error Sending!");
+                alert("Error!");
                 btn.innerText = "SEND MESSAGE";
             }
         } catch (err) { 
-            alert("Error Sending!"); 
             btn.innerText = "SEND MESSAGE";
         }
     });
