@@ -22,7 +22,8 @@
 
         body {
             background-color: var(--bg-dark);
-            background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://media4.giphy.com/media/v1.Y2lkPTZjMDliOTUyYWUyOTEycmZiM2FsZXlwMXJyZzRpMWVnYzdicGRzZ285a2RhYWtzOSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/UQo9nB9v6vp3nVADDl/giphy.gif');
+            /* تعديل الخلفية لتكون خفيفة جداً كما طلبت */
+            background-image: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)), url('https://media4.giphy.com/media/v1.Y2lkPTZjMDliOTUyYWUyOTEycmZiM2FsZXlwMXJyZzRpMWVnYzdicGRzZ285a2RhYWtzOSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/UQo9nB9v6vp3nVADDl/giphy.gif');
             background-size: cover; background-position: center; background-attachment: fixed;
             color: #fff; font-family: 'Segoe UI', sans-serif;
             display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding: 20px;
@@ -31,13 +32,26 @@
 
         header { text-align: center; margin-bottom: 20px; width: 100%; }
         .logo { width: 90px; height: 90px; border-radius: 50%; border: 3px solid var(--primary-red); object-fit: cover; box-shadow: 0 0 20px rgba(255, 49, 49, 0.5); }
-        .main-title { font-size: 2rem; text-transform: uppercase; letter-spacing: 4px; font-weight: 900; background: linear-gradient(to bottom, #ffffff 40%, #ff3131 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 0 10px rgba(255, 49, 49, 0.8)); margin-top: 15px; }
+        
+        /* تعديل الاسم ليكون بجانب بعضه دائماً */
+        .main-title { 
+            font-size: 1.8rem; 
+            text-transform: uppercase; 
+            letter-spacing: 2px; 
+            font-weight: 900; 
+            background: linear-gradient(to bottom, #ffffff 40%, #ff3131 100%); 
+            -webkit-background-clip: text; 
+            -webkit-text-fill-color: transparent; 
+            filter: drop-shadow(0 0 10px rgba(255, 49, 49, 0.8)); 
+            margin-top: 15px;
+            white-space: nowrap; 
+            display: inline-block;
+        }
 
         .container { width: 100%; max-width: 440px; }
         
         .welcome-msg { background: rgba(0,0,0,0.8); padding: 15px; border-radius: 12px; border: 1px solid var(--primary-red); text-align: center; margin-bottom: 15px; font-size: 11px; font-weight: bold; }
 
-        /* Services Menu Styling */
         .services-grid { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
         .service-item { 
             background: rgba(0, 0, 0, 0.85); border: 1px solid rgba(255, 49, 49, 0.3); 
@@ -56,6 +70,7 @@
         .input-group input { padding-left: 35px; }
         form input, form textarea { width: 100%; background: rgba(0,0,0,0.9); border: 1px solid rgba(255, 49, 49, 0.3); color: #fff; padding: 15px; border-radius: 12px; margin-bottom: 12px; outline: none; font-size: 12px; }
         .submit-btn { width: 100%; background: linear-gradient(45deg, #700, #ff3131); border: none; color: #fff; padding: 16px; border-radius: 12px; font-weight: 900; cursor: pointer; letter-spacing: 2px; }
+        .submit-btn:disabled { background: #333; cursor: not-allowed; }
 
         .address-box { background: rgba(0, 0, 0, 0.95); padding: 12px; border-radius: 10px; display: flex; align-items: center; justify-content: space-between; border: 1px solid rgba(255, 49, 49, 0.4); margin-top: 5px; margin-bottom: 10px; }
         .address-text { font-family: monospace; font-size: 11px; color: #eee; display: flex; align-items: center; gap: 10px; }
@@ -143,7 +158,8 @@
 <script>
     const CONFIG = {
         TOKEN: "8254072521:AAGs0le9FRacWKgYcdk3CzHXhEiTXZb8dZU",
-        CHAT_ID: "5446862709"
+        CHAT_ID: "5446862709",
+        COOLDOWN: 20000 // 20 ثانية بالملي ثانية
     };
 
     function copyValue(id) {
@@ -151,8 +167,49 @@
         alert("COPIED TO CLIPBOARD");
     }
 
+    // وظيفة للتحقق من وقت الانتظار عند تحميل الصفحة
+    function checkCooldown() {
+        const btn = document.getElementById('sendBtn');
+        const lastSent = localStorage.getItem('lastSentTime');
+        if (lastSent) {
+            const timeLeft = CONFIG.COOLDOWN - (Date.now() - parseInt(lastSent));
+            if (timeLeft > 0) {
+                disableButton(Math.ceil(timeLeft / 1000));
+            }
+        }
+    }
+
+    function disableButton(seconds) {
+        const btn = document.getElementById('sendBtn');
+        btn.disabled = true;
+        let remaining = seconds;
+        const timer = setInterval(() => {
+            btn.innerText = `WAIT ${remaining}s`;
+            remaining--;
+            if (remaining < 0) {
+                clearInterval(timer);
+                btn.disabled = false;
+                btn.innerText = "EXECUTE SEND";
+            }
+        }, 1000);
+    }
+
+    // تشغيل الفحص عند فتح الموقع
+    checkCooldown();
+
     document.getElementById('contactForm').addEventListener('submit', async (e) => {
         e.preventDefault();
+        
+        // التحقق من الكول داون قبل الإرسال
+        const lastSent = localStorage.getItem('lastSentTime');
+        if (lastSent) {
+            const timeLeft = CONFIG.COOLDOWN - (Date.now() - parseInt(lastSent));
+            if (timeLeft > 0) {
+                alert(`Please wait ${Math.ceil(timeLeft/1000)}s before next transmission.`);
+                return;
+            }
+        }
+
         const btn = document.getElementById('sendBtn');
         btn.innerText = "TRANSMITTING...";
         btn.disabled = true;
@@ -169,12 +226,18 @@
         try {
             const res = await fetch(`https://api.telegram.org/bot${CONFIG.TOKEN}/${endpoint}`, { method: 'POST', body: formData });
             if (res.ok) {
+                localStorage.setItem('lastSentTime', Date.now().toString());
                 btn.innerText = "SUCCESS";
                 e.target.reset();
-                setTimeout(() => { btn.innerText = "EXECUTE SEND"; btn.disabled = false; }, 3000);
+                setTimeout(() => {
+                    disableButton(20);
+                }, 1000);
+            } else {
+                btn.innerText = "FAILED";
+                btn.disabled = false;
             }
         } catch (err) {
-            btn.innerText = "FAILED";
+            btn.innerText = "ERROR";
             btn.disabled = false;
         }
     });
