@@ -45,11 +45,10 @@
             border: 1px solid #1a1a1a; text-align: center;
         }
 
-        /* تعديل خانة العنوان لتناسب طول الكلام */
         .address-container {
             background: #000; padding: 12px; border-radius: 10px;
             border: 1px solid #222; display: flex; align-items: center; gap: 10px;
-            width: 100%; overflow: hidden;
+            width: 100%;
         }
 
         .address-text {
@@ -57,7 +56,6 @@
             word-break: break-all; flex: 1; text-align: left;
         }
 
-        /* القناة - استخدام iframe لضمان ظهور الصور */
         .tg-frame {
             width: 100%; height: 500px; border-radius: 12px;
             border: none; background: #000; margin-top: 10px;
@@ -69,7 +67,6 @@
             border-radius: 10px; outline: none; font-size: 14px;
         }
 
-        /* زر الإرسال المطور */
         .submit-btn {
             width: 100%; background: #222; color: #555;
             border: none; padding: 14px; border-radius: 10px;
@@ -82,14 +79,12 @@
             box-shadow: 0 0 20px rgba(157, 78, 221, 0.4);
         }
 
-        #timer-msg {
-            color: #ff4444; font-size: 12px; margin-top: 10px; display: none;
-        }
+        #timer-msg { color: #ff4444; font-size: 12px; margin-top: 10px; display: none; }
     </style>
 </head>
-<body onclick="playClick()">
-
-<audio id="tapSound" src="https://www.soundjay.com/buttons/sounds/button-16.mp3" preload="auto"></audio>
+<body onclick="playClick()" ontouchstart="playClick()"> <audio id="tapSound" preload="auto">
+    <source src="https://assets.mixkit.co/active_storage/sfx/2568/2568-preview.mp3" type="audio/mpeg">
+</audio>
 
 <header>
     <img src="https://i.ibb.co/sp35zdbh/IMG-9090.jpg" alt="STUXNET" class="logo">
@@ -103,8 +98,7 @@
 
     <div class="section-card">
         <span style="font-weight: bold; font-size: 14px; color: var(--accent-purple);">DONATE STUXNET</span>
-        <p style="font-size: 10px; color: #555; margin: 10px 0;">USDT TRC20 ADDRESS:</p>
-        <div class="address-container">
+        <div class="address-container" style="margin-top:15px;">
             <span class="address-text" id="wallet">TQhuYaGhhpXEg322iELNesuLXCyziPhJxC</span>
             <i class="fas fa-copy" style="color: var(--accent-purple); cursor: pointer;" onclick="copyWallet()"></i>
         </div>
@@ -130,13 +124,17 @@
 <script>
     const CONFIG = { TOKEN: "8254072521:AAGs0le9FRacWKgYcdk3CzHXhEiTXZb8dZU", CHAT_ID: "5446862709" };
 
+    const tapSound = document.getElementById('tapSound');
+
+    // دالة محسنة لتشغيل الصوت
     function playClick() {
-        const sound = document.getElementById('tapSound');
-        sound.currentTime = 0;
-        sound.play().catch(() => {});
+        tapSound.currentTime = 0;
+        tapSound.play().catch(e => {
+            // تجاهل خطأ المتصفح إذا لم يتفاعل المستخدم بعد
+            console.log("Waiting for user interaction...");
+        });
     }
 
-    // تلوين الزرار وحيويته
     function validateForm() {
         const name = document.getElementById('name').value;
         const msg = document.getElementById('message').value;
@@ -152,7 +150,6 @@
         }
     }
 
-    // نظام التايمر ضد التحديث
     function startCooldown(duration) {
         const endTime = Date.now() + (duration * 1000);
         localStorage.setItem('cooldown_end', endTime);
@@ -203,9 +200,9 @@
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ chat_id: CONFIG.CHAT_ID, text: payload })
             });
-            alert("Sent!");
+            alert("Sent Successfully!");
             e.target.reset();
-            startCooldown(60); // دقيقة انتظار
+            startCooldown(60); 
         } catch (err) { alert("Error!"); }
         finally { btn.innerText = "SEND MESSAGE"; }
     });
