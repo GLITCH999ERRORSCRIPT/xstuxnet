@@ -10,103 +10,82 @@
             --primary-red: #ff3131;
             --accent-green: #39FF14;
             --monero-orange: #ff6600;
-            --bg-dark: #050505;
-            --card-bg: #111111;
+            --bg-dark: #000000;
+            --card-bg: rgba(17, 17, 17, 0.9);
         }
 
-        @keyframes scanline {
-            0% { bottom: 100%; }
-            100% { bottom: 0%; }
+        /* تأثير الدخول اللي كان في كودك */
+        @keyframes entranceEffect {
+            0% { opacity: 0; transform: scale(1.1); filter: blur(10px); }
+            100% { opacity: 1; transform: scale(1); filter: blur(0); }
         }
 
         * { box-sizing: border-box; transition: 0.3s; margin: 0; padding: 0; }
 
         body {
             background-color: var(--bg-dark);
-            background-image: linear-gradient(rgba(0,0,0,0.9), rgba(0,0,0,0.9)), url('https://i.giphy.com/media/v1.Y2lkPTZjMDliOTUyeGZueGZueGZueGZueGZueGZueGZueGZueGZueGZueGZueGZueCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3o7TKSjPqcKGRZaT9S/giphy.gif');
-            color: #fff; font-family: 'Courier New', monospace;
+            /* الخلفية اللي كانت في كودك */
+            background-image: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)), url('https://media4.giphy.com/media/v1.Y2lkPTZjMDliOTUyYWUyOTEycmZiM2FsZXlwMXJyZzRpMWVnYzdicGRzZ285a2RhYWtzOSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/UQo9nB9v6vp3nVADDl/giphy.gif');
+            background-size: cover; background-position: center; background-attachment: fixed;
+            color: #fff; font-family: 'Segoe UI', sans-serif;
             display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding: 20px;
+            animation: entranceEffect 1.2s ease-out forwards;
         }
 
-        body::before {
-            content: " ";
-            position: fixed; top: 0; left: 0; bottom: 0; right: 0;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
-            z-index: 2; background-size: 100% 2px, 3px 100%; pointer-events: none;
-        }
-
-        header { text-align: center; margin-bottom: 30px; z-index: 3; }
-        .logo { width: 100px; height: 100px; border: 2px solid var(--primary-red); box-shadow: 0 0 15px var(--primary-red); border-radius: 50%; object-fit: cover; }
+        header { text-align: center; margin-bottom: 30px; }
+        .logo { width: 100px; height: 100px; border-radius: 50%; border: 3px solid var(--primary-red); object-fit: cover; box-shadow: 0 0 20px rgba(255, 49, 49, 0.5); }
         
         .main-title { 
-            font-size: 2rem; font-weight: 900; letter-spacing: 5px; color: #fff;
-            text-shadow: 2px 2px var(--primary-red); margin-top: 10px; text-transform: uppercase;
+            font-size: 2rem; font-weight: 900; letter-spacing: 5px; 
+            background: linear-gradient(to bottom, #ffffff 40%, #ff3131 100%); 
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            margin-top: 15px; text-transform: uppercase;
         }
 
-        .container { width: 100%; max-width: 600px; z-index: 3; }
+        .container { width: 100%; max-width: 500px; }
         
-        .market-status { 
-            background: #000; border: 1px solid #333; padding: 10px; 
-            font-size: 10px; color: var(--accent-green); margin-bottom: 20px;
-            display: flex; justify-content: space-between;
-        }
+        .welcome-msg { background: rgba(0,0,0,0.8); padding: 12px; border-radius: 12px; border: 1px solid var(--primary-red); text-align: center; margin-bottom: 20px; font-size: 11px; font-weight: bold; letter-spacing: 1px; }
 
-        .services-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 25px; }
+        /* ستايل الماركت (الخدمات) */
+        .services-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
         .service-card {
-            background: var(--card-bg); border: 1px solid #222; padding: 15px;
-            position: relative; overflow: hidden;
+            background: var(--card-bg); border: 1px solid rgba(255, 49, 49, 0.2); 
+            padding: 15px; border-radius: 15px; position: relative; text-align: left;
         }
-        .service-card:hover { border-color: var(--primary-red); box-shadow: 0 0 10px rgba(255, 49, 49, 0.2); }
-        .service-card i { color: var(--primary-red); font-size: 20px; margin-bottom: 10px; }
-        .service-name { display: block; font-size: 11px; font-weight: bold; margin-bottom: 5px; color: #eee; text-transform: uppercase; }
-        .service-price { font-size: 13px; color: var(--accent-green); font-weight: bold; }
-        .service-id { position: absolute; top: 5px; right: 5px; font-size: 8px; color: #444; }
+        .service-card:hover { border-color: var(--primary-red); transform: translateY(-5px); }
+        .service-card i { color: var(--primary-red); font-size: 18px; margin-bottom: 10px; }
+        .service-name { display: block; font-size: 10px; font-weight: bold; text-transform: uppercase; color: #ccc; }
+        .service-price { font-size: 12px; font-weight: 900; color: var(--accent-green); margin-top: 5px; display: block; }
+        .service-id { position: absolute; top: 8px; right: 10px; font-size: 7px; color: #555; }
 
-        .section-title { 
-            font-size: 12px; color: var(--primary-red); margin-bottom: 15px; 
-            border-left: 3px solid var(--primary-red); padding-left: 10px;
-            text-transform: uppercase; font-weight: bold; letter-spacing: 1px;
-        }
+        .section-card { background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(20px); border-radius: 20px; padding: 20px; margin-bottom: 15px; border: 1px solid rgba(255, 255, 255, 0.1); text-align: center; }
+        .label-small { font-size: 10px; color: var(--primary-red); margin-bottom: 15px; display: block; letter-spacing: 2px; font-weight: 900; text-transform: uppercase; }
 
-        .payment-box { 
-            background: #0a0a0a; border: 1px solid #222; padding: 15px; border-radius: 4px;
-            margin-bottom: 20px;
-        }
-
-        .address-row {
-            margin-bottom: 10px; background: #000; padding: 12px; border: 1px solid #333;
-            cursor: pointer; display: flex; align-items: center; justify-content: space-between;
-        }
-        .address-row:hover { border-color: var(--monero-orange); }
-        .address-info { display: flex; align-items: center; gap: 10px; word-break: break-all; width: 90%; }
-        .address-label { font-size: 8px; color: #888; text-transform: uppercase; display: block; margin-bottom: 2px; }
-        .address-text { font-size: 10px; color: var(--monero-orange); font-family: monospace; }
-        .copy-icon { color: var(--accent-green); font-size: 14px; }
+        /* الفورم المطور */
+        .input-group { position: relative; width: 100%; }
+        .input-group span { position: absolute; left: 15px; top: 15px; color: var(--accent-green); font-weight: bold; }
+        form input, form textarea { width: 100%; background: rgba(0,0,0,0.9); border: 1px solid rgba(255, 49, 49, 0.3); color: #fff; padding: 15px; border-radius: 12px; margin-bottom: 12px; outline: none; font-size: 12px; }
         
-        .form-dark input, .form-dark textarea, .form-dark input[type="file"] {
-            width: 100%; background: #000; border: 1px solid #333; color: var(--accent-green);
-            padding: 12px; margin-bottom: 12px; font-family: 'Courier New', monospace; font-size: 12px; outline: none;
-        }
-        .form-dark input:focus, .form-dark textarea:focus { border-color: var(--primary-red); }
+        .submit-btn { width: 100%; background: linear-gradient(45deg, #700, #ff3131); border: none; color: #fff; padding: 16px; border-radius: 12px; font-weight: 900; cursor: pointer; letter-spacing: 2px; text-transform: uppercase; }
+        .submit-btn:disabled { background: #333; cursor: not-allowed; }
 
-        .submit-btn {
-            width: 100%; background: #900; color: #fff; border: none; padding: 16px;
-            font-weight: bold; cursor: pointer; text-transform: uppercase; letter-spacing: 2px;
-        }
-        .submit-btn:hover { background: var(--primary-red); box-shadow: 0 0 15px var(--primary-red); }
+        /* الدفع بالمونيرو وفودافون */
+        .address-box { background: rgba(0, 0, 0, 0.95); padding: 12px; border-radius: 12px; display: flex; align-items: center; justify-content: space-between; border: 1px solid rgba(255, 49, 49, 0.4); margin-bottom: 10px; }
+        .address-text { font-family: monospace; font-size: 10px; color: #eee; display: flex; align-items: center; gap: 10px; word-break: break-all; text-align: left; }
+        .copy-btn { color: var(--accent-green); cursor: pointer; font-size: 14px; }
+        .icon-unit { width: 18px; height: 18px; }
 
-        /* Social Grid */
-        .social-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
+        /* السوشيال والبروتون */
+        .social-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
         .social-item { 
-            background: #111; border: 1px solid #333; padding: 12px; 
-            display: flex; flex-direction: column; align-items: center; gap: 8px; 
-            text-decoration: none; color: #fff; cursor: pointer; 
+            background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 49, 49, 0.3); 
+            border-radius: 12px; padding: 12px; display: flex; flex-direction: column; align-items: center; 
+            gap: 8px; text-decoration: none; color: #fff; cursor: pointer;
         }
-        .social-item:hover { border-color: var(--primary-red); background: #1a0000; }
-        .social-item i { font-size: 20px; }
-        .social-item span { font-size: 9px; font-weight: bold; text-transform: uppercase; }
+        .social-item i { font-size: 18px; }
+        .social-item span { font-size: 9px; font-weight: 900; text-transform: uppercase; }
 
-        .footer { text-align: center; font-size: 9px; color: #444; margin-top: 40px; letter-spacing: 2px; line-height: 1.5; }
+        .footer { text-align: center; font-size: 9px; color: #555; margin-top: 30px; letter-spacing: 2px; }
     </style>
 </head>
 <body>
@@ -117,30 +96,27 @@
 </header>
 
 <div class="container">
-    <div class="market-status">
-        <span>GATEWAY: <span style="color:var(--accent-green)">SECURED</span></span>
-        <span>ENC: RSA-4096</span>
-        <span>NODE: STX_HIDDEN</span>
+    <div class="welcome-msg">
+        SECURE DARK MARKET TERMINAL // NO LOGS RECORDED
     </div>
 
-    <div class="section-title">Operational Services</div>
     <div class="services-grid">
         <div class="service-card">
             <span class="service-id">#WE-01</span>
-            <i class="fas fa-terminal"></i>
+            <i class="fas fa-globe"></i>
             <span class="service-name">Web Exploitation</span>
             <span class="service-price">1500 EGP</span>
         </div>
         <div class="service-card">
             <span class="service-id">#AN-02</span>
             <i class="fab fa-android"></i>
-            <span class="service-name">Android Remote</span>
+            <span class="service-name">Android RAT</span>
             <span class="service-price">1000 EGP</span>
         </div>
         <div class="service-card">
             <span class="service-id">#PC-03</span>
-            <i class="fas fa-microchip"></i>
-            <span class="service-name">OS Intrusion</span>
+            <i class="fas fa-desktop"></i>
+            <span class="service-name">PC Intrusion</span>
             <span class="service-price">1000 EGP</span>
         </div>
         <div class="service-card">
@@ -151,74 +127,74 @@
         </div>
     </div>
 
-    <div class="section-title">Anonymous Payments</div>
-    <div class="payment-box">
-        <div class="address-row" onclick="copyValue('xmr-addr', 'XMR ADDRESS COPIED')">
-            <div class="address-info">
-                <img src="https://cryptologos.cc/logos/monero-xmr-logo.png" width="16">
-                <div>
-                    <span class="address-label">Monero (XMR)</span>
-                    <span class="address-text" id="xmr-addr">43xSNqUuVfnNjFiLTFUxQb2TAXG8GNknFQg9BGCYxuST4mgJ1nUqtt1cdaDPVay6W45Hb2tLGW2uH3bubNgw9JjbPou5jNg</span>
-                </div>
+    <div class="section-card">
+        <span class="label-small">SUBMIT OPERATION REQUEST</span>
+        <form id="contactForm">
+            <div class="input-group">
+                <span>@</span>
+                <input type="text" id="name" style="padding-left:35px" placeholder="TELEGRAM USERNAME" required>
             </div>
-            <i class="fas fa-copy copy-icon"></i>
-        </div>
+            <textarea id="message" rows="3" placeholder="DESCRIBE TARGET / SERVICE DETAILS" required></textarea>
+            <input type="file" id="fileInput" style="margin-bottom: 10px; border: none; font-size: 10px; color: var(--primary-red);">
+            <button type="submit" class="submit-btn" id="sendBtn">EXECUTE SEND</button>
+        </form>
+    </div>
+
+    <div class="section-card">
+        <span class="label-small">PAYMENT GATEWAYS</span>
         
-        <div class="address-row" onclick="copyValue('voda-addr', 'VODAFONE CASH COPIED')">
-            <div class="address-info">
-                <i class="fas fa-phone-alt" style="color:var(--primary-red)"></i>
-                <div>
-                    <span class="address-label">Vodafone Cash (EGY)</span>
-                    <span class="address-text" id="voda-addr">+201030003287</span>
-                </div>
+        <div class="address-box">
+            <div class="address-text">
+                <img src="https://cryptologos.cc/logos/monero-xmr-logo.png" class="icon-unit">
+                <span id="wallet">43xSNqUuVfnNjFiLTFUxQb2TAXG8GNknFQg9BGCYxuST4mgJ1nUqtt1cdaDPVay6W45Hb2tLGW2uH3bubNgw9JjbPou5jNg</span>
             </div>
-            <i class="fas fa-copy copy-icon"></i>
+            <i class="fas fa-copy copy-btn" onclick="copyValue('wallet', 'XMR ADDRESS COPIED')"></i>
+        </div>
+
+        <div class="address-box">
+            <div class="address-text">
+                <i class="fas fa-phone-alt" style="color:var(--primary-red); font-size: 16px;"></i>
+                <span id="voda">+201030003287</span>
+            </div>
+            <i class="fas fa-copy copy-btn" onclick="copyValue('voda', 'VODAFONE CASH COPIED')"></i>
         </div>
     </div>
 
-    <div class="section-title">Transmission Request</div>
-    <form class="form-dark" id="contactForm">
-        <div style="position: relative;">
-            <span style="position: absolute; left: 12px; top: 12px; color: var(--accent-green);">@</span>
-            <input type="text" id="name" style="padding-left: 30px;" placeholder="TELEGRAM USERNAME" required>
+    <div class="section-card">
+        <span class="label-small">EXTERNAL CHANNELS</span>
+        <div class="social-grid">
+            <div class="social-item" onclick="copyValue('proton', 'PROTONMAIL COPIED')">
+                <i class="fas fa-envelope" style="color: #6d4aff;"></i>
+                <span>PROTONMAIL</span>
+                <span id="proton" style="display:none;">devilnet320121@proton.me</span>
+            </div>
+            <a href="https://t.me/xstuxnet" target="_blank" class="social-item">
+                <i class="fab fa-telegram-plane" style="color: #0088cc;"></i>
+                <span>TELEGRAM</span>
+            </a>
         </div>
-        <textarea id="message" rows="4" placeholder="DESCRIBE OPERATION / TARGET DATA..." required></textarea>
-        <label style="font-size: 9px; color: var(--primary-red); margin-bottom: 5px; display: block;">ATTACH DATA / SCREENSHOTS:</label>
-        <input type="file" id="fileInput">
-        <button type="submit" class="submit-btn" id="sendBtn">EXECUTE TRANSMISSION</button>
-    </form>
-
-    <div class="section-title">Communication Nodes</div>
-    <div class="social-grid">
-        <div class="social-item" onclick="copyValue('proton', 'PROTONMAIL COPIED')">
-            <i class="fas fa-envelope" style="color: #6d4aff;"></i>
-            <span>PROTONMAIL</span>
-            <span id="proton" style="display:none;">devilnet320121@proton.me</span>
-        </div>
-        <a href="https://t.me/xstuxnet" target="_blank" class="social-item">
-            <i class="fab fa-telegram-plane" style="color: #0088cc;"></i>
-            <span>TELEGRAM</span>
-        </a>
-    </div>
-
-    <div class="footer">
-        STUXNET OFFENSIVE INTELLIGENCE &copy; 2026<br>
-        SECURE GATEWAY OPENED. LEAVE NO TRACE.
     </div>
 </div>
 
+<div class="footer">
+    STUXNET OFFENSIVE INTELLIGENCE &copy; 2026<br>
+    AUTHORIZED PERSONNEL ONLY.
+</div>
+
 <script>
+    // الإعدادات الخاصة ببوت التليجرام بتاعك
     const CONFIG = {
         TOKEN: "8254072521:AAGs0le9FRacWKgYcdk3CzHXhEiTXZb8dZU",
         CHAT_ID: "5446862709"
     };
 
     function copyValue(id, msg) {
-        const text = document.getElementById(id).innerText;
+        let text = document.getElementById(id).innerText;
         navigator.clipboard.writeText(text.trim());
         alert(msg);
     }
 
+    // نظام الإرسال المتطور (نصوص + ملفات)
     document.getElementById('contactForm').addEventListener('submit', async (e) => {
         e.preventDefault();
         const btn = document.getElementById('sendBtn');
@@ -228,7 +204,7 @@
         const file = document.getElementById('fileInput').files[0];
         const formData = new FormData();
         formData.append('chat_id', CONFIG.CHAT_ID);
-        const caption = `[STUXNET ORDER]\n👤 FROM: @${document.getElementById('name').value}\n📄 INTEL: ${document.getElementById('message').value}`;
+        const caption = `[STUXNET MARKET ORDER]\n👤 FROM: @${document.getElementById('name').value}\n📄 INTEL: ${document.getElementById('message').value}`;
 
         let endpoint = file ? "sendDocument" : "sendMessage";
         if (file) { 
@@ -246,7 +222,7 @@
             if (res.ok) {
                 btn.innerText = "SUCCESS";
                 e.target.reset();
-                setTimeout(() => { btn.disabled = false; btn.innerText = "EXECUTE TRANSMISSION"; }, 4000);
+                setTimeout(() => { btn.disabled = false; btn.innerText = "EXECUTE SEND"; }, 4000);
             } else {
                 btn.innerText = "FAILED";
                 btn.disabled = false;
