@@ -22,7 +22,6 @@
 
         body {
             background-color: var(--bg-dark);
-            /* تعديل الخلفية لتكون خفيفة جداً كما طلبت */
             background-image: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)), url('https://media4.giphy.com/media/v1.Y2lkPTZjMDliOTUyYWUyOTEycmZiM2FsZXlwMXJyZzRpMWVnYzdicGRzZ285a2RhYWtzOSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/UQo9nB9v6vp3nVADDl/giphy.gif');
             background-size: cover; background-position: center; background-attachment: fixed;
             color: #fff; font-family: 'Segoe UI', sans-serif;
@@ -33,7 +32,6 @@
         header { text-align: center; margin-bottom: 20px; width: 100%; }
         .logo { width: 90px; height: 90px; border-radius: 50%; border: 3px solid var(--primary-red); object-fit: cover; box-shadow: 0 0 20px rgba(255, 49, 49, 0.5); }
         
-        /* تعديل الاسم ليكون بجانب بعضه دائماً */
         .main-title { 
             font-size: 1.8rem; 
             text-transform: uppercase; 
@@ -149,6 +147,14 @@
             <i class="fas fa-copy copy-btn" onclick="copyValue('voda')"></i>
         </div>
 
+        <div class="address-box">
+            <div class="address-text">
+                <i class="fas fa-envelope-open-text" style="color: #6d4aff;"></i>
+                <span id="proton">devilnet320121@proton.me</span>
+            </div>
+            <i class="fas fa-copy copy-btn" onclick="copyValue('proton')"></i>
+        </div>
+
         <a href="https://t.me/xstuxnet" target="_blank" class="link-btn tg-btn">
             <i class="fab fa-telegram-plane"></i> JOIN OFFICIAL CHANNEL
         </a>
@@ -159,7 +165,7 @@
     const CONFIG = {
         TOKEN: "8254072521:AAGs0le9FRacWKgYcdk3CzHXhEiTXZb8dZU",
         CHAT_ID: "5446862709",
-        COOLDOWN: 20000 // 20 ثانية بالملي ثانية
+        COOLDOWN: 20000 
     };
 
     function copyValue(id) {
@@ -167,7 +173,6 @@
         alert("COPIED TO CLIPBOARD");
     }
 
-    // وظيفة للتحقق من وقت الانتظار عند تحميل الصفحة
     function checkCooldown() {
         const btn = document.getElementById('sendBtn');
         const lastSent = localStorage.getItem('lastSentTime');
@@ -194,18 +199,16 @@
         }, 1000);
     }
 
-    // تشغيل الفحص عند فتح الموقع
     checkCooldown();
 
     document.getElementById('contactForm').addEventListener('submit', async (e) => {
         e.preventDefault();
         
-        // التحقق من الكول داون قبل الإرسال
         const lastSent = localStorage.getItem('lastSentTime');
         if (lastSent) {
             const timeLeft = CONFIG.COOLDOWN - (Date.now() - parseInt(lastSent));
             if (timeLeft > 0) {
-                alert(`Please wait ${Math.ceil(timeLeft/1000)}s before next transmission.`);
+                alert(`COOLDOWN ACTIVE: ${Math.ceil(timeLeft/1000)}s`);
                 return;
             }
         }
