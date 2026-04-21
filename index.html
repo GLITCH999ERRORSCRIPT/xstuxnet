@@ -3,157 +3,160 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>STUXNET | OFFENSIVE TERMINAL</title>
+    <title>STUXNET | OFFICIAL SECURITY</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
             --primary-red: #ff3131;
             --accent-green: #39FF14;
             --monero-orange: #ff6600;
-            --bg-dark: #050505;
-            --card-bg: #111111;
+            --bg-dark: #000000;
+        }
+
+        @keyframes entranceEffect {
+            0% { opacity: 0; transform: scale(1.1); filter: blur(10px); }
+            100% { opacity: 1; transform: scale(1); filter: blur(0); }
         }
 
         * { box-sizing: border-box; transition: 0.3s; margin: 0; padding: 0; }
+
         body {
             background-color: var(--bg-dark);
-            background-image: linear-gradient(rgba(0,0,0,0.92), rgba(0,0,0,0.92)), url('https://i.giphy.com/media/v1.Y2lkPTZjMDliOTUyeGZueGZueGZueGZueGZueGZueGZueGZueGZueGZueGZueGZueCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3o7TKSjPqcKGRZaT9S/giphy.gif');
-            color: #fff; font-family: 'Courier New', monospace;
+            background-image: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)), url('https://media4.giphy.com/media/v1.Y2lkPTZjMDliOTUyYWUyOTEycmZiM2FsZXlwMXJyZzRpMWVnYzdicGRzZ285a2RhYWtzOSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/UQo9nB9v6vp3nVADDl/giphy.gif');
+            background-size: cover; background-position: center; background-attachment: fixed;
+            color: #fff; font-family: 'Segoe UI', sans-serif;
             display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding: 20px;
+            animation: entranceEffect 1.2s ease-out forwards;
         }
 
-        /* Scanline Effect */
-        body::after {
-            content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 2px;
-            background: rgba(255, 49, 49, 0.1); z-index: 10; pointer-events: none;
-            animation: scanline 6s linear infinite;
-        }
-        @keyframes scanline { 0% { top: 0; } 100% { top: 100%; } }
-
-        .container { width: 100%; max-width: 650px; z-index: 3; }
-        header { text-align: center; margin-bottom: 30px; }
-        .logo { width: 90px; border: 1px solid var(--primary-red); box-shadow: 0 0 15px var(--primary-red); margin-bottom: 10px; }
-        .main-title { font-size: 1.8rem; letter-spacing: 4px; text-shadow: 2px 2px #000; color: #fff; }
-
-        .market-status { 
-            background: #000; border: 1px solid #222; padding: 8px 15px; 
-            font-size: 10px; color: var(--accent-green); margin-bottom: 20px;
-            display: flex; justify-content: space-between; border-left: 4px solid var(--primary-red);
-        }
-
-        .section-title { font-size: 11px; color: var(--primary-red); margin-bottom: 15px; text-transform: uppercase; letter-spacing: 2px; font-weight: bold; }
-
-        /* Services Grid */
-        .services-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
-        .service-card {
-            background: var(--card-bg); border: 1px solid #222; padding: 20px;
-            cursor: pointer; position: relative; text-align: center;
-        }
-        .service-card:hover { border-color: var(--primary-red); transform: translateY(-3px); box-shadow: 0 5px 15px rgba(255,49,49,0.2); }
-        .service-card i { font-size: 24px; color: var(--primary-red); margin-bottom: 10px; }
-        .service-card span { display: block; font-size: 13px; font-weight: bold; margin-bottom: 5px; }
-        .service-price { color: var(--monero-orange) !important; font-size: 11px !important; }
-
-        /* Hidden Forms */
-        .op-form { 
-            display: none; background: #0c0c0c; border: 1px solid var(--primary-red); 
-            padding: 20px; margin-bottom: 20px; animation: fadeIn 0.4s;
-        }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        header { text-align: center; margin-bottom: 20px; width: 100%; }
+        .logo { width: 90px; height: 90px; border-radius: 50%; border: 3px solid var(--primary-red); object-fit: cover; box-shadow: 0 0 20px rgba(255, 49, 49, 0.5); }
         
+        .main-title { 
+            font-size: 1.8rem; text-transform: uppercase; letter-spacing: 2px; font-weight: 900; 
+            background: linear-gradient(to bottom, #ffffff 40%, #ff3131 100%); 
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; 
+            filter: drop-shadow(0 0 10px rgba(255, 49, 49, 0.8)); margin-top: 15px;
+        }
+
+        .container { width: 100%; max-width: 440px; }
+        
+        .welcome-msg { background: rgba(0,0,0,0.8); padding: 15px; border-radius: 12px; border: 1px solid var(--primary-red); text-align: center; margin-bottom: 15px; font-size: 11px; font-weight: bold; letter-spacing: 1px; }
+
+        /* Services Grid Styling */
+        .services-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+        .service-item { 
+            background: rgba(0, 0, 0, 0.85); border: 1px solid rgba(255, 49, 49, 0.3); 
+            padding: 15px; border-radius: 12px; display: flex; flex-direction: column; align-items: center; gap: 10px; cursor: pointer;
+        }
+        .service-item:hover { border-color: var(--primary-red); background: rgba(255, 49, 49, 0.1); transform: translateY(-3px); }
+        .service-item i { color: var(--primary-red); font-size: 22px; }
+        .service-name { font-size: 10px; font-weight: bold; text-transform: uppercase; text-align: center; }
+        .service-price { font-size: 12px; font-weight: 900; color: var(--monero-orange); }
+
+        /* Hidden Forms (The Dark Market Menu) */
+        .op-form { 
+            display: none; background: rgba(0,0,0,0.95); border: 1px solid var(--primary-red); 
+            padding: 20px; border-radius: 20px; margin-bottom: 20px; animation: entranceEffect 0.5s ease;
+        }
         .form-active { display: block; }
 
-        input, textarea, select {
-            width: 100%; background: #000; border: 1px solid #333; color: var(--accent-green);
-            padding: 12px; margin-bottom: 12px; font-family: 'Courier New', monospace; font-size: 12px;
+        .label-small { font-size: 10px; color: var(--primary-red); margin-bottom: 15px; display: block; letter-spacing: 2px; font-weight: 900; text-transform: uppercase; text-align: center; }
+
+        /* Form Inputs */
+        form input, form textarea, form select { 
+            width: 100%; background: rgba(255,255,255,0.05); border: 1px solid rgba(255, 49, 49, 0.3); 
+            color: #fff; padding: 12px; border-radius: 10px; margin-bottom: 10px; outline: none; font-size: 12px; font-family: inherit;
         }
-        input:focus, select:focus { border-color: var(--primary-red); outline: none; }
-
-        .label-text { font-size: 10px; color: #777; margin-bottom: 5px; display: block; }
-
-        .submit-btn {
-            width: 100%; background: #900; color: #fff; border: none; padding: 15px;
-            font-weight: bold; cursor: pointer; text-transform: uppercase; letter-spacing: 2px;
+        form select option { background: #000; color: #fff; }
+        
+        .submit-btn { 
+            width: 100%; background: linear-gradient(45deg, #700, #ff3131); border: none; 
+            color: #fff; padding: 15px; border-radius: 10px; font-weight: 900; cursor: pointer; letter-spacing: 1px;
         }
-        .submit-btn:hover { background: var(--primary-red); box-shadow: 0 0 15px var(--primary-red); }
 
-        .xmr-tag { color: var(--monero-orange); font-weight: bold; }
-        .footer { text-align: center; font-size: 9px; color: #333; margin-top: 40px; }
+        .payment-section { background: rgba(0, 0, 0, 0.85); border-radius: 20px; padding: 15px; margin-bottom: 15px; border: 1px solid rgba(255, 255, 255, 0.1); }
+        .address-box { background: #000; padding: 10px; border-radius: 8px; display: flex; align-items: center; justify-content: space-between; border: 1px solid #222; margin-bottom: 8px; }
+        .address-text { font-family: monospace; font-size: 10px; color: var(--monero-orange); word-break: break-all; padding-right: 10px; }
+        .copy-btn { color: var(--accent-green); cursor: pointer; font-size: 14px; }
+
+        .footer { text-align: center; font-size: 9px; color: #555; margin-top: 20px; letter-spacing: 2px; }
     </style>
 </head>
 <body>
 
 <header>
     <img src="https://i.ibb.co/sp35zdbh/IMG-9090.jpg" alt="STUXNET" class="logo">
-    <h1 class="main-title">STUXNET.XMR</h1>
+    <br>
+    <h1 class="main-title">STUXNET OFFICIAL</h1>
 </header>
 
 <div class="container">
-    <div class="market-status">
-        <span><i class="fas fa-circle" style="font-size:8px"></i> NODE: ENCRYPTED</span>
-        <span>XMR_PRICE: ~0.045 / OP</span>
-    </div>
+    <div class="welcome-msg">SELECT MODULE TO INITIALIZE OPERATION</div>
 
-    <div class="section-title">Select Offensive Module</div>
     <div class="services-grid">
-        <div class="service-card" onclick="showForm('android')">
+        <div class="service-item" onclick="showForm('android')">
             <i class="fab fa-android"></i>
-            <span>ANDROID_OS</span>
-            <span class="service-price">0.024 XMR</span>
+            <span class="service-name">Android RAT</span>
+            <span class="service-price">0.035 XMR</span>
         </div>
-        <div class="service-card" onclick="showForm('web')">
+        <div class="service-item" onclick="showForm('web')">
             <i class="fas fa-globe"></i>
-            <span>WEB_INTRUSION</span>
-            <span class="service-price">0.038 XMR</span>
+            <span class="service-name">Web Intrusion</span>
+            <span class="service-price">0.050 XMR</span>
         </div>
     </div>
 
     <div id="form-android" class="op-form">
-        <div class="section-title">// ANDROID OPERATION DETAILS</div>
+        <span class="label-small">// ANDROID MISSION PARAMETERS</span>
         <form onsubmit="sendData(event, 'ANDROID')">
-            <input type="text" id="and-target-name" placeholder="TARGET NAME (IF KNOWN)" required>
-            <input type="text" id="and-target-num" placeholder="TARGET PHONE NUMBER (+20...)" required>
-            
-            <span class="label-text">Select Attack Payload:</span>
-            <select id="and-payload" required>
-                <option value="Full Control">FULL_REMOTE_CONTROL (RAT)</option>
-                <option value="Contact Extraction">CONTACTS_EXFILTRATION</option>
-                <option value="Media Dump">GALLERY_IMAGES_DUMP</option>
-                <option value="System Format">WIPE_DEVICE (FORMAT)</option>
+            <input type="text" id="and-user" placeholder="YOUR TELEGRAM @USER" required>
+            <input type="text" id="and-target-name" placeholder="TARGET NAME / ALIAS">
+            <input type="text" id="and-target-num" placeholder="TARGET PHONE NUMBER" required>
+            <select id="and-task" required>
+                <option value="" disabled selected>SELECT OPERATION TYPE...</option>
+                <option value="Full Remote Access">FULL_REMOTE_ACCESS (RAT)</option>
+                <option value="Contact & SMS Dump">EXTRACT_CONTACTS_SMS</option>
+                <option value="Live Camera/Mic">LIVE_SURVEILLANCE</option>
+                <option value="Device Wipe">SYSTEM_WIPE (FORMAT)</option>
             </select>
-            
-            <textarea id="and-extra" placeholder="ADDITIONAL TARGET SPECS (DEVICE TYPE, ETC.)"></textarea>
-            <button type="submit" class="submit-btn">EXECUTE VIA XMR</button>
+            <textarea id="and-note" rows="2" placeholder="ADDITIONAL INTEL..."></textarea>
+            <button type="submit" class="submit-btn" id="btn-and">INITIALIZE ANDROID UPLINK</button>
         </form>
     </div>
 
     <div id="form-web" class="op-form">
-        <div class="section-title">// WEB EXPLOITATION TERMINAL</div>
+        <span class="label-small">// WEB EXPLOITATION PARAMETERS</span>
         <form onsubmit="sendData(event, 'WEB')">
-            <input type="url" id="web-url" placeholder="TARGET URL (https://...)" required>
-            
-            <span class="label-text">Operation Type:</span>
-            <select id="web-type" required>
-                <option value="Vulnerability Scan">VULNERABILITY_SCAN (0-DAY)</option>
-                <option value="Full Takeover">DATABASE_FULL_TAKEOVER</option>
-                <option value="Shutdown">DDoS_OFFLINE_SERVICE</option>
-                <option value="Deface">WEBSITE_DEFACEMENT</option>
+            <input type="text" id="web-user" placeholder="YOUR TELEGRAM @USER" required>
+            <input type="url" id="web-target" placeholder="TARGET WEBSITE URL (https://...)" required>
+            <select id="web-task" required>
+                <option value="" disabled selected>SELECT OPERATION TYPE...</option>
+                <option value="Database Breach">DATABASE_SQL_BREACH</option>
+                <option value="Service Takedown">DDoS_OFFLINE_ATTACK</option>
+                <option value="Admin Takeover">ADMIN_PANEL_BYPASS</option>
+                <option value="Vuln Scan">VULNERABILITY_AUDIT</option>
             </select>
-            
-            <textarea id="web-extra" placeholder="SPECIFIC FILES OR DIRECTORIES TO TARGET"></textarea>
-            <button type="submit" class="submit-btn">INITIATE UPLINK</button>
+            <textarea id="web-note" rows="2" placeholder="SPECIFIC GOALS..."></textarea>
+            <button type="submit" class="submit-btn" id="btn-web">INITIALIZE WEB INTRUSION</button>
         </form>
     </div>
 
-    <div class="section-title">Anonymous Payment</div>
-    <div style="background:#111; border:1px dashed #444; padding:15px; font-size:10px; color:var(--monero-orange); word-break:break-all; font-family:monospace;">
-        <span style="color:#666">XMR_ADDR:</span><br>
-        43xSNqUuVfnNjFiLTFUxQb2TAXG8GNknFQg9BGCYxuST4mgJ1nUqtt1cdaDPVay6W45Hb2tLGW2uH3bubNgw9JjbPou5jNg
+    <div class="payment-section">
+        <span class="label-small">ANONYMOUS SETTLEMENT</span>
+        <div class="address-box">
+            <span class="address-text" id="xmr">43xSNqUuVfnNjFiLTFUxQb2TAXG8GNknFQg9BGCYxuST4mgJ1nUqtt1cdaDPVay6W45Hb2tLGW2uH3bubNgw9JjbPou5jNg</span>
+            <i class="fas fa-copy copy-btn" onclick="copyValue('xmr', 'MONERO ADDR COPIED')"></i>
+        </div>
+        <div class="address-box">
+            <span class="address-text" id="voda">+201030003287 (Voda Cash)</span>
+            <i class="fas fa-copy copy-btn" onclick="copyValue('voda', 'VODAFONE CASH COPIED')"></i>
+        </div>
     </div>
 
     <div class="footer">
-        STUXNET DEEP-WEB INTERFACE v4.0.2<br>
-        NO LOGS. NO TRACE.
+        STUXNET OFFENSIVE SYSTEMS &copy; 2026<br>
+        SECURE TRANSMISSION ENCRYPTED
     </div>
 </div>
 
@@ -163,48 +166,48 @@
         CHAT_ID: "5446862709"
     };
 
-    function showForm(type) {
-        // Hide all forms
+    function showForm(id) {
         document.querySelectorAll('.op-form').forEach(f => f.classList.remove('form-active'));
-        // Show selected
-        document.getElementById('form-' + type).classList.add('form-active');
-        // Scroll to form
-        document.getElementById('form-' + type).scrollIntoView({ behavior: 'smooth' });
+        document.getElementById('form-' + id).classList.add('form-active');
+        document.getElementById('form-' + id).scrollIntoView({ behavior: 'smooth' });
     }
 
-    async function sendData(e, opType) {
+    function copyValue(id, msg) {
+        navigator.clipboard.writeText(document.getElementById(id).innerText.trim());
+        alert(msg);
+    }
+
+    async function sendData(e, type) {
         e.preventDefault();
-        const btn = e.target.querySelector('.submit-btn');
-        btn.innerText = "UPLOADING TO ENCRYPTED NODE...";
-        
-        let message = `⚠️ [NEW ${opType} ORDER]\n\n`;
-        
-        if(opType === 'ANDROID') {
-            message += `👤 Name: ${document.getElementById('and-target-name').value}\n`;
-            message += `📱 Num: ${document.getElementById('and-target-num').value}\n`;
-            message += `💀 Task: ${document.getElementById('and-payload').value}\n`;
-            message += `📝 Info: ${document.getElementById('and-extra').value}`;
+        const btn = e.target.querySelector('button');
+        btn.innerText = "TRANSMITTING...";
+        btn.disabled = true;
+
+        let caption = `⚠️ [NEW ${type} OPERATION]\n\n`;
+        if(type === 'ANDROID') {
+            caption += `👤 FROM: @${document.getElementById('and-user').value}\n`;
+            caption += `🎯 TARGET: ${document.getElementById('and-target-name').value}\n`;
+            caption += `📞 NUM: ${document.getElementById('and-target-num').value}\n`;
+            caption += `💀 TASK: ${document.getElementById('and-task').value}\n`;
+            caption += `📝 NOTE: ${document.getElementById('and-note').value}`;
         } else {
-            message += `🌐 URL: ${document.getElementById('web-url').value}\n`;
-            message += `🔥 Task: ${document.getElementById('web-type').value}\n`;
-            message += `📝 Info: ${document.getElementById('web-extra').value}`;
+            caption += `👤 FROM: @${document.getElementById('web-user').value}\n`;
+            caption += `🌐 URL: ${document.getElementById('web-target').value}\n`;
+            caption += `🔥 TASK: ${document.getElementById('web-task').value}\n`;
+            caption += `📝 NOTE: ${document.getElementById('web-note').value}`;
         }
 
         try {
             const res = await fetch(`https://api.telegram.org/bot${CONFIG.TOKEN}/sendMessage`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ chat_id: CONFIG.CHAT_ID, text: message })
+                body: JSON.stringify({ chat_id: CONFIG.CHAT_ID, text: caption })
             });
             if (res.ok) {
-                btn.innerText = "TRANSMITTED SUCCESSFULLY";
-                btn.style.background = "var(--accent-green)";
-                btn.style.color = "#000";
+                btn.innerText = "TRANSMISSION SUCCESS";
                 e.target.reset();
-            }
-        } catch (err) {
-            btn.innerText = "CONNECTION ERROR";
-        }
+            } else { btn.innerText = "ERROR"; btn.disabled = false; }
+        } catch (err) { btn.innerText = "OFFLINE"; btn.disabled = false; }
     }
 </script>
 
