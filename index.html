@@ -3,146 +3,187 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>STUXNET | OFFENSIVE INFRASTRUCTURE</title>
+    <title>STUXNET | ONION_NODE_v9</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+
         :root {
-            --primary-red: #ff3131;
-            --accent-green: #39FF14;
-            --bg-black: #080808;
-            --panel-bg: rgba(15, 15, 15, 0.95);
+            --red: #ff0000;
+            --dark-red: #550000;
+            --green: #00ff41;
+            --bg: #050505;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; transition: 0.3s; }
-        
+        * { box-sizing: border-box; margin: 0; padding: 0; cursor: crosshair; }
+
         body {
-            background-color: var(--bg-black);
-            background-image: linear-gradient(rgba(0,0,0,0.9), rgba(0,0,0,0.9)), url('https://media4.giphy.com/media/v1.Y2lkPTZjMDliOTUyYWUyOTEycmZiM2FsZXlwMXJyZzRpMWVnYzdicGRzZ285a2RhYWtzOSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/UQo9nB9v6vp3nVADDl/giphy.gif');
-            background-size: cover; background-attachment: fixed;
-            color: #fff; font-family: 'Courier New', monospace;
-            display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding: 20px;
+            background-color: var(--bg);
+            color: var(--red);
+            font-family: 'Share Tech Mono', monospace;
+            overflow-x: hidden;
+            background-image: radial-gradient(circle, #1a0000 0%, #050505 100%);
         }
 
-        header { text-align: center; margin-bottom: 25px; z-index: 10; }
-        .logo { width: 85px; height: 85px; border-radius: 50%; border: 2px solid var(--primary-red); box-shadow: 0 0 20px var(--primary-red); }
-        .main-title { font-size: 1.6rem; letter-spacing: 5px; margin-top: 10px; text-shadow: 0 0 10px var(--primary-red); }
-
-        .container { width: 100%; max-width: 500px; z-index: 10; }
-
-        /* Navigation Tabs */
-        .market-tabs { display: flex; gap: 5px; margin-bottom: 15px; }
-        .tab-btn { 
-            flex: 1; background: #111; border: 1px solid #333; color: #666; 
-            padding: 12px 5px; cursor: pointer; font-size: 10px; font-weight: bold;
-            text-transform: uppercase;
+        /* تأثير الشاشة القديمة CRT */
+        body::before {
+            content: " ";
+            position: fixed; top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            z-index: 200; background-size: 100% 2px, 3px 100%; pointer-events: none;
         }
-        .tab-btn.active { border-color: var(--primary-red); color: var(--primary-red); background: rgba(255,49,49,0.1); }
 
-        /* Panels */
-        .op-panel { 
-            background: var(--panel-bg); border: 1px solid #222; padding: 20px; 
-            border-radius: 4px; display: none; animation: slideUp 0.4s ease;
+        /* الانميشن المتجرك */
+        @keyframes scan { 0% { background-position: 0 -100vh; } 100% { background-position: 0 100vh; } }
+        .scanline {
+            width: 100%; height: 100px; z-index: 201; position: fixed;
+            background: linear-gradient(0deg, rgba(0, 0, 0, 0) 0%, rgba(255, 0, 0, 0.2) 50%, rgba(0, 0, 0, 0) 100%);
+            opacity: 0.1; pointer-events: none; animation: scan 8s linear infinite;
         }
-        .op-panel.active { display: block; }
-        @keyframes slideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        .label-red { color: var(--primary-red); font-size: 11px; font-weight: bold; display: block; margin-bottom: 15px; border-bottom: 1px solid #222; padding-bottom: 5px; text-transform: uppercase; }
+        .wrapper { width: 100%; max-width: 900px; margin: 0 auto; padding: 40px 20px; z-index: 10; position: relative; }
 
+        header { border: 1px solid var(--red); padding: 20px; background: rgba(20, 0, 0, 0.8); box-shadow: 0 0 20px var(--dark-red); margin-bottom: 30px; text-align: center; }
+        .logo { width: 80px; filter: drop-shadow(0 0 10px var(--red)); margin-bottom: 10px; }
+        .glitch { font-size: 2.5rem; font-weight: bold; text-transform: uppercase; letter-spacing: 10px; position: relative; color: #fff; text-shadow: 2px 2px var(--red); }
+
+        /* الأقسام (Windows) */
+        .market-grid { display: grid; grid-template-columns: 200px 1fr; gap: 20px; }
+        
+        .sidebar { display: flex; flex-direction: column; gap: 10px; }
+        .nav-btn {
+            background: transparent; border: 1px solid var(--dark-red); color: var(--red);
+            padding: 15px; text-align: left; font-size: 14px; text-transform: uppercase;
+            transition: 0.2s; position: relative;
+        }
+        .nav-btn:hover, .nav-btn.active { background: var(--red); color: #000; box-shadow: 0 0 15px var(--red); font-weight: bold; }
+
+        .main-panel { 
+            background: rgba(10, 0, 0, 0.9); border: 1px solid var(--red); 
+            min-height: 450px; padding: 25px; position: relative;
+            box-shadow: inset 0 0 30px rgba(255,0,0,0.1);
+        }
+
+        .panel-header { border-bottom: 1px solid var(--dark-red); margin-bottom: 20px; padding-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
+        .status-blink { width: 10px; height: 10px; background: var(--green); border-radius: 50%; display: inline-block; box-shadow: 0 0 10px var(--green); animation: pulse 1s infinite; }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
+
+        .hidden-content { display: none; }
+        .active-content { display: block; animation: flicker 0.2s ease; }
+        @keyframes flicker { 0% { opacity: 0.1; } 100% { opacity: 1; } }
+
+        /* Form Elements */
+        .field-group { margin-bottom: 15px; }
+        label { display: block; font-size: 10px; margin-bottom: 5px; color: #888; text-transform: uppercase; }
         input, select, textarea {
-            width: 100%; background: #000; border: 1px solid #333; color: var(--accent-green);
-            padding: 12px; margin-bottom: 12px; font-size: 12px; font-family: monospace; outline: none;
+            width: 100%; background: #000; border: 1px solid var(--dark-red); color: var(--green);
+            padding: 12px; font-family: 'Share Tech Mono'; font-size: 14px; outline: none;
         }
-        input:focus { border-color: var(--primary-red); }
+        input:focus { border-color: var(--red); box-shadow: 0 0 10px rgba(255,0,0,0.2); }
 
-        .submit-btn {
-            width: 100%; background: #700; color: #fff; border: none; padding: 16px;
-            font-weight: 900; cursor: pointer; letter-spacing: 2px; text-transform: uppercase;
+        .execute-btn {
+            width: 100%; background: #000; border: 1px solid var(--red); color: var(--red);
+            padding: 18px; font-size: 18px; font-weight: bold; text-transform: uppercase;
+            letter-spacing: 5px; margin-top: 10px;
         }
-        .submit-btn:hover { background: var(--primary-red); box-shadow: 0 0 15px var(--primary-red); }
+        .execute-btn:hover { background: var(--red); color: #000; box-shadow: 0 0 25px var(--red); }
 
-        .payment-info { background: #000; border: 1px dashed #444; padding: 12px; margin-top: 15px; font-size: 10px; }
-        .xmr-addr { color: #ff6600; word-break: break-all; display: block; margin-top: 5px; }
+        .payment-footer { margin-top: 30px; border-top: 1px solid var(--dark-red); padding-top: 20px; }
+        .xmr-box { background: #000; border: 1px dashed var(--red); padding: 10px; font-size: 12px; color: #ffae00; word-break: break-all; margin-top: 10px; }
 
-        .footer { text-align: center; font-size: 9px; color: #444; margin-top: 25px; letter-spacing: 2px; }
+        .footer-text { text-align: center; font-size: 9px; margin-top: 30px; color: #444; letter-spacing: 2px; }
     </style>
 </head>
 <body>
 
-<header>
-    <img src="https://i.ibb.co/sp35zdbh/IMG-9090.jpg" alt="STUXNET" class="logo">
-    <h1 class="main-title">STUXNET.OFFICIAL</h1>
-</header>
+<div class="scanline"></div>
 
-<div class="container">
-    <div class="market-tabs">
-        <button class="tab-btn active" onclick="switchTab(this, 'mobile')"><i class="fas fa-mobile-alt"></i> Mobile</button>
-        <button class="tab-btn" onclick="switchTab(this, 'pc')"><i class="fas fa-laptop-code"></i> Computer</button>
-        <button class="tab-btn" onclick="switchTab(this, 'web')"><i class="fas fa-network-wired"></i> Web/Network</button>
+<div class="wrapper">
+    <header>
+        <img src="https://i.ibb.co/sp35zdbh/IMG-9090.jpg" alt="STUXNET" class="logo">
+        <div class="glitch">STUXNET_NETWORK</div>
+        <p style="font-size: 10px; color: var(--green);">[ CONNECTION: ENCRYPTED_AES_256 // NODE: ONION_HIDDEN ]</p>
+    </header>
+
+    <div class="market-grid">
+        <div class="sidebar">
+            <button class="nav-btn active" onclick="showTab(this, 'android-tab')">#_ANDROID_BOT</button>
+            <button class="nav-btn" onclick="showTab(this, 'pc-tab')">#_PC_INTRUSION</button>
+            <button class="nav-btn" onclick="showTab(this, 'web-tab')">#_WEB_STRIKE</button>
+            <button class="nav-btn" onclick="showTab(this, 'osint-tab')">#_OSINT_INTEL</button>
+        </div>
+
+        <div class="main-panel">
+            <div class="panel-header">
+                <span id="panel-title">MOBILE_EXPLOIT_V.4</span>
+                <span class="status-blink"></span>
+            </div>
+
+            <div id="android-tab" class="hidden-content active-content">
+                <form onsubmit="transmit(event, 'ANDROID_RAT')">
+                    <div class="field-group">
+                        <label>Your Telegram Handle</label>
+                        <input type="text" id="and-user" placeholder="@Username" required>
+                    </div>
+                    <div class="field-group">
+                        <label>Target Phone Number / IMEI</label>
+                        <input type="text" id="and-target" placeholder="+20 XXX XXX XXXX" required>
+                    </div>
+                    <div class="field-group">
+                        <label>Operation Payload</label>
+                        <select id="and-action">
+                            <option value="Full Access RAT">FULL_SYSTEM_REMOTE (RAT)</option>
+                            <option value="Exfiltrate Contacts/Photos">DATA_DUMP (PHOTOS/CONTACTS)</option>
+                            <option value="Remote Wipe">BRICK_DEVICE (FORMAT)</option>
+                            <option value="Live Surveillance">LIVE_MONITOR (MIC/CAM)</option>
+                        </select>
+                    </div>
+                    <textarea id="and-notes" placeholder="TARGET_SPECIFICATIONS / EXTRA_DATA..."></textarea>
+                    <button type="submit" class="execute-btn">EXECUTE_MISSION</button>
+                </form>
+            </div>
+
+            <div id="pc-tab" class="hidden-content">
+                <form onsubmit="transmit(event, 'PC_BREACH')">
+                    <input type="text" id="pc-user" placeholder="YOUR_UPLINK_ID" required>
+                    <input type="text" id="pc-target" placeholder="TARGET_IP / MAC_ADDR" required>
+                    <select id="pc-action">
+                        <option value="Ransomware Strike">ENCRYPT_LOCAL_FILES</option>
+                        <option value="Backdoor Install">STAY_PERSISTENT (BACKDOOR)</option>
+                        <option value="System Crash">KERNEL_PANIC_STRIKE</option>
+                    </select>
+                    <button type="submit" class="execute-btn">INITIATE_PC_BREACH</button>
+                </form>
+            </div>
+
+            <div id="web-tab" class="hidden-content">
+                <form onsubmit="transmit(event, 'WEB_STRIKE')">
+                    <input type="url" id="web-target" placeholder="HTTPS://TARGET_DOMAIN.COM" required>
+                    <select id="web-action">
+                        <option value="DDoS Offline">FORCE_OFFLINE (DDoS)</option>
+                        <option value="SQL Injection">SQL_DATABASE_STEAL</option>
+                        <option value="Deface Website">INDEX_DEFACEMENT</option>
+                    </select>
+                    <button type="submit" class="execute-btn">START_STRIKE</button>
+                </form>
+            </div>
+
+        </div>
     </div>
 
-    <div id="mobile" class="op-panel active">
-        <span class="label-red">// MOBILE_EXPLOITATION_UNIT</span>
-        <form onsubmit="sendToTelegram(event, 'MOBILE')">
-            <input type="text" name="user" placeholder="YOUR TELEGRAM ID" required>
-            <input type="text" name="target" placeholder="TARGET PHONE NUMBER (+20...)" required>
-            <select name="service" required>
-                <option value="" disabled selected>SELECT ACTION...</option>
-                <option value="Remote Control (RAT)">FULL REMOTE CONTROL (RAT)</option>
-                <option value="Format Device">REMOTE WIPE (FORMAT)</option>
-                <option value="Extract Contacts/Gallery">EXTRACT IMAGES & CONTACTS</option>
-                <option value="Spy Mic/Camera">LIVE SURVEILLANCE</option>
-            </select>
-            <textarea name="extra" rows="2" placeholder="DEVICE TYPE OR EXTRA INFO..."></textarea>
-            <button type="submit" class="submit-btn">EXECUTE ORDER</button>
-        </form>
+    <div class="payment-footer">
+        <span class="label-red">// PAYMENT_GATEWAY_ANONYMOUS</span>
+        <div class="xmr-box">
+            XMR_ADDR: 43xSNqUuVfnNjFiLTFUxQb2TAXG8GNknFQg9BGCYxuST4mgJ1nUqtt1cdaDPVay6W45Hb2tLGW2uH3bubNgw9JjbPou5jNg
+        </div>
+        <div class="xmr-box" style="color: var(--green);">
+            VODA_CASH: +201030003287
+        </div>
     </div>
 
-    <div id="pc" class="op-panel">
-        <span class="label-red">// PC_INTRUSION_UNIT</span>
-        <form onsubmit="sendToTelegram(event, 'PC')">
-            <input type="text" name="user" placeholder="YOUR TELEGRAM ID" required>
-            <input type="text" name="target" placeholder="TARGET IP OR DEVICE NAME" required>
-            <select name="service" required>
-                <option value="" disabled selected>SELECT OS TYPE...</option>
-                <option value="Windows Exploitation">WINDOWS_OS</option>
-                <option value="Linux Breach">LINUX_SERVER</option>
-                <option value="macOS Payload">MACOS_INTRUSION</option>
-            </select>
-            <select name="action" required>
-                <option value="" disabled selected>SELECT ACTION...</option>
-                <option value="Ransomware/Lock">ENCRYPT FILES (RANSOM)</option>
-                <option value="Keylogger/Spy">SILENT SPYING (KEYLOGGER)</option>
-                <option value="File Exfiltration">STEAL SENSITIVE FILES</option>
-            </select>
-            <button type="submit" class="submit-btn">INITIATE PC STRIKE</button>
-        </form>
+    <div class="footer-text">
+        TERMINAL_STUXNET &copy; 2026 // NO_LOGS_KEPT // STAY_ANON
     </div>
-
-    <div id="web" class="op-panel">
-        <span class="label-red">// NETWORK_OFFENSIVE_UNIT</span>
-        <form onsubmit="sendToTelegram(event, 'NETWORK')">
-            <input type="text" name="user" placeholder="YOUR TELEGRAM ID" required>
-            <input type="url" name="target" placeholder="TARGET WEBSITE/DOMAIN URL" required>
-            <select name="service" required>
-                <option value="" disabled selected>SELECT OPERATION...</option>
-                <option value="DDoS Attack">DDoS_TAKEDOWN (OFFLINE)</option>
-                <option value="SQL Injection">DATABASE_SQL_BREACH</option>
-                <option value="Vuln Discovery">0-DAY VULN_DISCOVERY</option>
-                <option value="Admin Access">BYPASS ADMIN LOGIN</option>
-            </select>
-            <button type="submit" class="submit-btn">START NETWORK ATTACK</button>
-        </form>
-    </div>
-
-    <div class="payment-info">
-        <span style="color:#fff; font-weight:bold">SECURE PAYMENT GATEWAYS:</span><br>
-        <span style="color:#888">MONERO (XMR):</span> 
-        <span class="xmr-addr">43xSNqUuVfnNjFiLTFUxQb2TAXG8GNknFQg9BGCYxuST4mgJ1nUqtt1cdaDPVay6W45Hb2tLGW2uH3bubNgw9JjbPou5jNg</span>
-        <span style="color:#888">VODAFONE CASH:</span>
-        <span style="color:var(--accent-green); display:block">+201030003287</span>
-    </div>
-
-    <div class="footer">STUXNET OFFENSIVE INTELLIGENCE &copy; 2026<br>ROOT@STUXNET_TERMINAL:~#</div>
 </div>
 
 <script>
@@ -151,47 +192,37 @@
         CHAT_ID: "5446862709"
     };
 
-    function switchTab(btn, tabId) {
-        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-        document.querySelectorAll('.op-panel').forEach(p => p.classList.remove('active'));
+    function showTab(btn, tabId) {
+        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.hidden-content').forEach(c => c.classList.remove('active-content'));
         btn.classList.add('active');
-        document.getElementById(tabId).classList.add('active');
+        document.getElementById(tabId).classList.add('active-content');
+        document.getElementById('panel-title').innerText = btn.innerText;
     }
 
-    async function sendToTelegram(event, moduleName) {
-        event.preventDefault();
-        const btn = event.target.querySelector('.submit-btn');
-        const formData = new FormData(event.target);
-        btn.innerText = "TRANSMITTING DATA...";
+    async function transmit(e, module) {
+        e.preventDefault();
+        const btn = e.target.querySelector('.execute-btn');
+        btn.innerText = ">>>> TRANSMITTING....";
         btn.disabled = true;
 
-        let message = `⚠️ [NEW MARKET ORDER]\n`;
-        message += `📂 MODULE: ${moduleName}\n`;
-        
-        for (let [key, value] of formData.entries()) {
-            message += `${key.toUpperCase()}: ${value}\n`;
-        }
+        let content = `💀 [STUXNET_ORDER: ${module}]\n\n`;
+        const inputs = e.target.querySelectorAll('input, select, textarea');
+        inputs.forEach(input => {
+            content += `[>] ${input.id.toUpperCase()}: ${input.value}\n`;
+        });
 
         try {
             const res = await fetch(`https://api.telegram.org/bot${CONFIG.TOKEN}/sendMessage`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ chat_id: CONFIG.CHAT_ID, text: message })
+                body: JSON.stringify({ chat_id: CONFIG.CHAT_ID, text: content })
             });
-
             if (res.ok) {
-                btn.innerText = "ORDER PLACED SUCCESSFULLY";
-                btn.style.background = "var(--accent-green)";
-                btn.style.color = "#000";
-                event.target.reset();
-            } else {
-                btn.innerText = "FAILED TO CONNECT";
-                btn.disabled = false;
-            }
-        } catch (err) {
-            btn.innerText = "OFFLINE ERROR";
-            btn.disabled = false;
-        }
+                btn.innerText = "SUCCESS_TRANSMITTED";
+                e.target.reset();
+            } else { btn.innerText = "NODE_FAILURE"; btn.disabled = false; }
+        } catch (err) { btn.innerText = "OFFLINE_ERR"; btn.disabled = false; }
     }
 </script>
 
