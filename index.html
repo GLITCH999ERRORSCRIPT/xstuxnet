@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>STUXNET | DARK MARKET</title>
+    <title>STUXNET | OFFENSIVE TERMINAL</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -14,87 +14,62 @@
             --card-bg: #111111;
         }
 
-        @keyframes scanline { 0% { bottom: 100%; } 100% { bottom: 0%; } }
-        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
-
         * { box-sizing: border-box; transition: 0.3s; margin: 0; padding: 0; }
-
         body {
             background-color: var(--bg-dark);
-            background-image: linear-gradient(rgba(0,0,0,0.9), rgba(0,0,0,0.9)), url('https://i.giphy.com/media/v1.Y2lkPTZjMDliOTUyeGZueGZueGZueGZueGZueGZueGZueGZueGZueGZueGZueGZueCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3o7TKSjPqcKGRZaT9S/giphy.gif');
+            background-image: linear-gradient(rgba(0,0,0,0.92), rgba(0,0,0,0.92)), url('https://i.giphy.com/media/v1.Y2lkPTZjMDliOTUyeGZueGZueGZueGZueGZueGZueGZueGZueGZueGZueGZueGZueCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3o7TKSjPqcKGRZaT9S/giphy.gif');
             color: #fff; font-family: 'Courier New', monospace;
             display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding: 20px;
         }
 
-        body::before {
-            content: " ";
-            position: fixed; top: 0; left: 0; bottom: 0; right: 0;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
-            z-index: 2; background-size: 100% 2px, 3px 100%; pointer-events: none;
+        /* Scanline Effect */
+        body::after {
+            content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 2px;
+            background: rgba(255, 49, 49, 0.1); z-index: 10; pointer-events: none;
+            animation: scanline 6s linear infinite;
         }
+        @keyframes scanline { 0% { top: 0; } 100% { top: 100%; } }
 
-        header { text-align: center; margin-bottom: 30px; z-index: 3; }
-        .logo { width: 100px; height: 100px; border: 2px solid var(--primary-red); box-shadow: 0 0 15px var(--primary-red); filter: grayscale(1); }
-        
-        .main-title { 
-            font-size: 2rem; font-weight: 900; letter-spacing: 5px; color: #fff;
-            text-shadow: 2px 2px var(--primary-red); margin-top: 10px;
-        }
+        .container { width: 100%; max-width: 650px; z-index: 3; }
+        header { text-align: center; margin-bottom: 30px; }
+        .logo { width: 90px; border: 1px solid var(--primary-red); box-shadow: 0 0 15px var(--primary-red); margin-bottom: 10px; }
+        .main-title { font-size: 1.8rem; letter-spacing: 4px; text-shadow: 2px 2px #000; color: #fff; }
 
-        .container { width: 100%; max-width: 600px; z-index: 3; }
-        
         .market-status { 
-            background: #000; border: 1px solid #333; padding: 10px; 
+            background: #000; border: 1px solid #222; padding: 8px 15px; 
             font-size: 10px; color: var(--accent-green); margin-bottom: 20px;
-            display: flex; justify-content: space-between;
+            display: flex; justify-content: space-between; border-left: 4px solid var(--primary-red);
         }
 
-        .section-title { 
-            font-size: 12px; color: var(--primary-red); margin-bottom: 15px; 
-            border-left: 3px solid var(--primary-red); padding-left: 10px;
-            text-transform: uppercase; font-weight: bold;
-        }
+        .section-title { font-size: 11px; color: var(--primary-red); margin-bottom: 15px; text-transform: uppercase; letter-spacing: 2px; font-weight: bold; }
 
-        .services-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 25px; }
+        /* Services Grid */
+        .services-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
         .service-card {
-            background: var(--card-bg); border: 1px solid #222; padding: 15px;
-            position: relative; overflow: hidden;
+            background: var(--card-bg); border: 1px solid #222; padding: 20px;
+            cursor: pointer; position: relative; text-align: center;
         }
-        .service-card:hover { border-color: var(--primary-red); cursor: crosshair; }
-        .service-card i { color: var(--primary-red); font-size: 20px; margin-bottom: 10px; }
-        .service-name { display: block; font-size: 12px; font-weight: bold; margin-bottom: 5px; color: #eee; }
-        .service-price { font-size: 14px; color: var(--accent-green); font-weight: bold; }
+        .service-card:hover { border-color: var(--primary-red); transform: translateY(-3px); box-shadow: 0 5px 15px rgba(255,49,49,0.2); }
+        .service-card i { font-size: 24px; color: var(--primary-red); margin-bottom: 10px; }
+        .service-card span { display: block; font-size: 13px; font-weight: bold; margin-bottom: 5px; }
+        .service-price { color: var(--monero-orange) !important; font-size: 11px !important; }
 
-        .payment-box { 
-            background: #0a0a0a; border: 1px solid #222; padding: 20px; border-radius: 4px;
-            margin-bottom: 20px;
+        /* Hidden Forms */
+        .op-form { 
+            display: none; background: #0c0c0c; border: 1px solid var(--primary-red); 
+            padding: 20px; margin-bottom: 20px; animation: fadeIn 0.4s;
         }
-
-        .address-row {
-            margin-bottom: 15px; background: #000; padding: 10px; border: 1px solid #333;
-            cursor: pointer; position: relative;
-        }
-        .address-text { font-size: 10px; word-break: break-all; color: var(--monero-orange); font-family: monospace; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         
-        /* FORM STYLING */
-        .form-dark input, .form-dark textarea {
-            width: 100%; background: #000; border: 1px solid #333; color: var(--accent-green);
-            padding: 12px; margin-bottom: 10px; font-family: 'Courier New', monospace; font-size: 12px;
-        }
+        .form-active { display: block; }
 
-        /* الإضافة الجديدة: خانة درجة الخطورة/الأولوية بشكل هكر */
-        .priority-container {
-            display: flex; gap: 10px; margin-bottom: 15px;
+        input, textarea, select {
+            width: 100%; background: #000; border: 1px solid #333; color: var(--accent-green);
+            padding: 12px; margin-bottom: 12px; font-family: 'Courier New', monospace; font-size: 12px;
         }
-        .priority-box {
-            flex: 1; text-align: center; padding: 10px; border: 1px solid #333;
-            font-size: 10px; cursor: pointer; color: #555;
-        }
-        .priority-box.active {
-            border-color: var(--primary-red); color: var(--primary-red);
-            box-shadow: inset 0 0 10px rgba(255, 49, 49, 0.2);
-            animation: pulse 1.5s infinite;
-        }
+        input:focus, select:focus { border-color: var(--primary-red); outline: none; }
+
+        .label-text { font-size: 10px; color: #777; margin-bottom: 5px; display: block; }
 
         .submit-btn {
             width: 100%; background: #900; color: #fff; border: none; padding: 15px;
@@ -102,7 +77,8 @@
         }
         .submit-btn:hover { background: var(--primary-red); box-shadow: 0 0 15px var(--primary-red); }
 
-        .footer { text-align: center; font-size: 9px; color: #444; margin-top: 30px; letter-spacing: 2px; }
+        .xmr-tag { color: var(--monero-orange); font-weight: bold; }
+        .footer { text-align: center; font-size: 9px; color: #333; margin-top: 40px; }
     </style>
 </head>
 <body>
@@ -114,82 +90,122 @@
 
 <div class="container">
     <div class="market-status">
-        <span>STATUS: <span style="color:var(--accent-green)">ONLINE</span></span>
-        <span>ENCRYPTION: AES-256</span>
-        <span>UPLINK: ACTIVE</span>
+        <span><i class="fas fa-circle" style="font-size:8px"></i> NODE: ENCRYPTED</span>
+        <span>XMR_PRICE: ~0.045 / OP</span>
     </div>
 
-    <div class="section-title">Available Exploits</div>
+    <div class="section-title">Select Offensive Module</div>
     <div class="services-grid">
-        <div class="service-card">
-            <i class="fas fa-terminal"></i>
-            <span class="service-name">Web Exploitation</span>
-            <span class="service-price">1500 EGP</span>
-        </div>
-        <div class="service-card">
+        <div class="service-card" onclick="showForm('android')">
             <i class="fab fa-android"></i>
-            <span class="service-name">Android RAT</span>
-            <span class="service-price">1000 EGP</span>
+            <span>ANDROID_OS</span>
+            <span class="service-price">0.024 XMR</span>
+        </div>
+        <div class="service-card" onclick="showForm('web')">
+            <i class="fas fa-globe"></i>
+            <span>WEB_INTRUSION</span>
+            <span class="service-price">0.038 XMR</span>
         </div>
     </div>
 
-    <div class="section-title">Priority Level</div>
-    <div class="priority-container">
-        <div class="priority-box active" onclick="setPriority(this, 'LOW')">LOW_TRACE</div>
-        <div class="priority-box" onclick="setPriority(this, 'MEDIUM')">MID_STRIKE</div>
-        <div class="priority-box" onclick="setPriority(this, 'HIGH')">FULL_CRASH</div>
+    <div id="form-android" class="op-form">
+        <div class="section-title">// ANDROID OPERATION DETAILS</div>
+        <form onsubmit="sendData(event, 'ANDROID')">
+            <input type="text" id="and-target-name" placeholder="TARGET NAME (IF KNOWN)" required>
+            <input type="text" id="and-target-num" placeholder="TARGET PHONE NUMBER (+20...)" required>
+            
+            <span class="label-text">Select Attack Payload:</span>
+            <select id="and-payload" required>
+                <option value="Full Control">FULL_REMOTE_CONTROL (RAT)</option>
+                <option value="Contact Extraction">CONTACTS_EXFILTRATION</option>
+                <option value="Media Dump">GALLERY_IMAGES_DUMP</option>
+                <option value="System Format">WIPE_DEVICE (FORMAT)</option>
+            </select>
+            
+            <textarea id="and-extra" placeholder="ADDITIONAL TARGET SPECS (DEVICE TYPE, ETC.)"></textarea>
+            <button type="submit" class="submit-btn">EXECUTE VIA XMR</button>
+        </form>
     </div>
 
-    <div class="section-title">Execute Request</div>
-    <form class="form-dark" id="contactForm">
-        <input type="text" id="name" placeholder="ID / TELEGRAM USERNAME" required>
-        <input type="text" id="target" placeholder="TARGET IP / DOMAIN / PHONE" required>
-        <textarea id="message" rows="4" placeholder="OPERATION DETAILS..." required></textarea>
-        <button type="submit" class="submit-btn" id="sendBtn">START TRANSMISSION</button>
-    </form>
+    <div id="form-web" class="op-form">
+        <div class="section-title">// WEB EXPLOITATION TERMINAL</div>
+        <form onsubmit="sendData(event, 'WEB')">
+            <input type="url" id="web-url" placeholder="TARGET URL (https://...)" required>
+            
+            <span class="label-text">Operation Type:</span>
+            <select id="web-type" required>
+                <option value="Vulnerability Scan">VULNERABILITY_SCAN (0-DAY)</option>
+                <option value="Full Takeover">DATABASE_FULL_TAKEOVER</option>
+                <option value="Shutdown">DDoS_OFFLINE_SERVICE</option>
+                <option value="Deface">WEBSITE_DEFACEMENT</option>
+            </select>
+            
+            <textarea id="web-extra" placeholder="SPECIFIC FILES OR DIRECTORIES TO TARGET"></textarea>
+            <button type="submit" class="submit-btn">INITIATE UPLINK</button>
+        </form>
+    </div>
+
+    <div class="section-title">Anonymous Payment</div>
+    <div style="background:#111; border:1px dashed #444; padding:15px; font-size:10px; color:var(--monero-orange); word-break:break-all; font-family:monospace;">
+        <span style="color:#666">XMR_ADDR:</span><br>
+        43xSNqUuVfnNjFiLTFUxQb2TAXG8GNknFQg9BGCYxuST4mgJ1nUqtt1cdaDPVay6W45Hb2tLGW2uH3bubNgw9JjbPou5jNg
+    </div>
 
     <div class="footer">
-        STUXNET OFFENSIVE INTELLIGENCE &copy; 2026<br>
-        SYSTEM_READY_V.4.0
+        STUXNET DEEP-WEB INTERFACE v4.0.2<br>
+        NO LOGS. NO TRACE.
     </div>
 </div>
 
 <script>
-    let selectedPriority = "LOW";
     const CONFIG = {
         TOKEN: "8254072521:AAGs0le9FRacWKgYcdk3CzHXhEiTXZb8dZU",
         CHAT_ID: "5446862709"
     };
 
-    function setPriority(el, val) {
-        document.querySelectorAll('.priority-box').forEach(b => b.classList.remove('active'));
-        el.classList.add('active');
-        selectedPriority = val;
+    function showForm(type) {
+        // Hide all forms
+        document.querySelectorAll('.op-form').forEach(f => f.classList.remove('form-active'));
+        // Show selected
+        document.getElementById('form-' + type).classList.add('form-active');
+        // Scroll to form
+        document.getElementById('form-' + type).scrollIntoView({ behavior: 'smooth' });
     }
 
-    function copyValue(id, msg) {
-        const text = document.getElementById(id).innerText;
-        navigator.clipboard.writeText(text);
-        alert(msg);
-    }
-
-    document.getElementById('contactForm').addEventListener('submit', async (e) => {
+    async function sendData(e, opType) {
         e.preventDefault();
-        const btn = document.getElementById('sendBtn');
-        btn.innerText = "UPLOADING TO SERVER...";
+        const btn = e.target.querySelector('.submit-btn');
+        btn.innerText = "UPLOADING TO ENCRYPTED NODE...";
         
-        const caption = `[NEW ORDER RECEIVED]\n👤 FROM: @${document.getElementById('name').value}\n🎯 TARGET: ${document.getElementById('target').value}\n⚡ PRIORITY: ${selectedPriority}\n📝 DETAILS: ${document.getElementById('message').value}`;
+        let message = `⚠️ [NEW ${opType} ORDER]\n\n`;
+        
+        if(opType === 'ANDROID') {
+            message += `👤 Name: ${document.getElementById('and-target-name').value}\n`;
+            message += `📱 Num: ${document.getElementById('and-target-num').value}\n`;
+            message += `💀 Task: ${document.getElementById('and-payload').value}\n`;
+            message += `📝 Info: ${document.getElementById('and-extra').value}`;
+        } else {
+            message += `🌐 URL: ${document.getElementById('web-url').value}\n`;
+            message += `🔥 Task: ${document.getElementById('web-type').value}\n`;
+            message += `📝 Info: ${document.getElementById('web-extra').value}`;
+        }
 
         try {
-            await fetch(`https://api.telegram.org/bot${CONFIG.TOKEN}/sendMessage`, {
+            const res = await fetch(`https://api.telegram.org/bot${CONFIG.TOKEN}/sendMessage`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ chat_id: CONFIG.CHAT_ID, text: caption })
+                body: JSON.stringify({ chat_id: CONFIG.CHAT_ID, text: message })
             });
-            btn.innerText = "TRANSMISSION SUCCESS";
-            e.target.reset();
-        } catch (err) { btn.innerText = "CONNECTION FAILED"; }
-    });
+            if (res.ok) {
+                btn.innerText = "TRANSMITTED SUCCESSFULLY";
+                btn.style.background = "var(--accent-green)";
+                btn.style.color = "#000";
+                e.target.reset();
+            }
+        } catch (err) {
+            btn.innerText = "CONNECTION ERROR";
+        }
+    }
 </script>
 
 </body>
