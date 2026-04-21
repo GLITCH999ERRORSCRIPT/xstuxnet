@@ -11,69 +11,221 @@
             --accent-purple: #9d4edd;
             --usdt-teal: #26a17b;
             --bg-dark: #000000;
-            --card-bg: rgba(255, 255, 255, 0.08);
         }
 
         * { box-sizing: border-box; transition: 0.3s; margin: 0; padding: 0; }
 
         body {
             background-color: var(--bg-dark);
-            background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://media4.giphy.com/media/v1.Y2lkPTZjMDliOTUyYWUyOTEycmZiM2FsZXlwMXJyZzRpMWVnYzdicGRzZ285a2RhYWtzOSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/UQo9nB9v6vp3nVADDl/giphy.gif');
-            background-size: cover; background-position: center; background-attachment: fixed;
-            color: #fff; font-family: 'Segoe UI', sans-serif;
-            display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding: 20px;
+            background-image: 
+                linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
+                url('https://media4.giphy.com/media/v1.Y2lkPTZjMDliOTUyYWUyOTEycmZiM2FsZXlwMXJyZzRpMWVnYzdicGRzZ285a2RhYWtzOSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/UQo9nB9v6vp3nVADDl/giphy.gif');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: #fff;
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
         }
 
-        header { text-align: center; margin-top: 40px; margin-bottom: 30px; }
+        header {
+            text-align: center;
+            margin-top: 40px;
+            margin-bottom: 30px;
+        }
+
+        .logo-container {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 15px;
+        }
+
+        .logo-container::before {
+            content: '';
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 140px; height: 140px;
+            background: radial-gradient(circle, rgba(157, 78, 221, 0.5) 0%, transparent 70%);
+            filter: blur(15px);
+            z-index: 0;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); }
+            50% { opacity: 0.8; transform: translate(-50%, -50%) scale(1.1); }
+        }
 
         .logo {
-            width: 110px; height: 110px; border-radius: 50%; border: 2px solid var(--primary-green);
-            box-shadow: 0 0 25px rgba(57, 255, 20, 0.3); object-fit: cover;
+            width: 110px; height: 110px;
+            border-radius: 50%;
+            border: 3px solid var(--primary-green);
+            box-shadow: 0 0 30px rgba(57, 255, 20, 0.4);
+            position: relative;
+            z-index: 1;
+            object-fit: cover;
         }
 
         .brand-info h1 {
-            font-size: 1.8rem; font-weight: 900; letter-spacing: 2px;
+            font-size: 1.8rem;
+            font-weight: 900;
+            letter-spacing: 1px;
             background: linear-gradient(to right, var(--primary-green), var(--accent-purple));
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
         }
 
-        .container { width: 100%; max-width: 400px; }
+        .brand-info p {
+            font-size: 13px;
+            color: #ccc;
+            margin-top: 5px;
+            letter-spacing: 0.5px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 420px;
+        }
 
         .section-card {
-            background: var(--card-bg); backdrop-filter: blur(12px); border-radius: 20px;
-            padding: 22px; margin-bottom: 20px; border: 1px solid rgba(255, 255, 255, 0.1);
-            text-align: center; box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-radius: 24px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
         }
 
-        .label-small { font-size: 10px; color: var(--accent-purple); margin-bottom: 15px; display: block; letter-spacing: 2px; font-weight: 800; }
-
-        input, textarea {
-            width: 100%; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.1);
-            color: #fff; padding: 14px; border-radius: 10px; margin-bottom: 12px; outline: none; font-size: 14px;
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 15px;
         }
 
-        /* Style for File Input */
-        .file-input-wrapper {
-            position: relative; margin-bottom: 15px; text-align: left;
+        .card-header span {
+            font-weight: bold;
+            color: var(--accent-purple);
+            font-size: 14px;
+            text-transform: uppercase;
         }
-        
+
+        .address-box {
+            background: rgba(0, 0, 0, 0.6);
+            padding: 15px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border: 1px solid #333;
+        }
+
+        .address-text {
+            font-family: 'Courier New', monospace;
+            font-size: 11px;
+            color: #eee;
+            word-break: break-all;
+            margin-right: 10px;
+        }
+
+        .copy-btn {
+            color: var(--primary-green);
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+
+        .label-small {
+            font-size: 10px;
+            color: var(--accent-purple);
+            margin-bottom: 15px;
+            display: block;
+            letter-spacing: 2px;
+            font-weight: bold;
+        }
+
+        .join-btn {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1.5px solid var(--accent-purple);
+            color: #fff;
+            text-decoration: none;
+            padding: 14px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        form input, form textarea {
+            width: 100%;
+            background: rgba(0,0,0,0.5);
+            border: 1px solid #333;
+            color: #fff;
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            outline: none;
+        }
+
+        /* Improved File Input Style */
+        .file-upload-section {
+            text-align: left;
+            margin-bottom: 15px;
+        }
+
+        .file-upload-section label {
+            font-size: 11px;
+            color: #888;
+            margin-bottom: 5px;
+            display: block;
+            padding-left: 5px;
+        }
+
         input[type="file"] {
-            padding: 10px; font-size: 12px; border: 1px dashed var(--accent-purple); cursor: pointer;
+            padding: 10px;
+            font-size: 12px;
+            background: rgba(157, 78, 221, 0.05);
+            border: 1px dashed var(--accent-purple);
+            cursor: pointer;
         }
 
         .submit-btn {
-            width: 100%; background: linear-gradient(45deg, var(--accent-purple), #5a189a);
-            border: none; color: #fff; padding: 15px; border-radius: 10px;
-            font-weight: 700; cursor: pointer; text-transform: uppercase;
+            width: 100%;
+            background: linear-gradient(45deg, var(--accent-purple), #5a189a);
+            border: none;
+            color: #fff;
+            padding: 16px;
+            border-radius: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            text-transform: uppercase;
         }
 
-        .submit-btn:disabled { background: #1a1a1a; color: #555; }
+        .submit-btn:disabled {
+            background: #222;
+            color: #666;
+            cursor: not-allowed;
+        }
     </style>
 </head>
 <body>
 
 <header>
-    <img src="https://i.ibb.co/sp35zdbh/IMG-9090.jpg" alt="STUXNET" class="logo">
+    <div class="logo-container">
+        <img src="https://i.ibb.co/sp35zdbh/IMG-9090.jpg" alt="STUXNET" class="logo">
+    </div>
     <div class="brand-info">
         <h1>STUXNET OFFICIAL</h1>
         <p>Security • Development • Community</p>
@@ -82,70 +234,91 @@
 
 <div class="container">
     <div class="section-card">
-        <span class="label-small">SUBMIT REPORT / INQUIRY</span>
+        <div class="card-header">
+            <div style="background: var(--usdt-teal); width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: bold;">₮</div>
+            <span>DONATE STUXNET</span>
+        </div>
+        <div class="address-box">
+            <span class="address-text" id="wallet">TQhuYaGhhpXEg322iELNesuLXCyziPhJxC</span>
+            <i class="fas fa-copy copy-btn" onclick="copyWallet()"></i>
+        </div>
+    </div>
+
+    <div class="section-card">
+        <span class="label-small">LATEST UPDATES</span>
+        <a href="https://t.me/xstuxnet" target="_blank" class="join-btn">
+            <i class="fab fa-telegram-plane"></i> JOIN CHANNEL
+        </a>
+    </div>
+
+    <div class="section-card">
+        <span class="label-small">CONTACT ADMIN</span>
         <form id="contactForm">
-            <input type="text" id="name" placeholder="Name / Alias" required>
-            <textarea id="message" rows="3" placeholder="Message content..." required></textarea>
+            <input type="text" id="name" placeholder="Your Name / Alias" required>
+            <textarea id="message" rows="3" placeholder="Message details..." required></textarea>
             
-            <div class="file-input-wrapper">
-                <span style="font-size: 11px; color: #aaa; margin-bottom: 5px; display: block;">ATTACH SCREENSHOT (OPTIONAL):</span>
-                <input type="file" id="imageInput" accept="image/*">
+            <div class="file-upload-section">
+                <label>ATTACH FILE (IMAGE, DOC, ZIP...)</label>
+                <input type="file" id="fileInput">
             </div>
 
-            <button type="submit" class="submit-btn" id="sendBtn">SEND TO ADMIN</button>
+            <button type="submit" class="submit-btn" id="sendBtn">SEND MESSAGE</button>
         </form>
     </div>
 </div>
 
 <script>
-    const API_CONFIG = {
+    const CONFIG = {
         TOKEN: "8254072521:AAGs0le9FRacWKgYcdk3CzHXhEiTXZb8dZU",
-        CHAT_ID: "5446862709",
-        COOLDOWN_MS: 10000
+        CHAT_ID: "5446862709"
     };
+
+    function copyWallet() {
+        navigator.clipboard.writeText(document.getElementById('wallet').innerText);
+        alert("Wallet Copied!");
+    }
 
     document.getElementById('contactForm').addEventListener('submit', async (e) => {
         e.preventDefault();
         const btn = document.getElementById('sendBtn');
-        const imageFile = document.getElementById('imageInput').files[0];
-        const caption = `[STUXNET REPORT]\n\nUser: ${document.getElementById('name').value}\nMessage: ${document.getElementById('message').value}`;
+        const file = document.getElementById('fileInput').files[0];
+        const caption = `👤 FROM: ${document.getElementById('name').value}\n💬 MSG: ${document.getElementById('message').value}`;
 
-        btn.innerText = "UPLOADING...";
+        btn.innerText = "SENDING...";
         btn.disabled = true;
 
         const formData = new FormData();
-        formData.append('chat_id', API_CONFIG.CHAT_ID);
+        formData.append('chat_id', CONFIG.CHAT_ID);
+
+        let endpoint = "sendMessage";
         
-        let url = `https://api.telegram.org/bot${API_CONFIG.TOKEN}/sendMessage`;
-        
-        if (imageFile) {
-            // If there's an image, use sendPhoto
-            url = `https://api.telegram.org/bot${API_CONFIG.TOKEN}/sendPhoto`;
-            formData.append('photo', imageFile);
+        if (file) {
+            // Using sendDocument for high speed and support for all extensions
+            endpoint = "sendDocument";
+            formData.append('document', file);
             formData.append('caption', caption);
         } else {
-            // Just text
             formData.append('text', caption);
         }
 
         try {
-            const response = await fetch(url, {
+            const response = await fetch(`https://api.telegram.org/bot${CONFIG.TOKEN}/${endpoint}`, {
                 method: 'POST',
                 body: formData
             });
 
             if (response.ok) {
-                btn.innerText = "SUCCESSFUL";
+                btn.innerText = "SENT SUCCESSFULLY";
+                e.target.reset();
                 setTimeout(() => {
-                    btn.innerText = "SEND TO ADMIN";
+                    btn.innerText = "SEND MESSAGE";
                     btn.disabled = false;
-                    e.target.reset();
                 }, 3000);
             } else {
                 throw new Error();
             }
         } catch (err) {
-            btn.innerText = "ERROR - TRY AGAIN";
+            btn.innerText = "FAILED - TRY AGAIN";
             btn.disabled = false;
         }
     });
