@@ -9,81 +9,113 @@
         :root {
             --primary-green: #39FF14;
             --accent-purple: #9d4edd;
+            --usdt-teal: #26a17b;
             --bg-dark: #050505;
-            --card-bg: #121212;
+            --card-bg: #0d0d0d;
         }
 
-        * { box-sizing: border-box; }
-        
-        /* خلفية اللهب المتحركة */
-        canvas#flameCanvas {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: -1; background: #000;
-        }
-
+        * { box-sizing: border-box; transition: 0.3s; }
         body {
-            color: #fff; font-family: 'Segoe UI', sans-serif;
+            background-color: var(--bg-dark);
+            color: #fff;
+            font-family: 'Segoe UI', sans-serif;
             margin: 0; padding: 20px;
             display: flex; flex-direction: column; align-items: center;
         }
 
-        /* التصميم الأصلي للهيدر */
-        header { text-align: center; margin-bottom: 35px; }
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            width: 100%;
+        }
+
         .logo {
             width: 100px; height: 100px; border-radius: 50%;
             border: 3px solid var(--primary-green);
-            box-shadow: 0 0 20px rgba(57, 255, 20, 0.4);
-            margin-bottom: 10px;
+            box-shadow: 0 0 25px rgba(57, 255, 20, 0.3);
+            margin-bottom: 15px;
         }
-        .brand-info h1 { margin: 0; font-size: 26px; color: #fff; }
-        .brand-info p { margin: 5px 0; font-size: 13px; color: #888; }
+
+        .brand-info h1 {
+            margin: 0; font-size: 24px; letter-spacing: 2px;
+            background: linear-gradient(to right, var(--primary-green), var(--accent-purple));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+
+        .brand-info p { margin: 8px 0 0; font-size: 13px; color: #777; }
 
         .container { width: 100%; max-width: 450px; }
 
-        /* البطاقات كما كانت */
         .section-card {
-            background: var(--card-bg); border-radius: 18px;
-            padding: 20px; margin-bottom: 25px;
-            border: 1px solid #1a1a1a; text-align: center;
+            background: var(--card-bg);
+            border-radius: 18px;
+            padding: 20px;
+            margin-bottom: 25px;
+            border: 1px solid #1a1a1a;
+            text-align: center;
         }
 
-        /* صندوق الدونيت الأصلي */
-        .address-box {
-            background: #000; padding: 12px; border-radius: 10px;
-            border: 1px solid #222; display: flex;
-            justify-content: space-between; align-items: center; margin-top: 15px;
-        }
-        .address-text { font-family: monospace; font-size: 11px; color: #ccc; word-break: break-all; text-align: left; flex: 1; }
-
-        /* القناة والصور */
-        .tg-container {
-            width: 100%; height: 500px; border-radius: 12px;
-            overflow: hidden; background: #000; border: 1px solid #222;
+        .label {
+            font-size: 11px; color: var(--accent-purple);
+            text-transform: uppercase; letter-spacing: 2px;
+            margin-bottom: 15px; display: block;
         }
 
-        /* فورم المراسلة */
+        .donate-header { display: flex; justify-content: center; align-items: center; gap: 8px; margin-bottom: 15px; }
+        .usdt-circle { background: var(--usdt-teal); width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: bold; }
+        
+        .address-container {
+            background: #000;
+            padding: 12px;
+            border-radius: 10px;
+            border: 1px solid #222;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .address-text {
+            font-family: monospace;
+            font-size: 11px;
+            color: #ccc;
+            word-break: break-all;
+            flex: 1;
+            text-align: left;
+        }
+
+        .join-btn {
+            background: rgba(157, 78, 221, 0.1);
+            border: 1px solid var(--accent-purple);
+            color: #fff; text-decoration: none;
+            padding: 12px; border-radius: 12px;
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+            font-weight: bold; margin-bottom: 15px;
+        }
+
         input, textarea {
             width: 100%; background: #000; border: 1px solid #222;
-            color: #fff; padding: 12px; margin-bottom: 12px; border-radius: 10px; outline: none;
+            color: #fff; padding: 12px; margin-bottom: 15px;
+            border-radius: 10px; outline: none; font-size: 14px;
         }
 
         .submit-btn {
-            width: 100%; background: #222; color: #666;
-            padding: 14px; border-radius: 10px; border: none;
-            font-weight: bold; cursor: not-allowed; transition: 0.3s;
-        }
-        .submit-btn.active {
-            background: linear-gradient(45deg, var(--accent-purple), var(--primary-green));
-            color: #fff; cursor: pointer; box-shadow: 0 0 15px rgba(157, 78, 221, 0.5);
+            width: 100%; background: linear-gradient(45deg, var(--deep-purple), var(--accent-purple));
+            border: none; color: #fff; padding: 14px; border-radius: 10px;
+            font-weight: bold; cursor: pointer;
         }
 
-        #timer-msg { color: #ff4444; font-size: 12px; margin-top: 10px; display: none; }
+        /* حاوية القناة الجديدة لضمان ظهور الصور */
+        .tg-frame {
+            width: 100%;
+            height: 500px;
+            border-radius: 12px;
+            border: none;
+            background: #000;
+        }
+
     </style>
 </head>
-<body onclick="playTap()">
-
-<canvas id="flameCanvas"></canvas>
-<audio id="tapSound" src="https://assets.mixkit.co/active_storage/sfx/2568/2568-preview.mp3"></audio>
+<body onclick="playClick()"> <audio id="tapSound" src="https://www.soundjay.com/buttons/sounds/button-16.mp3" preload="auto"></audio>
 
 <header>
     <img src="https://i.ibb.co/sp35zdbh/IMG-9090.jpg" alt="STUXNET" class="logo">
@@ -94,109 +126,75 @@
 </header>
 
 <div class="container">
+
     <div class="section-card">
-        <span style="font-weight: bold; color: var(--accent-purple);">DONATE STUXNET</span>
-        <div class="address-box">
+        <div class="donate-header">
+            <div class="usdt-circle">₮</div>
+            <span style="font-weight: bold; font-size: 14px; color: var(--accent-purple);">DONATE STUXNET</span>
+        </div>
+        <p style="font-size: 11px; color: #555; margin-bottom: 12px;">USDT TRC20 ADDRESS:</p>
+        <div class="address-container">
             <span class="address-text" id="wallet">TQhuYaGhhpXEg322iELNesuLXCyziPhJxC</span>
-            <i class="fas fa-copy" style="color: var(--accent-purple); cursor: pointer; margin-left: 10px;" onclick="copyWallet()"></i>
+            <i class="fas fa-copy" style="color: var(--accent-purple); cursor: pointer;" onclick="copyWallet()"></i>
         </div>
     </div>
 
     <div class="section-card">
-        <span style="font-size: 11px; color: #555; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 15px; display: block;">Latest Updates</span>
-        <div class="tg-container">
-            <iframe src="https://t.me/s/xstuxnet" width="100%" height="100%" frameborder="0"></iframe>
-        </div>
+        <span class="label">Latest Updates</span>
+        <a href="https://t.me/xstuxnet" target="_blank" class="join-btn" onclick="playClick()">
+            <i class="fab fa-telegram-plane"></i> JOIN CHANNEL
+        </a>
+        <iframe src="https://t.me/s/xstuxnet" class="tg-frame"></iframe>
     </div>
 
     <div class="section-card">
-        <span style="color: var(--accent-purple); font-weight: bold; font-size: 14px;">SEND MESSAGE TO STUXNET</span>
-        <form id="contactForm" style="margin-top: 20px;">
-            <input type="text" id="name" placeholder="Your Name" required oninput="checkForm()">
-            <textarea id="message" rows="3" placeholder="Your Message..." required oninput="checkForm()"></textarea>
-            <button type="submit" class="submit-btn" id="sendBtn" disabled>SEND MESSAGE</button>
-            <div id="timer-msg">Wait <span id="count">60</span>s to send again.</div>
+        <span class="label">Send Message to STUXNET</span>
+        <form id="contactForm">
+            <input type="text" id="name" placeholder="Your Name" required onfocus="playClick()">
+            <textarea id="message" rows="3" placeholder="Your Message..." required onfocus="playClick()"></textarea>
+            <button type="submit" class="submit-btn" id="sendBtn" onclick="playClick()">SEND MESSAGE</button>
         </form>
     </div>
+
 </div>
 
 <script>
-    const CONFIG = { TOKEN: "8254072521:AAGs0le9FRacWKgYcdk3CzHXhEiTXZb8dZU", CHAT_ID: "5446862709" };
-
-    // 1. نظام الصوت
-    function playTap() { document.getElementById('tapSound').play().catch(()=>{}); }
-
-    // 2. تلوين الزرار
-    function checkForm() {
-        const btn = document.getElementById('sendBtn');
-        const isFilled = document.getElementById('name').value && document.getElementById('message').value;
-        if(isFilled && !localStorage.getItem('cooldown')) {
-            btn.classList.add('active'); btn.disabled = false;
-        } else {
-            btn.classList.remove('active'); btn.disabled = true;
-        }
-    }
-
-    // 3. التايمر (ضد التحديث)
-    function startTimer() {
-        let timeLeft = 60;
-        localStorage.setItem('cooldown', Date.now() + 60000);
-        document.getElementById('timer-msg').style.display = 'block';
-        const timer = setInterval(() => {
-            timeLeft--;
-            document.getElementById('count').innerText = timeLeft;
-            if(timeLeft <= 0) {
-                clearInterval(timer);
-                localStorage.removeItem('cooldown');
-                document.getElementById('timer-msg').style.display = 'none';
-                checkForm();
-            }
-        }, 1000);
-    }
-
-    // فحص التايمر عند فتح الصفحة
-    window.onload = () => {
-        const saved = localStorage.getItem('cooldown');
-        if(saved && Date.now() < saved) startTimer();
+    const CONFIG = {
+        TOKEN: "8254072521:AAGs0le9FRacWKgYcdk3CzHXhEiTXZb8dZU",
+        CHAT_ID: "5446862709"
     };
 
-    function copyWallet() { playTap(); navigator.clipboard.writeText(document.getElementById('wallet').innerText); alert("Copied!"); }
+    // دالة تشغيل الصوت
+    function playClick() {
+        const sound = document.getElementById('tapSound');
+        sound.currentTime = 0; // إعادة الصوت للبداية عند كل ضغطة
+        sound.play().catch(e => console.log("Audio waiting for user interaction"));
+    }
+
+    function copyWallet() {
+        playClick();
+        navigator.clipboard.writeText(document.getElementById('wallet').innerText);
+        alert("USDT Address Copied!");
+    }
 
     document.getElementById('contactForm').addEventListener('submit', async (e) => {
         e.preventDefault();
+        const btn = document.getElementById('sendBtn');
+        btn.innerText = "SENDING...";
         const payload = `👤 FROM: ${document.getElementById('name').value}\n💬 MSG: ${document.getElementById('message').value}`;
+
         try {
             await fetch(`https://api.telegram.org/bot${CONFIG.TOKEN}/sendMessage`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ chat_id: CONFIG.CHAT_ID, text: payload })
             });
-            alert("Sent!");
+            alert("Sent Successfully!");
             e.target.reset();
-            startTimer();
-        } catch (err) { alert("Error"); }
+        } catch (err) { alert("Error Sending!"); }
+        finally { btn.innerText = "SEND MESSAGE"; }
     });
-
-    // 4. كود اللهب الخلفي (Canvas Flame)
-    const canvas = document.getElementById('flameCanvas');
-    const ctx = canvas.getContext('2d');
-    canvas.width = window.innerWidth; canvas.height = window.innerHeight;
-    const flames = [];
-    function createFlame() {
-        return { x: Math.random() * canvas.width, y: canvas.height + 10, s: Math.random() * 3, v: Math.random() * 2 };
-    }
-    function draw() {
-        ctx.clearRect(0,0,canvas.width, canvas.height);
-        ctx.fillStyle = "rgba(157, 78, 221, 0.1)";
-        if(flames.length < 50) flames.push(createFlame());
-        flames.forEach((f, i) => {
-            f.y -= f.v; f.x += Math.sin(f.y/20);
-            ctx.beginPath(); ctx.arc(f.x, f.y, f.s, 0, Math.PI*2); ctx.fill();
-            if(f.y < 0) flames.splice(i, 1);
-        });
-        requestAnimationFrame(draw);
-    }
-    draw();
 </script>
+
 </body>
 </html>
