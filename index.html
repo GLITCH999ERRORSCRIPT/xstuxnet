@@ -3,161 +3,146 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>STUXNET | OFFICIAL SECURITY</title>
+    <title>STUXNET | OFFENSIVE INFRASTRUCTURE</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
             --primary-red: #ff3131;
             --accent-green: #39FF14;
-            --monero-orange: #ff6600;
-            --bg-dark: #000000;
+            --bg-black: #080808;
+            --panel-bg: rgba(15, 15, 15, 0.95);
         }
 
-        @keyframes entranceEffect {
-            0% { opacity: 0; transform: scale(1.1); filter: blur(10px); }
-            100% { opacity: 1; transform: scale(1); filter: blur(0); }
-        }
-
-        * { box-sizing: border-box; transition: 0.3s; margin: 0; padding: 0; }
-
+        * { box-sizing: border-box; margin: 0; padding: 0; transition: 0.3s; }
+        
         body {
-            background-color: var(--bg-dark);
-            background-image: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)), url('https://media4.giphy.com/media/v1.Y2lkPTZjMDliOTUyYWUyOTEycmZiM2FsZXlwMXJyZzRpMWVnYzdicGRzZ285a2RhYWtzOSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/UQo9nB9v6vp3nVADDl/giphy.gif');
-            background-size: cover; background-position: center; background-attachment: fixed;
-            color: #fff; font-family: 'Segoe UI', sans-serif;
+            background-color: var(--bg-black);
+            background-image: linear-gradient(rgba(0,0,0,0.9), rgba(0,0,0,0.9)), url('https://media4.giphy.com/media/v1.Y2lkPTZjMDliOTUyYWUyOTEycmZiM2FsZXlwMXJyZzRpMWVnYzdicGRzZ285a2RhYWtzOSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/UQo9nB9v6vp3nVADDl/giphy.gif');
+            background-size: cover; background-attachment: fixed;
+            color: #fff; font-family: 'Courier New', monospace;
             display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding: 20px;
-            animation: entranceEffect 1.2s ease-out forwards;
         }
 
-        header { text-align: center; margin-bottom: 20px; width: 100%; }
-        .logo { width: 90px; height: 90px; border-radius: 50%; border: 3px solid var(--primary-red); object-fit: cover; box-shadow: 0 0 20px rgba(255, 49, 49, 0.5); }
-        
-        .main-title { 
-            font-size: 1.8rem; text-transform: uppercase; letter-spacing: 2px; font-weight: 900; 
-            background: linear-gradient(to bottom, #ffffff 40%, #ff3131 100%); 
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent; 
-            filter: drop-shadow(0 0 10px rgba(255, 49, 49, 0.8)); margin-top: 15px;
+        header { text-align: center; margin-bottom: 25px; z-index: 10; }
+        .logo { width: 85px; height: 85px; border-radius: 50%; border: 2px solid var(--primary-red); box-shadow: 0 0 20px var(--primary-red); }
+        .main-title { font-size: 1.6rem; letter-spacing: 5px; margin-top: 10px; text-shadow: 0 0 10px var(--primary-red); }
+
+        .container { width: 100%; max-width: 500px; z-index: 10; }
+
+        /* Navigation Tabs */
+        .market-tabs { display: flex; gap: 5px; margin-bottom: 15px; }
+        .tab-btn { 
+            flex: 1; background: #111; border: 1px solid #333; color: #666; 
+            padding: 12px 5px; cursor: pointer; font-size: 10px; font-weight: bold;
+            text-transform: uppercase;
         }
+        .tab-btn.active { border-color: var(--primary-red); color: var(--primary-red); background: rgba(255,49,49,0.1); }
 
-        .container { width: 100%; max-width: 440px; }
-        
-        .welcome-msg { background: rgba(0,0,0,0.8); padding: 15px; border-radius: 12px; border: 1px solid var(--primary-red); text-align: center; margin-bottom: 15px; font-size: 11px; font-weight: bold; letter-spacing: 1px; }
-
-        /* Services Grid Styling */
-        .services-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
-        .service-item { 
-            background: rgba(0, 0, 0, 0.85); border: 1px solid rgba(255, 49, 49, 0.3); 
-            padding: 15px; border-radius: 12px; display: flex; flex-direction: column; align-items: center; gap: 10px; cursor: pointer;
+        /* Panels */
+        .op-panel { 
+            background: var(--panel-bg); border: 1px solid #222; padding: 20px; 
+            border-radius: 4px; display: none; animation: slideUp 0.4s ease;
         }
-        .service-item:hover { border-color: var(--primary-red); background: rgba(255, 49, 49, 0.1); transform: translateY(-3px); }
-        .service-item i { color: var(--primary-red); font-size: 22px; }
-        .service-name { font-size: 10px; font-weight: bold; text-transform: uppercase; text-align: center; }
-        .service-price { font-size: 12px; font-weight: 900; color: var(--monero-orange); }
+        .op-panel.active { display: block; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Hidden Forms (The Dark Market Menu) */
-        .op-form { 
-            display: none; background: rgba(0,0,0,0.95); border: 1px solid var(--primary-red); 
-            padding: 20px; border-radius: 20px; margin-bottom: 20px; animation: entranceEffect 0.5s ease;
+        .label-red { color: var(--primary-red); font-size: 11px; font-weight: bold; display: block; margin-bottom: 15px; border-bottom: 1px solid #222; padding-bottom: 5px; text-transform: uppercase; }
+
+        input, select, textarea {
+            width: 100%; background: #000; border: 1px solid #333; color: var(--accent-green);
+            padding: 12px; margin-bottom: 12px; font-size: 12px; font-family: monospace; outline: none;
         }
-        .form-active { display: block; }
+        input:focus { border-color: var(--primary-red); }
 
-        .label-small { font-size: 10px; color: var(--primary-red); margin-bottom: 15px; display: block; letter-spacing: 2px; font-weight: 900; text-transform: uppercase; text-align: center; }
-
-        /* Form Inputs */
-        form input, form textarea, form select { 
-            width: 100%; background: rgba(255,255,255,0.05); border: 1px solid rgba(255, 49, 49, 0.3); 
-            color: #fff; padding: 12px; border-radius: 10px; margin-bottom: 10px; outline: none; font-size: 12px; font-family: inherit;
+        .submit-btn {
+            width: 100%; background: #700; color: #fff; border: none; padding: 16px;
+            font-weight: 900; cursor: pointer; letter-spacing: 2px; text-transform: uppercase;
         }
-        form select option { background: #000; color: #fff; }
-        
-        .submit-btn { 
-            width: 100%; background: linear-gradient(45deg, #700, #ff3131); border: none; 
-            color: #fff; padding: 15px; border-radius: 10px; font-weight: 900; cursor: pointer; letter-spacing: 1px;
-        }
+        .submit-btn:hover { background: var(--primary-red); box-shadow: 0 0 15px var(--primary-red); }
 
-        .payment-section { background: rgba(0, 0, 0, 0.85); border-radius: 20px; padding: 15px; margin-bottom: 15px; border: 1px solid rgba(255, 255, 255, 0.1); }
-        .address-box { background: #000; padding: 10px; border-radius: 8px; display: flex; align-items: center; justify-content: space-between; border: 1px solid #222; margin-bottom: 8px; }
-        .address-text { font-family: monospace; font-size: 10px; color: var(--monero-orange); word-break: break-all; padding-right: 10px; }
-        .copy-btn { color: var(--accent-green); cursor: pointer; font-size: 14px; }
+        .payment-info { background: #000; border: 1px dashed #444; padding: 12px; margin-top: 15px; font-size: 10px; }
+        .xmr-addr { color: #ff6600; word-break: break-all; display: block; margin-top: 5px; }
 
-        .footer { text-align: center; font-size: 9px; color: #555; margin-top: 20px; letter-spacing: 2px; }
+        .footer { text-align: center; font-size: 9px; color: #444; margin-top: 25px; letter-spacing: 2px; }
     </style>
 </head>
 <body>
 
 <header>
     <img src="https://i.ibb.co/sp35zdbh/IMG-9090.jpg" alt="STUXNET" class="logo">
-    <br>
-    <h1 class="main-title">STUXNET OFFICIAL</h1>
+    <h1 class="main-title">STUXNET.OFFICIAL</h1>
 </header>
 
 <div class="container">
-    <div class="welcome-msg">SELECT MODULE TO INITIALIZE OPERATION</div>
-
-    <div class="services-grid">
-        <div class="service-item" onclick="showForm('android')">
-            <i class="fab fa-android"></i>
-            <span class="service-name">Android RAT</span>
-            <span class="service-price">0.035 XMR</span>
-        </div>
-        <div class="service-item" onclick="showForm('web')">
-            <i class="fas fa-globe"></i>
-            <span class="service-name">Web Intrusion</span>
-            <span class="service-price">0.050 XMR</span>
-        </div>
+    <div class="market-tabs">
+        <button class="tab-btn active" onclick="switchTab(this, 'mobile')"><i class="fas fa-mobile-alt"></i> Mobile</button>
+        <button class="tab-btn" onclick="switchTab(this, 'pc')"><i class="fas fa-laptop-code"></i> Computer</button>
+        <button class="tab-btn" onclick="switchTab(this, 'web')"><i class="fas fa-network-wired"></i> Web/Network</button>
     </div>
 
-    <div id="form-android" class="op-form">
-        <span class="label-small">// ANDROID MISSION PARAMETERS</span>
-        <form onsubmit="sendData(event, 'ANDROID')">
-            <input type="text" id="and-user" placeholder="YOUR TELEGRAM @USER" required>
-            <input type="text" id="and-target-name" placeholder="TARGET NAME / ALIAS">
-            <input type="text" id="and-target-num" placeholder="TARGET PHONE NUMBER" required>
-            <select id="and-task" required>
-                <option value="" disabled selected>SELECT OPERATION TYPE...</option>
-                <option value="Full Remote Access">FULL_REMOTE_ACCESS (RAT)</option>
-                <option value="Contact & SMS Dump">EXTRACT_CONTACTS_SMS</option>
-                <option value="Live Camera/Mic">LIVE_SURVEILLANCE</option>
-                <option value="Device Wipe">SYSTEM_WIPE (FORMAT)</option>
+    <div id="mobile" class="op-panel active">
+        <span class="label-red">// MOBILE_EXPLOITATION_UNIT</span>
+        <form onsubmit="sendToTelegram(event, 'MOBILE')">
+            <input type="text" name="user" placeholder="YOUR TELEGRAM ID" required>
+            <input type="text" name="target" placeholder="TARGET PHONE NUMBER (+20...)" required>
+            <select name="service" required>
+                <option value="" disabled selected>SELECT ACTION...</option>
+                <option value="Remote Control (RAT)">FULL REMOTE CONTROL (RAT)</option>
+                <option value="Format Device">REMOTE WIPE (FORMAT)</option>
+                <option value="Extract Contacts/Gallery">EXTRACT IMAGES & CONTACTS</option>
+                <option value="Spy Mic/Camera">LIVE SURVEILLANCE</option>
             </select>
-            <textarea id="and-note" rows="2" placeholder="ADDITIONAL INTEL..."></textarea>
-            <button type="submit" class="submit-btn" id="btn-and">INITIALIZE ANDROID UPLINK</button>
+            <textarea name="extra" rows="2" placeholder="DEVICE TYPE OR EXTRA INFO..."></textarea>
+            <button type="submit" class="submit-btn">EXECUTE ORDER</button>
         </form>
     </div>
 
-    <div id="form-web" class="op-form">
-        <span class="label-small">// WEB EXPLOITATION PARAMETERS</span>
-        <form onsubmit="sendData(event, 'WEB')">
-            <input type="text" id="web-user" placeholder="YOUR TELEGRAM @USER" required>
-            <input type="url" id="web-target" placeholder="TARGET WEBSITE URL (https://...)" required>
-            <select id="web-task" required>
-                <option value="" disabled selected>SELECT OPERATION TYPE...</option>
-                <option value="Database Breach">DATABASE_SQL_BREACH</option>
-                <option value="Service Takedown">DDoS_OFFLINE_ATTACK</option>
-                <option value="Admin Takeover">ADMIN_PANEL_BYPASS</option>
-                <option value="Vuln Scan">VULNERABILITY_AUDIT</option>
+    <div id="pc" class="op-panel">
+        <span class="label-red">// PC_INTRUSION_UNIT</span>
+        <form onsubmit="sendToTelegram(event, 'PC')">
+            <input type="text" name="user" placeholder="YOUR TELEGRAM ID" required>
+            <input type="text" name="target" placeholder="TARGET IP OR DEVICE NAME" required>
+            <select name="service" required>
+                <option value="" disabled selected>SELECT OS TYPE...</option>
+                <option value="Windows Exploitation">WINDOWS_OS</option>
+                <option value="Linux Breach">LINUX_SERVER</option>
+                <option value="macOS Payload">MACOS_INTRUSION</option>
             </select>
-            <textarea id="web-note" rows="2" placeholder="SPECIFIC GOALS..."></textarea>
-            <button type="submit" class="submit-btn" id="btn-web">INITIALIZE WEB INTRUSION</button>
+            <select name="action" required>
+                <option value="" disabled selected>SELECT ACTION...</option>
+                <option value="Ransomware/Lock">ENCRYPT FILES (RANSOM)</option>
+                <option value="Keylogger/Spy">SILENT SPYING (KEYLOGGER)</option>
+                <option value="File Exfiltration">STEAL SENSITIVE FILES</option>
+            </select>
+            <button type="submit" class="submit-btn">INITIATE PC STRIKE</button>
         </form>
     </div>
 
-    <div class="payment-section">
-        <span class="label-small">ANONYMOUS SETTLEMENT</span>
-        <div class="address-box">
-            <span class="address-text" id="xmr">43xSNqUuVfnNjFiLTFUxQb2TAXG8GNknFQg9BGCYxuST4mgJ1nUqtt1cdaDPVay6W45Hb2tLGW2uH3bubNgw9JjbPou5jNg</span>
-            <i class="fas fa-copy copy-btn" onclick="copyValue('xmr', 'MONERO ADDR COPIED')"></i>
-        </div>
-        <div class="address-box">
-            <span class="address-text" id="voda">+201030003287 (Voda Cash)</span>
-            <i class="fas fa-copy copy-btn" onclick="copyValue('voda', 'VODAFONE CASH COPIED')"></i>
-        </div>
+    <div id="web" class="op-panel">
+        <span class="label-red">// NETWORK_OFFENSIVE_UNIT</span>
+        <form onsubmit="sendToTelegram(event, 'NETWORK')">
+            <input type="text" name="user" placeholder="YOUR TELEGRAM ID" required>
+            <input type="url" name="target" placeholder="TARGET WEBSITE/DOMAIN URL" required>
+            <select name="service" required>
+                <option value="" disabled selected>SELECT OPERATION...</option>
+                <option value="DDoS Attack">DDoS_TAKEDOWN (OFFLINE)</option>
+                <option value="SQL Injection">DATABASE_SQL_BREACH</option>
+                <option value="Vuln Discovery">0-DAY VULN_DISCOVERY</option>
+                <option value="Admin Access">BYPASS ADMIN LOGIN</option>
+            </select>
+            <button type="submit" class="submit-btn">START NETWORK ATTACK</button>
+        </form>
     </div>
 
-    <div class="footer">
-        STUXNET OFFENSIVE SYSTEMS &copy; 2026<br>
-        SECURE TRANSMISSION ENCRYPTED
+    <div class="payment-info">
+        <span style="color:#fff; font-weight:bold">SECURE PAYMENT GATEWAYS:</span><br>
+        <span style="color:#888">MONERO (XMR):</span> 
+        <span class="xmr-addr">43xSNqUuVfnNjFiLTFUxQb2TAXG8GNknFQg9BGCYxuST4mgJ1nUqtt1cdaDPVay6W45Hb2tLGW2uH3bubNgw9JjbPou5jNg</span>
+        <span style="color:#888">VODAFONE CASH:</span>
+        <span style="color:var(--accent-green); display:block">+201030003287</span>
     </div>
+
+    <div class="footer">STUXNET OFFENSIVE INTELLIGENCE &copy; 2026<br>ROOT@STUXNET_TERMINAL:~#</div>
 </div>
 
 <script>
@@ -166,48 +151,47 @@
         CHAT_ID: "5446862709"
     };
 
-    function showForm(id) {
-        document.querySelectorAll('.op-form').forEach(f => f.classList.remove('form-active'));
-        document.getElementById('form-' + id).classList.add('form-active');
-        document.getElementById('form-' + id).scrollIntoView({ behavior: 'smooth' });
+    function switchTab(btn, tabId) {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.op-panel').forEach(p => p.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById(tabId).classList.add('active');
     }
 
-    function copyValue(id, msg) {
-        navigator.clipboard.writeText(document.getElementById(id).innerText.trim());
-        alert(msg);
-    }
-
-    async function sendData(e, type) {
-        e.preventDefault();
-        const btn = e.target.querySelector('button');
-        btn.innerText = "TRANSMITTING...";
+    async function sendToTelegram(event, moduleName) {
+        event.preventDefault();
+        const btn = event.target.querySelector('.submit-btn');
+        const formData = new FormData(event.target);
+        btn.innerText = "TRANSMITTING DATA...";
         btn.disabled = true;
 
-        let caption = `⚠️ [NEW ${type} OPERATION]\n\n`;
-        if(type === 'ANDROID') {
-            caption += `👤 FROM: @${document.getElementById('and-user').value}\n`;
-            caption += `🎯 TARGET: ${document.getElementById('and-target-name').value}\n`;
-            caption += `📞 NUM: ${document.getElementById('and-target-num').value}\n`;
-            caption += `💀 TASK: ${document.getElementById('and-task').value}\n`;
-            caption += `📝 NOTE: ${document.getElementById('and-note').value}`;
-        } else {
-            caption += `👤 FROM: @${document.getElementById('web-user').value}\n`;
-            caption += `🌐 URL: ${document.getElementById('web-target').value}\n`;
-            caption += `🔥 TASK: ${document.getElementById('web-task').value}\n`;
-            caption += `📝 NOTE: ${document.getElementById('web-note').value}`;
+        let message = `⚠️ [NEW MARKET ORDER]\n`;
+        message += `📂 MODULE: ${moduleName}\n`;
+        
+        for (let [key, value] of formData.entries()) {
+            message += `${key.toUpperCase()}: ${value}\n`;
         }
 
         try {
             const res = await fetch(`https://api.telegram.org/bot${CONFIG.TOKEN}/sendMessage`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ chat_id: CONFIG.CHAT_ID, text: caption })
+                body: JSON.stringify({ chat_id: CONFIG.CHAT_ID, text: message })
             });
+
             if (res.ok) {
-                btn.innerText = "TRANSMISSION SUCCESS";
-                e.target.reset();
-            } else { btn.innerText = "ERROR"; btn.disabled = false; }
-        } catch (err) { btn.innerText = "OFFLINE"; btn.disabled = false; }
+                btn.innerText = "ORDER PLACED SUCCESSFULLY";
+                btn.style.background = "var(--accent-green)";
+                btn.style.color = "#000";
+                event.target.reset();
+            } else {
+                btn.innerText = "FAILED TO CONNECT";
+                btn.disabled = false;
+            }
+        } catch (err) {
+            btn.innerText = "OFFLINE ERROR";
+            btn.disabled = false;
+        }
     }
 </script>
 
