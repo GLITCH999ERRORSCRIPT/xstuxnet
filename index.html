@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>STUXNET | OFFICIAL</title>
+    <title>STUXNET | OFFICIAL SECURITY</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -11,6 +11,7 @@
             --accent-green: #39FF14;
             --usdt-teal: #26a17b;
             --bg-dark: #000000;
+            --text-dark: #333;
         }
 
         @keyframes classicEntrance {
@@ -22,7 +23,7 @@
 
         body {
             background-color: var(--bg-dark);
-            background-image: linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.75)), url('https://media4.giphy.com/media/v1.Y2lkPTZjMDliOTUyYWUyOTEycmZiM2FsZXlwMXJyZzRpMWVnYzdicGRzZ285a2RhYWtzOSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/UQo9nB9v6vp3nVADDl/giphy.gif');
+            background-image: linear-gradient(rgba(0,0,0,0.88), rgba(0,0,0,0.88)), url('https://media4.giphy.com/media/v1.Y2lkPTZjMDliOTUyYWUyOTEycmZiM2FsZXlwMXJyZzRpMWVnYzdicGRzZ285a2RhYWtzOSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/UQo9nB9v6vp3nVADDl/giphy.gif');
             background-size: cover; background-position: center; background-attachment: fixed;
             color: #fff; font-family: 'Segoe UI', Tahoma, sans-serif;
             display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding: 20px;
@@ -32,45 +33,47 @@
         header { text-align: center; margin-top: 20px; margin-bottom: 20px; }
 
         .logo-container { position: relative; display: inline-block; margin-bottom: 10px; }
-        .logo-container::before {
-            content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            width: 130px; height: 130px; background: radial-gradient(circle, rgba(255, 49, 49, 0.3) 0%, transparent 70%);
-            filter: blur(15px); z-index: 0; animation: pulse 2s infinite;
+        .logo { width: 100px; height: 100px; border-radius: 50%; border: 2px solid var(--primary-red); position: relative; z-index: 1; object-fit: cover; box-shadow: 0 0 25px rgba(255, 49, 49, 0.3); }
+
+        /* تعديل العنوان الرئيسي للتناسق */
+        .main-title {
+            font-size: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            font-weight: 900;
+            /* تدرج لوني بين الأحمر الداكن والأسود */
+            background: linear-gradient(to bottom, #800000 0%, #000000 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            /* تأثير توهج أحمر خفيف للوضوح */
+            text-shadow: 0 0 10px rgba(128, 0, 0, 0.5);
         }
 
-        @keyframes pulse { 0%, 100% { transform: translate(-50%, -50%) scale(1); } 50% { transform: translate(-50%, -50%) scale(1.1); } }
-
-        .logo { width: 100px; height: 100px; border-radius: 50%; border: 2px solid var(--primary-red); position: relative; z-index: 1; object-fit: cover; }
-
         .welcome-msg { 
-            background: rgba(0,0,0,0.85); padding: 20px; border-radius: 15px; border: 1px solid rgba(255, 49, 49, 0.4);
-            max-width: 420px; text-align: center; margin-bottom: 20px; font-size: 14px; line-height: 1.6;
+            background: rgba(0,0,0,0.95); padding: 25px; border-radius: 15px; border: 1px solid rgba(255, 49, 49, 0.2);
+            max-width: 440px; text-align: center; margin-bottom: 25px; font-size: 13px; line-height: 1.8;
+            text-transform: uppercase; letter-spacing: 1.5px; font-weight: bold;
         }
 
         .container { width: 100%; max-width: 420px; }
+        .section-card { background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(25px); border-radius: 20px; padding: 20px; margin-bottom: 15px; border: 1px solid rgba(255, 49, 49, 0.1); text-align: center; }
 
-        .section-card { background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(15px); border-radius: 20px; padding: 20px; margin-bottom: 15px; border: 1px solid rgba(255, 255, 255, 0.05); text-align: center; }
-
-        .label-small { font-size: 10px; color: var(--primary-red); margin-bottom: 12px; display: block; letter-spacing: 2px; font-weight: bold; text-transform: uppercase; }
+        .label-small { font-size: 10px; color: var(--primary-red); margin-bottom: 15px; display: block; letter-spacing: 3px; font-weight: 900; text-transform: uppercase; }
 
         .input-group { position: relative; width: 100%; }
         .input-group span { position: absolute; left: 15px; top: 15px; color: var(--accent-green); font-weight: bold; }
         .input-group input { padding-left: 35px; }
 
-        form input, form textarea { width: 100%; background: rgba(0,0,0,0.7); border: 1px solid rgba(255, 49, 49, 0.2); color: #fff; padding: 15px; border-radius: 12px; margin-bottom: 12px; outline: none; }
+        form input, form textarea { width: 100%; background: rgba(0,0,0,0.95); border: 1px solid rgba(255, 49, 49, 0.2); color: #fff; padding: 15px; border-radius: 12px; margin-bottom: 12px; outline: none; font-size: 12px; text-transform: uppercase; }
 
-        input[type="file"] { border: 1px dashed rgba(255, 49, 49, 0.3); font-size: 12px; cursor: pointer; color: #aaa; }
+        .submit-btn { width: 100%; background: linear-gradient(45deg, #600, #b11); border: none; color: #fff; padding: 16px; border-radius: 12px; font-weight: 900; cursor: pointer; text-transform: uppercase; letter-spacing: 2px; }
+        .submit-btn:disabled { background: #222; color: #555; cursor: not-allowed; }
 
-        .submit-btn { width: 100%; background: linear-gradient(45deg, var(--primary-red), #b91c1c); border: none; color: #fff; padding: 16px; border-radius: 12px; font-weight: bold; cursor: pointer; text-transform: uppercase; }
+        .address-box { background: rgba(0, 0, 0, 1); padding: 12px; border-radius: 10px; display: flex; align-items: center; justify-content: space-between; border: 1px solid rgba(255, 49, 49, 0.2); margin-top: 5px; }
+        .address-text { font-family: monospace; font-size: 10px; color: #ccc; word-break: break-all; }
+        .copy-btn { color: var(--accent-green); cursor: pointer; }
 
-        .address-box { background: rgba(0, 0, 0, 0.7); padding: 12px; border-radius: 10px; display: flex; align-items: center; justify-content: space-between; border: 1px solid rgba(255, 49, 49, 0.2); margin-top: 5px; }
-        .address-text { font-family: monospace; font-size: 10px; color: #eee; word-break: break-all; }
-        
-        .copy-btn { color: var(--accent-green); cursor: pointer; font-size: 1.1rem; }
-
-        .proton-mail { display: flex; align-items: center; justify-content: center; gap: 10px; background: rgba(109, 87, 204, 0.1); padding: 12px; border-radius: 12px; border: 1px solid rgba(109, 87, 204, 0.3); color: #fff; text-decoration: none; font-size: 13px; margin-top: 10px; }
-
-        .join-btn { background: rgba(0, 0, 0, 0.3); border: 1px solid var(--primary-red); color: #fff; text-decoration: none; padding: 12px; border-radius: 12px; display: flex; align-items: center; justify-content: center; gap: 10px; font-weight: bold; font-size: 13px; margin-top: 10px; }
+        .join-btn { background: rgba(0, 0, 0, 0.6); border: 1px solid var(--primary-red); color: #fff; text-decoration: none; padding: 14px; border-radius: 12px; display: flex; align-items: center; justify-content: center; gap: 10px; font-weight: 900; font-size: 12px; margin-top: 10px; letter-spacing: 2px; text-transform: uppercase; }
     </style>
 </head>
 <body>
@@ -79,42 +82,34 @@
     <div class="logo-container">
         <img src="https://i.ibb.co/sp35zdbh/IMG-9090.jpg" alt="STUXNET" class="logo">
     </div>
-    <h1>STUXNET OFFICIAL</h1>
+    <h1 class="main-title">STUXNET OFFICIAL</h1>
 </header>
 
 <div class="welcome-msg">
-    I am STUXNET and this is my official platform. Specialized in exploiting websites, phones, computers, and accounts. Submit your project details below to initiate contact.
+    I AM STUXNET AND THIS IS MY OFFICIAL PLATFORM. SPECIALIZED IN EXPLOITING WEBSITES, PHONES, COMPUTERS AND ACCOUNTS. SEND ME YOUR REQUEST TO INITIATE CONTACT.
 </div>
 
 <div class="container">
     <div class="section-card">
-        <span class="label-small">Contact Admin</span>
+        <span class="label-small">SECURE CONNECTION</span>
         <form id="contactForm">
             <div class="input-group">
                 <span>@</span>
-                <input type="text" id="name" placeholder="TELEGRAM USERNAME" required>
+                <input type="text" id="name" placeholder="TELEGRAM USERNAME" required minlength="3">
             </div>
-            <textarea id="message" rows="3" placeholder="Message Details" required></textarea>
-            <input type="file" id="fileInput">
-            <button type="submit" class="submit-btn" id="sendBtn">SEND MESSAGE</button>
+            <textarea id="message" rows="3" placeholder="REQUEST DETAILS" required></textarea>
+            <input type="file" id="fileInput" accept="*">
+            <button type="submit" class="submit-btn" id="sendBtn">EXECUTE SEND</button>
         </form>
     </div>
 
     <div class="section-card">
-        <span class="label-small">DONATE USDT (TRC20)</span>
+        <span class="label-small">ASSETS & INTEL</span>
         <div class="address-box">
-            <div style="color: var(--usdt-teal); margin-right: 5px;"><i class="fas fa-coins"></i></div>
             <span class="address-text" id="wallet">TQhuYaGhhpXEg322iELNesuLXCyziPhJxC</span>
             <i class="fas fa-copy copy-btn" onclick="copyWallet()"></i>
         </div>
-
-        <a href="mailto:devilnet320121@proton.me" class="proton-mail">
-            <i class="fas fa-envelope-open-text"></i> devilnet320121@proton.me
-        </a>
-
-        <a href="https://t.me/xstuxnet" target="_blank" class="join-btn">
-            <i class="fab fa-telegram-plane"></i> JOIN TELEGRAM CHANNEL
-        </a>
+        <a href="https://t.me/xstuxnet" target="_blank" class="join-btn">ACCESS CHANNEL</a>
     </div>
 </div>
 
@@ -124,25 +119,40 @@
         CHAT_ID: "5446862709"
     };
 
+    let lastSent = 0;
+
     function copyWallet() {
         navigator.clipboard.writeText(document.getElementById('wallet').innerText);
-        alert("Copied");
+        alert("DATA COPIED");
     }
 
     document.getElementById('contactForm').addEventListener('submit', async (e) => {
         e.preventDefault();
+        const now = Date.now();
         const btn = document.getElementById('sendBtn');
-        const file = document.getElementById('fileInput').files[0];
-        btn.innerText = "SENDING...";
+        const username = document.getElementById('name').value.trim();
+        
+        if (now - lastSent < 60000) {
+            alert("SPAM DETECTED: PLEASE WAIT 60 SECONDS");
+            return;
+        }
+
+        const tgRegex = /^[a-zA-Z0-9_]{3,32}$/;
+        if (!tgRegex.test(username)) {
+            alert("INVALID TELEGRAM USERNAME STRUCTURE");
+            return;
+        }
+
+        btn.innerText = "UPLOADING...";
         btn.disabled = true;
 
+        const file = document.getElementById('fileInput').files[0];
         const formData = new FormData();
         formData.append('chat_id', CONFIG.CHAT_ID);
-        const caption = `👤 TG: @${document.getElementById('name').value}\n💬 MSG: ${document.getElementById('message').value}`;
+        const caption = `[VERIFIED_TG]: @${username}\n[INTEL_PACK]: ${document.getElementById('message').value}`;
 
-        let endpoint = "sendMessage";
+        let endpoint = file ? "sendDocument" : "sendMessage";
         if (file) {
-            endpoint = "sendDocument";
             formData.append('document', file);
             formData.append('caption', caption);
         } else {
@@ -155,12 +165,13 @@
                 body: formData
             });
             if (response.ok) {
-                btn.innerText = "SENT";
+                btn.innerText = "SUCCESS";
+                lastSent = Date.now();
                 e.target.reset();
-                setTimeout(() => { btn.innerText = "SEND MESSAGE"; btn.disabled = false; }, 3000);
+                setTimeout(() => { btn.innerText = "EXECUTE SEND"; btn.disabled = false; }, 3000);
             }
         } catch (err) {
-            btn.innerText = "ERROR";
+            btn.innerText = "FAILED";
             btn.disabled = false;
         }
     });
