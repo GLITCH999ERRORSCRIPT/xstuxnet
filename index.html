@@ -10,82 +10,96 @@
             --primary-red: #ff3131;
             --accent-green: #39FF14;
             --monero-orange: #ff6600;
-            --bg-dark: #000000;
-            --card-bg: rgba(17, 17, 17, 0.9);
-        }
-
-        /* تأثير الدخول اللي كان في كودك */
-        @keyframes entranceEffect {
-            0% { opacity: 0; transform: scale(1.1); filter: blur(10px); }
-            100% { opacity: 1; transform: scale(1); filter: blur(0); }
+            --bg-dark: #050505;
+            --card-bg: #111111;
         }
 
         * { box-sizing: border-box; transition: 0.3s; margin: 0; padding: 0; }
 
         body {
             background-color: var(--bg-dark);
-            /* الخلفية اللي كانت في كودك */
-            background-image: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)), url('https://media4.giphy.com/media/v1.Y2lkPTZjMDliOTUyYWUyOTEycmZiM2FsZXlwMXJyZzRpMWVnYzdicGRzZ285a2RhYWtzOSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/UQo9nB9v6vp3nVADDl/giphy.gif');
-            background-size: cover; background-position: center; background-attachment: fixed;
-            color: #fff; font-family: 'Segoe UI', sans-serif;
+            background-image: linear-gradient(rgba(0,0,0,0.9), rgba(0,0,0,0.9)), url('https://i.giphy.com/media/v1.Y2lkPTZjMDliOTUyeGZueGZueGZueGZueGZueGZueGZueGZueGZueGZueGZueGZueCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3o7TKSjPqcKGRZaT9S/giphy.gif');
+            color: #fff; font-family: 'Courier New', monospace;
             display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding: 20px;
-            animation: entranceEffect 1.2s ease-out forwards;
         }
 
-        header { text-align: center; margin-bottom: 30px; }
-        .logo { width: 100px; height: 100px; border-radius: 50%; border: 3px solid var(--primary-red); object-fit: cover; box-shadow: 0 0 20px rgba(255, 49, 49, 0.5); }
+        /* تأثير الـ Scanline */
+        body::before {
+            content: " ";
+            position: fixed; top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            z-index: 2; background-size: 100% 2px, 3px 100%; pointer-events: none;
+        }
+
+        header { text-align: center; margin-bottom: 30px; z-index: 3; }
+        .logo { width: 100px; height: 100px; border: 2px solid var(--primary-red); box-shadow: 0 0 15px var(--primary-red); border-radius: 50%; object-fit: cover; }
         
         .main-title { 
-            font-size: 2rem; font-weight: 900; letter-spacing: 5px; 
-            background: linear-gradient(to bottom, #ffffff 40%, #ff3131 100%); 
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            margin-top: 15px; text-transform: uppercase;
+            font-size: 2rem; font-weight: 900; letter-spacing: 5px; color: #fff;
+            text-shadow: 2px 2px var(--primary-red); margin-top: 10px;
         }
 
-        .container { width: 100%; max-width: 500px; }
+        .container { width: 100%; max-width: 600px; z-index: 3; }
         
-        .welcome-msg { background: rgba(0,0,0,0.8); padding: 12px; border-radius: 12px; border: 1px solid var(--primary-red); text-align: center; margin-bottom: 20px; font-size: 11px; font-weight: bold; letter-spacing: 1px; }
+        .market-status { 
+            background: #000; border: 1px solid #333; padding: 10px; 
+            font-size: 10px; color: var(--accent-green); margin-bottom: 20px;
+            display: flex; justify-content: space-between;
+        }
 
-        /* ستايل الماركت (الخدمات) */
-        .services-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+        .services-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 25px; }
         .service-card {
-            background: var(--card-bg); border: 1px solid rgba(255, 49, 49, 0.2); 
-            padding: 15px; border-radius: 15px; position: relative; text-align: left;
+            background: var(--card-bg); border: 1px solid #222; padding: 15px;
+            position: relative; overflow: hidden;
         }
-        .service-card:hover { border-color: var(--primary-red); transform: translateY(-5px); }
-        .service-card i { color: var(--primary-red); font-size: 18px; margin-bottom: 10px; }
-        .service-name { display: block; font-size: 10px; font-weight: bold; text-transform: uppercase; color: #ccc; }
-        .service-price { font-size: 12px; font-weight: 900; color: var(--accent-green); margin-top: 5px; display: block; }
-        .service-id { position: absolute; top: 8px; right: 10px; font-size: 7px; color: #555; }
+        .service-card:hover { border-color: var(--primary-red); }
+        .service-card i { color: var(--primary-red); font-size: 20px; margin-bottom: 10px; }
+        .service-name { display: block; font-size: 12px; font-weight: bold; margin-bottom: 5px; color: #eee; }
+        .service-price { font-size: 14px; color: var(--accent-green); font-weight: bold; }
+        .service-id { position: absolute; top: 5px; right: 5px; font-size: 8px; color: #444; }
 
-        .section-card { background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(20px); border-radius: 20px; padding: 20px; margin-bottom: 15px; border: 1px solid rgba(255, 255, 255, 0.1); text-align: center; }
-        .label-small { font-size: 10px; color: var(--primary-red); margin-bottom: 15px; display: block; letter-spacing: 2px; font-weight: 900; text-transform: uppercase; }
+        .section-title { 
+            font-size: 12px; color: var(--primary-red); margin-bottom: 15px; 
+            border-left: 3px solid var(--primary-red); padding-left: 10px;
+            text-transform: uppercase; font-weight: bold;
+        }
 
-        /* الفورم المطور */
-        .input-group { position: relative; width: 100%; }
-        .input-group span { position: absolute; left: 15px; top: 15px; color: var(--accent-green); font-weight: bold; }
-        form input, form textarea { width: 100%; background: rgba(0,0,0,0.9); border: 1px solid rgba(255, 49, 49, 0.3); color: #fff; padding: 15px; border-radius: 12px; margin-bottom: 12px; outline: none; font-size: 12px; }
+        .payment-box { 
+            background: #0a0a0a; border: 1px solid #222; padding: 15px; border-radius: 4px;
+            margin-bottom: 20px;
+        }
+
+        .address-row {
+            margin-bottom: 10px; background: #000; padding: 10px; border: 1px solid #333;
+            cursor: pointer; position: relative; display: flex; justify-content: space-between; align-items: center;
+        }
+        .address-row:hover { border-color: var(--monero-orange); }
+        .address-label { font-size: 9px; color: #888; display: block; margin-bottom: 5px; text-transform: uppercase; }
+        .address-text { font-size: 10px; word-break: break-all; color: var(--monero-orange); font-family: monospace; }
         
-        .submit-btn { width: 100%; background: linear-gradient(45deg, #700, #ff3131); border: none; color: #fff; padding: 16px; border-radius: 12px; font-weight: 900; cursor: pointer; letter-spacing: 2px; text-transform: uppercase; }
-        .submit-btn:disabled { background: #333; cursor: not-allowed; }
+        .form-dark input, .form-dark textarea {
+            width: 100%; background: #000; border: 1px solid #333; color: var(--accent-green);
+            padding: 12px; margin-bottom: 10px; font-family: 'Courier New', monospace; font-size: 12px; outline: none;
+        }
+        .form-dark input:focus { border-color: var(--primary-red); }
 
-        /* الدفع بالمونيرو وفودافون */
-        .address-box { background: rgba(0, 0, 0, 0.95); padding: 12px; border-radius: 12px; display: flex; align-items: center; justify-content: space-between; border: 1px solid rgba(255, 49, 49, 0.4); margin-bottom: 10px; }
-        .address-text { font-family: monospace; font-size: 10px; color: #eee; display: flex; align-items: center; gap: 10px; word-break: break-all; text-align: left; }
-        .copy-btn { color: var(--accent-green); cursor: pointer; font-size: 14px; }
-        .icon-unit { width: 18px; height: 18px; }
+        .submit-btn {
+            width: 100%; background: #900; color: #fff; border: none; padding: 15px;
+            font-weight: bold; cursor: pointer; text-transform: uppercase; letter-spacing: 2px;
+        }
+        .submit-btn:hover { background: var(--primary-red); box-shadow: 0 0 10px var(--primary-red); }
 
-        /* السوشيال والبروتون */
-        .social-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        /* Social Grid */
+        .social-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
         .social-item { 
-            background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 49, 49, 0.3); 
-            border-radius: 12px; padding: 12px; display: flex; flex-direction: column; align-items: center; 
-            gap: 8px; text-decoration: none; color: #fff; cursor: pointer;
+            background: #111; border: 1px solid #333; padding: 12px; 
+            display: flex; flex-direction: column; align-items: center; gap: 8px; 
+            text-decoration: none; color: #fff; cursor: pointer;
         }
         .social-item i { font-size: 18px; }
-        .social-item span { font-size: 9px; font-weight: 900; text-transform: uppercase; }
+        .social-item span { font-size: 10px; font-weight: bold; }
 
-        .footer { text-align: center; font-size: 9px; color: #555; margin-top: 30px; letter-spacing: 2px; }
+        .footer { text-align: center; font-size: 9px; color: #444; margin-top: 30px; letter-spacing: 2px; }
     </style>
 </head>
 <body>
@@ -96,115 +110,89 @@
 </header>
 
 <div class="container">
-    <div class="welcome-msg">
-        SECURE DARK MARKET TERMINAL // NO LOGS RECORDED
+    <div class="market-status">
+        <span>STATUS: <span style="color:var(--accent-green)">ONLINE</span></span>
+        <span>ENCRYPTION: AES-4096</span>
+        <span>SERVER: SECURED_NODE</span>
     </div>
 
+    <div class="section-title">Available Exploits & Skills</div>
     <div class="services-grid">
-        <div class="service-card">
-            <span class="service-id">#WE-01</span>
-            <i class="fas fa-globe"></i>
-            <span class="service-name">Web Exploitation</span>
-            <span class="service-price">1500 EGP</span>
+        <div class="service-card"><span class="service-id">#WE-01</span><i class="fas fa-terminal"></i><span class="service-name">Web Exploitation</span><span class="service-price">1500 EGP</span></div>
+        <div class="service-card"><span class="service-id">#AN-02</span><i class="fab fa-android"></i><span class="service-name">Android RAT</span><span class="service-price">1000 EGP</span></div>
+        <div class="service-card"><span class="service-id">#PC-03</span><i class="fas fa-microchip"></i><span class="service-name">PC Intrusion</span><span class="service-price">1000 EGP</span></div>
+        <div class="service-card"><span class="service-id">#SM-04</span><i class="fas fa-user-secret"></i><span class="service-name">Social Access</span><span class="service-price">500 EGP</span></div>
+        <div class="service-card"><span class="service-id">#OS-05</span><i class="fas fa-search-location"></i><span class="service-name">OSINT / Geo</span><span class="service-price">250 EGP</span></div>
+        <div class="service-card"><span class="service-id">#VN-06</span><i class="fas fa-sim-card"></i><span class="service-name">Virtual Numbers</span><span class="service-price">30 EGP</span></div>
+    </div>
+
+    <div class="section-title">Secure Payment (XMR / Cash)</div>
+    <div class="payment-box">
+        <div class="address-row" onclick="copyValue('xmr-addr', 'XMR ADDRESS COPIED')">
+            <div style="width: 90%;">
+                <span class="address-label"><img src="https://cryptologos.cc/logos/monero-xmr-logo.png" width="10"> Monero (XMR)</span>
+                <span class="address-text" id="xmr-addr">43xSNqUuVfnNjFiLTFUxQb2TAXG8GNknFQg9BGCYxuST4mgJ1nUqtt1cdaDPVay6W45Hb2tLGW2uH3bubNgw9JjbPou5jNg</span>
+            </div>
+            <i class="fas fa-copy" style="color: var(--accent-green);"></i>
         </div>
-        <div class="service-card">
-            <span class="service-id">#AN-02</span>
-            <i class="fab fa-android"></i>
-            <span class="service-name">Android RAT</span>
-            <span class="service-price">1000 EGP</span>
-        </div>
-        <div class="service-card">
-            <span class="service-id">#PC-03</span>
-            <i class="fas fa-desktop"></i>
-            <span class="service-name">PC Intrusion</span>
-            <span class="service-price">1000 EGP</span>
-        </div>
-        <div class="service-card">
-            <span class="service-id">#SM-04</span>
-            <i class="fas fa-user-secret"></i>
-            <span class="service-name">Social Access</span>
-            <span class="service-price">500 EGP</span>
+        <div class="address-row" onclick="copyValue('voda-addr', 'VODAFONE CASH COPIED')">
+            <div>
+                <span class="address-label">Vodafone Cash (EGY)</span>
+                <span class="address-text" id="voda-addr">+201030003287</span>
+            </div>
+            <i class="fas fa-copy" style="color: var(--accent-green);"></i>
         </div>
     </div>
 
-    <div class="section-card">
-        <span class="label-small">SUBMIT OPERATION REQUEST</span>
-        <form id="contactForm">
-            <div class="input-group">
-                <span>@</span>
-                <input type="text" id="name" style="padding-left:35px" placeholder="TELEGRAM USERNAME" required>
-            </div>
-            <textarea id="message" rows="3" placeholder="DESCRIBE TARGET / SERVICE DETAILS" required></textarea>
-            <input type="file" id="fileInput" style="margin-bottom: 10px; border: none; font-size: 10px; color: var(--primary-red);">
-            <button type="submit" class="submit-btn" id="sendBtn">EXECUTE SEND</button>
-        </form>
+    <div class="section-title">Execute Transmission</div>
+    <form class="form-dark" id="contactForm">
+        <input type="text" id="name" placeholder="ID / TELEGRAM USERNAME" required>
+        <textarea id="message" rows="4" placeholder="TARGET SPECIFICATIONS / OPERATION DETAILS..." required></textarea>
+        <input type="file" id="fileInput" style="border: none; padding: 0; margin-bottom: 15px;">
+        <button type="submit" class="submit-btn" id="sendBtn">START TRANSMISSION</button>
+    </form>
+
+    <div class="section-title">External Communication</div>
+    <div class="social-grid">
+        <div class="social-item" onclick="copyValue('proton', 'PROTONMAIL COPIED')">
+            <i class="fas fa-envelope" style="color: #6d4aff;"></i>
+            <span>PROTONMAIL</span>
+            <span id="proton" style="display:none;">devilnet320121@proton.me</span>
+        </div>
+        <a href="https://t.me/xstuxnet" target="_blank" class="social-item">
+            <i class="fab fa-telegram-plane" style="color: #0088cc;"></i>
+            <span>TELEGRAM</span>
+        </a>
     </div>
 
-    <div class="section-card">
-        <span class="label-small">PAYMENT GATEWAYS</span>
-        
-        <div class="address-box">
-            <div class="address-text">
-                <img src="https://cryptologos.cc/logos/monero-xmr-logo.png" class="icon-unit">
-                <span id="wallet">43xSNqUuVfnNjFiLTFUxQb2TAXG8GNknFQg9BGCYxuST4mgJ1nUqtt1cdaDPVay6W45Hb2tLGW2uH3bubNgw9JjbPou5jNg</span>
-            </div>
-            <i class="fas fa-copy copy-btn" onclick="copyValue('wallet', 'XMR ADDRESS COPIED')"></i>
-        </div>
-
-        <div class="address-box">
-            <div class="address-text">
-                <i class="fas fa-phone-alt" style="color:var(--primary-red); font-size: 16px;"></i>
-                <span id="voda">+201030003287</span>
-            </div>
-            <i class="fas fa-copy copy-btn" onclick="copyValue('voda', 'VODAFONE CASH COPIED')"></i>
-        </div>
+    <div class="footer">
+        STUXNET OFFENSIVE INTELLIGENCE &copy; 2026<br>
+        AUTHORIZED ACCESS ONLY.
     </div>
-
-    <div class="section-card">
-        <span class="label-small">EXTERNAL CHANNELS</span>
-        <div class="social-grid">
-            <div class="social-item" onclick="copyValue('proton', 'PROTONMAIL COPIED')">
-                <i class="fas fa-envelope" style="color: #6d4aff;"></i>
-                <span>PROTONMAIL</span>
-                <span id="proton" style="display:none;">devilnet320121@proton.me</span>
-            </div>
-            <a href="https://t.me/xstuxnet" target="_blank" class="social-item">
-                <i class="fab fa-telegram-plane" style="color: #0088cc;"></i>
-                <span>TELEGRAM</span>
-            </a>
-        </div>
-    </div>
-</div>
-
-<div class="footer">
-    STUXNET OFFENSIVE INTELLIGENCE &copy; 2026<br>
-    AUTHORIZED PERSONNEL ONLY.
 </div>
 
 <script>
-    // الإعدادات الخاصة ببوت التليجرام بتاعك
     const CONFIG = {
         TOKEN: "8254072521:AAGs0le9FRacWKgYcdk3CzHXhEiTXZb8dZU",
         CHAT_ID: "5446862709"
     };
 
     function copyValue(id, msg) {
-        let text = document.getElementById(id).innerText;
+        const text = document.getElementById(id).innerText;
         navigator.clipboard.writeText(text.trim());
         alert(msg);
     }
 
-    // نظام الإرسال المتطور (نصوص + ملفات)
     document.getElementById('contactForm').addEventListener('submit', async (e) => {
         e.preventDefault();
         const btn = document.getElementById('sendBtn');
-        btn.disabled = true;
         btn.innerText = "TRANSMITTING...";
+        btn.disabled = true;
 
         const file = document.getElementById('fileInput').files[0];
         const formData = new FormData();
         formData.append('chat_id', CONFIG.CHAT_ID);
-        const caption = `[STUXNET MARKET ORDER]\n👤 FROM: @${document.getElementById('name').value}\n📄 INTEL: ${document.getElementById('message').value}`;
+        const caption = `[NEW MARKET ORDER]\n👤 USER: @${document.getElementById('name').value}\n💀 REQ: ${document.getElementById('message').value}`;
 
         let endpoint = file ? "sendDocument" : "sendMessage";
         if (file) { 
@@ -215,20 +203,20 @@
         }
 
         try {
-            const res = await fetch(`https://api.telegram.org/bot${CONFIG.TOKEN}/${endpoint}`, { 
-                method: 'POST', 
-                body: formData 
+            const res = await fetch(`https://api.telegram.org/bot${CONFIG.TOKEN}/${endpoint}`, {
+                method: 'POST',
+                body: formData
             });
             if (res.ok) {
                 btn.innerText = "SUCCESS";
                 e.target.reset();
-                setTimeout(() => { btn.disabled = false; btn.innerText = "EXECUTE SEND"; }, 4000);
-            } else {
-                btn.innerText = "FAILED";
+                setTimeout(() => { btn.disabled = false; btn.innerText = "START TRANSMISSION"; }, 3000);
+            } else { 
+                btn.innerText = "ERROR"; 
                 btn.disabled = false;
             }
-        } catch (err) {
-            btn.innerText = "ERROR";
+        } catch (err) { 
+            btn.innerText = "OFFLINE"; 
             btn.disabled = false;
         }
     });
