@@ -22,7 +22,6 @@
 
         body {
             background-color: var(--bg-dark);
-            /* قمت بتقليل التعتيم هنا لتبدو الخلفية واضحة جداً */
             background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://media4.giphy.com/media/v1.Y2lkPTZjMDliOTUyYWUyOTEycmZiM2FsZXlwMXJyZzRpMWVnYzdicGRzZ285a2RhYWtzOSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/UQo9nB9v6vp3nVADDl/giphy.gif');
             background-size: cover; background-position: center; background-attachment: fixed;
             color: #fff; font-family: 'Segoe UI', Tahoma, sans-serif;
@@ -30,44 +29,38 @@
             animation: classicEntrance 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
         }
 
-        header { text-align: center; margin-top: 20px; margin-bottom: 20px; width: 100%; max-width: 600px; }
+        header { text-align: center; margin-top: 20px; margin-bottom: 20px; width: 100%; }
 
         .logo-container { position: relative; display: inline-block; margin-bottom: 10px; }
         .logo { width: 100px; height: 100px; border-radius: 50%; border: 3px solid var(--primary-red); position: relative; z-index: 1; object-fit: cover; box-shadow: 0 0 25px rgba(255, 49, 49, 0.5); }
 
-        /* تعديل الاسم ليكون مشرق، واضح، وعلى سطر واحد */
         .main-title {
-            font-size: 2.2rem; /* زيادة الحجم قليلاً للموبايل */
+            font-size: 2rem;
             text-transform: uppercase;
-            letter-spacing: 5px;
+            letter-spacing: 4px;
             font-weight: 900;
             background: linear-gradient(to bottom, #ffffff 40%, #ff3131 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             filter: drop-shadow(0 0 10px rgba(255, 49, 49, 0.9));
             margin-top: 15px;
-            white-space: nowrap; /* يضمن بقاء النص على سطر واحد */
+            white-space: nowrap;
         }
 
-        /* تنسيق خاص للشاشات الصغيرة لضمان بقاء العنوان على سطر واحد */
-        @media (max-width: 480px) {
-            .main-title {
-                font-size: 1.6rem;
-                letter-spacing: 3px;
-            }
-        }
+        @media (max-width: 480px) { .main-title { font-size: 1.5rem; letter-spacing: 2px; } }
 
         .welcome-msg { 
             background: rgba(0,0,0,0.85); padding: 25px; border-radius: 15px; border: 1px solid rgba(255, 49, 49, 0.4);
             max-width: 440px; text-align: center; margin-bottom: 25px; font-size: 13px; line-height: 1.8;
             text-transform: uppercase; letter-spacing: 1.5px; font-weight: bold;
-            box-shadow: 0 0 15px rgba(0,0,0,0.5);
         }
 
         .container { width: 100%; max-width: 420px; }
-        .section-card { background: rgba(0, 0, 0, 0.75); backdrop-filter: blur(25px); border-radius: 20px; padding: 20px; margin-bottom: 15px; border: 1px solid rgba(255, 255, 255, 0.1); text-align: center; box-shadow: 0 8px 32px rgba(0,0,0,0.6); }
+        .section-card { background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(25px); border-radius: 20px; padding: 20px; margin-bottom: 15px; border: 1px solid rgba(255, 255, 255, 0.1); text-align: center; }
 
         .label-small { font-size: 10px; color: var(--primary-red); margin-bottom: 15px; display: block; letter-spacing: 3px; font-weight: 900; text-transform: uppercase; }
+
+        .payment-label { font-size: 9px; font-weight: 900; color: #888; text-align: left; display: block; margin-left: 5px; margin-top: 10px; letter-spacing: 1px; }
 
         .input-group { position: relative; width: 100%; }
         .input-group span { position: absolute; left: 15px; top: 15px; color: var(--accent-green); font-weight: bold; }
@@ -77,15 +70,14 @@
 
         .submit-btn { width: 100%; background: linear-gradient(45deg, #700, #ff3131); border: none; color: #fff; padding: 16px; border-radius: 12px; font-weight: 900; cursor: pointer; text-transform: uppercase; letter-spacing: 2px; }
 
-        /* Donat Box & Socials */
-        .address-box { background: rgba(0, 0, 0, 0.9); padding: 12px; border-radius: 10px; display: flex; align-items: center; justify-content: space-between; border: 1px solid rgba(255, 49, 49, 0.4); margin-top: 5px; margin-bottom: 10px; }
+        .address-box { background: rgba(0, 0, 0, 0.95); padding: 12px; border-radius: 10px; display: flex; align-items: center; justify-content: space-between; border: 1px solid rgba(255, 49, 49, 0.4); margin-top: 5px; }
         .address-text { font-family: monospace; font-size: 11px; color: #eee; word-break: break-all; display: flex; align-items: center; gap: 8px; font-weight: bold; }
         .copy-btn { color: var(--accent-green); cursor: pointer; font-size: 1.1rem; }
 
-        /* إصلاح أيقونة فودافون */
-        .voda-icon { width: 20px; height: 20px; object-fit: contain; }
+        /* تعديل أيقونة فودافون لتناسب الرابط الجديد */
+        .voda-icon { width: 22px; height: 22px; border-radius: 4px; object-fit: cover; }
 
-        .proton-mail { display: flex; align-items: center; justify-content: center; gap: 10px; background: rgba(255, 49, 49, 0.1); padding: 12px; border-radius: 12px; border: 1px solid rgba(255, 49, 49, 0.3); color: #fff; text-decoration: none; font-size: 11px; margin-top: 10px; font-weight: bold; }
+        .proton-mail { display: flex; align-items: center; justify-content: center; gap: 10px; background: rgba(255, 49, 49, 0.08); padding: 12px; border-radius: 12px; border: 1px solid rgba(255, 49, 49, 0.3); color: #fff; text-decoration: none; font-size: 11px; margin-top: 10px; font-weight: bold; text-transform: uppercase; }
 
         .join-btn { background: rgba(0, 0, 0, 0.6); border: 1px solid var(--primary-red); color: #fff; text-decoration: none; padding: 14px; border-radius: 12px; display: flex; align-items: center; justify-content: center; gap: 10px; font-weight: 900; font-size: 12px; margin-top: 10px; letter-spacing: 2px; text-transform: uppercase; }
     </style>
@@ -120,6 +112,7 @@
     <div class="section-card">
         <span class="label-small">ASSETS & DONATIONS</span>
         
+        <span class="payment-label">METHOD: USDT (TRC20)</span>
         <div class="address-box">
             <div class="address-text">
                 <i class="fas fa-coins" style="color: var(--usdt-teal);"></i>
@@ -128,9 +121,10 @@
             <i class="fas fa-copy copy-btn" onclick="copyValue('wallet')"></i>
         </div>
 
+        <span class="payment-label">METHOD: VODAFONE CASH (EGP)</span>
         <div class="address-box">
             <div class="address-text">
-                <img src="https://img.icons8.com/?size=100&id=121175&format=png&color=ff0000" class="voda-icon" alt="Voda">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQR8xSsQkF9Jxc3ZdCCzdji9hvyLZGT9gZBLQzmPU7PxA&s" class="voda-icon" alt="Vodafone">
                 <span id="voda">01030003287</span>
             </div>
             <i class="fas fa-copy copy-btn" onclick="copyValue('voda')"></i>
