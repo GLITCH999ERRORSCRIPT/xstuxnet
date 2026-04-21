@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rent-A-Hacker | Official</title>
+    <title>Rent-A-Hacker</title>
     <style>
-        /* الأساسيات لتقليد التصميم القديم */
+        /* التنسيق العام لتقليد الويب القديم */
         body {
-            background-color: #000;
-            color: #ccc;
+            background-color: #2c2c34; /* لون الخلفية الخارجي */
+            color: #d1d1d1;
             font-family: Arial, Helvetica, sans-serif;
             margin: 0;
             padding: 0;
@@ -16,137 +16,160 @@
             justify-content: center;
         }
 
-        .main-wrapper {
+        .main-container {
             width: 100%;
-            max-width: 900px;
-            background-color: #333; /* اللون الرمادي الغامق للخلفية */
-            border: 1px solid #444;
-            margin-top: 20px;
-            box-shadow: 0 0 15px rgba(0,0,0,0.5);
+            max-width: 960px;
+            background-color: #40404a; /* لون الحاوية الداخلية */
+            box-shadow: 0px 0px 20px rgba(0,0,0,0.5);
+            margin-top: 15px;
+            margin-bottom: 30px;
+            border-radius: 15px 15px 0 0;
+            overflow: hidden;
         }
 
-        /* الهيدر الأسود العلوي */
+        /* الهيدر العلوي */
         header {
-            background: #000;
-            padding: 10px 20px;
+            background: #000000;
+            padding: 15px 25px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-        }
-
-        .logo-text {
-            color: #fff;
-            font-size: 28px;
-            font-weight: bold;
-            margin: 0;
-        }
-
-        nav a {
-            color: #f0e68c; /* اللون المصفر للأزرار */
-            text-decoration: none;
-            background: #444;
-            padding: 3px 8px;
-            margin-left: 5px;
-            border-radius: 4px;
-            font-size: 14px;
-            border: 1px solid #666;
-        }
-
-        /* المحتوى الداخلي */
-        .content-area {
-            padding: 20px;
-            background-color: #444; /* تباين بسيط للمحتوى */
-            margin: 20px;
-            border-radius: 8px;
-        }
-
-        h2.section-title {
-            background: #222;
-            padding: 10px;
-            color: #fff;
-            font-size: 18px;
-            margin-top: 0;
             border-bottom: 2px solid #555;
         }
 
-        .text-block {
-            line-height: 1.5;
-            font-size: 13px;
+        .logo-text {
+            color: #ffffff;
+            font-size: 32px;
+            font-weight: bold;
+            margin: 0;
+            letter-spacing: -1px;
+        }
+
+        nav {
+            display: flex;
+            gap: 5px;
+        }
+
+        nav a {
+            color: #d2b48c; /* اللون البيج للأزرار */
+            text-decoration: none;
+            background: #4a3d31;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: bold;
+            border: 1px solid #634d3d;
+        }
+
+        /* المحتوى الداخلي */
+        .content {
+            padding: 25px;
+        }
+
+        .title-bar {
+            background: #2a2a32;
+            padding: 10px 15px;
+            color: #ffffff;
+            font-size: 20px;
             margin-bottom: 20px;
+            border-radius: 5px;
+            border-bottom: 1px solid #555;
         }
 
-        .text-block b { color: #fff; }
+        .intro-text {
+            font-size: 13px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            color: #bbb;
+        }
 
-        /* ستايل القوائم */
+        h3 {
+            font-size: 14px;
+            color: #fff;
+            margin-bottom: 5px;
+            text-decoration: underline;
+        }
+
         ul {
-            list-style-type: none;
-            padding-left: 10px;
+            list-style: none;
+            padding-left: 5px;
+            margin-top: 5px;
+            font-size: 13px;
+            color: #bbb;
         }
+
         ul li::before {
             content: "- ";
         }
 
-        /* ستايل الجدول (Products) */
+        .notice {
+            font-size: 13px;
+            font-weight: bold;
+            color: #eee;
+            margin-top: 30px;
+            margin-bottom: 20px;
+            line-height: 1.4;
+        }
+
+        /* تنسيق الجدول الأسود */
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 20px;
-            background: #2a2a2a;
-        }
-
-        th, td {
-            border: 1px solid #555;
-            padding: 12px;
-            text-align: left;
+            background-color: #111111;
             font-size: 13px;
+            border: 1px solid #333;
         }
 
-        th { background: #1a1a1a; color: #fff; }
+        th {
+            background-color: #1a1a1a;
+            color: #888;
+            text-align: left;
+            padding: 10px;
+            border-bottom: 1px solid #333;
+        }
 
-        .price-col { color: #f0e68c; font-weight: bold; }
+        td {
+            padding: 15px 10px;
+            border-bottom: 1px solid #222;
+            vertical-align: top;
+        }
 
-        .buy-now-btn {
-            background: #f0e68c;
+        .price-text {
+            color: #d2b48c;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+        .qty-input {
+            width: 30px;
+            background: #eee;
+            border: 1px solid #555;
+            text-align: center;
+        }
+
+        .buy-btn {
+            background: #d2b48c;
             color: #000;
             border: none;
-            padding: 5px 10px;
-            cursor: pointer;
+            padding: 3px 10px;
+            font-size: 11px;
             font-weight: bold;
             border-radius: 3px;
-        }
-
-        /* الفورم */
-        .contact-form {
-            background: #222;
-            padding: 15px;
-            margin-top: 20px;
-            border: 1px solid #555;
-        }
-
-        input, textarea {
-            width: 100%;
-            background: #000;
-            border: 1px solid #666;
-            color: #fff;
-            padding: 8px;
-            margin-bottom: 10px;
-        }
-
-        .submit-button {
-            background: #555;
-            color: white;
-            border: 1px solid #777;
-            padding: 10px 20px;
             cursor: pointer;
+            margin-top: 5px;
+            display: block;
         }
 
-        .submit-button:hover { background: #666; }
-
+        .x-mark {
+            color: #888;
+            font-size: 12px;
+            margin-left: 5px;
+        }
     </style>
 </head>
 <body>
 
-<div class="main-wrapper">
+<div class="main-container">
     <header>
         <h1 class="logo-text">Rent-A-Hacker</h1>
         <nav>
@@ -157,31 +180,57 @@
         </nav>
     </header>
 
-    <div class="content-area">
-        <h2 class="section-title">Rent-A-Hacker</h2>
-        
-        <div class="text-block">
-            <p>Experienced hacker offering his services!</p>
-            <p>(Illegal) Hacking and social engineering is my business since I was 16 years old. I never had a real job, so I had the time to get really good at hacking and I made a good amount of money last +-20 years.</p>
+    <div class="content">
+        <div class="title-bar">Rent-A-Hacker</div>
+
+        <div class="intro-text">
+            Experienced hacker offering his services!<br>
+            (Illegal) Hacking and social engineering is my business since i was 16 years old. I never had a real job, so i had the time to get really good at hacking and i made a good amount of money last +-20 years.<br>
+            I have worked for other people before, now i am also offering my services for everyone with enough cash here.
         </div>
 
-        <b>Prices:</b>
-        <div class="text-block">
+        <h3>Prices:</h3>
+        <div class="intro-text">
+            I am not doing this to make a few bucks here and there, i am not from some crappy eastern europe country and happy to scam people for 50 EUR.<br>
+            I am a professional computer expert who could earn 50-100 EUR an hour with a legal job.<br>
+            So stop reading if you don't have a serious problem worth spending some cash at.<br>
             Prices depend a lot on the problem you want to solve, but minimum amount for smaller jobs is 250 EUR.<br>
             You can pay me anonymously using Bitcoin.
         </div>
 
-        <b>Technical skills:</b>
+        <h3>Technical skills:</h3>
         <ul>
             <li>Web (HTML, PHP, SQL, APACHE)</li>
             <li>C/C++, Assembler, Delphi</li>
             <li>0day Exploits, Highly personalized trojans, Bots, DDOS</li>
             <li>Spear Phishing Attacks to get accounts from selected targets</li>
+            <li>Basically anything a hacker needs to be successful, if i don't know it, i'll learn it very fast</li>
+            <li>Anonymity: no one will ever find out who i am or anything about my clients.</li>
         </ul>
 
-        <b>What I'll do:</b>
-        <div class="text-block">
-            I will do anything for money. If you want me to destroy some business or a persons life, I'll do it!
+        <h3>Social Engineering skills:</h3>
+        <div class="intro-text">
+            - Very good written and spoken (phone calls) english, spanish and german.<br>
+            - If i can't hack something technically i'll make phone calls or write emails to the target to get the needed information, i have had people make things you wouldn't believe really often.<br>
+            - A lot of experience with security practices inside big corporations.
+        </div>
+
+        <h3>What i'll do:</h3>
+        <div class="intro-text">
+            I will do anything for money, i'm not a pussy. If you want me to destroy some business or a persons life, i'll do it!<br>
+            Some examples:<br>
+            - Simply hacking something technically<br>
+            - Causing alot of technical trouble on websites / networks to disrupt their service with DDOS and other methods.<br>
+            - Economic espionage<br>
+            - Getting private information from someone<br>
+            - Ruining your opponents, business or private persons you don't like, i can ruin them financially and or get them arrested, whatever you like.<br>
+            If you want someone to get known as a child porn user, no problem.
+        </div>
+
+        <div class="notice">
+            The following prices are estimates, if i think a specific job takes more time and money i will either refund you or you will send the remaining once we talked.<br>
+            If you are unsure about which category to choose, choose the lower priced one in question.<br>
+            You will only pay for successful jobs, if i can not do anything for you i will refund you. But keep in mind depending on your target specific things might take longer and require an addition payment, but only after i can show some success.
         </div>
 
         <table>
@@ -189,65 +238,46 @@
                 <tr>
                     <th>Product</th>
                     <th>Price</th>
-                    <th>Action</th>
+                    <th>Quantity</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
                     <td>Small job, for example: Email and Facebook hacking, installing trojans, small DDOS</td>
-                    <td class="price-col">250 EUR<br>0.00673 ฿</td>
-                    <td><button class="buy-now-btn">Buy now</button></td>
+                    <td class="price-text">250 EUR =<br>0.02937 ฿</td>
+                    <td>
+                        <input type="text" class="qty-input" value="1"><span class="x-mark">X</span>
+                        <button class="buy-btn">Buy now</button>
+                    </td>
                 </tr>
                 <tr>
                     <td>Medium-large job, ruining people, espionage, website hacking, DDOS for big websites</td>
-                    <td class="price-col">500 EUR<br>0.01346 ฿</td>
-                    <td><button class="buy-now-btn">Buy now</button></td>
+                    <td class="price-text">500 EUR =<br>0.05874 ฿</td>
+                    <td>
+                        <input type="text" class="qty-input" value="1"><span class="x-mark">X</span>
+                        <button class="buy-btn">Buy now</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Large job which takes a few days or multiple smaller jobs, DDOS for protected sites</td>
+                    <td class="price-text">900 EUR =<br>0.10572 ฿</td>
+                    <td>
+                        <input type="text" class="qty-input" value="1"><span class="x-mark">X</span>
+                        <button class="buy-btn">Buy now</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>UPGRADE: INSTANT reply within 30-60 minutes instead of 24-36 hours for urgent cases. If i need longer this will get refunded. Only buy this together with one of the other options.</td>
+                    <td class="price-text">200 EUR =<br>0.02349 ฿</td>
+                    <td>
+                        <input type="text" class="qty-input" value="1"><span class="x-mark">X</span>
+                        <button class="buy-btn">Buy now</button>
+                    </td>
                 </tr>
             </tbody>
         </table>
-
-        <div class="contact-form">
-            <h3 style="color: #fff; font-size: 14px; margin-top:0;">Submit Operation Request</h3>
-            <form id="contactForm">
-                <input type="text" id="name" placeholder="TELEGRAM USERNAME" required>
-                <textarea id="message" rows="4" placeholder="DESCRIBE TARGET / SERVICE" required></textarea>
-                <button type="submit" class="submit-button" id="sendBtn">EXECUTE SEND</button>
-            </form>
-        </div>
     </div>
 </div>
-
-<script>
-    // نفس كود التيليجرام بتاعك شغال هنا عادي
-    const CONFIG = {
-        TOKEN: "8254072521:AAGs0le9FRacWKgYcdk3CzHXhEiTXZb8dZU",
-        CHAT_ID: "5446862709"
-    };
-
-    document.getElementById('contactForm').addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const btn = document.getElementById('sendBtn');
-        btn.innerText = "TRANSMITTING...";
-        
-        const caption = `[STUXNET REQUEST]\n👤 FROM: @${document.getElementById('name').value}\n📄 INTEL: ${document.getElementById('message').value}`;
-
-        try {
-            const res = await fetch(`https://api.telegram.org/bot${CONFIG.TOKEN}/sendMessage`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ chat_id: CONFIG.CHAT_ID, text: caption })
-            });
-            if (res.ok) {
-                alert("SUCCESSFUL TRANSMISSION");
-                e.target.reset();
-            }
-        } catch (err) {
-            alert("ERROR");
-        } finally {
-            btn.innerText = "EXECUTE SEND";
-        }
-    });
-</script>
 
 </body>
 </html>
