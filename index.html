@@ -11,107 +11,110 @@
             --accent-purple: #9d4edd;
             --usdt-teal: #26a17b;
             --bg-dark: #050505;
-            --card-bg: #0d0d0d;
+            --card-bg: rgba(13, 13, 13, 0.9);
         }
 
-        * { box-sizing: border-box; transition: 0.3s; }
+        /* Animated Flame Background */
         body {
             background-color: var(--bg-dark);
+            background: radial-gradient(circle at bottom, #1a052e 0%, #050505 70%);
             color: #fff;
             font-family: 'Segoe UI', sans-serif;
             margin: 0; padding: 20px;
             display: flex; flex-direction: column; align-items: center;
+            overflow-x: hidden;
+            position: relative;
         }
 
-        /* Centered Header Section */
-        header {
-            text-align: center;
-            margin-bottom: 40px;
-            width: 100%;
+        body::before {
+            content: "";
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: url('https://www.transparenttextures.com/patterns/carbon-fibre.png');
+            opacity: 0.1; z-index: -1;
         }
+
+        /* Light Flame Effect Animation */
+        @keyframes flame {
+            0% { box-shadow: 0 -10px 20px rgba(157, 78, 221, 0.2); }
+            50% { box-shadow: 0 -20px 40px rgba(57, 255, 20, 0.2); }
+            100% { box-shadow: 0 -10px 20px rgba(157, 78, 221, 0.2); }
+        }
+
+        header { text-align: center; margin-top: 20px; margin-bottom: 40px; z-index: 1; }
 
         .logo {
-            width: 100px; height: 100px; border-radius: 50%;
+            width: 110px; height: 110px; border-radius: 50%;
             border: 3px solid var(--primary-green);
-            box-shadow: 0 0 25px rgba(57, 255, 20, 0.3);
-            margin-bottom: 15px;
+            box-shadow: 0 0 30px rgba(57, 255, 20, 0.3);
+            margin-bottom: 15px; animation: flame 3s infinite;
         }
 
         .brand-info h1 {
-            margin: 0; font-size: 24px; letter-spacing: 2px;
+            margin: 0; font-size: 28px; letter-spacing: 2px;
             background: linear-gradient(to right, var(--primary-green), var(--accent-purple));
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            font-weight: 800;
         }
 
-        .brand-info p { margin: 8px 0 0; font-size: 13px; color: #777; }
+        .container { width: 100%; max-width: 480px; z-index: 1; }
 
-        .container { width: 100%; max-width: 450px; }
-
-        /* Unified Card Style */
         .section-card {
             background: var(--card-bg);
-            border-radius: 18px;
-            padding: 20px;
-            margin-bottom: 25px;
-            border: 1px solid #1a1a1a;
-            text-align: center;
+            border-radius: 20px; padding: 25px; margin-bottom: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            text-align: center; backdrop-filter: blur(10px);
         }
 
-        .label {
-            font-size: 11px; color: var(--accent-purple);
-            text-transform: uppercase; letter-spacing: 2px;
-            margin-bottom: 15px; display: block;
-        }
-
-        /* Fixed Wallet Box */
-        .donate-header { display: flex; justify-content: center; align-items: center; gap: 8px; margin-bottom: 15px; }
-        .usdt-circle { background: var(--usdt-teal); width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: bold; }
-        
+        /* Wallet Box */
         .address-container {
-            background: #000;
-            padding: 12px;
-            border-radius: 10px;
-            border: 1px solid #222;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            background: #000; padding: 15px; border-radius: 12px;
+            border: 1px solid #222; display: flex; flex-direction: column;
+            align-items: center; gap: 12px;
         }
 
-        .address-text {
-            font-family: monospace;
-            font-size: 11px; /* صغرنا الخط عشان ميبقاش مبهرج */
-            color: #ccc;
-            word-break: break-all; /* بيخلي الكود ينزل سطر لو طويل */
-            flex: 1;
-            text-align: left;
+        .copy-btn {
+            background: rgba(157, 78, 221, 0.2); color: var(--accent-purple);
+            padding: 8px 20px; border-radius: 8px; font-size: 12px;
+            cursor: pointer; font-weight: bold;
         }
 
-        /* Feed & Buttons */
-        .join-btn {
-            background: rgba(157, 78, 221, 0.1);
-            border: 1px solid var(--accent-purple);
-            color: #fff; text-decoration: none;
-            padding: 12px; border-radius: 12px;
-            display: flex; align-items: center; justify-content: center; gap: 8px;
-            font-weight: bold; margin-bottom: 15px;
+        /* Telegram Feed */
+        .tg-frame-container {
+            width: 100%; height: 500px; border-radius: 15px;
+            overflow: hidden; background: #000; border: 1px solid #222;
         }
 
-        /* Contact Form */
+        /* Form & Dynamic Button */
         input, textarea {
             width: 100%; background: #000; border: 1px solid #222;
-            color: #fff; padding: 12px; margin-bottom: 15px;
-            border-radius: 10px; outline: none; font-size: 14px;
+            color: #fff; padding: 15px; margin-bottom: 15px;
+            border-radius: 12px; outline: none; font-size: 14px;
         }
 
+        input:focus, textarea:focus { border-color: var(--primary-green); }
+
+        /* الزرار مطفي في البداية */
         .submit-btn {
-            width: 100%; background: linear-gradient(45deg, var(--deep-purple), var(--accent-purple));
-            border: none; color: #fff; padding: 14px; border-radius: 10px;
-            font-weight: bold; cursor: pointer;
+            width: 100%; background: #222; color: #555;
+            border: none; padding: 16px; border-radius: 12px;
+            font-weight: bold; cursor: not-allowed; transition: 0.5s;
         }
 
+        /* الزرار ينور لما الفورم تتملي */
+        .submit-btn.active {
+            background: linear-gradient(45deg, var(--deep-purple), var(--accent-purple));
+            color: #fff; cursor: pointer;
+            box-shadow: 0 0 20px rgba(157, 78, 221, 0.4);
+        }
+
+        #cooldown-timer {
+            color: #ff4444; font-size: 12px; margin-top: 10px; display: none;
+        }
     </style>
 </head>
-<body>
+<body onclick="playClick()">
+
+<audio id="clickSound" src="https://www.soundjay.com/buttons/sounds/button-16.mp3"></audio>
 
 <header>
     <img src="https://i.ibb.co/sp35zdbh/IMG-9090.jpg" alt="STUXNET" class="logo">
@@ -124,35 +127,24 @@
 <div class="container">
 
     <div class="section-card">
-        <div class="donate-header">
-            <div class="usdt-circle">₮</div>
-            <span style="font-weight: bold; font-size: 14px; color: var(--accent-purple);">DONATE STUXNET</span>
-        </div>
-        <p style="font-size: 11px; color: #555; margin-bottom: 12px;">USDT TRC20 ADDRESS:</p>
-        <div class="address-container">
-            <span class="address-text" id="wallet">TQhuYaGhhpXEg322iELNesuLXCyziPhJxC</span>
-            <i class="fas fa-copy" style="color: var(--accent-purple); cursor: pointer;" onclick="copyWallet()"></i>
+        <span style="font-weight: bold; color: var(--accent-purple);">DONATE STUXNET</span>
+        <div class="address-container" style="margin-top:15px;">
+            <span style="font-family: monospace; font-size: 11px;" id="wallet">TQhuYaGhhpXEg322iELNesuLXCyziPhJxC</span>
+            <div class="copy-btn" onclick="copyWallet()">COPY ADDRESS</div>
         </div>
     </div>
 
     <div class="section-card">
-        <span class="label">Latest Updates</span>
-        <a href="https://t.me/xstuxnet" target="_blank" class="join-btn">
-            <i class="fab fa-telegram-plane"></i> JOIN CHANNEL
-        </a>
-        <div style="border-radius: 12px; overflow: hidden; background: #000;">
-            <script async src="https://telegram.org/js/telegram-widget.js?22" 
-                    data-telegram-post-list="xstuxnet" 
-                    data-limit="3" data-dark="1" data-width="100%"></script>
-        </div>
+        <iframe src="https://t.me/s/xstuxnet" width="100%" height="450" frameborder="0" style="border-radius:12px;"></iframe>
     </div>
 
     <div class="section-card">
-        <span class="label">Send Message to STUXNET</span>
+        <p style="font-size: 13px; color: var(--accent-purple); font-weight: bold;">SEND MESSAGE TO STUXNET</p>
         <form id="contactForm">
-            <input type="text" id="name" placeholder="Your Name" required>
-            <textarea id="message" rows="3" placeholder="Your Message..." required></textarea>
-            <button type="submit" class="submit-btn" id="sendBtn">SEND MESSAGE</button>
+            <input type="text" id="name" placeholder="Name" required oninput="validateForm()" onfocus="playClick()">
+            <textarea id="message" rows="3" placeholder="Message..." required oninput="validateForm()" onfocus="playClick()"></textarea>
+            <button type="submit" class="submit-btn" id="sendBtn" disabled>SEND MESSAGE</button>
+            <div id="cooldown-timer">Please wait <span id="seconds">60</span>s before next transmission.</div>
         </form>
     </div>
 
@@ -164,16 +156,44 @@
         CHAT_ID: "5446862709"
     };
 
+    // صوت التكة عند اللمس
+    function playClick() {
+        const audio = document.getElementById('clickSound');
+        audio.currentTime = 0;
+        audio.play().catch(()=>{});
+    }
+
+    // تفعيل الزرار عند الكتابة
+    function validateForm() {
+        const name = document.getElementById('name').value;
+        const msg = document.getElementById('message').value;
+        const btn = document.getElementById('sendBtn');
+        if(name.length > 0 && msg.length > 0) {
+            btn.classList.add('active');
+            btn.disabled = false;
+        } else {
+            btn.classList.remove('active');
+            btn.disabled = true;
+        }
+    }
+
     function copyWallet() {
+        playClick();
         navigator.clipboard.writeText(document.getElementById('wallet').innerText);
-        alert("USDT Address Copied!");
+        alert("Copied!");
     }
 
     document.getElementById('contactForm').addEventListener('submit', async (e) => {
         e.preventDefault();
         const btn = document.getElementById('sendBtn');
+        const timerDiv = document.getElementById('cooldown-timer');
+        const secondsSpan = document.getElementById('seconds');
+
+        btn.disabled = true;
+        btn.classList.remove('active');
         btn.innerText = "SENDING...";
-        const payload = `👤 FROM: ${document.getElementById('name').value}\n💬 MSG: ${document.getElementById('message').value}`;
+
+        const payload = `🚨 **MSG**\n👤 FROM: ${document.getElementById('name').value}\n💬: ${document.getElementById('message').value}`;
 
         try {
             await fetch(`https://api.telegram.org/bot${CONFIG.TOKEN}/sendMessage`, {
@@ -181,9 +201,26 @@
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ chat_id: CONFIG.CHAT_ID, text: payload })
             });
-            alert("Sent Successfully!");
+            alert("Transmission Successful.");
             e.target.reset();
-        } catch (err) { alert("Error Sending!"); }
+
+            // نظام الانتظار دقيقة
+            let timeLeft = 60;
+            timerDiv.style.display = 'block';
+            const interval = setInterval(() => {
+                timeLeft--;
+                secondsSpan.innerText = timeLeft;
+                if(timeLeft <= 0) {
+                    clearInterval(interval);
+                    timerDiv.style.display = 'none';
+                    validateForm();
+                }
+            }, 1000);
+
+        } catch (err) { 
+            alert("Error!"); 
+            validateForm();
+        }
         finally { btn.innerText = "SEND MESSAGE"; }
     });
 </script>
