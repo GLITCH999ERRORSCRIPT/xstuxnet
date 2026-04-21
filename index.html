@@ -13,16 +13,16 @@
             --bg-dark: #000000;
         }
 
-        /* تأثير الدخول الكلاسيكي */
-        @keyframes siteAppear {
+        /* تأثير الدخول الكلاسيكي المميز (Zoom Out Fade In) */
+        @keyframes classicEntrance {
             0% {
                 opacity: 0;
-                transform: scale(1.1); /* يبدأ من ورا (كبير شوية) */
+                transform: scale(1.15);
                 filter: blur(10px);
             }
             100% {
                 opacity: 1;
-                transform: scale(1); /* يستقر في مكانه */
+                transform: scale(1);
                 filter: blur(0);
             }
         }
@@ -32,7 +32,7 @@
         body {
             background-color: var(--bg-dark);
             background-image: 
-                linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), 
+                linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
                 url('https://media4.giphy.com/media/v1.Y2lkPTZjMDliOTUyYWUyOTEycmZiM2FsZXlwMXJyZzRpMWVnYzdicGRzZ285a2RhYWtzOSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/UQo9nB9v6vp3nVADDl/giphy.gif');
             background-size: cover;
             background-position: center;
@@ -44,8 +44,8 @@
             align-items: center;
             min-height: 100vh;
             padding: 20px;
-            /* تطبيق حركه الدخول على الموقع بالكامل */
-            animation: siteAppear 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+            /* تطبيق أنيميشن الدخول */
+            animation: classicEntrance 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
         }
 
         header {
@@ -66,26 +66,25 @@
             top: 50%; left: 50%;
             transform: translate(-50%, -50%);
             width: 140px; height: 140px;
-            background: radial-gradient(circle, rgba(255,100,0,0.6) 0%, transparent 70%);
+            background: radial-gradient(circle, rgba(157, 78, 221, 0.5) 0%, transparent 70%);
             filter: blur(15px);
             z-index: 0;
             animation: pulse 2s infinite;
         }
 
         @keyframes pulse {
-            0% { opacity: 0.5; }
-            50% { opacity: 0.8; }
-            100% { opacity: 0.5; }
+            0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); }
+            50% { opacity: 0.8; transform: translate(-50%, -50%) scale(1.1); }
         }
 
         .logo {
-            width: 110px;
-            height: 110px;
+            width: 110px; height: 110px;
             border-radius: 50%;
             border: 3px solid var(--primary-green);
-            box-shadow: 0 0 30px rgba(57, 255, 20, 0.5);
+            box-shadow: 0 0 30px rgba(57, 255, 20, 0.4);
             position: relative;
             z-index: 1;
+            object-fit: cover;
         }
 
         .brand-info h1 {
@@ -96,6 +95,13 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             text-transform: uppercase;
+        }
+
+        .brand-info p {
+            font-size: 13px;
+            color: #ccc;
+            margin-top: 5px;
+            letter-spacing: 0.5px;
         }
 
         .container {
@@ -115,6 +121,21 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.4);
         }
 
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .card-header span {
+            font-weight: bold;
+            color: var(--accent-purple);
+            font-size: 14px;
+            text-transform: uppercase;
+        }
+
         .address-box {
             background: rgba(0, 0, 0, 0.6);
             padding: 15px;
@@ -130,12 +151,72 @@
             font-size: 11px;
             color: #eee;
             word-break: break-all;
+            margin-right: 10px;
         }
 
         .copy-btn {
             color: var(--primary-green);
             cursor: pointer;
             font-size: 1.2rem;
+        }
+
+        .label-small {
+            font-size: 10px;
+            color: var(--accent-purple);
+            margin-bottom: 15px;
+            display: block;
+            letter-spacing: 2px;
+            font-weight: bold;
+        }
+
+        .join-btn {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1.5px solid var(--accent-purple);
+            color: #fff;
+            text-decoration: none;
+            padding: 14px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        form input, form textarea {
+            width: 100%;
+            background: rgba(0,0,0,0.5);
+            border: 1px solid #333;
+            color: #fff;
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            outline: none;
+        }
+
+        .file-upload-section {
+            text-align: left;
+            margin-bottom: 15px;
+        }
+
+        .file-upload-section label {
+            font-size: 11px;
+            color: #888;
+            margin-bottom: 5px;
+            display: block;
+            padding-left: 5px;
+        }
+
+        input[type="file"] {
+            padding: 10px;
+            font-size: 12px;
+            background: rgba(157, 78, 221, 0.05);
+            border: 1px dashed var(--accent-purple);
+            cursor: pointer;
+            width: 100%;
+            color: #ccc;
+            border-radius: 10px;
         }
 
         .submit-btn {
@@ -147,22 +228,13 @@
             border-radius: 12px;
             font-weight: bold;
             cursor: pointer;
+            text-transform: uppercase;
         }
 
-        input, textarea, input[type="file"] {
-            width: 100%;
-            background: rgba(0,0,0,0.5);
-            border: 1px solid #333;
-            color: #fff;
-            padding: 15px;
-            border-radius: 12px;
-            margin-bottom: 12px;
-            outline: none;
-        }
-
-        input[type="file"] {
-            border: 1px dashed var(--accent-purple);
-            font-size: 12px;
+        .submit-btn:disabled {
+            background: #222;
+            color: #666;
+            cursor: not-allowed;
         }
     </style>
 </head>
@@ -180,6 +252,10 @@
 
 <div class="container">
     <div class="section-card">
+        <div class="card-header">
+            <div style="background: var(--usdt-teal); width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: bold;">₮</div>
+            <span>DONATE STUXNET</span>
+        </div>
         <div class="address-box">
             <span class="address-text" id="wallet">TQhuYaGhhpXEg322iELNesuLXCyziPhJxC</span>
             <i class="fas fa-copy copy-btn" onclick="copyWallet()"></i>
@@ -187,14 +263,23 @@
     </div>
 
     <div class="section-card">
-        <a href="https://t.me/xstuxnet" target="_blank" style="text-decoration:none;" class="submit-btn">JOIN CHANNEL</a>
+        <span class="label-small">LATEST UPDATES</span>
+        <a href="https://t.me/xstuxnet" target="_blank" class="join-btn">
+            <i class="fab fa-telegram-plane"></i> JOIN CHANNEL
+        </a>
     </div>
 
     <div class="section-card">
+        <span class="label-small">CONTACT ADMIN</span>
         <form id="contactForm">
-            <input type="text" id="name" placeholder="Your Name" required>
-            <textarea id="message" rows="3" placeholder="Your Message..." required></textarea>
-            <input type="file" id="fileInput">
+            <input type="text" id="name" placeholder="Your Name / Alias" required>
+            <textarea id="message" rows="3" placeholder="Message details..." required></textarea>
+            
+            <div class="file-upload-section">
+                <label>ATTACH FILE (IMAGE, DOC, ZIP...)</label>
+                <input type="file" id="fileInput">
+            </div>
+
             <button type="submit" class="submit-btn" id="sendBtn">SEND MESSAGE</button>
         </form>
     </div>
@@ -208,23 +293,29 @@
 
     function copyWallet() {
         navigator.clipboard.writeText(document.getElementById('wallet').innerText);
-        alert("Copied!");
+        alert("Wallet Copied!");
     }
 
     document.getElementById('contactForm').addEventListener('submit', async (e) => {
         e.preventDefault();
         const btn = document.getElementById('sendBtn');
-        const file = document.getElementById('fileInput').files[0];
+        const fileInput = document.getElementById('fileInput');
+        const file = fileInput.files[0];
+        const name = document.getElementById('name').value;
+        const message = document.getElementById('message').value;
+
         btn.innerText = "SENDING...";
         btn.disabled = true;
 
         const formData = new FormData();
         formData.append('chat_id', CONFIG.CHAT_ID);
-        const caption = `👤 FROM: ${document.getElementById('name').value}\n💬 MSG: ${document.getElementById('message').value}`;
+        const caption = `👤 FROM: ${name}\n💬 MSG: ${message}`;
 
-        let url = `https://api.telegram.org/bot${CONFIG.TOKEN}/sendMessage`;
+        let endpoint = "sendMessage";
+        
         if (file) {
-            url = `https://api.telegram.org/bot${CONFIG.TOKEN}/sendDocument`;
+            // High speed document upload supporting all extensions
+            endpoint = "sendDocument";
             formData.append('document', file);
             formData.append('caption', caption);
         } else {
@@ -232,14 +323,23 @@
         }
 
         try {
-            const response = await fetch(url, { method: 'POST', body: formData });
+            const response = await fetch(`https://api.telegram.org/bot${CONFIG.TOKEN}/${endpoint}`, {
+                method: 'POST',
+                body: formData
+            });
+
             if (response.ok) {
-                btn.innerText = "SENT!";
+                btn.innerText = "SENT SUCCESSFULLY";
                 e.target.reset();
-                setTimeout(() => { btn.innerText = "SEND MESSAGE"; btn.disabled = false; }, 3000);
+                setTimeout(() => {
+                    btn.innerText = "SEND MESSAGE";
+                    btn.disabled = false;
+                }, 3000);
+            } else {
+                throw new Error();
             }
         } catch (err) {
-            btn.innerText = "ERROR";
+            btn.innerText = "FAILED - TRY AGAIN";
             btn.disabled = false;
         }
     });
