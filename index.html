@@ -22,7 +22,7 @@
 
         body {
             background-color: var(--bg-dark);
-            background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://media4.giphy.com/media/v1.Y2lkPTZjMDliOTUyYWUyOTEycmZiM2FsZXlwMXJyZzRpMWVnYzdicGRzZ285a2RhYWtzOSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/UQo9nB9v6vp3nVADDl/giphy.gif');
+            background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://media4.giphy.com/media/v1.Y2lkPTZjMDliOTUyYWUyOTEycmZiM2FsZXlwMXJyZzRpMWVnYzdicGRzZ285a2RhYWtzOSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/UQo9nB9v6vp3nVADDl/giphy.gif');
             background-size: cover; background-position: center; background-attachment: fixed;
             color: #fff; font-family: 'Segoe UI', sans-serif;
             display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding: 20px;
@@ -30,109 +30,39 @@
         }
 
         header { text-align: center; margin-bottom: 20px; width: 100%; }
+        .logo { width: 90px; height: 90px; border-radius: 50%; border: 3px solid var(--primary-red); object-fit: cover; box-shadow: 0 0 20px rgba(255, 49, 49, 0.5); }
+        .main-title { font-size: 2rem; text-transform: uppercase; letter-spacing: 4px; font-weight: 900; background: linear-gradient(to bottom, #ffffff 40%, #ff3131 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 0 10px rgba(255, 49, 49, 0.8)); margin-top: 15px; }
 
-        .logo { 
-            width: 100px; height: 100px; border-radius: 50%; 
-            border: 3px solid var(--primary-red); object-fit: cover; 
-            box-shadow: 0 0 25px rgba(255, 49, 49, 0.5); 
+        .container { width: 100%; max-width: 440px; }
+        
+        .welcome-msg { background: rgba(0,0,0,0.8); padding: 15px; border-radius: 12px; border: 1px solid var(--primary-red); text-align: center; margin-bottom: 15px; font-size: 11px; font-weight: bold; }
+
+        /* Services Menu Styling */
+        .services-grid { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+        .service-item { 
+            background: rgba(0, 0, 0, 0.85); border: 1px solid rgba(255, 49, 49, 0.3); 
+            padding: 12px 15px; border-radius: 12px; display: flex; align-items: center; justify-content: space-between;
         }
+        .service-info { display: flex; align-items: center; gap: 12px; }
+        .service-info i { color: var(--primary-red); font-size: 18px; width: 20px; text-align: center; }
+        .service-name { font-size: 12px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px; }
+        .service-price { font-size: 13px; font-weight: 900; color: var(--accent-green); text-shadow: 0 0 8px rgba(57, 255, 20, 0.4); }
 
-        .main-title {
-            font-size: 2.2rem;
-            text-transform: uppercase;
-            letter-spacing: 4px;
-            font-weight: 900;
-            background: linear-gradient(to bottom, #ffffff 40%, #ff3131 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 0 10px rgba(255, 49, 49, 0.8));
-            margin-top: 15px;
-            white-space: nowrap;
-        }
-
-        @media (max-width: 480px) { .main-title { font-size: 1.6rem; } }
-
-        .welcome-msg { 
-            background: rgba(0,0,0,0.85); padding: 20px; border-radius: 15px; 
-            border: 1px solid rgba(255, 49, 49, 0.4); max-width: 440px; 
-            text-align: center; margin-bottom: 15px; font-size: 12px; 
-            line-height: 1.6; font-weight: bold; letter-spacing: 1px;
-        }
-
-        /* Virtual Numbers Offer Card */
-        .offer-card {
-            background: rgba(255, 49, 49, 0.1);
-            backdrop-filter: blur(10px);
-            border: 2px dashed var(--primary-red);
-            border-radius: 15px;
-            padding: 20px;
-            width: 100%;
-            max-width: 440px;
-            margin-bottom: 25px;
-            text-align: center;
-        }
-
-        .offer-card h4 { font-size: 16px; color: #fff; text-transform: uppercase; margin-bottom: 10px; }
-        .offer-card p { font-size: 11px; color: #ccc; margin-bottom: 15px; line-height: 1.4; }
-        .price-tag { font-size: 22px; font-weight: 900; color: var(--accent-green); text-shadow: 0 0 10px rgba(57, 255, 20, 0.5); }
-        .social-icons { margin-top: 10px; font-size: 18px; color: #fff; display: flex; justify-content: center; gap: 15px; }
-
-        .container { width: 100%; max-width: 420px; }
-        .section-card { 
-            background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(20px); 
-            border-radius: 20px; padding: 20px; margin-bottom: 15px; 
-            border: 1px solid rgba(255, 255, 255, 0.1); text-align: center; 
-        }
-
-        .label-small { 
-            font-size: 10px; color: var(--primary-red); margin-bottom: 15px; 
-            display: block; letter-spacing: 2px; font-weight: 900; 
-        }
-
-        .payment-label { 
-            font-size: 9px; font-weight: 900; color: #777; 
-            text-align: left; display: block; margin-left: 5px; 
-            margin-top: 10px; text-transform: uppercase;
-        }
+        .section-card { background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(20px); border-radius: 20px; padding: 20px; margin-bottom: 15px; border: 1px solid rgba(255, 255, 255, 0.1); text-align: center; }
+        .label-small { font-size: 10px; color: var(--primary-red); margin-bottom: 15px; display: block; letter-spacing: 2px; font-weight: 900; text-transform: uppercase; }
 
         .input-group { position: relative; width: 100%; }
         .input-group span { position: absolute; left: 15px; top: 15px; color: var(--accent-green); font-weight: bold; }
         .input-group input { padding-left: 35px; }
+        form input, form textarea { width: 100%; background: rgba(0,0,0,0.9); border: 1px solid rgba(255, 49, 49, 0.3); color: #fff; padding: 15px; border-radius: 12px; margin-bottom: 12px; outline: none; font-size: 12px; }
+        .submit-btn { width: 100%; background: linear-gradient(45deg, #700, #ff3131); border: none; color: #fff; padding: 16px; border-radius: 12px; font-weight: 900; cursor: pointer; letter-spacing: 2px; }
 
-        form input, form textarea { 
-            width: 100%; background: rgba(0,0,0,0.9); border: 1px solid rgba(255, 49, 49, 0.3); 
-            color: #fff; padding: 15px; border-radius: 12px; margin-bottom: 12px; 
-            outline: none; font-size: 12px; 
-        }
+        .address-box { background: rgba(0, 0, 0, 0.95); padding: 12px; border-radius: 10px; display: flex; align-items: center; justify-content: space-between; border: 1px solid rgba(255, 49, 49, 0.4); margin-top: 5px; margin-bottom: 10px; }
+        .address-text { font-family: monospace; font-size: 11px; color: #eee; display: flex; align-items: center; gap: 10px; }
+        .copy-btn { color: var(--accent-green); cursor: pointer; }
+        .icon-unit { width: 18px; height: 18px; border-radius: 50%; }
 
-        .submit-btn { 
-            width: 100%; background: linear-gradient(45deg, #700, #ff3131); 
-            border: none; color: #fff; padding: 16px; border-radius: 12px; 
-            font-weight: 900; cursor: pointer; letter-spacing: 2px; 
-        }
-
-        .address-box { 
-            background: rgba(0, 0, 0, 0.95); padding: 12px; border-radius: 10px; 
-            display: flex; align-items: center; justify-content: space-between; 
-            border: 1px solid rgba(255, 49, 49, 0.4); margin-top: 5px; 
-        }
-
-        .address-text { 
-            font-family: 'Courier New', Courier, monospace; font-size: 11px; 
-            color: #eee; display: flex; align-items: center; gap: 10px; font-weight: bold; 
-        }
-
-        .copy-btn { color: var(--accent-green); cursor: pointer; font-size: 1rem; }
-
-        .icon-unit { width: 18px; height: 18px; object-fit: cover; border-radius: 50%; }
-
-        .link-btn { 
-            display: flex; align-items: center; justify-content: center; gap: 10px; 
-            background: rgba(255, 255, 255, 0.05); padding: 14px; border-radius: 12px; 
-            border: 1px solid rgba(255, 49, 49, 0.3); color: #fff; 
-            text-decoration: none; font-size: 11px; margin-top: 10px; font-weight: bold; 
-        }
-
+        .link-btn { display: flex; align-items: center; justify-content: center; gap: 10px; background: rgba(255, 255, 255, 0.05); padding: 14px; border-radius: 12px; border: 1px solid rgba(255, 49, 49, 0.3); color: #fff; text-decoration: none; font-size: 11px; margin-top: 10px; font-weight: bold; }
         .tg-btn { background: rgba(0, 136, 204, 0.1); border-color: #0088cc; }
     </style>
 </head>
@@ -143,58 +73,66 @@
     <h1 class="main-title">STUXNET OFFICIAL</h1>
 </header>
 
-<div class="welcome-msg">
-    STUXNET OFFICIAL PLATFORM. SPECIALIZED IN CYBER EXPLOITATION AND SECURITY INTELLIGENCE. SEND YOUR FORMAL REQUEST BELOW.
-</div>
-
-<div class="offer-card">
-    <h4><i class="fas fa-globe"></i> Premium Virtual Numbers</h4>
-    <p>Guaranteed for <b>WhatsApp & Telegram</b>.<br>Available: Germany, Venezuela, Sudan, Russia, and more.</p>
-    <div class="price-tag">30 EGP / NUMBER</div>
-    <div class="social-icons">
-        <i class="fab fa-whatsapp"></i>
-        <i class="fab fa-telegram"></i>
-    </div>
-</div>
-
 <div class="container">
+    <div class="welcome-msg">
+        ELITE CYBER SERVICES & OFFENSIVE INTELLIGENCE
+    </div>
+
+    <div class="services-grid">
+        <div class="service-item">
+            <div class="service-info"><i class="fas fa-globe-americas"></i><span class="service-name">Web Exploitation</span></div>
+            <div class="service-price">1500 EGP</div>
+        </div>
+        <div class="service-item">
+            <div class="service-info"><i class="fab fa-android"></i><span class="service-name">Android Remote Control</span></div>
+            <div class="service-price">1000 EGP</div>
+        </div>
+        <div class="service-item">
+            <div class="service-info"><i class="fas fa-desktop"></i><span class="service-name">PC / OS Intrusion</span></div>
+            <div class="service-price">1000 EGP</div>
+        </div>
+        <div class="service-item">
+            <div class="service-info"><i class="fas fa-user-shield"></i><span class="service-name">Social Media Access</span></div>
+            <div class="service-price">500 EGP</div>
+        </div>
+        <div class="service-item">
+            <div class="service-info"><i class="fas fa-search-location"></i><span class="service-name">OSINT / Geo-Tracking</span></div>
+            <div class="service-price">250 EGP</div>
+        </div>
+        <div class="service-item">
+            <div class="service-info"><i class="fas fa-sim-card"></i><span class="service-name">Virtual Numbers (Global)</span></div>
+            <div class="service-price">30 EGP</div>
+        </div>
+    </div>
+
     <div class="section-card">
-        <span class="label-small">ENCRYPTED COMMUNICATION</span>
+        <span class="label-small">SUBMIT OPERATION REQUEST</span>
         <form id="contactForm">
             <div class="input-group">
                 <span>@</span>
-                <input type="text" id="name" placeholder="TELEGRAM USERNAME" required minlength="3">
+                <input type="text" id="name" placeholder="TELEGRAM USERNAME" required>
             </div>
-            <textarea id="message" rows="3" placeholder="YOUR REQUEST DATA" required></textarea>
+            <textarea id="message" rows="3" placeholder="DESCRIBE TARGET / SERVICE" required></textarea>
             <input type="file" id="fileInput">
             <button type="submit" class="submit-btn" id="sendBtn">EXECUTE SEND</button>
         </form>
     </div>
 
     <div class="section-card">
-        <span class="label-small">FINANCIAL ASSETS</span>
+        <span class="label-small">PAYMENT GATEWAYS</span>
         
-        <span class="payment-label">USDT (TRC20)</span>
         <div class="address-box">
-            <div class="address-text">
-                <i class="fas fa-coins" style="color: var(--usdt-teal); width:18px;"></i>
-                <span id="wallet">TQhuYaGhhpXEg322iELNesuLXCyziPhJxC</span>
-            </div>
+            <div class="address-text"><i class="fas fa-coins" style="color: var(--usdt-teal);"></i><span id="wallet">TQhuYaGhhpXEg322iELNesuLXCyziPhJxC</span></div>
             <i class="fas fa-copy copy-btn" onclick="copyValue('wallet')"></i>
         </div>
 
-        <span class="payment-label">VODAFONE CASH (EGP)</span>
         <div class="address-box">
             <div class="address-text">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQR8xSsQkF9Jxc3ZdCCzdji9hvyLZGT9gZBLQzmPU7PxA&s" class="icon-unit" alt="Voda">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQR8xSsQkF9Jxc3ZdCCzdji9hvyLZGT9gZBLQzmPU7PxA&s" class="icon-unit">
                 <span id="voda">+201030003287</span>
             </div>
             <i class="fas fa-copy copy-btn" onclick="copyValue('voda')"></i>
         </div>
-
-        <a href="mailto:devilnet320121@proton.me" class="link-btn">
-            <i class="fas fa-envelope-open"></i> EMAIL: DEVILNET320121@PROTON.ME
-        </a>
 
         <a href="https://t.me/xstuxnet" target="_blank" class="link-btn tg-btn">
             <i class="fab fa-telegram-plane"></i> JOIN OFFICIAL CHANNEL
@@ -208,60 +146,35 @@
         CHAT_ID: "5446862709"
     };
 
-    let lastSent = 0;
-
     function copyValue(id) {
-        const text = document.getElementById(id).innerText;
-        navigator.clipboard.writeText(text.trim());
-        alert("DATA COPIED TO CLIPBOARD");
+        navigator.clipboard.writeText(document.getElementById(id).innerText.trim());
+        alert("COPIED TO CLIPBOARD");
     }
 
     document.getElementById('contactForm').addEventListener('submit', async (e) => {
         e.preventDefault();
-        const now = Date.now();
         const btn = document.getElementById('sendBtn');
-        const username = document.getElementById('name').value.trim();
-        
-        if (now - lastSent < 60000) {
-            alert("SECURITY RATE LIMIT: WAIT 60S");
-            return;
-        }
-
-        const tgRegex = /^[a-zA-Z0-9_]{3,32}$/;
-        if (!tgRegex.test(username)) {
-            alert("INVALID USERNAME FORMAT");
-            return;
-        }
-
         btn.innerText = "TRANSMITTING...";
         btn.disabled = true;
 
         const file = document.getElementById('fileInput').files[0];
         const formData = new FormData();
         formData.append('chat_id', CONFIG.CHAT_ID);
-        const caption = `[SOURCE]: @${username}\n[INTEL]: ${document.getElementById('message').value}`;
+        const caption = `[STUXNET REQUEST]\n👤 FROM: @${document.getElementById('name').value}\n📄 INTEL: ${document.getElementById('message').value}`;
 
         let endpoint = file ? "sendDocument" : "sendMessage";
-        if (file) {
-            formData.append('document', file);
-            formData.append('caption', caption);
-        } else {
-            formData.append('text', caption);
-        }
+        if (file) { formData.append('document', file); formData.append('caption', caption); }
+        else { formData.append('text', caption); }
 
         try {
-            const response = await fetch(`https://api.telegram.org/bot${CONFIG.TOKEN}/${endpoint}`, {
-                method: 'POST',
-                body: formData
-            });
-            if (response.ok) {
-                btn.innerText = "SENT SUCCESSFULLY";
-                lastSent = Date.now();
+            const res = await fetch(`https://api.telegram.org/bot${CONFIG.TOKEN}/${endpoint}`, { method: 'POST', body: formData });
+            if (res.ok) {
+                btn.innerText = "SUCCESS";
                 e.target.reset();
                 setTimeout(() => { btn.innerText = "EXECUTE SEND"; btn.disabled = false; }, 3000);
             }
         } catch (err) {
-            btn.innerText = "ERROR DETECTED";
+            btn.innerText = "FAILED";
             btn.disabled = false;
         }
     });
