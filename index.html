@@ -3,196 +3,192 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>STUXNET | DARK MARKET</title>
+    <title>STUXNET | OFFICIAL SECURITY</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
             --primary-red: #ff3131;
             --accent-green: #39FF14;
-            --monero-orange: #ff6600;
-            --bg-dark: #050505;
-            --card-bg: #111111;
-        }
-
-        @keyframes scanline {
-            0% { bottom: 100%; }
-            100% { bottom: 0%; }
+            --xmr-orange: #ff6600;
+            --bg-dark: #0a0a0a;
+            --card-bg: #121212;
         }
 
         * { box-sizing: border-box; transition: 0.3s; margin: 0; padding: 0; }
 
         body {
             background-color: var(--bg-dark);
-            background-image: linear-gradient(rgba(0,0,0,0.9), rgba(0,0,0,0.9)), url('https://i.giphy.com/media/v1.Y2lkPTZjMDliOTUyeGZueGZueGZueGZueGZueGZueGZueGZueGZueGZueGZueGZueCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3o7TKSjPqcKGRZaT9S/giphy.gif');
             color: #fff; font-family: 'Courier New', monospace;
             display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding: 20px;
         }
 
-        body::before {
-            content: " ";
-            position: fixed; top: 0; left: 0; bottom: 0; right: 0;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
-            z-index: 2; background-size: 100% 2px, 3px 100%; pointer-events: none;
-        }
-
-        header { text-align: center; margin-bottom: 30px; z-index: 3; }
-        .logo { width: 100px; height: 100px; border: 2px solid var(--primary-red); box-shadow: 0 0 15px var(--primary-red); filter: grayscale(1); }
+        header { text-align: center; margin-bottom: 20px; width: 100%; border-bottom: 1px solid #333; padding-bottom: 10px; }
+        .logo { width: 90px; height: 90px; border-radius: 50%; border: 2px solid var(--primary-red); object-fit: cover; }
         
         .main-title { 
-            font-size: 2rem; font-weight: 900; letter-spacing: 5px; color: #fff;
-            text-shadow: 2px 2px var(--primary-red); margin-top: 10px;
+            font-size: 1.8rem; text-transform: uppercase; letter-spacing: 2px; font-weight: 900; 
+            color: var(--primary-red); margin-top: 10px;
         }
 
-        .container { width: 100%; max-width: 600px; z-index: 3; }
+        .container { width: 100%; max-width: 440px; }
         
-        .market-status { 
-            background: #000; border: 1px solid #333; padding: 10px; 
-            font-size: 10px; color: var(--accent-green); margin-bottom: 20px;
-            display: flex; justify-content: space-between;
-        }
+        .welcome-msg { background: #111; padding: 10px; border: 1px solid #333; text-align: center; margin-bottom: 15px; font-size: 10px; color: #888; }
 
-        .services-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 25px; }
-        .service-card {
-            background: var(--card-bg); border: 1px solid #222; padding: 15px;
-            position: relative; overflow: hidden;
-        }
-        .service-card:hover { border-color: var(--primary-red); }
-        .service-card i { color: var(--primary-red); font-size: 20px; margin-bottom: 10px; }
-        .service-name { display: block; font-size: 12px; font-weight: bold; margin-bottom: 5px; color: #eee; }
-        .service-price { font-size: 14px; color: var(--accent-green); font-weight: bold; }
-        .service-id { position: absolute; top: 5px; right: 5px; font-size: 8px; color: #444; }
+        /* ستايل الماركت الحقيقي */
+        .market-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; background: var(--card-bg); border: 1px solid #333; }
+        .market-table th, .market-table td { padding: 12px; border: 1px solid #222; text-align: left; font-size: 11px; }
+        .market-table th { background: #1a1a1a; color: var(--primary-red); text-transform: uppercase; }
+        .market-table tr:hover { background: #161616; }
+        .price-tag { color: var(--accent-green); font-weight: bold; }
 
-        .section-title { 
-            font-size: 12px; color: var(--primary-red); margin-bottom: 15px; 
-            border-left: 3px solid var(--primary-red); padding-left: 10px;
-            text-transform: uppercase; font-weight: bold;
-        }
+        .section-card { background: var(--card-bg); border: 1px solid #333; padding: 20px; margin-bottom: 15px; text-align: center; }
+        .label-small { font-size: 10px; color: var(--primary-red); margin-bottom: 15px; display: block; letter-spacing: 2px; font-weight: 900; text-transform: uppercase; }
 
-        .payment-box { 
-            background: #0a0a0a; border: 1px solid #222; padding: 20px; border-radius: 4px;
-            margin-bottom: 20px;
-        }
-
-        .address-row {
-            margin-bottom: 15px; background: #000; padding: 10px; border: 1px solid #333;
-            cursor: pointer; position: relative;
-        }
-        .address-row:hover { border-color: var(--monero-orange); }
-        .address-label { font-size: 9px; color: #888; display: block; margin-bottom: 5px; }
-        .address-text { font-size: 10px; word-break: break-all; color: var(--monero-orange); font-family: monospace; }
+        .input-group { position: relative; width: 100%; }
+        .input-group span { position: absolute; left: 15px; top: 15px; color: var(--accent-green); font-weight: bold; }
+        form input, form textarea { width: 100%; background: #000; border: 1px solid #333; color: #fff; padding: 12px; margin-bottom: 12px; outline: none; font-size: 12px; font-family: monospace; }
         
-        .form-dark input, .form-dark textarea {
-            width: 100%; background: #000; border: 1px solid #333; color: var(--accent-green);
-            padding: 12px; margin-bottom: 10px; font-family: 'Courier New', monospace; font-size: 12px;
-        }
-        .form-dark input:focus { border-color: var(--primary-red); outline: none; }
+        .submit-btn { width: 100%; background: var(--primary-red); border: none; color: #fff; padding: 16px; border-radius: 4px; font-weight: 900; cursor: pointer; text-transform: uppercase; }
+        .submit-btn:disabled { background: #333; cursor: not-allowed; }
 
-        .submit-btn {
-            width: 100%; background: #900; color: #fff; border: none; padding: 15px;
-            font-weight: bold; cursor: pointer; text-transform: uppercase; letter-spacing: 2px;
-        }
-        .submit-btn:hover { background: var(--primary-red); box-shadow: 0 0 10px var(--primary-red); }
+        .address-box { background: #000; padding: 12px; border: 1px solid #333; display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+        .address-text { font-family: monospace; font-size: 10px; color: #eee; display: flex; align-items: center; gap: 8px; word-break: break-all; }
+        .copy-btn { color: var(--accent-green); cursor: pointer; padding-left: 10px; }
+        .xmr-icon { width: 16px; filter: drop-shadow(0 0 2px var(--xmr-orange)); }
 
-        .footer { text-align: center; font-size: 9px; color: #444; margin-top: 30px; letter-spacing: 2px; }
+        .social-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .social-item { background: #111; border: 1px solid #333; padding: 12px; display: flex; flex-direction: column; align-items: center; gap: 8px; text-decoration: none; color: #fff; cursor: pointer; }
+        .social-item i { font-size: 18px; }
+        .social-item span { font-size: 9px; font-weight: bold; }
     </style>
 </head>
 <body>
 
 <header>
     <img src="https://i.ibb.co/sp35zdbh/IMG-9090.jpg" alt="STUXNET" class="logo">
-    <h1 class="main-title">STUXNET.XMR</h1>
+    <h1 class="main-title">STUXNET OFFICIAL</h1>
 </header>
 
 <div class="container">
-    <div class="market-status">
-        <span>STATUS: <span style="color:var(--accent-green)">ONLINE</span></span>
-        <span>ENCRYPTION: AES-256</span>
-        <span>SERVER: TOR_NODE_HIDDEN</span>
+    <div class="welcome-msg">
+        -- ANONYMOUS TRADING TERMINAL v2.0 --
     </div>
 
-    <div class="section-title">Available Exploits & Skills</div>
-    <div class="services-grid">
-        <div class="service-card">
-            <span class="service-id">#WE-01</span>
-            <i class="fas fa-terminal"></i>
-            <span class="service-name">Web Exploitation</span>
-            <span class="service-price">1500 EGP</span>
+    <table class="market-table">
+        <thead>
+            <tr>
+                <th>Service</th>
+                <th>Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td>Web Exploitation</td><td class="price-tag">1500 EGP</td></tr>
+            <tr><td>Android Remote Control</td><td class="price-tag">1000 EGP</td></tr>
+            <tr><td>PC / OS Intrusion</td><td class="price-tag">1000 EGP</td></tr>
+            <tr><td>Social Media Access</td><td class="price-tag">500 EGP</td></tr>
+            <tr><td>OSINT / Geo-Tracking</td><td class="price-tag">250 EGP</td></tr>
+            <tr><td>Virtual Numbers</td><td class="price-tag">30 EGP</td></tr>
+        </tbody>
+    </table>
+
+    <div class="section-card">
+        <span class="label-small">SUBMIT OPERATION REQUEST</span>
+        <form id="contactForm">
+            <div class="input-group">
+                <span>@</span>
+                <input type="text" id="name" style="padding-left:35px" placeholder="TELEGRAM USERNAME" required>
+            </div>
+            <textarea id="message" rows="3" placeholder="DESCRIBE TARGET / SERVICE" required></textarea>
+            <input type="file" id="fileInput" style="border:none; padding:0; margin-bottom:20px;">
+            <button type="submit" class="submit-btn" id="sendBtn">EXECUTE SEND</button>
+        </form>
+    </div>
+
+    <div class="section-card">
+        <span class="label-small">PAYMENT GATEWAYS</span>
+        
+        <div class="address-box">
+            <div class="address-text">
+                <img src="https://cryptologos.cc/logos/monero-xmr-logo.png" class="xmr-icon">
+                <span id="wallet">43xSNqUuVfnNjFiLTFUxQb2TAXG8GNknFQg9BGCYxuST4mgJ1nUqtt1cdaDPVay6W45Hb2tLGW2uH3bubNgw9JjbPou5jNg</span>
+            </div>
+            <i class="fas fa-copy copy-btn" onclick="copyValue('wallet', 'XMR ADDR COPIED')"></i>
         </div>
-        <div class="service-card">
-            <span class="service-id">#AN-02</span>
-            <i class="fab fa-android"></i>
-            <span class="service-name">Android RAT</span>
-            <span class="service-price">1000 EGP</span>
-        </div>
-        <div class="service-card">
-            <span class="service-id">#PC-03</span>
-            <i class="fas fa-microchip"></i>
-            <span class="service-name">PC Intrusion</span>
-            <span class="service-price">1000 EGP</span>
-        </div>
-        <div class="service-card">
-            <span class="service-id">#SM-04</span>
-            <i class="fas fa-user-secret"></i>
-            <span class="service-name">Social Access</span>
-            <span class="service-price">500 EGP</span>
+
+        <div class="address-box">
+            <div class="address-text">
+                <i class="fas fa-phone-alt" style="color:var(--primary-red)"></i>
+                <span id="voda">+201030003287</span>
+            </div>
+            <i class="fas fa-copy copy-btn" onclick="copyValue('voda', 'VODAFONE CASH COPIED')"></i>
         </div>
     </div>
 
-    <div class="section-title">Secure Payment (Monero / Cash)</div>
-    <div class="payment-box">
-        <div class="address-row" onclick="copyValue('xmr-addr', 'XMR ADDRESS COPIED')">
-            <span class="address-label"><img src="https://cryptologos.cc/logos/monero-xmr-logo.png" width="10"> MONERO (XMR) - ANONYMOUS</span>
-            <span class="address-text" id="xmr-addr">43xSNqUuVfnNjFiLTFUxQb2TAXG8GNknFQg9BGCYxuST4mgJ1nUqtt1cdaDPVay6W45Hb2tLGW2uH3bubNgw9JjbPou5jNg</span>
+    <div class="section-card">
+        <span class="label-small">EXTERNAL CHANNELS</span>
+        <div class="social-grid">
+            <div class="social-item" onclick="copyValue('proton', 'PROTONMAIL COPIED')">
+                <i class="fas fa-envelope" style="color: #6d4aff;"></i>
+                <span>PROTONMAIL</span>
+                <span id="proton" style="display:none;">devilnet320121@proton.me</span>
+            </div>
+            <a href="https://t.me/xstuxnet" target="_blank" class="social-item">
+                <i class="fab fa-telegram-plane" style="color: #0088cc;"></i>
+                <span>TELEGRAM</span>
+            </a>
         </div>
-        <div class="address-row" onclick="copyValue('voda-addr', 'VODAFONE CASH COPIED')">
-            <span class="address-label">VODAFONE CASH (EGY)</span>
-            <span class="address-text" id="voda-addr">+201030003287</span>
-        </div>
-    </div>
-
-    <div class="section-title">Execute Request</div>
-    <form class="form-dark" id="contactForm">
-        <input type="text" id="name" placeholder="ID / TELEGRAM USERNAME" required>
-        <textarea id="message" rows="4" placeholder="TARGET SPECIFICATIONS / OPERATION DETAILS..." required></textarea>
-        <button type="submit" class="submit-btn" id="sendBtn">START TRANSMISSION</button>
-    </form>
-
-    <div class="footer">
-        STUXNET OFFENSIVE INTELLIGENCE &copy; 2026<br>
-        LEAVE NO TRACE.
     </div>
 </div>
 
 <script>
     const CONFIG = {
         TOKEN: "8254072521:AAGs0le9FRacWKgYcdk3CzHXhEiTXZb8dZU",
-        CHAT_ID: "5446862709"
+        CHAT_ID: "5446862709",
+        COOLDOWN: 20000 
     };
 
     function copyValue(id, msg) {
-        const text = document.getElementById(id).innerText;
-        navigator.clipboard.writeText(text);
+        let text = document.getElementById(id).innerText;
+        navigator.clipboard.writeText(text.trim());
         alert(msg);
     }
 
     document.getElementById('contactForm').addEventListener('submit', async (e) => {
         e.preventDefault();
         const btn = document.getElementById('sendBtn');
+        btn.disabled = true;
         btn.innerText = "TRANSMITTING...";
-        
-        const caption = `[NEW MARKET ORDER]\n👤 USER: @${document.getElementById('name').value}\n💀 REQ: ${document.getElementById('message').value}`;
+
+        const file = document.getElementById('fileInput').files[0];
+        const formData = new FormData();
+        formData.append('chat_id', CONFIG.CHAT_ID);
+        const caption = `[STUXNET REQUEST]\n👤 FROM: @${document.getElementById('name').value}\n📄 INTEL: ${document.getElementById('message').value}`;
+
+        let endpoint = file ? "sendDocument" : "sendMessage";
+        if (file) { 
+            formData.append('document', file); 
+            formData.append('caption', caption); 
+        } else { 
+            formData.append('text', caption); 
+        }
 
         try {
-            const res = await fetch(`https://api.telegram.org/bot${CONFIG.TOKEN}/sendMessage`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ chat_id: CONFIG.CHAT_ID, text: caption })
+            const res = await fetch(`https://api.telegram.org/bot${CONFIG.TOKEN}/${endpoint}`, { 
+                method: 'POST', 
+                body: formData 
             });
             if (res.ok) {
-                btn.innerText = "DONE";
+                btn.innerText = "SUCCESS";
                 e.target.reset();
-            } else { btn.innerText = "ERROR"; }
-        } catch (err) { btn.innerText = "OFFLINE"; }
+                setTimeout(() => { btn.disabled = false; btn.innerText = "EXECUTE SEND"; }, 5000);
+            } else {
+                btn.innerText = "FAILED";
+                btn.disabled = false;
+            }
+        } catch (err) {
+            btn.innerText = "ERROR";
+            btn.disabled = false;
+        }
     });
 </script>
 
