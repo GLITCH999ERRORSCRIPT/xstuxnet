@@ -3,253 +3,162 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>STUXNET | ONION_ROUTER_V3</title>
+    <title>STUXNET | OFFICIAL</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary-green: #00ff41; /* Classic Matrix/Hacker Green */
-            --deep-red: #ff0000;
-            --bg-black: #050505;
-            --panel-bg: rgba(10, 10, 10, 0.95);
-            --border-glow: 0 0 10px rgba(0, 255, 65, 0.2);
+            --primary-red: #ff3131;
+            --bg-black: #000000;
+            --card-bg: rgba(15, 15, 15, 0.9);
+            --accent-green: #39FF14;
         }
 
-        @keyframes scanline {
-            0% { bottom: 100%; }
-            100% { bottom: 0%; }
-        }
-
-        @keyframes flicker {
-            0% { opacity: 0.9; }
-            5% { opacity: 0.8; }
-            10% { opacity: 0.9; }
-            100% { opacity: 1; }
-        }
-
-        * { 
-            box-sizing: border-box; 
-            margin: 0; 
-            padding: 0; 
-            font-family: 'Courier New', Courier, monospace; /* Hard-coded hacker font */
-        }
+        * { box-sizing: border-box; transition: 0.3s; margin: 0; padding: 0; }
 
         body {
             background-color: var(--bg-black);
-            background-image: 
-                linear-gradient(rgba(0, 255, 65, 0.05) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 255, 65, 0.05) 1px, transparent 1px),
-                url('https://media4.giphy.com/media/v1.Y2lkPTZjMDliOTUyYWUyOTEycmZiM2FsZXlwMXJyZzRpMWVnYzdicGRzZ285a2RhYWtzOSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/UQo9nB9v6vp3nVADDl/giphy.gif');
-            background-size: 20px 20px, 20px 20px, cover;
-            background-position: center;
-            background-attachment: fixed;
-            color: var(--primary-green);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
-            padding: 20px;
-            overflow-x: hidden;
-            animation: flicker 0.1s infinite;
+            /* نار خفيفة جداً كما طلبت */
+            background-image: linear-gradient(rgba(0,0,0,0.92), rgba(0,0,0,0.92)), url('https://media4.giphy.com/media/v1.Y2lkPTZjMDliOTUyYWUyOTEycmZiM2FsZXlwMXJyZzRpMWVnYzdicGRzZ285a2RhYWtzOSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/UQo9nB9v6vp3nVADDl/giphy.gif');
+            background-size: cover; background-position: center; background-attachment: fixed;
+            color: #fff; font-family: 'Segoe UI', Roboto, sans-serif;
+            display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding: 20px;
         }
 
-        /* Scanline effect */
-        body::after {
-            content: " ";
-            position: fixed;
-            top: 0; left: 0; bottom: 0; right: 0;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
-            background-size: 100% 4px, 3px 100%;
-            z-index: 9999;
-            pointer-events: none;
-        }
-
-        header { text-align: center; margin-bottom: 30px; position: relative; }
-        .logo { 
-            width: 100px; height: 100px; 
-            border: 2px solid var(--primary-green); 
-            filter: grayscale(100%) brightness(0.8) sepia(100%) hue-rotate(70deg);
-            box-shadow: 0 0 15px var(--primary-green);
-        }
-
+        header { text-align: center; margin-bottom: 30px; width: 100%; }
+        .logo { width: 85px; height: 85px; border-radius: 50%; border: 2px solid var(--primary-red); filter: drop-shadow(0 0 10px rgba(255, 49, 49, 0.4)); }
+        
+        /* اسم بجانب بعضه - فخم */
         .main-title { 
-            font-size: 1.5rem; 
+            font-size: 1.8rem; 
             text-transform: uppercase; 
-            letter-spacing: 5px; 
+            letter-spacing: 3px; 
+            font-weight: 900; 
+            background: linear-gradient(to right, #ffffff, var(--primary-red));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
             margin-top: 15px;
-            color: var(--primary-green);
-            text-shadow: 0 0 10px var(--primary-green);
             white-space: nowrap;
         }
 
-        .container { width: 100%; max-width: 480px; z-index: 10; }
+        .container { width: 100%; max-width: 450px; }
         
-        .welcome-msg { 
-            background: var(--panel-bg); 
-            padding: 10px; 
-            border: 1px solid var(--primary-green); 
-            text-align: center; 
-            margin-bottom: 20px; 
-            font-size: 10px;
-            box-shadow: var(--border-glow);
-        }
+        .welcome-msg { background: rgba(255, 49, 49, 0.1); border: 1px solid var(--primary-red); padding: 12px; border-radius: 4px; text-align: center; margin-bottom: 20px; font-size: 10px; letter-spacing: 2px; font-weight: bold; color: var(--primary-red); }
 
-        .services-grid { display: flex; flex-direction: column; gap: 8px; margin-bottom: 25px; }
+        .services-grid { display: flex; flex-direction: column; gap: 12px; margin-bottom: 25px; }
         .service-item { 
-            background: rgba(0, 20, 0, 0.9); 
-            border-left: 4px solid var(--primary-green);
-            border-right: 1px solid var(--primary-green);
-            border-top: 1px solid rgba(0, 255, 65, 0.2);
-            border-bottom: 1px solid rgba(0, 255, 65, 0.2);
-            padding: 15px; 
-            display: flex; align-items: center; justify-content: space-between;
+            background: var(--card-bg); 
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-left: 3px solid var(--primary-red);
+            padding: 16px; border-radius: 8px; display: flex; align-items: center; justify-content: space-between;
         }
+        .service-item:hover { background: rgba(30, 30, 30, 0.9); border-color: var(--primary-red); transform: translateX(5px); }
         .service-info { display: flex; align-items: center; gap: 15px; }
-        .service-info i { font-size: 16px; text-shadow: 0 0 5px var(--primary-green); }
-        .service-name { font-size: 11px; font-weight: bold; }
-        .service-price { font-size: 12px; color: #fff; background: #004400; padding: 2px 6px; }
+        .service-info i { color: var(--primary-red); font-size: 18px; }
+        .service-name { font-size: 12px; font-weight: 600; text-transform: uppercase; }
+        .service-price { font-size: 13px; font-weight: 900; color: var(--accent-green); }
 
-        .section-card { 
-            background: var(--panel-bg); 
-            border: 1px solid var(--primary-green); 
-            padding: 20px; 
-            margin-bottom: 20px; 
-            box-shadow: var(--border-glow);
-        }
-        .label-small { 
-            font-size: 11px; 
-            color: #fff; 
-            background: var(--primary-green); 
-            color: #000;
-            padding: 2px 8px;
-            margin-bottom: 20px; 
-            display: inline-block; 
-            font-weight: bold;
-        }
+        .section-card { background: var(--card-bg); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 12px; padding: 25px; margin-bottom: 20px; }
+        .label-small { font-size: 10px; color: #888; margin-bottom: 15px; display: block; letter-spacing: 2px; font-weight: bold; border-bottom: 1px solid var(--primary-red); width: fit-content; padding-bottom: 4px; }
 
         form input, form textarea { 
-            width: 100%; 
-            background: #000; 
-            border: 1px solid var(--primary-green); 
-            color: var(--primary-green); 
-            padding: 12px; 
-            margin-bottom: 15px; 
-            outline: none; 
-            font-size: 12px;
+            width: 100%; background: #0a0a0a; border: 1px solid #222; color: #fff; padding: 14px; 
+            border-radius: 6px; margin-bottom: 15px; outline: none; font-size: 13px; 
         }
-        form input::placeholder, form textarea::placeholder { color: rgba(0, 255, 65, 0.3); }
+        form input:focus, form textarea:focus { border-color: var(--primary-red); }
 
         .submit-btn { 
-            width: 100%; 
-            background: transparent; 
-            border: 1px solid var(--primary-green); 
-            color: var(--primary-green); 
-            padding: 15px; 
-            font-weight: bold; 
-            cursor: pointer;
-            text-transform: uppercase;
+            width: 100%; background: var(--primary-red); border: none; color: #fff; padding: 16px; 
+            border-radius: 6px; font-weight: 900; cursor: pointer; letter-spacing: 1px; text-transform: uppercase;
         }
-        .submit-btn:hover { background: var(--primary-green); color: #000; }
-        .submit-btn:disabled { border-color: #333; color: #333; }
+        .submit-btn:disabled { background: #222; color: #555; cursor: not-allowed; }
 
         .address-box { 
-            background: #000; 
-            padding: 10px; 
-            border: 1px dashed var(--primary-green); 
-            display: flex; align-items: center; justify-content: space-between; 
-            margin-bottom: 10px; 
+            background: #080808; padding: 12px; border-radius: 6px; display: flex; 
+            align-items: center; justify-content: space-between; border: 1px solid #1a1a1a; margin-bottom: 10px; 
         }
-        .address-text { font-size: 10px; color: var(--primary-green); word-break: break-all; }
-        .copy-btn { cursor: pointer; padding-left: 10px; }
+        .address-text { font-family: 'Courier New', monospace; font-size: 11px; color: #ccc; }
+        .copy-btn { color: var(--primary-red); cursor: pointer; font-size: 14px; }
 
-        .social-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        .social-item { 
-            border: 1px solid var(--primary-green); 
-            padding: 15px; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            gap: 10px; 
-            text-decoration: none; 
-            color: var(--primary-green);
-            font-size: 10px;
+        .external-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .ext-item { 
+            background: #0a0a0a; border: 1px solid #222; padding: 15px; border-radius: 8px; 
+            display: flex; flex-direction: column; align-items: center; gap: 8px; text-decoration: none; color: #fff; 
         }
-        .social-item:hover { box-shadow: inset 0 0 10px var(--primary-green); }
+        .ext-item:hover { border-color: var(--primary-red); background: #111; }
+        .ext-item i { font-size: 20px; }
+        .ext-item span { font-size: 10px; font-weight: bold; letter-spacing: 1px; }
     </style>
 </head>
 <body>
 
 <header>
-    <img src="https://i.ibb.co/sp35zdbh/IMG-9090.jpg" alt="SYSTEM_ROOT" class="logo">
-    <h1 class="main-title">STUXNET_OFFICIAL_V3</h1>
+    <img src="https://i.ibb.co/sp35zdbh/IMG-9090.jpg" alt="STUXNET" class="logo">
+    <h1 class="main-title">STUXNET OFFICIAL</h1>
 </header>
 
 <div class="container">
-    <div class="welcome-msg">
-        [SYSTEM STATUS: ONLINE] [ENCRYPTION: AES-256] [ACCESS: GRANTED]
-    </div>
+    <div class="welcome-msg">PRIVATE OFFENSIVE OPERATIONS</div>
 
     <div class="services-grid">
         <div class="service-item">
-            <div class="service-info"><i class="fas fa-terminal"></i><span class="service-name">REMOTE_RAT_INJECTION</span></div>
+            <div class="service-info"><i class="fas fa-user-slash"></i><span class="service-name">Target Hijacking</span></div>
             <div class="service-price">1500 EGP</div>
         </div>
         <div class="service-item">
-            <div class="service-info"><i class="fas fa-skull"></i><span class="service-name">OS_FULL_HIJACK</span></div>
+            <div class="service-info"><i class="fas fa-mobile-alt"></i><span class="service-name">Android Persistence</span></div>
             <div class="service-price">1000 EGP</div>
         </div>
         <div class="service-item">
-            <div class="service-info"><i class="fas fa-database"></i><span class="service-name">DB_EXFILTRATION</span></div>
+            <div class="service-info"><i class="fas fa-file-invoice"></i><span class="service-name">Private Data Leaks</span></div>
             <div class="service-price">1000 EGP</div>
         </div>
         <div class="service-item">
-            <div class="service-info"><i class="fas fa-user-secret"></i><span class="service-name">SOC_INTEL_ACCESS</span></div>
+            <div class="service-info"><i class="fas fa-shield-virus"></i><span class="service-name">Social Access</span></div>
             <div class="service-price">500 EGP</div>
         </div>
         <div class="service-item">
-            <div class="service-info"><i class="fas fa-crosshairs"></i><span class="service-name">GEO_SIGNAL_TRACK</span></div>
+            <div class="service-info"><i class="fas fa-map-marker-alt"></i><span class="service-name">Precise Tracking</span></div>
             <div class="service-price">250 EGP</div>
         </div>
         <div class="service-item">
-            <div class="service-info"><i class="fas fa-mask"></i><span class="service-name">ANONYMOUS_PROXY_NODE</span></div>
+            <div class="service-info"><i class="fas fa-user-secret"></i><span class="service-name">Hidden Identity</span></div>
             <div class="service-price">30 EGP</div>
         </div>
     </div>
 
     <div class="section-card">
-        <span class="label-small">INITIALIZE_REQUEST</span>
+        <span class="label-small">OPERATION REQUEST</span>
         <form id="contactForm">
-            <input type="text" id="name" placeholder="TARGET_IDENTIFIER / TG_USER" required>
-            <textarea id="message" rows="3" placeholder="OP_DETAILS / PAYLOAD_SPECS" required></textarea>
-            <input type="file" id="fileInput" style="border:none; padding:0;">
-            <button type="submit" class="submit-btn" id="sendBtn">UPLOAD_&_EXECUTE</button>
+            <input type="text" id="name" placeholder="TELEGRAM USERNAME" required>
+            <textarea id="message" rows="3" placeholder="TARGET INFORMATION / REQUIREMENTS" required></textarea>
+            <input type="file" id="fileInput" style="border:none; padding:0; font-size:10px;">
+            <button type="submit" class="submit-btn" id="sendBtn">EXECUTE REQUEST</button>
         </form>
     </div>
 
     <div class="section-card">
-        <span class="label-small">TRANSACTION_NODES</span>
-        
+        <span class="label-small">PAYMENT GATEWAYS</span>
         <div class="address-box">
-            <div class="address-text">USDT_TRC20: <span id="wallet">TQhuYaGhhpXEg322iELNesuLXCyziPhJxC</span></div>
-            <i class="fas fa-copy copy-btn" onclick="copyValue('wallet', 'HASH_COPIED')"></i>
+            <div class="address-text">USDT: <span id="wallet">TQhuYaGhhpXEg322iELNesuLXCyziPhJxC</span></div>
+            <i class="fas fa-copy copy-btn" onclick="copyValue('wallet', 'USDT ADDRESS COPIED')"></i>
         </div>
-
         <div class="address-box">
-            <div class="address-text">CASH_TRANSFER: <span id="voda">+201030003287</span></div>
-            <i class="fas fa-copy copy-btn" onclick="copyValue('voda', 'DATA_COPIED')"></i>
+            <div class="address-text">VODA: <span id="voda">+201030003287</span></div>
+            <i class="fas fa-copy copy-btn" onclick="copyValue('voda', 'VODAFONE NUMBER COPIED')"></i>
         </div>
     </div>
 
-    <div class="section-card" style="border-color: var(--deep-red);">
-        <span class="label-small" style="background: var(--deep-red);">COMM_CHANNELS</span>
-        <div class="social-grid">
-            <div class="social-item" onclick="copyValue('proton', 'MAIL_ADDR_COPIED')">
-                <i class="fas fa-envelope-square"></i>
-                <span>SECURE_MAIL</span>
+    <div class="section-card">
+        <span class="label-small">CONTACT & CHANNELS</span>
+        <div class="external-grid">
+            <div class="ext-item" style="cursor:pointer;" onclick="copyValue('proton', 'PROTONMAIL COPIED')">
+                <i class="fas fa-envelope-open-text"></i>
+                <span>PROTONMAIL</span>
                 <span id="proton" style="display:none;">devilnet320121@proton.me</span>
             </div>
-            <a href="https://t.me/xstuxnet" target="_blank" class="social-item">
-                <i class="fab fa-telegram"></i>
-                <span>TG_CHANNEL</span>
+            <a href="https://t.me/xstuxnet" target="_blank" class="ext-item">
+                <i class="fab fa-telegram-plane"></i>
+                <span>TELEGRAM</span>
             </a>
         </div>
     </div>
@@ -264,7 +173,7 @@
 
     function copyValue(id, msg) {
         navigator.clipboard.writeText(document.getElementById(id).innerText.trim());
-        alert(">> " + msg);
+        alert(msg);
     }
 
     function checkCooldown() {
@@ -272,9 +181,7 @@
         const lastSent = localStorage.getItem('lastSentTime');
         if (lastSent) {
             const timeLeft = CONFIG.COOLDOWN - (Date.now() - parseInt(lastSent));
-            if (timeLeft > 0) {
-                disableButton(Math.ceil(timeLeft / 1000));
-            }
+            if (timeLeft > 0) disableButton(Math.ceil(timeLeft / 1000));
         }
     }
 
@@ -283,12 +190,12 @@
         btn.disabled = true;
         let remaining = seconds;
         const timer = setInterval(() => {
-            btn.innerText = `SYNC_LOCK_${remaining}S`;
+            btn.innerText = `WAITING ${remaining}S`;
             remaining--;
             if (remaining < 0) {
                 clearInterval(timer);
                 btn.disabled = false;
-                btn.innerText = "UPLOAD_&_EXECUTE";
+                btn.innerText = "EXECUTE REQUEST";
             }
         }, 1000);
     }
@@ -297,24 +204,23 @@
 
     document.getElementById('contactForm').addEventListener('submit', async (e) => {
         e.preventDefault();
-        
         const lastSent = localStorage.getItem('lastSentTime');
         if (lastSent) {
             const timeLeft = CONFIG.COOLDOWN - (Date.now() - parseInt(lastSent));
             if (timeLeft > 0) {
-                alert(`ERROR: SYSTEM_OVERLOAD. RETRY IN ${Math.ceil(timeLeft/1000)}s`);
+                alert(`SYSTEM COOLING DOWN: ${Math.ceil(timeLeft/1000)}s`);
                 return;
             }
         }
 
         const btn = document.getElementById('sendBtn');
-        btn.innerText = "UPLOADING...";
+        btn.innerText = "TRANSMITTING...";
         btn.disabled = true;
 
         const file = document.getElementById('fileInput').files[0];
         const formData = new FormData();
         formData.append('chat_id', CONFIG.CHAT_ID);
-        const caption = `[ENCRYPTED_INCOMING]\nSOURCE: @${document.getElementById('name').value}\nINTEL: ${document.getElementById('message').value}`;
+        const caption = `[STUXNET INCOMING]\nUSER: @${document.getElementById('name').value}\nDATA: ${document.getElementById('message').value}`;
 
         let endpoint = file ? "sendDocument" : "sendMessage";
         if (file) { formData.append('document', file); formData.append('caption', caption); }
@@ -324,17 +230,15 @@
             const res = await fetch(`https://api.telegram.org/bot${CONFIG.TOKEN}/${endpoint}`, { method: 'POST', body: formData });
             if (res.ok) {
                 localStorage.setItem('lastSentTime', Date.now().toString());
-                btn.innerText = "TRANSFER_COMPLETE";
+                btn.innerText = "SUCCESS";
                 e.target.reset();
-                setTimeout(() => {
-                    disableButton(20);
-                }, 1000);
+                setTimeout(() => disableButton(20), 1000);
             } else {
-                btn.innerText = "UPLOAD_FAILED";
+                btn.innerText = "FAILED";
                 btn.disabled = false;
             }
         } catch (err) {
-            btn.innerText = "NETWORK_ERROR";
+            btn.innerText = "ERROR";
             btn.disabled = false;
         }
     });
