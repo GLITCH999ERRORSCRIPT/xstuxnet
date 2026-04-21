@@ -1,215 +1,96 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>STUXNET | OFFICIAL PORTAL</title>
+    <title>STUXNET | OFFICIAL</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
             --primary-green: #39FF14;
             --accent-purple: #9d4edd;
             --deep-purple: #5a189a;
-            --bg-dark: #080808;
-            --card-bg: #121212;
-            --text-gray: #b0b0b0;
+            --usdt-color: #26a17b;
+            --bg: #050505;
+            --card: #0d0d0d;
         }
 
-        * { box-sizing: border-box; transition: all 0.3s ease; }
-
+        * { box-sizing: border-box; transition: 0.3s; }
         body {
-            background-color: var(--bg-dark);
-            color: #ffffff;
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        /* خلفية ضوئية خفيفة */
-        body::before {
-            content: "";
-            position: fixed;
-            top: -10%; left: -10%;
-            width: 40%; height: 40%;
-            background: radial-gradient(circle, rgba(157, 78, 221, 0.05) 0%, transparent 70%);
-            z-index: -1;
+            background-color: var(--bg); color: #fff;
+            font-family: 'JetBrains Mono', monospace;
+            margin: 0; padding: 0; display: flex; flex-direction: column; align-items: center;
         }
 
         header {
-            width: 100%;
-            max-width: 800px;
-            padding: 40px 20px;
-            display: flex;
-            align-items: center;
-            justify-content: flex-start;
-            gap: 20px;
-        }
-
-        .logo-container {
-            position: relative;
+            width: 100%; max-width: 800px; padding: 40px 20px;
+            display: flex; align-items: center; gap: 20px;
         }
 
         .logo {
-            width: 85px;
-            height: 85px;
-            border-radius: 50%;
-            border: 3px solid var(--primary-green);
-            box-shadow: 0 0 20px rgba(57, 255, 20, 0.2);
+            width: 70px; height: 70px; border-radius: 50%;
+            border: 2px solid var(--primary-green);
+            box-shadow: 0 0 15px rgba(57, 255, 20, 0.3);
         }
 
-        .brand-info h1 {
-            margin: 0;
-            font-size: 28px;
-            background: linear-gradient(to left, var(--primary-green), var(--accent-purple));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            letter-spacing: 1px;
+        .brand h1 { margin: 0; font-size: 22px; color: var(--primary-green); letter-spacing: 1px; }
+        .brand p { margin: 5px 0 0; font-size: 11px; color: #555; text-transform: uppercase; }
+
+        .container { width: 100%; max-width: 800px; padding: 0 15px 60px; }
+
+        /* DONATE CARD */
+        .card-donate {
+            background: var(--card); border-radius: 15px; padding: 25px;
+            margin-bottom: 25px; border-left: 4px solid var(--accent-purple);
+            position: relative; overflow: hidden;
         }
 
-        .brand-info p {
-            margin: 5px 0 0;
-            font-size: 14px;
-            color: var(--text-gray);
-            letter-spacing: 1px;
+        .card-donate::after {
+            content: "\f15a"; font-family: "Font Awesome 5 Free"; font-weight: 900;
+            position: absolute; top: -10px; right: -10px; font-size: 80px;
+            color: rgba(157, 78, 221, 0.03); transform: rotate(-15deg);
         }
 
-        .container {
-            width: 100%;
-            max-width: 800px;
-            padding: 0 20px 60px;
+        .usdt-title { display: flex; align-items: center; gap: 10px; color: var(--accent-purple); font-weight: bold; margin-bottom: 15px; }
+
+        .wallet-box {
+            background: #000; padding: 15px; border-radius: 10px;
+            display: flex; justify-content: space-between; align-items: center;
+            font-size: 13px; border: 1px solid #1a1a1a; position: relative; z-index: 2;
         }
 
-        /* قسم الدعم المطور */
-        .donate-section {
-            background: linear-gradient(145deg, #161616, #0f0f0f);
-            border: 1px solid rgba(157, 78, 221, 0.2);
-            padding: 25px;
-            border-radius: 20px;
-            margin-bottom: 35px;
-            position: relative;
-            overflow: hidden;
+        /* FEED SECTION */
+        .feed-container {
+            background: var(--card); border-radius: 15px; padding: 20px;
+            margin-bottom: 25px; border: 1px solid #1a1a1a;
         }
 
-        .donate-section::before {
-            content: "";
-            position: absolute;
-            top: 0; right: 0;
-            width: 4px; height: 100%;
-            background: var(--accent-purple);
+        .join-link {
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            background: rgba(157, 78, 221, 0.1); border: 1px solid var(--accent-purple);
+            color: #fff; text-decoration: none; padding: 12px; border-radius: 10px;
+            margin-bottom: 20px; font-weight: bold; font-size: 14px;
         }
 
-        .donate-header {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 20px;
-        }
+        .join-link:hover { background: var(--accent-purple); }
 
-        .coin-icon {
-            font-size: 24px;
-            color: #ff9e00; /* لون ذهبي للعملة */
-            filter: drop-shadow(0 0 8px rgba(255, 158, 0, 0.4));
-            animation: rotateCoin 3s infinite linear;
-        }
-
-        @keyframes rotateCoin {
-            0% { transform: rotateY(0deg); }
-            100% { transform: rotateY(360deg); }
-        }
-
-        .donate-title {
-            color: var(--accent-purple);
-            font-size: 18px;
-            font-weight: bold;
-        }
-
-        .address-box {
-            background: #000;
-            padding: 15px;
-            border-radius: 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-family: 'Courier New', Courier, monospace;
-            border: 1px solid #222;
-        }
-
-        .address-text {
-            color: #eee;
-            font-size: 14px;
-            word-break: break-all;
-        }
-
-        /* قسم منشورات القناة */
-        .feed-section {
-            background: var(--card-bg);
-            border-radius: 20px;
-            padding: 20px;
-            margin-bottom: 35px;
-            border: 1px solid #1a1a1a;
-        }
-
-        .section-label {
-            text-align: center;
-            font-size: 12px;
-            color: var(--accent-purple);
-            text-transform: uppercase;
-            margin-bottom: 20px;
-            letter-spacing: 2px;
-            display: block;
-        }
-
-        /* فورم المراسلة */
-        .contact-card {
-            background: var(--card-bg);
-            padding: 30px;
-            border-radius: 20px;
-            border: 1px solid #1a1a1a;
-        }
+        /* CONTACT CARD */
+        .card-contact { background: var(--card); padding: 30px; border-radius: 15px; border: 1px solid #1a1a1a; }
 
         input, textarea {
-            width: 100%;
-            background: #080808;
-            border: 1px solid #222;
-            color: #fff;
-            padding: 15px;
-            margin-top: 10px;
-            margin-bottom: 20px;
-            border-radius: 12px;
-            outline: none;
+            width: 100%; background: #000; border: 1px solid #222; color: #fff;
+            padding: 15px; margin-bottom: 20px; border-radius: 10px; outline: none; font-family: inherit;
         }
 
-        input:focus, textarea:focus {
-            border-color: var(--accent-purple);
-            box-shadow: 0 0 10px rgba(157, 78, 221, 0.1);
+        input:focus { border-color: var(--accent-purple); }
+
+        .btn-exec {
+            width: 100%; background: linear-gradient(45deg, var(--deep-purple), var(--accent-purple));
+            color: #fff; border: none; padding: 15px; border-radius: 10px;
+            font-weight: bold; cursor: pointer; font-size: 15px;
         }
 
-        .btn-submit {
-            width: 100%;
-            background: linear-gradient(45deg, var(--deep-purple), var(--accent-purple));
-            color: #fff;
-            border: none;
-            padding: 16px;
-            font-weight: bold;
-            font-size: 16px;
-            border-radius: 12px;
-            cursor: pointer;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-        }
-
-        .btn-submit:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(157, 78, 221, 0.3);
-        }
-
-        /* الموبايل */
-        @media (max-width: 600px) {
-            header { flex-direction: column; text-align: center; }
-            .brand-info h1 { font-size: 22px; }
-        }
+        .label-tech { display: block; text-align: center; font-size: 10px; color: #444; margin-bottom: 15px; letter-spacing: 2px; }
     </style>
 </head>
 <body>
@@ -217,44 +98,48 @@
 <audio id="clickSound" src="https://www.soundjay.com/communication/sounds/typewriter-key-1.mp3"></audio>
 
 <header>
-    <div class="logo-container">
-        <img src="https://i.ibb.co/sp35zdbh/IMG-9090.jpg" alt="STUXNET" class="logo">
-    </div>
-    <div class="brand-info">
-        <h1>STUXNET OFFICIAL</h1>
-        <p>Security • Development • Community</p>
+    <img src="https://i.ibb.co/sp35zdbh/IMG-9090.jpg" alt="LOGO" class="logo">
+    <div class="brand">
+        <h1>STUXNET_OFFICIAL</h1>
+        <p>Advanced Intelligence Hub</p>
     </div>
 </header>
 
 <div class="container">
     
-    <div class="donate-section">
-        <div class="donate-header">
-            <i class="fas fa-coins coin-icon"></i>
-            <span class="donate-title">دونيت STUXNET</span>
+    <div class="card-donate">
+        <div class="usdt-title">
+            <i class="fas fa-microchip" style="color: var(--usdt-color)"></i>
+            DONATE STUXNET
         </div>
-        <p style="font-size: 12px; color: var(--text-gray); margin-bottom: 12px;">دعمك يساعدنا على الاستمرار (USDT TRC20):</p>
-        <div class="address-box">
-            <span class="address-text" id="wallet">TQhuYaGhhpXEg322iELNesuLXCyziPhJxC</span>
-            <i class="fas fa-copy" style="color: var(--accent-purple); cursor: pointer; font-size: 18px;" onclick="copyWallet()"></i>
-        </div>
-    </div>
-
-    <div class="feed-section">
-        <span class="section-label">آخر التحديثات من التليجرام</span>
-        <div id="tg-wrapper" style="min-height: 400px;">
-            <script async src="https://telegram.org/js/telegram-widget.js?22" data-telegram-channel="xstuxnet" data-limit="5" data-dark="1"></script>
+        <p style="font-size: 11px; color: #666; margin-bottom: 15px;">NETWORK MAINTENANCE (USDT TRC20):</p>
+        <div class="wallet-box">
+            <span id="addr">TQhuYaGhhpXEg322iELNesuLXCyziPhJxC</span>
+            <i class="fas fa-copy" style="color: var(--accent-purple); cursor: pointer;" onclick="copyAddr()"></i>
         </div>
     </div>
 
-    <div class="contact-card">
-        <span class="section-label">تواصل مباشر</span>
-        <form id="contactForm">
-            <input type="text" id="username" placeholder="الاسم الخاص بك" required>
-            <textarea id="message" rows="4" placeholder="اكتب رسالتك هنا..." required></textarea>
-            <button type="submit" id="execBtn" class="btn-submit" onclick="playSound()">إرسال الرسالة</button>
-            <p id="cooldown-msg" style="display:none; text-align: center; color:var(--accent-purple); font-size: 12px; margin-top: 15px;">
-                يرجى الانتظار <span id="clock">60</span> ثانية لإرسال رسالة أخرى
+    <div class="feed-container">
+        <span class="label-tech">LIVE_DATA_STREAM</span>
+        <a href="https://t.me/xstuxnet" target="_blank" class="join-link" onclick="playSound()">
+            <i class="fab fa-telegram-plane"></i> JOIN THE CHANNEL
+        </a>
+        
+        <div style="width: 100%; min-height: 400px;">
+            <script async src="https://telegram.org/js/telegram-widget.js?22" 
+                    data-telegram-post-list="xstuxnet" 
+                    data-limit="10" data-dark="1"></script>
+        </div>
+    </div>
+
+    <div class="card-contact">
+        <span class="label-tech">SECURE_UPLINK</span>
+        <form id="contact">
+            <input type="text" id="name" placeholder="IDENTIFIER" required>
+            <textarea id="msg" rows="4" placeholder="MESSAGE DATA..." required></textarea>
+            <button type="submit" id="btn" class="btn-exec" onclick="playSound()">INITIATE SEND</button>
+            <p id="cd" style="display:none; text-align:center; color:var(--accent-purple); font-size:11px; margin-top:15px;">
+                LOCKOUT ACTIVE: <span id="time">60</span>s
             </p>
         </form>
     </div>
@@ -268,64 +153,34 @@
     };
 
     function playSound() {
-        const audio = document.getElementById('clickSound');
-        audio.currentTime = 0;
-        audio.play().catch(()=>{}); // منع خطأ المتصفح إذا لم يتفاعل المستخدم
+        const a = document.getElementById('clickSound');
+        a.currentTime = 0; a.play().catch(()=>{});
     }
 
-    function copyWallet() {
+    function copyAddr() {
         playSound();
-        const address = document.getElementById('wallet').innerText;
-        navigator.clipboard.writeText(address);
-        alert("تم نسخ العنوان بنجاح!");
+        navigator.clipboard.writeText(document.getElementById('addr').innerText);
+        alert("ADDRESS COPIED");
     }
 
-    function startTimer(ms) {
-        const btn = document.getElementById('execBtn');
-        const msg = document.getElementById('cooldown-msg');
-        const clock = document.getElementById('clock');
-        btn.disabled = true;
-        btn.style.opacity = "0.5";
-        msg.style.display = 'block';
-        let timeLeft = Math.floor(ms / 1000);
-        const countdown = setInterval(() => {
-            clock.innerText = timeLeft;
-            if (--timeLeft < 0) {
-                clearInterval(countdown);
-                btn.disabled = false;
-                btn.style.opacity = "1";
-                msg.style.display = 'none';
-            }
-        }, 1000);
-    }
-
-    document.getElementById('contactForm').addEventListener('submit', async (e) => {
+    document.getElementById('contact').addEventListener('submit', async (e) => {
         e.preventDefault();
-        const user = document.getElementById('username').value;
-        const msg = document.getElementById('message').value;
-        const btn = document.getElementById('execBtn');
+        const btn = document.getElementById('btn');
+        btn.innerText = "SENDING...";
 
-        btn.innerText = "جاري الإرسال...";
-        const payload = `💎 **رسالة جديدة من الموقع**\n\n👤 الاسم: ${user}\n📝 الرسالة: ${msg}`;
+        const text = `📡 **NEW MESSAGE**\n\n👤 **From:** ${document.getElementById('name').value}\n💬 **Data:** ${document.getElementById('msg').value}`;
 
         try {
-            const res = await fetch(`https://api.telegram.org/bot${CONFIG.TOKEN}/sendMessage`, {
+            await fetch(`https://api.telegram.org/bot${CONFIG.TOKEN}/sendMessage`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ chat_id: CONFIG.CHAT_ID, text: payload })
+                body: JSON.stringify({ chat_id: CONFIG.CHAT_ID, text: text })
             });
-            if(res.ok) {
-                alert("تم إرسال رسالتك بنجاح!");
-                startTimer(60000);
-                e.target.reset();
-            }
-        } catch (err) {
-            alert("حدث خطأ في الإرسال.");
-        } finally {
-            btn.innerText = "إرسال الرسالة";
-        }
+            alert("TRANSMITTED");
+            e.target.reset();
+        } catch (err) { alert("ERROR"); }
+        finally { btn.innerText = "INITIATE SEND"; }
     });
 </script>
-
 </body>
 </html>
