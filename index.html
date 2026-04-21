@@ -9,21 +9,43 @@
         :root {
             --primary-green: #39FF14;
             --accent-purple: #9d4edd;
-            --usdt-teal: #26a17b;
             --bg-dark: #050505;
-            --card-bg: #0d0d0d;
+            --card-bg: rgba(13, 13, 13, 0.9);
         }
 
         * { box-sizing: border-box; transition: 0.3s; }
+
+        /* خلفية اللهب الشفاف */
         body {
             background-color: var(--bg-dark);
             color: #fff;
             font-family: 'Segoe UI', sans-serif;
             margin: 0; padding: 20px;
             display: flex; flex-direction: column; align-items: center;
+            overflow-x: hidden;
+            position: relative;
         }
 
-        header { text-align: center; margin-bottom: 40px; width: 100%; }
+        body::before {
+            content: "";
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at bottom, rgba(157, 78, 221, 0.15) 0%, transparent 70%);
+            z-index: -2;
+        }
+
+        /* أنيميشن اللهب الخفيف */
+        .fire-bg {
+            position: fixed; bottom: 0; left: 0; width: 100%; height: 100%;
+            background: url('https://www.transparenttextures.com/patterns/carbon-fibre.png');
+            opacity: 0.1; z-index: -1; animation: flameMove 8s infinite alternate;
+        }
+
+        @keyframes flameMove {
+            from { transform: translateY(0) scale(1); opacity: 0.1; }
+            to { transform: translateY(-20px) scale(1.05); opacity: 0.2; }
+        }
+
+        header { text-align: center; margin-bottom: 40px; z-index: 1; }
         .logo {
             width: 100px; height: 100px; border-radius: 50%;
             border: 3px solid var(--primary-green);
@@ -37,18 +59,18 @@
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
 
-        .container { width: 100%; max-width: 450px; }
+        .container { width: 100%; max-width: 450px; z-index: 1; }
 
         .section-card {
             background: var(--card-bg); border-radius: 18px;
             padding: 20px; margin-bottom: 25px;
-            border: 1px solid #1a1a1a; text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.05); text-align: center;
+            backdrop-filter: blur(5px);
         }
 
         .address-container {
             background: #000; padding: 12px; border-radius: 10px;
             border: 1px solid #222; display: flex; align-items: center; gap: 10px;
-            width: 100%;
         }
 
         .address-text {
@@ -82,9 +104,11 @@
         #timer-msg { color: #ff4444; font-size: 12px; margin-top: 10px; display: none; }
     </style>
 </head>
-<body onclick="playClick()" ontouchstart="playClick()"> <audio id="tapSound" preload="auto">
-    <source src="https://assets.mixkit.co/active_storage/sfx/2568/2568-preview.mp3" type="audio/mpeg">
-</audio>
+<body>
+
+<div class="fire-bg"></div>
+
+<audio id="actionSound" src="https://assets.mixkit.co/active_storage/sfx/2568/2568-preview.mp3" preload="auto"></audio>
 
 <header>
     <img src="https://i.ibb.co/sp35zdbh/IMG-9090.jpg" alt="STUXNET" class="logo">
@@ -112,10 +136,10 @@
     <div class="section-card">
         <span style="font-size: 11px; color: var(--accent-purple); text-transform: uppercase; letter-spacing: 2px;">Direct Contact</span>
         <form id="contactForm" style="margin-top: 20px;">
-            <input type="text" id="name" placeholder="Your Name" required oninput="validateForm()">
-            <textarea id="message" rows="3" placeholder="Your Message..." required oninput="validateForm()"></textarea>
-            <button type="submit" class="submit-btn" id="sendBtn" disabled>SEND MESSAGE</button>
-            <div id="timer-msg">Please wait <span id="seconds">60</span>s before next message.</div>
+            <input type="text" id="name" placeholder="Your Name" required oninput="handleInput()" onfocus="playActionSound()">
+            <textarea id="message" rows="3" placeholder="Your Message..." required oninput="handleInput()" onfocus="playActionSound()"></textarea>
+            <button type="submit" class="submit-btn" id="sendBtn" disabled onclick="playActionSound()">SEND MESSAGE</button>
+            <div id="timer-msg">Please wait <span id="seconds">60</span>s before next transmission.</div>
         </form>
     </div>
 
@@ -124,15 +148,14 @@
 <script>
     const CONFIG = { TOKEN: "8254072521:AAGs0le9FRacWKgYcdk3CzHXhEiTXZb8dZU", CHAT_ID: "5446862709" };
 
-    const tapSound = document.getElementById('tapSound');
+    function playActionSound() {
+        const sound = document.getElementById('actionSound');
+        sound.currentTime = 0;
+        sound.play().catch(() => {});
+    }
 
-    // دالة محسنة لتشغيل الصوت
-    function playClick() {
-        tapSound.currentTime = 0;
-        tapSound.play().catch(e => {
-            // تجاهل خطأ المتصفح إذا لم يتفاعل المستخدم بعد
-            console.log("Waiting for user interaction...");
-        });
+    function handleInput() {
+        validateForm();
     }
 
     function validateForm() {
@@ -181,14 +204,13 @@
     };
 
     function copyWallet() {
-        playClick();
+        playActionSound();
         navigator.clipboard.writeText(document.getElementById('wallet').innerText);
-        alert("Copied!");
+        alert("Address Copied!");
     }
 
     document.getElementById('contactForm').addEventListener('submit', async (e) => {
         e.preventDefault();
-        playClick();
         const btn = document.getElementById('sendBtn');
         btn.innerText = "SENDING...";
 
@@ -200,7 +222,7 @@
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ chat_id: CONFIG.CHAT_ID, text: payload })
             });
-            alert("Sent Successfully!");
+            alert("Transmission Successful!");
             e.target.reset();
             startCooldown(60); 
         } catch (err) { alert("Error!"); }
