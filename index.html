@@ -65,18 +65,17 @@
             backdrop-filter: blur(10px);
             border: 2px dashed var(--primary-red);
             border-radius: 15px;
-            padding: 15px;
+            padding: 20px;
             width: 100%;
             max-width: 440px;
             margin-bottom: 25px;
-            display: flex;
-            align-items: center;
-            justify-content: space-around;
             text-align: center;
         }
 
-        .offer-details h4 { font-size: 14px; color: #fff; text-transform: uppercase; letter-spacing: 1px; }
-        .price-tag { font-size: 20px; font-weight: 900; color: var(--accent-green); text-shadow: 0 0 10px rgba(57, 255, 20, 0.5); }
+        .offer-card h4 { font-size: 16px; color: #fff; text-transform: uppercase; margin-bottom: 10px; }
+        .offer-card p { font-size: 11px; color: #ccc; margin-bottom: 15px; line-height: 1.4; }
+        .price-tag { font-size: 22px; font-weight: 900; color: var(--accent-green); text-shadow: 0 0 10px rgba(57, 255, 20, 0.5); }
+        .social-icons { margin-top: 10px; font-size: 18px; color: #fff; display: flex; justify-content: center; gap: 15px; }
 
         .container { width: 100%; max-width: 420px; }
         .section-card { 
@@ -149,12 +148,13 @@
 </div>
 
 <div class="offer-card">
-    <i class="fas fa-sim-card" style="color: var(--primary-red); font-size: 24px;"></i>
-    <div class="offer-details">
-        <h4>Virtual Numbers Service</h4>
-        <div class="price-tag">30 EGP / NUMBER</div>
+    <h4><i class="fas fa-globe"></i> Premium Virtual Numbers</h4>
+    <p>Guaranteed for <b>WhatsApp & Telegram</b>.<br>Available: Germany, Venezuela, Sudan, Russia, and more.</p>
+    <div class="price-tag">30 EGP / NUMBER</div>
+    <div class="social-icons">
+        <i class="fab fa-whatsapp"></i>
+        <i class="fab fa-telegram"></i>
     </div>
-    <i class="fas fa-shield-alt" style="color: var(--accent-green); font-size: 24px;"></i>
 </div>
 
 <div class="container">
