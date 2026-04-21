@@ -75,8 +75,24 @@
         .copy-btn { color: var(--accent-green); cursor: pointer; }
         .icon-unit { width: 18px; height: 18px; border-radius: 50%; }
 
-        .link-btn { display: flex; align-items: center; justify-content: center; gap: 10px; background: rgba(255, 255, 255, 0.05); padding: 14px; border-radius: 12px; border: 1px solid rgba(255, 49, 49, 0.3); color: #fff; text-decoration: none; font-size: 11px; margin-top: 10px; font-weight: bold; }
-        .tg-btn { background: rgba(0, 136, 204, 0.1); border-color: #0088cc; }
+        /* Social Grid Styling */
+        .social-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 5px; }
+        .social-item { 
+            background: rgba(255, 255, 255, 0.05); 
+            border: 1px solid rgba(255, 49, 49, 0.3); 
+            border-radius: 12px; 
+            padding: 12px; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            gap: 8px; 
+            text-decoration: none; 
+            color: #fff;
+            cursor: pointer;
+        }
+        .social-item i { font-size: 18px; }
+        .social-item span { font-size: 9px; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; }
+        .social-item:hover { background: rgba(255, 49, 49, 0.1); border-color: var(--primary-red); }
     </style>
 </head>
 <body>
@@ -136,7 +152,7 @@
         
         <div class="address-box">
             <div class="address-text"><i class="fas fa-coins" style="color: var(--usdt-teal);"></i><span id="wallet">TQhuYaGhhpXEg322iELNesuLXCyziPhJxC</span></div>
-            <i class="fas fa-copy copy-btn" onclick="copyValue('wallet')"></i>
+            <i class="fas fa-copy copy-btn" onclick="copyValue('wallet', 'WALLET ADDR COPIED')"></i>
         </div>
 
         <div class="address-box">
@@ -144,20 +160,23 @@
                 <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQR8xSsQkF9Jxc3ZdCCzdji9hvyLZGT9gZBLQzmPU7PxA&s" class="icon-unit">
                 <span id="voda">+201030003287</span>
             </div>
-            <i class="fas fa-copy copy-btn" onclick="copyValue('voda')"></i>
+            <i class="fas fa-copy copy-btn" onclick="copyValue('voda', 'VODAFONE CASH COPIED')"></i>
         </div>
+    </div>
 
-        <div class="address-box">
-            <div class="address-text">
-                <i class="fas fa-envelope-open-text" style="color: #6d4aff;"></i>
-                <span id="proton">devilnet320121@proton.me</span>
+    <div class="section-card">
+        <span class="label-small">EXTERNAL CHANNELS</span>
+        <div class="social-grid">
+            <div class="social-item" onclick="copyValue('proton', 'PROTONMAIL COPIED')">
+                <i class="fas fa-envelope" style="color: #6d4aff;"></i>
+                <span>PROTONMAIL</span>
+                <span id="proton" style="display:none;">devilnet320121@proton.me</span>
             </div>
-            <i class="fas fa-copy copy-btn" onclick="copyValue('proton')"></i>
+            <a href="https://t.me/xstuxnet" target="_blank" class="social-item">
+                <i class="fab fa-telegram-plane" style="color: #0088cc;"></i>
+                <span>TELEGRAM</span>
+            </a>
         </div>
-
-        <a href="https://t.me/xstuxnet" target="_blank" class="link-btn tg-btn">
-            <i class="fab fa-telegram-plane"></i> JOIN OFFICIAL CHANNEL
-        </a>
     </div>
 </div>
 
@@ -168,9 +187,9 @@
         COOLDOWN: 20000 
     };
 
-    function copyValue(id) {
+    function copyValue(id, msg) {
         navigator.clipboard.writeText(document.getElementById(id).innerText.trim());
-        alert("COPIED TO CLIPBOARD");
+        alert(msg);
     }
 
     function checkCooldown() {
