@@ -18,6 +18,11 @@
 
         body {
             background-color: var(--bg-dark);
+            background-image: linear-gradient(rgba(5, 5, 5, 0.8), rgba(5, 5, 5, 0.8)), 
+                              url('https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExNHJueHNoZ3ZueXJ6eXF6eXJ6eXF6eXJ6eXF6eXJ6eXF6eXJ6eSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3o7TKMGpxx8mY99O8w/giphy.gif');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
             color: #fff;
             font-family: 'Segoe UI', Tahoma, sans-serif;
             margin: 0; padding: 15px;
@@ -31,7 +36,7 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        header { text-align: center; margin: 30px 0; width: 100%; }
+        header { text-align: center; margin: 30px 0; width: 100%; position: relative; z-index: 1; }
         
         .logo {
             width: 100px; height: 100px; border-radius: 50%;
@@ -48,14 +53,15 @@
             white-space: nowrap;
         }
 
-        .brand-info p { margin: 8px 0 0; font-size: 13px; color: #777; }
+        .brand-info p { margin: 8px 0 0; font-size: 13px; color: #aaa; }
 
-        .container { width: 100%; max-width: 450px; }
+        .container { width: 100%; max-width: 450px; position: relative; z-index: 1; }
 
         .section-card {
-            background: var(--card-bg); border-radius: 18px;
+            background: rgba(13, 13, 13, 0.9); border-radius: 18px;
             padding: 20px; margin-bottom: 20px;
-            border: 1px solid #1a1a1a; width: 100%; text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.05); width: 100%; text-align: center;
+            backdrop-filter: blur(5px);
         }
 
         .label { font-size: 11px; color: var(--accent-purple); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 15px; display: block; }
@@ -81,11 +87,7 @@
             font-weight: bold; cursor: pointer;
         }
 
-        .submit-btn:disabled {
-            background: #222;
-            color: #555;
-            cursor: not-allowed;
-        }
+        .submit-btn:disabled { background: #222; color: #555; cursor: not-allowed; }
 
     </style>
 </head>
@@ -147,8 +149,8 @@
         if (lastSent) {
             const currentTime = Date.now();
             const timePassed = currentTime - lastSent;
-            if (timePassed < 60000) {
-                startTimer(Math.ceil((60000 - timePassed) / 1000));
+            if (timePassed < 10000) {
+                startTimer(Math.ceil((10000 - timePassed) / 1000));
             }
         }
     }
