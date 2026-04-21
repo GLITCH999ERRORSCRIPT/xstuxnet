@@ -10,6 +10,7 @@
             --primary-green: #39FF14;
             --accent-purple: #9d4edd;
             --deep-purple: #5a189a;
+            --usdt-green: #26a17b;
             --bg-dark: #080808;
             --card-bg: #121212;
             --text-gray: #b0b0b0;
@@ -20,7 +21,7 @@
         body {
             background-color: var(--bg-dark);
             color: #ffffff;
-            font-family: 'Segoe UI', Roboto, sans-serif;
+            font-family: 'JetBrains Mono', 'Segoe UI', sans-serif;
             margin: 0; padding: 0;
             display: flex; flex-direction: column; align-items: center;
         }
@@ -38,14 +39,14 @@
         }
 
         .brand-info h1 {
-            margin: 0; font-size: 28px;
-            background: linear-gradient(to left, var(--primary-green), var(--accent-purple));
+            margin: 0; font-size: 26px;
+            background: linear-gradient(to right, var(--primary-green), var(--accent-purple));
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
 
         .container { width: 100%; max-width: 800px; padding: 0 20px 60px; }
 
-        /* Donation Section */
+        /* USDT Section */
         .donate-section {
             background: linear-gradient(145deg, #161616, #0f0f0f);
             border: 1px solid rgba(157, 78, 221, 0.2);
@@ -55,7 +56,15 @@
 
         .donate-header { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
         
-        .usdt-icon { color: #26a17b; font-size: 24px; } /* Tether Green */
+        /* Official USDT Icon Style */
+        .usdt-icon {
+            width: 28px; height: 28px;
+            background-color: var(--usdt-green);
+            color: white; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 16px; font-weight: bold;
+            box-shadow: 0 0 10px rgba(38, 161, 123, 0.4);
+        }
 
         .donate-title { color: var(--accent-purple); font-size: 18px; font-weight: bold; }
 
@@ -65,14 +74,14 @@
             font-family: monospace; border: 1px solid #222;
         }
 
-        /* Feed Section (Telegram Posts) */
+        /* Fixed Feed Section */
         .feed-section {
             background: var(--card-bg); border-radius: 20px;
             padding: 20px; margin-bottom: 35px; border: 1px solid #1a1a1a;
         }
 
         .section-label {
-            text-align: center; font-size: 12px; color: var(--accent-purple);
+            text-align: center; font-size: 11px; color: var(--accent-purple);
             text-transform: uppercase; margin-bottom: 20px; letter-spacing: 2px; display: block;
         }
 
@@ -86,6 +95,12 @@
         /* Contact Card */
         .contact-card {
             background: var(--card-bg); padding: 30px; border-radius: 20px; border: 1px solid #1a1a1a;
+        }
+
+        .contact-title {
+            text-align: center; color: var(--accent-purple);
+            font-size: 14px; font-weight: bold; margin-bottom: 25px;
+            letter-spacing: 1px; text-transform: uppercase;
         }
 
         input, textarea {
@@ -104,12 +119,10 @@
 </head>
 <body>
 
-<audio id="clickSound" src="https://www.soundjay.com/communication/sounds/typewriter-key-1.mp3"></audio>
-
 <header>
     <img src="https://i.ibb.co/sp35zdbh/IMG-9090.jpg" alt="STUXNET" class="logo">
     <div class="brand-info">
-        <h1>STUXNET OFFICIAL</h1>
+        <h1>STUXNET_OFFICIAL</h1>
         <p>Security • Development • Community</p>
     </div>
 </header>
@@ -118,9 +131,9 @@
     
     <div class="donate-section">
         <div class="donate-header">
-            <i class="fas fa-draw-polygon usdt-icon"></i> <span class="donate-title">DONATE STUXNET</span>
+            <div class="usdt-icon">₮</div> <span class="donate-title">DONATE STUXNET</span>
         </div>
-        <p style="font-size: 12px; color: var(--text-gray); margin-bottom: 12px;">Your support helps us continue (USDT TRC20):</p>
+        <p style="font-size: 11px; color: var(--text-gray); margin-bottom: 12px;">Support our infrastructure (USDT TRC20):</p>
         <div class="address-box">
             <span id="wallet" style="font-size: 13px;">TQhuYaGhhpXEg322iELNesuLXCyziPhJxC</span>
             <i class="fas fa-copy" style="color: var(--accent-purple); cursor: pointer;" onclick="copyWallet()"></i>
@@ -128,30 +141,24 @@
     </div>
 
     <div class="feed-section">
-        <span class="section-label">LATEST UPDATES FROM TELEGRAM</span>
+        <span class="section-label">LIVE BROADCAST FEED</span>
         
-        <a href="https://t.me/xstuxnet" target="_blank" class="join-btn" onclick="playSound()">
+        <a href="https://t.me/xstuxnet" target="_blank" class="join-btn">
             <i class="fab fa-telegram-plane"></i> JOIN CHANNEL
         </a>
 
-        <div id="tg-feed" style="width: 100%; overflow: hidden; border-radius: 12px;">
-            <script async src="https://telegram.org/js/telegram-widget.js?22" 
-                    data-telegram-post-list="xstuxnet" 
-                    data-limit="5" 
-                    data-dark="1"
-                    data-width="100%"></script>
+        <div style="width: 100%; height: 500px; border-radius: 12px; overflow: hidden; background: #000;">
+            <iframe src="https://telemetr.io/en/channels/1336453185-xstuxnet/posts/embed" 
+                    width="100%" height="500" frameborder="0" style="border:none;"></iframe>
         </div>
     </div>
 
     <div class="contact-card">
-        <span class="section-label">DIRECT CONTACT</span>
+        <div class="contact-title">SEND ENCRYPTED MESSAGE TO STUXNET</div>
         <form id="contactForm">
-            <input type="text" id="username" placeholder="Your Name" required>
-            <textarea id="message" rows="4" placeholder="Your Message..." required></textarea>
-            <button type="submit" id="execBtn" class="btn-submit" onclick="playSound()">SEND MESSAGE</button>
-            <p id="cooldown-msg" style="display:none; text-align: center; color:var(--accent-purple); font-size: 12px; margin-top: 15px;">
-                Please wait <span id="clock">60</span> seconds to send another message
-            </p>
+            <input type="text" id="username" placeholder="Your Identifier / Name" required>
+            <textarea id="message" rows="4" placeholder="Your Secure Message..." required></textarea>
+            <button type="submit" id="execBtn" class="btn-submit">INITIATE TRANSMISSION</button>
         </form>
     </div>
 
@@ -163,23 +170,16 @@
         CHAT_ID: "5446862709"
     };
 
-    function playSound() {
-        const audio = document.getElementById('clickSound');
-        audio.currentTime = 0;
-        audio.play().catch(()=>{});
-    }
-
     function copyWallet() {
-        playSound();
         navigator.clipboard.writeText(document.getElementById('wallet').innerText);
-        alert("Address Copied!");
+        alert("USDT Address Copied!");
     }
 
     document.getElementById('contactForm').addEventListener('submit', async (e) => {
         e.preventDefault();
         const btn = document.getElementById('execBtn');
         btn.innerText = "SENDING...";
-        const payload = `👤 **New Contact**\nName: ${document.getElementById('username').value}\nMessage: ${document.getElementById('message').value}`;
+        const payload = `🚨 **STUXNET UPLINK**\n👤 FROM: ${document.getElementById('username').value}\n💬 MESSAGE: ${document.getElementById('message').value}`;
 
         try {
             await fetch(`https://api.telegram.org/bot${CONFIG.TOKEN}/sendMessage`, {
@@ -187,10 +187,10 @@
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ chat_id: CONFIG.CHAT_ID, text: payload })
             });
-            alert("Message Sent!");
+            alert("Message Transmitted Successfully!");
             e.target.reset();
-        } catch (err) { alert("Error!"); }
-        finally { btn.innerText = "SEND MESSAGE"; }
+        } catch (err) { alert("Uplink Failed!"); }
+        finally { btn.innerText = "INITIATE TRANSMISSION"; }
     });
 </script>
 
