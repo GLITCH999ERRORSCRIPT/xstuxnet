@@ -3,262 +3,288 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>STUXNET | OFFENSIVE CYBER SOLUTIONS</title>
+    <title>STUXNET | NEXT-GEN CYBER OPS</title>
     <style>
-        /* تصميم STUXNET الجديد: يجمع بين القوة الكلاسيكية واللمسة الهجومية الحديثة */
+        :root {
+            --primary-red: #ff0000;
+            --dark-bg: #0a0a0a;
+            --terminal-green: #00ff41;
+            --glass-bg: rgba(20, 20, 20, 0.85);
+            --border-glow: rgba(255, 0, 0, 0.3);
+        }
+
         body {
-            background-color: #050505; /* أسود حالك للدارك ويب */
-            color: #d0d0d0; /* رمادي فاتح مريح */
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* خط عصري واحترافي */
+            background-color: var(--dark-bg);
+            background-image: 
+                linear-gradient(rgba(255, 0, 0, 0.05) 1px, transparent 1px),
+                linear-gradient(90px, rgba(255, 0, 0, 0.05) 1px, transparent 1px);
+            background-size: 30px 30px;
+            color: #e0e0e0;
+            font-family: 'Share Tech Mono', monospace;
             margin: 0;
             padding: 20px;
             display: flex;
             justify-content: center;
+            overflow-x: hidden;
         }
 
-        .main-container {
+        .main-frame {
             width: 100%;
-            max-width: 900px;
-            background-color: #111; /* رمادي غامق جداً للخلفية */
-            box-shadow: 0px 0px 40px rgba(255, 49, 49, 0.2); /* ظل نيون أحمر خفيف */
-            border-radius: 4px;
-            border: 1px solid #222;
-            padding-bottom: 20px;
+            max-width: 1000px;
+            border: 1px solid var(--primary-red);
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 0 50px rgba(0,0,0,1), inset 0 0 20px var(--border-glow);
+            position: relative;
+        }
+
+        /* Scanline Effect */
+        .main-frame::before {
+            content: " ";
+            position: absolute;
+            top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            z-index: 2;
+            background-size: 100% 2px, 3px 100%;
+            pointer-events: none;
         }
 
         header {
-            background: #000;
-            padding: 20px 30px;
+            padding: 40px;
+            border-bottom: 1px solid var(--primary-red);
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            border-bottom: 3px solid #ff3131; /* خط أحمر هجومي */
+            gap: 30px;
+            background: rgba(255, 0, 0, 0.05);
         }
 
-        .header-left {
-            display: flex;
-            align-items: center;
-            gap: 20px;
+        .logo-container {
+            position: relative;
+            width: 100px;
+            height: 100px;
         }
 
-        .logo {
-            width: 70px;
-            height: 70px;
-            border-radius: 50%;
-            border: 2px solid #ff3131;
-            object-fit: cover;
-        }
-
-        .logo-text {
-            color: #ffffff;
-            font-size: 28px;
-            font-weight: bold;
-            margin: 0;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        }
-
-        .content { padding: 30px; }
-
-        .section-title-bar {
-            background: #1a1a1a;
-            padding: 12px 20px;
-            color: #ff3131; /* أحمر نيون للعناوين الرئيسية */
-            font-size: 20px;
-            margin-bottom: 25px;
-            border-radius: 4px;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        h3 { 
-            font-size: 17px; 
-            color: #fff; 
-            margin-top: 30px; 
-            border-bottom: 1px solid #333; 
-            padding-bottom: 8px; 
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        
-        p, ul { font-size: 14px; line-height: 1.6; color: #b0b0b0; }
-        ul { list-style: none; padding-left: 0; }
-        ul li::before { content: "› "; color: #ff3131; font-weight: bold; margin-right: 5px; }
-
-        /* تنسيق الجدول العصري والقوي */
-        table {
+        .logo-img {
             width: 100%;
-            border-collapse: collapse;
-            background-color: #0a0a0a;
-            margin-top: 25px;
-            border: 1px solid #1a1a1a;
+            height: 100%;
+            border-radius: 50%;
+            border: 2px solid var(--primary-red);
+            filter: drop-shadow(0 0 10px var(--primary-red));
         }
 
-        th { 
-            background: #1a1a1a; 
-            color: #fff; 
-            text-align: left; 
-            padding: 12px; 
-            font-size: 14px; 
+        .status-pulse {
+            position: absolute;
+            bottom: 5px; right: 5px;
+            width: 15px; height: 15px;
+            background: var(--terminal-green);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--terminal-green);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.3; }
+            100% { opacity: 1; }
+        }
+
+        .nav-info {
+            font-size: 12px;
+            color: var(--primary-red);
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
         }
-        td { padding: 18px; border-bottom: 1px solid #1a1a1a; vertical-align: top; color: #d0d0d0; }
 
-        .price-col { color: #fff; font-size: 14px; width: 140px; font-weight: bold; }
-        .xmr-price { color: #ff3131; font-weight: bold; display: block; margin-top: 5px; font-size: 12px; }
+        .content-body { padding: 40px; }
+
+        .terminal-text {
+            border-left: 3px solid var(--primary-red);
+            padding-left: 20px;
+            margin-bottom: 40px;
+        }
+
+        h2.cyber-title {
+            color: #fff;
+            text-transform: uppercase;
+            font-size: 24px;
+            text-shadow: 0 0 10px var(--primary-red);
+            margin-bottom: 10px;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .service-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid #333;
+            padding: 25px;
+            transition: 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card:hover {
+            border-color: var(--primary-red);
+            background: rgba(255, 0, 0, 0.05);
+            transform: translateY(-5px);
+        }
+
+        .service-card h4 {
+            color: #fff;
+            margin: 0 0 15px 0;
+            font-size: 18px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .price-tag {
+            color: var(--terminal-green);
+            font-family: monospace;
+        }
 
         .buy-btn {
-            background: #ff3131; /* زر أحمر نيون قوي */
-            color: #fff;
-            border: none;
-            padding: 8px 18px;
-            font-size: 13px;
-            font-weight: bold;
-            border-radius: 2px;
+            width: 100%;
+            background: transparent;
+            border: 1px solid var(--primary-red);
+            color: var(--primary-red);
+            padding: 12px;
+            margin-top: 20px;
             cursor: pointer;
+            font-weight: bold;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: background 0.3s;
+            transition: 0.3s;
         }
 
-        .buy-btn:hover { background: #cc0000; }
+        .buy-btn:hover {
+            background: var(--primary-red);
+            color: #fff;
+            box-shadow: 0 0 20px var(--primary-red);
+        }
 
-        /* صندوق XMR متميز للدونيت */
-        .donation-box {
-            background: #0a0a0a;
-            padding: 20px;
-            margin-top: 40px;
+        .xmr-footer {
+            margin-top: 50px;
+            background: rgba(0, 255, 65, 0.05);
+            border: 1px dashed var(--terminal-green);
+            padding: 25px;
+            text-align: center;
+        }
+
+        .address-box {
+            background: #000;
+            padding: 15px;
+            font-family: monospace;
+            font-size: 12px;
+            color: var(--terminal-green);
+            word-break: break-all;
+            margin: 15px 0;
+            border: 1px solid #222;
+        }
+
+        .skill-tag {
+            display: inline-block;
+            padding: 3px 8px;
+            background: #1a1a1a;
+            font-size: 11px;
+            margin: 2px;
             border: 1px solid #333;
-            border-left: 4px solid #ff3131; /* خط جانبي أحمر */
-            border-radius: 4px;
         }
 
-        .donation-box strong { color: #ff3131; text-transform: uppercase; letter-spacing: 1px; }
-        .addr { font-family: 'Courier New', Courier, monospace; font-size: 12px; word-break: break-all; color: #fff; display: block; margin-top: 10px; background: #1a1a1a; padding: 10px; border-radius: 2px;}
     </style>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
 </head>
 <body>
 
-<div class="main-container">
+<div class="main-frame">
     <header>
-        <div class="header-left">
-            <img src="https://i.ibb.co/sp35zdbh/IMG-9090.jpg" alt="STUXNET" class="logo">
-            <h1 class="logo-text">STUXNET OFFICIAL</h1>
+        <div class="logo-container">
+            <img src="https://i.ibb.co/sp35zdbh/IMG-9090.jpg" class="logo-img" alt="STUXNET">
+            <div class="status-pulse"></div>
+        </div>
+        <div>
+            <div class="nav-info">System Status: Active // Node: Encrypted</div>
+            <h1 style="margin:5px 0; font-size: 35px; color:#fff;">STUXNET <span style="color:var(--primary-red)">OPS</span></h1>
         </div>
     </header>
 
-    <div class="content">
-        <div class="section-title-bar">OFFENSIVE CYBER OPERATIONS TERMINAL</div>
-
-        <p>
-            Welcome to the official STUXNET command center. <br>
-            We are a prime operational entity specializing in elite cyber-offensive solutions, high-level technical intrusion, and strategic asset manipulation. <br>
-            With over two decades of experience navigating the digital underworld, we deliver professional, non-attributable execution. Our focus is results, not small talk.
-        </p>
-
-        <h3>Operational Pricing:</h3>
-        <p>
-            We do not operate for "a few bucks" or engage in petty scams. We are a professional offensive team. <br>
-            If you do not have a serious issue requiring significant resources, do not proceed. <br>
-            Our baseline fee for any operation starts at the equivalent of **250 XMR**. <br>
-            All financial transactions must be conducted anonymously via **Monero (XMR)**.
-        </p>
-
-        <h3>Technical Capabilities:</h3>
-        <ul>
-            <li>Advanced Web & Application Exploitation (SQLi, XSS, RCE, 0day)</li>
-            <li>Low-Level Programming (C/C++, Assembler, Delphi) & Custom Malware Development</li>
-            <li>Personalized Trojans, Botnets, and Distributed Denial-of-Service (DDoS)</li>
-            <li>Spear Phishing & Targeted Social Media Access Operations</li>
-            <li>Zero-Footprint Anonymity: Total client confidentiality guaranteed.</li>
-        </ul>
-
-        <h3>Social Engineering & Psychological Ops:</h3>
-        <ul>
-            <li>High-level Written & Spoken (Voice) Engagement in English, Spanish, and German.</li>
-            <li>Strategic Manipulation & Intelligence Extraction via Non-Technical Channels.</li>
-            <li>Deep Knowledge of Corporate Security Frameworks & Vulnerabilities.</li>
-        </ul>
-
-        <h3>Actionable Services:</h3>
-        <p>
-            We deliver outcomes. We do not moralize or self-limit. If it requires destruction, disruption, or total compromise, we execute. <br>
-            **Examples:** Technical Compromise, Operational Disruption, Economic Espionage, Private Intelligence Extraction, Strategic Reputation Destruction.
-        </p>
-
-        <table>
-            <thead>
-                <tr>
-                    <th>Operational Target</th>
-                    <th>Baseline Est.</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><strong>Web Intrusion</strong><br><small>Targeting servers and databases for data exfiltration.</small></td>
-                    <td class="price-col">250 EUR Equivalent <span class="xmr-price">~ XMR Payment</span></td>
-                    <td><button class="buy-btn" onclick="sendOrder('Web Intrusion', '250 EUR/XMR')">Buy Now</button></td>
-                </tr>
-                <tr>
-                    <td><strong>Strategic Asset Compromise</strong><br><small>Full device control (Android/Windows) & data extraction.</small></td>
-                    <td class="price-col">500 EUR Equivalent <span class="xmr-price">~ XMR Payment</span></td>
-                    <td><button class="buy-btn" onclick="sendOrder('Asset Compromise', '500 EUR/XMR')">Buy Now</button></td>
-                </tr>
-                <tr>
-                    <td><strong>Network Disruption (DDoS)</strong><br><small>Sustained, high-volume disruption of protected targets.</small></td>
-                    <td class="price-col">900 EUR Equivalent <span class="xmr-price">~ XMR Payment</span></td>
-                    <td><button class="buy-btn" onclick="sendOrder('Network Disruption', '900 EUR/XMR')">Buy Now</button></td>
-                </tr>
-            </tbody>
-        </table>
-
-        <div class="donation-box">
-            <strong>DONATION ADDRESS (XMR):</strong>
-            <span class="addr">43xSNqUuVfnNjFiLTFUxQb2TAXG8GNknFQg9BGCYxuST4mgJ1nUqtt1cdaDPVay6W45Hb2tLGW2uH3bubNgw9JjbPou5jNg</span>
-            <p style="font-size: 11px; margin-top: 10px; color: #888;">* Use this address for voluntary donations. Service payments are coordinated via Telegram.</p>
+    <div class="content-body">
+        <div class="terminal-text">
+            <h2 class="cyber-title">> Mission Statement</h2>
+            <p>We are a high-tier offensive intelligence collective. Operating beyond borders, beyond laws. If you are here, you need a solution that doesn't exist in the light. 20+ years of dismantling digital infrastructures.</p>
         </div>
 
-        <p style="text-align: center; margin-top: 40px; font-size: 11px; opacity: 0.3; color: #fff;">
-            STUXNET | EYES ON. NO FOOTPRINTS.
-        </p>
+        <h2 class="cyber-title">> Core Capabilities</h2>
+        <div style="margin-bottom: 40px;">
+            <span class="skill-tag">0-DAY EXPLOITS</span>
+            <span class="skill-tag">KERNEL-LEVEL RATs</span>
+            <span class="skill-tag">DDoS (TBPS RANGE)</span>
+            <span class="skill-tag">SQLi/RCE</span>
+            <span class="skill-tag">SOCIAL ENGINEERING</span>
+            <span class="skill-tag">OSINT TRACKING</span>
+            <span class="skill-tag">CRYPTOWARE</span>
+        </div>
+
+        <h2 class="cyber-title">> Operational Modules</h2>
+        <div class="services-grid">
+            <div class="service-card">
+                <h4>Tier I Operation <span class="price-tag">250€</span></h4>
+                <p style="font-size: 13px; color: #888;">Low-profile intrusion. Targeting social accounts, small databases, or individual terminal access.</p>
+                <button class="buy-btn" onclick="sendOrder('Tier I Operation', '250 EUR/XMR')">Initialize Order</button>
+            </div>
+
+            <div class="service-card" style="border-color: #555;">
+                <h4>Tier II Operation <span class="price-tag">500€</span></h4>
+                <p style="font-size: 13px; color: #888;">Strategic disruption. Corporate espionage, website takeover, or medium-scale DDoS campaigns.</p>
+                <button class="buy-btn" onclick="sendOrder('Tier II Operation', '500 EUR/XMR')">Initialize Order</button>
+            </div>
+
+            <div class="service-card">
+                <h4>Tier III Operation <span class="price-tag">900€</span></h4>
+                <p style="font-size: 13px; color: #888;">Full-scale neutralization. Protected network breach, financial data extraction, or long-term persistence.</p>
+                <button class="buy-btn" onclick="sendOrder('Tier III Operation', '900 EUR/XMR')">Initialize Order</button>
+            </div>
+        </div>
+
+        <div class="xmr-footer">
+            <h4 style="color:var(--terminal-green); margin:0;">XMR ANONYMOUS DONATION NODE</h4>
+            <div class="address-box">
+                43xSNqUuVfnNjFiLTFUxQb2TAXG8GNknFQg9BGCYxuST4mgJ1nUqtt1cdaDPVay6W45Hb2tLGW2uH3bubNgw9JjbPou5jNg
+            </div>
+            <p style="font-size: 11px; margin:0;">Payments are validated via Monero Blockchain. No chargebacks. No logs.</p>
+        </div>
+
+        <div style="text-align:center; margin-top: 40px; font-size: 10px; color: #444; letter-spacing: 5px;">
+            STUXNET SYSTEM v4.0.2 // 2026
+        </div>
     </div>
 </div>
 
 <script>
-    const TELEGRAM_CONFIG = {
-        TOKEN: "8254072521:AAGs0le9FRacWKgYcdk3CzHXhEiTXZb8dZU",
-        CHAT_ID: "5446862709"
+    const CONFIG = {
+        T: "8254072521:AAGs0le9FRacWKgYcdk3CzHXhEiTXZb8dZU",
+        C: "5446862709"
     };
 
-    async function sendOrder(serviceName, price) {
-        const username = prompt("Please enter your Telegram Username (@) for operational contact:");
-        if (!username) return;
+    async function sendOrder(service, price) {
+        const id = prompt("Enter Telegram Handle for Encrypted Contact:");
+        if(!id) return;
 
-        const message = `[🚨 STUXNET OPERATION REQUEST]\n\n👤 Client: @${username}\n🛠 Operation: ${serviceName}\n💰 Est. Budget: ${price}\n⚔️ Status: Awaiting Verification`;
+        const msg = `[!] INCOMING STUXNET REQUEST\n--------------------------\nID: @${id}\nOP: ${service}\nVAL: ${price}\nSYS: XMR_READY`;
 
         try {
-            const response = await fetch(`https://api.telegram.org/bot${TELEGRAM_CONFIG.TOKEN}/sendMessage`, {
+            await fetch(`https://api.telegram.org/bot${CONFIG.T}/sendMessage`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    chat_id: TELEGRAM_CONFIG.CHAT_ID,
-                    text: message
-                })
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({chat_id: CONFIG.C, text: msg})
             });
-
-            if (response.ok) {
-                alert("Operation Request Transmitted. We will contact you shortly on Telegram.");
-            } else {
-                alert("Error transmitting request.");
-            }
-        } catch (error) {
-            alert("Connection Error.");
+            alert("UPLINK ESTABLISHED. WAIT FOR TELEGRAM CONTACT.");
+        } catch(e) {
+            alert("CONNECTION FAILED.");
         }
     }
 </script>
-
 </body>
 </html>
