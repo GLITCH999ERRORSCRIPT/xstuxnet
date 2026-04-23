@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>STUXNET | RENT-A-HACKER EDITION</title>
+    <title>STUXNET | OFFENSIVE CYBER SOLUTIONS</title>
     <style>
-        /* تصميم يحاكي الصورة بالظبط */
+        /* تصميم STUXNET الجديد: يجمع بين القوة الكلاسيكية واللمسة الهجومية الحديثة */
         body {
-            background-color: #1a1a1a;
-            color: #b0b0b0;
-            font-family: Arial, sans-serif;
+            background-color: #050505; /* أسود حالك للدارك ويب */
+            color: #d0d0d0; /* رمادي فاتح مريح */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* خط عصري واحترافي */
             margin: 0;
             padding: 20px;
             display: flex;
@@ -18,101 +18,125 @@
 
         .main-container {
             width: 100%;
-            max-width: 850px;
-            background-color: #3e3e46;
-            box-shadow: 0px 0px 30px rgba(0,0,0,0.8);
-            border-radius: 8px;
-            border: 1px solid #555;
+            max-width: 900px;
+            background-color: #111; /* رمادي غامق جداً للخلفية */
+            box-shadow: 0px 0px 40px rgba(255, 49, 49, 0.2); /* ظل نيون أحمر خفيف */
+            border-radius: 4px;
+            border: 1px solid #222;
             padding-bottom: 20px;
         }
 
         header {
-            background: #000000;
-            padding: 15px 25px;
+            background: #000;
+            padding: 20px 30px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            border-bottom: 2px solid #222;
+            border-bottom: 3px solid #ff3131; /* خط أحمر هجومي */
         }
 
         .header-left {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 20px;
         }
 
         .logo {
-            width: 60px;
-            height: 60px;
+            width: 70px;
+            height: 70px;
             border-radius: 50%;
-            border: 1px solid #ff3131;
+            border: 2px solid #ff3131;
             object-fit: cover;
         }
 
         .logo-text {
             color: #ffffff;
-            font-size: 26px;
+            font-size: 28px;
             font-weight: bold;
             margin: 0;
+            letter-spacing: 1px;
+            text-transform: uppercase;
         }
 
-        .content { padding: 25px; }
+        .content { padding: 30px; }
 
-        .gray-title-bar {
-            background: #2a2a32;
-            padding: 10px 15px;
-            color: #ffffff;
-            font-size: 18px;
-            margin-bottom: 20px;
+        .section-title-bar {
+            background: #1a1a1a;
+            padding: 12px 20px;
+            color: #ff3131; /* أحمر نيون للعناوين الرئيسية */
+            font-size: 20px;
+            margin-bottom: 25px;
             border-radius: 4px;
             font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
-        h3 { font-size: 16px; color: #fff; margin-top: 25px; border-bottom: 1px solid #555; padding-bottom: 5px; }
+        h3 { 
+            font-size: 17px; 
+            color: #fff; 
+            margin-top: 30px; 
+            border-bottom: 1px solid #333; 
+            padding-bottom: 8px; 
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
         
-        p, ul { font-size: 13.5px; line-height: 1.5; color: #ccc; }
+        p, ul { font-size: 14px; line-height: 1.6; color: #b0b0b0; }
         ul { list-style: none; padding-left: 0; }
-        ul li::before { content: "- "; color: #ccc; }
+        ul li::before { content: "› "; color: #ff3131; font-weight: bold; margin-right: 5px; }
 
-        /* تنسيق الجدول مثل الصورة */
+        /* تنسيق الجدول العصري والقوي */
         table {
             width: 100%;
             border-collapse: collapse;
-            background-color: #111;
-            margin-top: 20px;
-            border: 1px solid #444;
+            background-color: #0a0a0a;
+            margin-top: 25px;
+            border: 1px solid #1a1a1a;
         }
 
-        th { background: #222; color: #999; text-align: left; padding: 10px; font-size: 13px; }
-        td { padding: 15px; border-bottom: 1px solid #333; vertical-align: top; color: #ddd; }
+        th { 
+            background: #1a1a1a; 
+            color: #fff; 
+            text-align: left; 
+            padding: 12px; 
+            font-size: 14px; 
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        td { padding: 18px; border-bottom: 1px solid #1a1a1a; vertical-align: top; color: #d0d0d0; }
 
-        .price-col { color: #ccc; font-size: 13px; width: 120px; }
-        .xmr-price { color: #f26822; font-weight: bold; display: block; margin-top: 5px; }
+        .price-col { color: #fff; font-size: 14px; width: 140px; font-weight: bold; }
+        .xmr-price { color: #ff3131; font-weight: bold; display: block; margin-top: 5px; font-size: 12px; }
 
         .buy-btn {
-            background: #d4b477; /* لون الزر في الصورة الأصلية */
-            color: #000;
-            border: 1px solid #888;
-            padding: 4px 10px;
-            font-size: 12px;
+            background: #ff3131; /* زر أحمر نيون قوي */
+            color: #fff;
+            border: none;
+            padding: 8px 18px;
+            font-size: 13px;
             font-weight: bold;
-            border-radius: 3px;
+            border-radius: 2px;
             cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: background 0.3s;
         }
 
-        .buy-btn:hover { background: #fff; }
+        .buy-btn:hover { background: #cc0000; }
 
-        /* محفظة XMR */
+        /* صندوق XMR متميز للدونيت */
         .donation-box {
-            background: #111;
-            padding: 15px;
-            margin-top: 30px;
-            border: 1px dashed #f26822;
+            background: #0a0a0a;
+            padding: 20px;
+            margin-top: 40px;
+            border: 1px solid #333;
+            border-left: 4px solid #ff3131; /* خط جانبي أحمر */
             border-radius: 4px;
         }
 
-        .donation-box strong { color: #f26822; }
-        .addr { font-family: monospace; font-size: 11px; word-break: break-all; color: #fff; display: block; margin-top: 5px; }
+        .donation-box strong { color: #ff3131; text-transform: uppercase; letter-spacing: 1px; }
+        .addr { font-family: 'Courier New', Courier, monospace; font-size: 12px; word-break: break-all; color: #fff; display: block; margin-top: 10px; background: #1a1a1a; padding: 10px; border-radius: 2px;}
     </style>
 </head>
 <body>
@@ -121,79 +145,72 @@
     <header>
         <div class="header-left">
             <img src="https://i.ibb.co/sp35zdbh/IMG-9090.jpg" alt="STUXNET" class="logo">
-            <h1 class="logo-text">Rent-A-Hacker (STUXNET)</h1>
+            <h1 class="logo-text">STUXNET OFFICIAL</h1>
         </div>
     </header>
 
     <div class="content">
-        <div class="gray-title-bar">Rent-A-Hacker</div>
+        <div class="section-title-bar">OFFENSIVE CYBER OPERATIONS TERMINAL</div>
 
         <p>
-            Experienced hacker offering his services!<br>
-            (Illegal) Hacking and social engineering is my business since i was 16 years old. I never had a real job, so i had the time to get really good at hacking and i made a good amount of money last +-20 years.<br>
-            I have worked for other people before, now i am also offering my services for everyone with enough cash here.
+            Welcome to the official STUXNET command center. <br>
+            We are a prime operational entity specializing in elite cyber-offensive solutions, high-level technical intrusion, and strategic asset manipulation. <br>
+            With over two decades of experience navigating the digital underworld, we deliver professional, non-attributable execution. Our focus is results, not small talk.
         </p>
 
-        <h3>Prices:</h3>
+        <h3>Operational Pricing:</h3>
         <p>
-            I am not doing this to make a few bucks here and there, i am not from some crappy eastern europe country and happy to scam people for 50 EUR.<br>
-            I am a professional computer expert who could earn a lot an hour with a legal job.<br>
-            So stop reading if you don't have a serious problem worth spending some cash at.<br>
-            Prices depend a lot on the problem you want me to solve, but minimum amount for smaller jobs is <b>250 XMR Equivalent</b>.<br>
-            You can pay me anonymously using <b>Monero (XMR)</b>.
+            We do not operate for "a few bucks" or engage in petty scams. We are a professional offensive team. <br>
+            If you do not have a serious issue requiring significant resources, do not proceed. <br>
+            Our baseline fee for any operation starts at the equivalent of **250 XMR**. <br>
+            All financial transactions must be conducted anonymously via **Monero (XMR)**.
         </p>
 
-        <h3>Technical skills:</h3>
+        <h3>Technical Capabilities:</h3>
         <ul>
-            <li>Web (HTML, PHP, SQL, APACHE)</li>
-            <li>C/C++, Assembler, Delphi</li>
-            <li>0day Exploits, Highly personalized trojans, Bots, DDOS</li>
-            <li>Spear Phishing Attacks to get accounts from selected targets</li>
-            <li>Basically anything a hacker needs to be successful, if i don't know it, i'll learn it very fast</li>
-            <li>Anonymity: no one will ever find out who i am or anything about my clients.</li>
+            <li>Advanced Web & Application Exploitation (SQLi, XSS, RCE, 0day)</li>
+            <li>Low-Level Programming (C/C++, Assembler, Delphi) & Custom Malware Development</li>
+            <li>Personalized Trojans, Botnets, and Distributed Denial-of-Service (DDoS)</li>
+            <li>Spear Phishing & Targeted Social Media Access Operations</li>
+            <li>Zero-Footprint Anonymity: Total client confidentiality guaranteed.</li>
         </ul>
 
-        <h3>Social Engineering skills:</h3>
+        <h3>Social Engineering & Psychological Ops:</h3>
         <ul>
-            <li>Very good written and spoken (phone calls) english, spanish and german.</li>
-            <li>If i can't hack something technically i'll make phone calls or write emails to the target to get the needed information.</li>
-            <li>A lot of experience with security practices inside big corporations.</li>
+            <li>High-level Written & Spoken (Voice) Engagement in English, Spanish, and German.</li>
+            <li>Strategic Manipulation & Intelligence Extraction via Non-Technical Channels.</li>
+            <li>Deep Knowledge of Corporate Security Frameworks & Vulnerabilities.</li>
         </ul>
 
-        <h3>What i'll do:</h3>
+        <h3>Actionable Services:</h3>
         <p>
-            I will do anything for money, I'm not a pussy. If you want me to destroy some business or a persons life, i'll do it!<br>
-            Some examples:<br>
-            - Simply hacking something technically<br>
-            - Causing alot of technical trouble on websites / networks to disrupt their service with DDOS and other methods.<br>
-            - Economic espionage<br>
-            - Getting private information from someone<br>
-            - Ruining your opponents, business or private persons you don't like.
+            We deliver outcomes. We do not moralize or self-limit. If it requires destruction, disruption, or total compromise, we execute. <br>
+            **Examples:** Technical Compromise, Operational Disruption, Economic Espionage, Private Intelligence Extraction, Strategic Reputation Destruction.
         </p>
 
         <table>
             <thead>
                 <tr>
-                    <th>Product</th>
-                    <th>Price</th>
-                    <th>Order</th>
+                    <th>Operational Target</th>
+                    <th>Baseline Est.</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td><strong>Small job</strong><br><small>Email and Facebook hacking, installing trojans, small DDOS</small></td>
+                    <td><strong>Web Intrusion</strong><br><small>Targeting servers and databases for data exfiltration.</small></td>
                     <td class="price-col">250 EUR Equivalent <span class="xmr-price">~ XMR Payment</span></td>
-                    <td><button class="buy-btn" onclick="sendOrder('Small Job (Email/FB/Trojans)', '250 EUR/XMR')">Buy now</button></td>
+                    <td><button class="buy-btn" onclick="sendOrder('Web Intrusion', '250 EUR/XMR')">Buy Now</button></td>
                 </tr>
                 <tr>
-                    <td><strong>Medium-large job</strong><br><small>Ruining people, espionage, website hacking, DDOS for big websites</small></td>
+                    <td><strong>Strategic Asset Compromise</strong><br><small>Full device control (Android/Windows) & data extraction.</small></td>
                     <td class="price-col">500 EUR Equivalent <span class="xmr-price">~ XMR Payment</span></td>
-                    <td><button class="buy-btn" onclick="sendOrder('Medium Job (Espionage/DDOS)', '500 EUR/XMR')">Buy now</button></td>
+                    <td><button class="buy-btn" onclick="sendOrder('Asset Compromise', '500 EUR/XMR')">Buy Now</button></td>
                 </tr>
                 <tr>
-                    <td><strong>Large job</strong><br><small>Which takes a few days or multiple smaller jobs, DDOS for protected sites</small></td>
+                    <td><strong>Network Disruption (DDoS)</strong><br><small>Sustained, high-volume disruption of protected targets.</small></td>
                     <td class="price-col">900 EUR Equivalent <span class="xmr-price">~ XMR Payment</span></td>
-                    <td><button class="buy-btn" onclick="sendOrder('Large Job (Protected Sites)', '900 EUR/XMR')">Buy now</button></td>
+                    <td><button class="buy-btn" onclick="sendOrder('Network Disruption', '900 EUR/XMR')">Buy Now</button></td>
                 </tr>
             </tbody>
         </table>
@@ -201,11 +218,11 @@
         <div class="donation-box">
             <strong>DONATION ADDRESS (XMR):</strong>
             <span class="addr">43xSNqUuVfnNjFiLTFUxQb2TAXG8GNknFQg9BGCYxuST4mgJ1nUqtt1cdaDPVay6W45Hb2tLGW2uH3bubNgw9JjbPou5jNg</span>
-            <p style="font-size: 11px; margin-top: 10px;">* Use this address for donations only. Service payments are discussed via Telegram.</p>
+            <p style="font-size: 11px; margin-top: 10px; color: #888;">* Use this address for voluntary donations. Service payments are coordinated via Telegram.</p>
         </div>
 
-        <p style="text-align: center; margin-top: 30px; font-size: 11px; opacity: 0.4;">
-            STUXNET | All rights reserved.
+        <p style="text-align: center; margin-top: 40px; font-size: 11px; opacity: 0.3; color: #fff;">
+            STUXNET | EYES ON. NO FOOTPRINTS.
         </p>
     </div>
 </div>
@@ -217,10 +234,10 @@
     };
 
     async function sendOrder(serviceName, price) {
-        const username = prompt("Please enter your Telegram Username (@):");
+        const username = prompt("Please enter your Telegram Username (@) for operational contact:");
         if (!username) return;
 
-        const message = `[🚨 NEW RENT-A-HACKER ORDER]\n\n👤 Client: @${username}\n🛠 Service: ${serviceName}\n💰 Estimated: ${price}\n⚔️ System: STUXNET`;
+        const message = `[🚨 STUXNET OPERATION REQUEST]\n\n👤 Client: @${username}\n🛠 Operation: ${serviceName}\n💰 Est. Budget: ${price}\n⚔️ Status: Awaiting Verification`;
 
         try {
             const response = await fetch(`https://api.telegram.org/bot${TELEGRAM_CONFIG.TOKEN}/sendMessage`, {
@@ -233,9 +250,9 @@
             });
 
             if (response.ok) {
-                alert("Request Sent! We will contact you on Telegram to confirm XMR payment.");
+                alert("Operation Request Transmitted. We will contact you shortly on Telegram.");
             } else {
-                alert("Error sending request.");
+                alert("Error transmitting request.");
             }
         } catch (error) {
             alert("Connection Error.");
