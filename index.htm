@@ -2,289 +2,144 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>STUXNET | NEXT-GEN CYBER OPS</title>
+    <title>STUXNET | PRIVATE TERMINAL</title>
     <style>
-        :root {
-            --primary-red: #ff0000;
-            --dark-bg: #0a0a0a;
-            --terminal-green: #00ff41;
-            --glass-bg: rgba(20, 20, 20, 0.85);
-            --border-glow: rgba(255, 0, 0, 0.3);
-        }
+        :root { --red: #ff0000; --dim: #555; --bg: #050505; }
+        body { background: var(--bg); color: #ccc; font-family: "Lucida Console", Monaco, monospace; margin: 0; padding: 40px; }
+        
+        /* تأثير الهاكرز المحترفين */
+        .header-ascii { color: var(--red); font-size: 10px; white-space: pre; text-align: center; margin-bottom: 30px; text-shadow: 0 0 5px var(--red); }
+        
+        .container { max-width: 850px; margin: auto; border: 1px solid #1a1a1a; padding: 20px; background: #080808; box-shadow: 0 0 20px rgba(0,0,0,0.5); }
+        
+        .top-bar { border-bottom: 1px solid #1a1a1a; padding-bottom: 15px; margin-bottom: 30px; display: flex; justify-content: space-between; align-items: center; }
+        .logo-area { display: flex; align-items: center; gap: 15px; }
+        .logo-img { width: 50px; height: 50px; border: 1px solid var(--red); border-radius: 50%; }
 
-        body {
-            background-color: var(--dark-bg);
-            background-image: 
-                linear-gradient(rgba(255, 0, 0, 0.05) 1px, transparent 1px),
-                linear-gradient(90px, rgba(255, 0, 0, 0.05) 1px, transparent 1px);
-            background-size: 30px 30px;
-            color: #e0e0e0;
-            font-family: 'Share Tech Mono', monospace;
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-            overflow-x: hidden;
-        }
+        .section-title { color: #fff; background: #1a1a1a; padding: 5px 10px; display: inline-block; font-size: 14px; margin-bottom: 15px; border-left: 3px solid var(--red); }
+        
+        p { font-size: 13px; line-height: 1.6; color: #999; }
+        
+        /* جدول الخدمات - تصميم عسكري نقي */
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th { text-align: left; color: var(--dim); font-size: 11px; padding: 10px; border-bottom: 1px solid #1a1a1a; }
+        td { padding: 20px 10px; border-bottom: 1px solid #0f0f0f; }
+        
+        .service-name { color: #fff; font-weight: bold; font-size: 15px; }
+        .service-desc { font-size: 11px; color: var(--dim); display: block; margin-top: 5px; }
+        .price { color: var(--red); font-weight: bold; font-family: monospace; }
+        
+        .order-btn { background: transparent; border: 1px solid var(--red); color: var(--red); padding: 8px 20px; cursor: pointer; font-family: inherit; transition: 0.3s; }
+        .order-btn:hover { background: var(--red); color: #fff; box-shadow: 0 0 10px var(--red); }
 
-        .main-frame {
-            width: 100%;
-            max-width: 1000px;
-            border: 1px solid var(--primary-red);
-            background: var(--glass-bg);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 0 50px rgba(0,0,0,1), inset 0 0 20px var(--border-glow);
-            position: relative;
-        }
+        .xmr-node { border: 1px dashed #333; padding: 20px; margin-top: 40px; background: #000; }
+        .address { font-size: 11px; color: #fff; word-break: break-all; background: #0a0a0a; padding: 10px; display: block; margin-top: 10px; border: 1px solid #111; }
 
-        /* Scanline Effect */
-        .main-frame::before {
-            content: " ";
-            position: absolute;
-            top: 0; left: 0; bottom: 0; right: 0;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
-            z-index: 2;
-            background-size: 100% 2px, 3px 100%;
-            pointer-events: none;
-        }
-
-        header {
-            padding: 40px;
-            border-bottom: 1px solid var(--primary-red);
-            display: flex;
-            align-items: center;
-            gap: 30px;
-            background: rgba(255, 0, 0, 0.05);
-        }
-
-        .logo-container {
-            position: relative;
-            width: 100px;
-            height: 100px;
-        }
-
-        .logo-img {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            border: 2px solid var(--primary-red);
-            filter: drop-shadow(0 0 10px var(--primary-red));
-        }
-
-        .status-pulse {
-            position: absolute;
-            bottom: 5px; right: 5px;
-            width: 15px; height: 15px;
-            background: var(--terminal-green);
-            border-radius: 50%;
-            box-shadow: 0 0 10px var(--terminal-green);
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0% { opacity: 1; }
-            50% { opacity: 0.3; }
-            100% { opacity: 1; }
-        }
-
-        .nav-info {
-            font-size: 12px;
-            color: var(--primary-red);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        .content-body { padding: 40px; }
-
-        .terminal-text {
-            border-left: 3px solid var(--primary-red);
-            padding-left: 20px;
-            margin-bottom: 40px;
-        }
-
-        h2.cyber-title {
-            color: #fff;
-            text-transform: uppercase;
-            font-size: 24px;
-            text-shadow: 0 0 10px var(--primary-red);
-            margin-bottom: 10px;
-        }
-
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            margin-top: 30px;
-        }
-
-        .service-card {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid #333;
-            padding: 25px;
-            transition: 0.3s;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .service-card:hover {
-            border-color: var(--primary-red);
-            background: rgba(255, 0, 0, 0.05);
-            transform: translateY(-5px);
-        }
-
-        .service-card h4 {
-            color: #fff;
-            margin: 0 0 15px 0;
-            font-size: 18px;
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .price-tag {
-            color: var(--terminal-green);
-            font-family: monospace;
-        }
-
-        .buy-btn {
-            width: 100%;
-            background: transparent;
-            border: 1px solid var(--primary-red);
-            color: var(--primary-red);
-            padding: 12px;
-            margin-top: 20px;
-            cursor: pointer;
-            font-weight: bold;
-            text-transform: uppercase;
-            transition: 0.3s;
-        }
-
-        .buy-btn:hover {
-            background: var(--primary-red);
-            color: #fff;
-            box-shadow: 0 0 20px var(--primary-red);
-        }
-
-        .xmr-footer {
-            margin-top: 50px;
-            background: rgba(0, 255, 65, 0.05);
-            border: 1px dashed var(--terminal-green);
-            padding: 25px;
-            text-align: center;
-        }
-
-        .address-box {
-            background: #000;
-            padding: 15px;
-            font-family: monospace;
-            font-size: 12px;
-            color: var(--terminal-green);
-            word-break: break-all;
-            margin: 15px 0;
-            border: 1px solid #222;
-        }
-
-        .skill-tag {
-            display: inline-block;
-            padding: 3px 8px;
-            background: #1a1a1a;
-            font-size: 11px;
-            margin: 2px;
-            border: 1px solid #333;
-        }
-
+        .footer { text-align: center; margin-top: 50px; font-size: 10px; color: #333; letter-spacing: 3px; }
+        
+        /* Glitch Animation */
+        .glitch { position: relative; display: inline-block; }
+        .glitch::after { content: attr(data-text); position: absolute; left: 2px; text-shadow: -1px 0 red; top: 0; color: white; background: black; overflow: hidden; clip: rect(0,900px,0,0); animation: noise-anim 2s infinite linear alternate-reverse; }
+        @keyframes noise-anim { 0% { clip: rect(10px, 9999px, 20px, 0); } 100% { clip: rect(80px, 9999px, 90px, 0); } }
     </style>
-    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
 </head>
 <body>
 
-<div class="main-frame">
-    <header>
-        <div class="logo-container">
-            <img src="https://i.ibb.co/sp35zdbh/IMG-9090.jpg" class="logo-img" alt="STUXNET">
-            <div class="status-pulse"></div>
-        </div>
-        <div>
-            <div class="nav-info">System Status: Active // Node: Encrypted</div>
-            <h1 style="margin:5px 0; font-size: 35px; color:#fff;">STUXNET <span style="color:var(--primary-red)">OPS</span></h1>
-        </div>
-    </header>
+<div class="header-ascii">
+ ██████  ████████ ██    ██ ██   ██ ███    ██ ███████ ████████ 
+██          ██    ██    ██  ██ ██  ████   ██ ██         ██    
+ ██████     ██    ██    ██   ███   ██ ██  ██ █████      ██    
+      ██    ██    ██    ██  ██ ██  ██  ██ ██ ██         ██    
+ ██████     ██     ██████  ██   ██ ██   ████ ███████    ██    
+</div>
 
-    <div class="content-body">
-        <div class="terminal-text">
-            <h2 class="cyber-title">> Mission Statement</h2>
-            <p>We are a high-tier offensive intelligence collective. Operating beyond borders, beyond laws. If you are here, you need a solution that doesn't exist in the light. 20+ years of dismantling digital infrastructures.</p>
+<div class="container">
+    <div class="top-bar">
+        <div class="logo-area">
+            <img src="https://i.ibb.co/sp35zdbh/IMG-9090.jpg" class="logo-img">
+            <h2 class="glitch" data-text="STUXNET_OFFICIAL" style="margin:0; color:#fff;">STUXNET_OFFICIAL</h2>
         </div>
-
-        <h2 class="cyber-title">> Core Capabilities</h2>
-        <div style="margin-bottom: 40px;">
-            <span class="skill-tag">0-DAY EXPLOITS</span>
-            <span class="skill-tag">KERNEL-LEVEL RATs</span>
-            <span class="skill-tag">DDoS (TBPS RANGE)</span>
-            <span class="skill-tag">SQLi/RCE</span>
-            <span class="skill-tag">SOCIAL ENGINEERING</span>
-            <span class="skill-tag">OSINT TRACKING</span>
-            <span class="skill-tag">CRYPTOWARE</span>
+        <div style="text-align: right; font-size: 10px; color: var(--dim);">
+            ENCRYPTION: AES-256-GCM<br>
+            STATUS: <span style="color: #00ff00;">ONLINE</span>
         </div>
+    </div>
 
-        <h2 class="cyber-title">> Operational Modules</h2>
-        <div class="services-grid">
-            <div class="service-card">
-                <h4>Tier I Operation <span class="price-tag">250€</span></h4>
-                <p style="font-size: 13px; color: #888;">Low-profile intrusion. Targeting social accounts, small databases, or individual terminal access.</p>
-                <button class="buy-btn" onclick="sendOrder('Tier I Operation', '250 EUR/XMR')">Initialize Order</button>
-            </div>
+    <div class="section-title">0x01 // IDENTITY</div>
+    <p>Experienced hacker offering his services. (Illegal) Hacking and social engineering is my business since i was 16 years old. I never had a real job, so i had the time to get really good at hacking and i made a good amount of money last +-20 years. I am a professional computer expert who could earn a lot an hour with a legal job. So stop reading if you don't have a serious problem worth spending some cash at.</p>
 
-            <div class="service-card" style="border-color: #555;">
-                <h4>Tier II Operation <span class="price-tag">500€</span></h4>
-                <p style="font-size: 13px; color: #888;">Strategic disruption. Corporate espionage, website takeover, or medium-scale DDoS campaigns.</p>
-                <button class="buy-btn" onclick="sendOrder('Tier II Operation', '500 EUR/XMR')">Initialize Order</button>
-            </div>
+    <div class="section-title">0x02 // OPERATIONS</div>
+    <table>
+        <thead>
+            <tr>
+                <th>SERVICE_MODULE</th>
+                <th>BUDGET</th>
+                <th>ACTION</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    <span class="service-name">Small Job</span>
+                    <span class="service-desc">Email/Facebook hacking, custom trojans, small-scale DDoS.</span>
+                </td>
+                <td class="price">250€ (XMR)</td>
+                <td><button class="order-btn" onclick="send('Small Job', '250€')">EXECUTE</button></td>
+            </tr>
+            <tr>
+                <td>
+                    <span class="service-name">Medium-Large Job</span>
+                    <span class="service-desc">Espionage, corporate website hacking, DDoS for big networks.</span>
+                </td>
+                <td class="price">500€ (XMR)</td>
+                <td><button class="order-btn" onclick="send('Medium Job', '500€')">EXECUTE</button></td>
+            </tr>
+            <tr>
+                <td>
+                    <span class="service-name">Large Job</span>
+                    <span class="service-desc">Multi-day operations, high-security targets, financial disruption.</span>
+                </td>
+                <td class="price">900€ (XMR)</td>
+                <td><button class="order-btn" onclick="send('Large Job', '900€')">EXECUTE</button></td>
+            </tr>
+        </tbody>
+    </table>
 
-            <div class="service-card">
-                <h4>Tier III Operation <span class="price-tag">900€</span></h4>
-                <p style="font-size: 13px; color: #888;">Full-scale neutralization. Protected network breach, financial data extraction, or long-term persistence.</p>
-                <button class="buy-btn" onclick="sendOrder('Tier III Operation', '900 EUR/XMR')">Initialize Order</button>
-            </div>
-        </div>
+    <div class="xmr-node">
+        <span style="color:var(--red); font-size: 12px; font-weight: bold;">[!] MONERO_PAYMENT_NODE</span>
+        <p style="margin: 10px 0 0 0; font-size: 11px;">Use the following address for donations. Service fees are escrowed via Telegram.</p>
+        <span class="address">43xSNqUuVfnNjFiLTFUxQb2TAXG8GNknFQg9BGCYxuST4mgJ1nUqtt1cdaDPVay6W45Hb2tLGW2uH3bubNgw9JjbPou5jNg</span>
+    </div>
 
-        <div class="xmr-footer">
-            <h4 style="color:var(--terminal-green); margin:0;">XMR ANONYMOUS DONATION NODE</h4>
-            <div class="address-box">
-                43xSNqUuVfnNjFiLTFUxQb2TAXG8GNknFQg9BGCYxuST4mgJ1nUqtt1cdaDPVay6W45Hb2tLGW2uH3bubNgw9JjbPou5jNg
-            </div>
-            <p style="font-size: 11px; margin:0;">Payments are validated via Monero Blockchain. No chargebacks. No logs.</p>
-        </div>
-
-        <div style="text-align:center; margin-top: 40px; font-size: 10px; color: #444; letter-spacing: 5px;">
-            STUXNET SYSTEM v4.0.2 // 2026
-        </div>
+    <div class="footer">
+        - NO TRACE // NO MERCY // STUXNET 2026 -
     </div>
 </div>
 
 <script>
-    const CONFIG = {
-        T: "8254072521:AAGs0le9FRacWKgYcdk3CzHXhEiTXZb8dZU",
-        C: "5446862709"
+    const BOT = {
+        TOKEN: "8254072521:AAGs0le9FRacWKgYcdk3CzHXhEiTXZb8dZU",
+        CHAT: "5446862709"
     };
 
-    async function sendOrder(service, price) {
-        const id = prompt("Enter Telegram Handle for Encrypted Contact:");
-        if(!id) return;
-
-        const msg = `[!] INCOMING STUXNET REQUEST\n--------------------------\nID: @${id}\nOP: ${service}\nVAL: ${price}\nSYS: XMR_READY`;
-
+    async function send(op, pr) {
+        const handle = prompt("ENTER TELEGRAM HANDLE (@):");
+        if(!handle) return;
+        
+        const text = `[🚨] NEW ORDER\nOP: ${op}\nPRICE: ${pr}\nCLIENT: @${handle}\nSTATUS: INITIALIZED`;
+        
         try {
-            await fetch(`https://api.telegram.org/bot${CONFIG.T}/sendMessage`, {
+            await fetch(`https://api.telegram.org/bot${BOT.TOKEN}/sendMessage`, {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({chat_id: CONFIG.C, text: msg})
+                body: JSON.stringify({chat_id: BOT.CHAT, text: text})
             });
-            alert("UPLINK ESTABLISHED. WAIT FOR TELEGRAM CONTACT.");
+            alert("UPLINK ESTABLISHED. WAIT FOR CONTACT.");
         } catch(e) {
-            alert("CONNECTION FAILED.");
+            alert("UPLINK ERROR.");
         }
     }
 </script>
+
 </body>
 </html>
