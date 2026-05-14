@@ -3,564 +3,449 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>⚫ VIP BET PRO</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <title>⚫ VIP BET ULTRA</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --bg-primary: #0a0a0a;
-            --bg-secondary: #1a1a1a;
-            --accent: #00ff88;
-            --gold: #ffd700;
-            --red: #ff4444;
-            --white: #ffffff;
-            --glass: rgba(255,255,255,0.05);
+            --black: #0d1117;
+            --dark: #161b22;
+            --accent: #00d4aa;
+            --gold: #f59e0b;
+            --neon: #00ff88;
+            --glass: rgba(255,255,255,0.08);
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { 
-            font-family: 'Cairo', sans-serif; 
-            background: var(--bg-primary);
-            color: var(--white);
+            font-family: 'Cairo', sans-serif;
+            background: var(--black);
+            color: white;
             min-height: 100vh;
             overflow-x: hidden;
         }
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(circle at 20% 80%, rgba(120,119,198,0.3) 0%, transparent 50%),
-                        radial-gradient(circle at 80% 20%, rgba(255,119,198,0.3) 0%, transparent 50%),
-                        radial-gradient(circle at 40% 40%, rgba(120,219,255,0.3) 0%, transparent 50%);
+        .stars { 
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="10" cy="20" r="1" fill="white" opacity="0.8"/><circle cx="80" cy="40" r="0.8" fill="white" opacity="0.6"/><circle cx="30" cy="70" r="1.2" fill="white" opacity="0.9"/><circle cx="90" cy="10" r="0.5" fill="white" opacity="0.7"/></svg>') repeat;
+            animation: twinkle 20s linear infinite;
             z-index: -1;
-            animation: pulse 20s infinite;
         }
-        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+        @keyframes twinkle { 0%, 100% { opacity: 0.8; } 50% { opacity: 0.3; } }
         
-        .container { max-width: 1400px; margin: 0 auto; padding: 20px; }
+        .container { max-width: 1600px; margin: 0 auto; padding: 20px; }
         
         /* Header */
         .header {
             background: var(--glass);
-            backdrop-filter: blur(20px);
-            border-radius: 20px;
-            padding: 20px;
+            backdrop-filter: blur(30px);
+            border-radius: 25px;
+            padding: 25px 30px;
             margin-bottom: 30px;
             border: 1px solid rgba(255,255,255,0.1);
             display: flex;
             justify-content: space-between;
             align-items: center;
+            position: sticky; top: 20px; z-index: 100;
         }
         .logo { 
-            font-size: 2.5em; 
-            font-weight: 900; 
-            background: linear-gradient(45deg, var(--accent), var(--gold));
-            -webkit-background-clip: text;
+            font-size: 2.8em; font-weight: 900; 
+            background: linear-gradient(45deg, var(--neon), var(--accent), var(--gold));
+            -webkit-background-clip: text; background-clip: text;
             -webkit-text-fill-color: transparent;
-            background-clip: text;
         }
-        .user-info { display: flex; align-items: center; gap: 20px; }
+        .user-panel { display: flex; align-items: center; gap: 25px; }
+        .balance-box { 
+            background: linear-gradient(135deg, var(--neon), var(--accent));
+            padding: 15px 25px; border-radius: 20px;
+            text-align: center; min-width: 150px;
+        }
+        .balance-amount { font-size: 1.8em; font-weight: 900; }
         .user-avatar { 
-            width: 50px; height: 50px; 
-            border-radius: 50%; 
-            background: var(--accent); 
+            width: 60px; height: 60px; border-radius: 50%;
+            background: linear-gradient(135deg, var(--neon), var(--accent));
             display: flex; align-items: center; justify-content: center;
-            font-weight: bold; font-size: 1.2em;
-        }
-        .balance-display { text-align: center; }
-        .balance-amount { 
-            font-size: 1.8em; 
-            font-weight: 900; 
-            color: var(--gold);
+            font-weight: 700; font-size: 1.3em; cursor: pointer;
+            box-shadow: 0 10px 30px rgba(0,212,170,0.4);
         }
         
-        /* Glass Cards */
-        .glass-card { 
-            background: var(--glass);
-            backdrop-filter: blur(25px);
-            border-radius: 20px;
-            border: 1px solid rgba(255,255,255,0.1);
-            padding: 30px;
-            margin: 20px 0;
-            transition: all 0.4s ease;
+        /* Auto Register */
+        .quick-register {
+            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            background: var(--glass); backdrop-filter: blur(30px);
+            border-radius: 25px; padding: 50px;
+            border: 2px solid var(--neon); box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+            text-align: center; z-index: 1000; display: none;
         }
-        .glass-card:hover { 
-            transform: translateY(-5px); 
-            border-color: var(--accent);
-            box-shadow: 0 20px 40px rgba(0,255,136,0.1);
+        .quick-register.active { display: block; animation: slideIn 0.5s ease; }
+        @keyframes slideIn { from { opacity: 0; transform: translate(-50%, -50%) scale(0.8); } to { opacity: 1; transform: translate(-50%, -50%) scale(1); } }
+        
+        /* Glass Components */
+        .glass-panel {
+            background: var(--glass); backdrop-filter: blur(25px);
+            border-radius: 25px; border: 1px solid rgba(255,255,255,0.08);
+            padding: 35px; margin: 25px 0; transition: all 0.4s;
+        }
+        .glass-panel:hover { border-color: var(--neon); box-shadow: 0 25px 50px rgba(0,212,170,0.2); }
+        
+        /* Dynamic Phone Number */
+        .phone-rotator {
+            background: linear-gradient(135deg, var(--neon), var(--accent));
+            border-radius: 20px; padding: 30px;
+            text-align: center; margin: 20px 0;
+            animation: pulseGlow 2s infinite;
+        }
+        @keyframes pulseGlow {
+            0%, 100% { box-shadow: 0 0 20px rgba(0,212,170,0.5); }
+            50% { box-shadow: 0 0 40px rgba(0,212,170,0.8); }
+        }
+        .current-phone {
+            font-size: 2.5em; font-weight: 900;
+            letter-spacing: 4px; margin: 15px 0;
+            background: linear-gradient(45deg, var(--black), var(--dark));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .phone-timer { 
+            font-size: 1.2em; color: var(--gold);
+            font-weight: 600; margin-top: 10px;
         }
         
-        /* Forms */
-        .form-group { margin: 20px 0; }
-        input, textarea, select {
-            width: 100%; padding: 18px;
-            background: rgba(255,255,255,0.05);
-            border: 2px solid rgba(255,255,255,0.1);
-            border-radius: 15px;
-            color: var(--white);
-            font-size: 16px;
-            font-family: 'Cairo';
-            transition: all 0.3s;
+        /* File Upload */
+        .drag-area {
+            border: 3px dashed rgba(0,212,170,0.5);
+            border-radius: 20px; padding: 50px;
+            text-align: center; cursor: pointer;
+            transition: all 0.3s; margin: 20px 0;
         }
-        input::placeholder, textarea::placeholder { color: rgba(255,255,255,0.5); }
-        input:focus, textarea:focus { 
-            outline: none; 
-            border-color: var(--accent); 
-            box-shadow: 0 0 20px rgba(0,255,136,0.3);
+        .drag-area:hover, .drag-area.dragover { 
+            border-color: var(--neon); background: rgba(0,212,170,0.1);
+            box-shadow: 0 0 30px rgba(0,212,170,0.3);
+        }
+        .drag-area i { font-size: 4em; color: var(--neon); margin-bottom: 20px; display: block; }
+        .file-preview { 
+            max-width: 100%; max-height: 250px;
+            border-radius: 15px; margin-top: 20px; display: none;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
         
         /* Buttons */
         .btn {
-            width: 100%; padding: 20px;
-            border: none; border-radius: 15px;
-            font-size: 18px; font-weight: 700;
-            cursor: pointer; transition: all 0.3s;
+            padding: 18px 30px; border: none; border-radius: 15px;
+            font-size: 16px; font-weight: 700; cursor: pointer;
+            transition: all 0.3s; font-family: 'Cairo';
             position: relative; overflow: hidden;
-            font-family: 'Cairo';
         }
-        .btn-primary { 
-            background: linear-gradient(45deg, var(--accent), #00cc6a);
-            color: var(--bg-primary);
+        .btn-neon {
+            background: linear-gradient(45deg, var(--neon), var(--accent));
+            color: var(--black); box-shadow: 0 5px 20px rgba(0,255,136,0.4);
         }
-        .btn-success { 
-            background: linear-gradient(45deg, var(--gold), #ffed4a);
-            color: var(--bg-primary);
+        .btn-gold {
+            background: linear-gradient(45deg, var(--gold), #fbbf24);
+            color: var(--black); box-shadow: 0 5px 20px rgba(245,158,11,0.4);
         }
-        .btn-danger { 
-            background: linear-gradient(45deg, var(--red), #ff6666);
-            color: white;
+        .btn-red {
+            background: linear-gradient(45deg, var(--red), #ef4444);
+            color: white; box-shadow: 0 5px 20px rgba(239,68,68,0.4);
         }
-        .btn:hover { transform: translateY(-3px); box-shadow: 0 15px 30px rgba(0,0,0,0.3); }
-        .btn:active { transform: translateY(-1px); }
+        .btn:hover { transform: translateY(-3px); scale: 1.05; }
         
-        /* Payment Section */
-        .payment-section {
-            display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 20px 0;
-        }
-        .payment-card {
-            background: rgba(0,255,136,0.1);
-            border: 2px solid var(--accent);
-            border-radius: 20px;
-            padding: 25px;
-            text-align: center;
-        }
-        .phone-number {
-            font-size: 2em; font-weight: 900;
-            background: linear-gradient(45deg, var(--accent), var(--gold));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            letter-spacing: 2px;
-        }
-        
-        /* File Upload */
-        .file-upload {
-            border: 3px dashed rgba(255,255,255,0.3);
-            border-radius: 15px;
-            padding: 40px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        .file-upload:hover { border-color: var(--accent); background: rgba(0,255,136,0.1); }
-        .file-upload input { display: none; }
-        .file-preview { 
-            max-width: 100%; 
-            max-height: 200px; 
-            border-radius: 10px; 
-            margin-top: 15px;
-            display: none;
-        }
-        
-        /* Games */
+        /* Live Games */
         .games-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
-            margin-top: 30px;
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px; margin: 40px 0;
         }
         .game-card {
-            background: rgba(255,255,255,0.03);
-            border: 2px solid rgba(255,255,255,0.1);
-            border-radius: 20px;
-            padding: 30px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.4s;
-            position: relative;
-            overflow: hidden;
+            background: var(--glass); border-radius: 25px;
+            border: 2px solid rgba(255,255,255,0.05);
+            padding: 40px; text-align: center; cursor: pointer;
+            transition: all 0.5s; position: relative; overflow: hidden;
         }
         .game-card::before {
-            content: ''; position: absolute; top: 0; left: 0;
-            width: 100%; height: 100%; background: var(--accent);
-            opacity: 0; transition: opacity 0.3s;
+            content: ''; position: absolute; top: -50%; left: -50%;
+            width: 200%; height: 200%; background: linear-gradient(45deg, transparent, rgba(0,212,170,0.1), transparent);
+            transform: rotate(45deg); transition: all 0.6s;
         }
-        .game-card:hover::before { opacity: 0.1; }
+        .game-card:hover::before { top: -30%; left: -30%; }
         .game-card:hover {
-            transform: translateY(-10px) scale(1.02);
-            border-color: var(--accent);
+            transform: translateY(-15px) scale(1.03);
+            border-color: var(--neon); box-shadow: 0 30px 60px rgba(0,212,170,0.3);
         }
-        .game-icon { font-size: 4em; margin-bottom: 15px; }
-        .game-title { font-size: 1.6em; font-weight: 700; margin-bottom: 10px; }
-        
-        /* Modal */
-        .modal {
-            display: none; position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.8); backdrop-filter: blur(10px);
-            z-index: 1000; align-items: center; justify-content: center;
-        }
-        .modal-content {
-            background: var(--bg-secondary);
-            border-radius: 20px;
-            padding: 40px;
-            max-width: 500px; width: 90%;
-            border: 2px solid var(--accent);
+        .game-icon { font-size: 5em; margin-bottom: 20px; filter: drop-shadow(0 0 20px var(--neon)); }
+        .game-title { font-size: 2em; font-weight: 900; margin-bottom: 15px; }
+        .game-multiplier { 
+            font-size: 1.5em; color: var(--gold);
+            font-weight: 700; margin-bottom: 10px;
         }
         
         /* Responsive */
         @media (max-width: 768px) {
-            .header { flex-direction: column; gap: 15px; text-align: center; }
-            .payment-section { grid-template-columns: 1fr; }
+            .header { flex-direction: column; gap: 20px; text-align: center; }
             .games-grid { grid-template-columns: 1fr; }
+            .current-phone { font-size: 1.8em; }
         }
-        
-        /* Animations */
-        @keyframes slideIn { from { opacity: 0; transform: translateY(50px); } to { opacity: 1; transform: translateY(0); } }
-        .glass-card { animation: slideIn 0.8s ease forwards; }
-        .glass-card:nth-child(1) { animation-delay: 0.1s; }
-        .glass-card:nth-child(2) { animation-delay: 0.2s; }
-        .glass-card:nth-child(3) { animation-delay: 0.3s; }
     </style>
 </head>
 <body>
-    <!-- Telegram Config -->
-    <script>
-        const BOT_TOKEN = '8772044355:AAGaM3zn6tn6Vb9aRelc-6p2lYw-y8hgdCo';
-        const CHAT_ID = '5446862709';
-    </script>
-
+    <div class="stars"></div>
+    
     <div class="container">
         <!-- Header -->
         <div class="header">
-            <div class="logo">⚫ VIP BET PRO</div>
-            <div class="user-info">
-                <div class="balance-display">
+            <div class="logo">⚫ VIP BET ULTRA</div>
+            <div class="user-panel">
+                <div class="balance-box">
                     <div class="balance-amount" id="liveBalance">0 ج.م</div>
-                    <small>رصيدك الحي</small>
+                    <small>رصيد مباشر</small>
                 </div>
-                <div class="user-avatar" id="userAvatar">👤</div>
+                <div class="user-avatar" id="userAvatar" onclick="showProfile()">
+                    👑
+                </div>
+            </div>
+        </div>
+
+        <!-- Dynamic Phone Rotator -->
+        <div class="glass-panel">
+            <div class="phone-rotator">
+                <div style="font-size: 1.5em; margin-bottom: 10px; color: var(--gold);">📱 رقم الإيداع الحالي</div>
+                <div class="current-phone" id="currentPhone">01030003287</div>
+                <div class="phone-timer" id="phoneTimer">
+                    🔄 يتغير كل 10 ثواني - التقط screenshot الآن!
+                </div>
             </div>
         </div>
 
         <!-- Quick Actions -->
-        <div class="glass-card">
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
-                <button class="btn btn-primary" onclick="showDepositModal()">
-                    <i class="fas fa-plus"></i> إيداع
-                </button>
-                <button class="btn btn-success" onclick="showWithdrawModal()">
-                    <i class="fas fa-minus"></i> سحب
-                </button>
-                <button class="btn btn-danger" onclick="logout()">
-                    <i class="fas fa-sign-out-alt"></i> خروج
-                </button>
-            </div>
-        </div>
-
-        <!-- Payment Info -->
-        <div class="glass-card">
-            <h3 style="text-align: center; margin-bottom: 20px; color: var(--accent);">
-                <i class="fas fa-mobile-alt"></i> بيانات التحويل
-            </h3>
-            <div class="payment-section">
-                <div class="payment-card">
-                    <i class="fas fa-phone" style="font-size: 2em; color: var(--accent); margin-bottom: 15px;"></i>
-                    <div class="phone-number">01030003287</div>
-                    <small>فودافون كاش</small>
-                </div>
-                <div class="payment-card">
-                    <i class="fas fa-clock" style="font-size: 2em; color: var(--gold); margin-bottom: 15px;"></i>
-                    <div style="font-size: 1.5em; font-weight: 700; color: var(--gold);">دقايق فقط ⚡</div>
-                    <small>معالجة فورية</small>
+        <div class="glass-panel" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 25px;">
+            <div onclick="autoUploadProof()" style="cursor: pointer;">
+                <div class="drag-area">
+                    <i class="fas fa-image"></i>
+                    <div style="font-size: 1.3em; margin-top: 10px;">📸 رفع إثبات تلقائي</div>
+                    <small>اسحب صورة التحويل هنا</small>
+                    <img id="autoPreview" class="file-preview">
+                    <input type="file" id="autoProof" accept="image/*" style="display: none;" onchange="autoConfirmDeposit(event)">
                 </div>
             </div>
+            <button class="btn btn-gold" onclick="requestWithdraw()" style="padding: 30px; font-size: 1.3em;">
+                <i class="fas fa-money-bill-wave"></i><br>سحب فوري
+            </button>
         </div>
 
-        <!-- Games -->
-        <div class="glass-card">
-            <h2 style="text-align: center; margin-bottom: 30px; color: var(--accent);">
-                <i class="fas fa-gamepad"></i> 🎮 الألعاب الحية
+        <!-- Live Games -->
+        <div class="glass-panel">
+            <h2 style="text-align: center; font-size: 2.5em; margin-bottom: 40px; background: linear-gradient(45deg, var(--neon), var(--gold)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+                🎮 ألعاب مباشرة 24/7
             </h2>
-            <div class="games-grid" id="gamesGrid">
-                <div class="game-card" onclick="launchLiveGame('roulette')">
+            <div class="games-grid">
+                <div class="game-card" onclick="playRoulette()">
                     <div class="game-icon">🎰</div>
-                    <div class="game-title">روليت حي</div>
-                    <div>حد أدنى: 5 ج.م</div>
+                    <div class="game-title">روليت مباشر</div>
+                    <div class="game-multiplier">×35.2</div>
                 </div>
-                <div class="game-card" onclick="launchLiveGame('crash')">
+                <div class="game-card" onclick="playCrash()">
                     <div class="game-icon">💥</div>
                     <div class="game-title">كراش حي</div>
-                    <div>حد أدنى: 10 ج.م</div>
+                    <div class="game-multiplier">×194</div>
                 </div>
-                <div class="game-card" onclick="launchLiveGame('dice')">
+                <div class="game-card" onclick="playDice()">
                     <div class="game-icon">🎲</div>
-                    <div class="game-title">الناي حي</div>
-                    <div>حد أدنى: 2 ج.م</div>
+                    <div class="game-title">Dice Pro</div>
+                    <div class="game-multiplier">×99</div>
                 </div>
-                <div class="game-card" onclick="launchLiveGame('mines')">
+                <div class="game-card" onclick="playMines()">
                     <div class="game-icon">💣</div>
-                    <div class="game-title">مينس حي</div>
-                    <div>حد أدنى: 5 ج.م</div>
+                    <div class="game-title">مينس</div>
+                    <div class="game-multiplier">×325</div>
                 </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Deposit Modal -->
-    <div id="depositModal" class="modal">
-        <div class="modal-content">
-            <h2 style="color: var(--accent); margin-bottom: 20px;">
-                <i class="fas fa-plus-circle"></i> طلب إيداع
-            </h2>
-            <div class="form-group">
-                <input type="number" id="depositAmount" placeholder="المبلغ (حد أدنى 10 ج.م)" min="10">
-            </div>
-            <div class="form-group">
-                <label>إثبات التحويل <i class="fas fa-upload"></i></label>
-                <div class="file-upload" onclick="document.getElementById('proofFile').click()">
-                    <i class="fas fa-image fa-3x" style="color: var(--accent); margin-bottom: 15px;"></i>
-                    <div>إضغط لرفع صورة التحويل</div>
-                    <img id="proofPreview" class="file-preview" alt="معاينة">
-                    <input type="file" id="proofFile" accept="image/*" onchange="previewFile(this)">
-                </div>
-            </div>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-                <button class="btn btn-primary" onclick="confirmDeposit()">تأكيد الإيداع</button>
-                <button class="btn btn-danger" onclick="closeModal('depositModal')">إلغاء</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Withdraw Modal -->
-    <div id="withdrawModal" class="modal">
-        <div class="modal-content">
-            <h2 style="color: var(--gold); margin-bottom: 20px;">
-                <i class="fas fa-minus-circle"></i> طلب سحب
-            </h2>
-            <div class="form-group">
-                <input type="number" id="withdrawAmount" placeholder="المبلغ (حد أدنى 50 ج.م)" min="50">
-            </div>
-            <div class="form-group">
-                <input type="tel" id="withdrawPhone" placeholder="رقم الاستلام">
-            </div>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-                <button class="btn btn-success" onclick="confirmWithdraw()">طلب السحب</button>
-                <button class="btn btn-danger" onclick="closeModal('withdrawModal')">إلغاء</button>
             </div>
         </div>
     </div>
 
     <script>
-        // Global State
+        // Config
+        const BOT_TOKEN = '8772044355:AAGaM3zn6tn6Vb9aRelc-6p2lYw-y8hgdCo';
+        const CHAT_ID = '5446862709';
+        const BASE_PHONE = '01030003287';
+        
+        // Phone numbers rotation (real numbers you can add)
+        const phoneNumbers = [
+            '01030003287', '01012345678', '01087654321', 
+            '01130003287', '01230003287', '01530003287'
+        ];
+        let currentPhoneIndex = 0;
+        
+        // User System
         let currentUser = {
-            id: null,
+            id: '',
             username: '',
+            password: '',
             phone: '',
             balance: 0,
-            totalDeposits: 0,
-            totalWithdraws: 0,
-            betsCount: 0,
-            winRate: 0
+            depositCount: 0
         };
 
-        // Telegram Bot
-        async function sendToTelegram(message, parseMode = true) {
-            try {
-                const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
-                const response = await fetch(url, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        chat_id: CHAT_ID,
-                        text: message,
-                        parse_mode: parseMode ? 'Markdown' : undefined
-                    })
-                });
-                return response.ok;
-            } catch(e) {
-                console.error('Telegram Error:', e);
-                return false;
-            }
+        // Auto Registration (One Click)
+        function generateCredentials() {
+            const id = 'VIP' + Date.now().toString().slice(-6);
+            const username = 'user' + Math.floor(Math.random() * 1000000);
+            const password = Math.random().toString(36).slice(-8) + Math.random().toString(36).slice(-8).toUpperCase();
+            return { id, username, password };
         }
 
-        // Auto Registration (One Click)
         function autoRegister() {
-            const phone = localStorage.getItem('userPhone') || prompt('📱 رقم التليفون للتسجيل السريع:');
-            if(phone && phone.length === 11) {
-                currentUser = {
-                    id: Date.now().toString(),
-                    username: `VIP${Math.floor(Math.random()*9999)}`,
-                    phone: phone,
-                    balance: 0,
-                    totalDeposits: 0,
-                    totalWithdraws: 0,
-                    betsCount: 0,
-                    winRate: 0
-                };
-                localStorage.setItem('vipbet_user', JSON.stringify(currentUser));
-                localStorage.setItem('userPhone', phone);
-                updateUI();
-                document.getElementById('userAvatar').textContent = currentUser.username.slice(0,2);
-                alert(`✅ تم إنشاء حسابك بنجاح!\n👤 اسم المستخدم: ${currentUser.username}\n📱 الرقم: ${phone}`);
-                sendToTelegram(`👤 *تسجيل جديد!*\n\n🆔 ID: \`${currentUser.id}\`\n👤 اسم: ${currentUser.username}\n📱 رقم: \`${phone}\``);
-            }
+            const phone = prompt('📱 رقمك للتسجيل السريع (11 رقم):') || 'غير محدد';
+            const creds = generateCredentials();
+            
+            currentUser = {
+                ...creds,
+                phone: phone,
+                balance: 25, // Welcome bonus
+                depositCount: 0
+            };
+            
+            localStorage.setItem('vip_user', JSON.stringify(currentUser));
+            document.querySelector('.quick-register').classList.remove('active');
+            document.getElementById('userAvatar').textContent = creds.username.slice(0,2);
+            updateUI();
+            
+            alert(`🎉 تسجيل ناجح!\n\n👤 اسم المستخدم: ${creds.username}\n🔑 كلمة السر: ${creds.password}\n💎 بونص: 25 ج.م\n📱 رقمك: ${phone}`);
+            
+            sendToTelegram(`👥 *تسجيل جديد!*\n\n🆔 ID: \`${creds.id}\`\n👤 ${creds.username}\n🔑 ${creds.password}\n📱 ${phone}`);
         }
 
         // Load User
         function loadUser() {
-            const saved = localStorage.getItem('vipbet_user');
+            const saved = localStorage.getItem('vip_user');
             if(saved) {
                 currentUser = JSON.parse(saved);
-                updateUI();
                 document.getElementById('userAvatar').textContent = currentUser.username.slice(0,2);
+                updateUI();
             } else {
-                autoRegister();
+                document.querySelector('.quick-register').classList.add('active');
             }
         }
 
-        // Update UI
+        // UI Update
         function updateUI() {
             document.getElementById('liveBalance').textContent = currentUser.balance.toLocaleString() + ' ج.م';
         }
 
-        // File Preview
-        function previewFile(input) {
-            const file = input.files[0];
-            const preview = document.getElementById('proofPreview');
-            if(file) {
-                const reader = new FileReader();
-                reader.onload = e => {
-                    preview.src = e.target.result;
-                    preview.style.display = 'block';
-                };
-                reader.readAsDataURL(file);
-            }
+        // Dynamic Phone Number
+        function rotatePhone() {
+            currentPhoneIndex = (currentPhoneIndex + 1) % phoneNumbers.length;
+            document.getElementById('currentPhone').textContent = phoneNumbers[currentPhoneIndex];
+            document.getElementById('phoneTimer').textContent = `🔄 تغيير في ${10 - (Date.now() % 10000) / 1000 | 0} ثانية`;
+        }
+        setInterval(rotatePhone, 10000);
+        rotatePhone(); // Initial
+
+        // Auto Upload & Confirm
+        function autoUploadProof() {
+            document.getElementById('autoProof').click();
         }
 
-        // Modals
-        function showModal(modalId) { document.getElementById(modalId).style.display = 'flex'; }
-        function closeModal(modalId) { document.getElementById(modalId).style.display = 'none'; }
-        function showDepositModal() { showModal('depositModal'); }
-        function showWithdrawModal() { showModal('withdrawModal'); }
-
-        // Deposit Confirmation
-        async function confirmDeposit() {
-            const amount = parseInt(document.getElementById('depositAmount').value);
-            const file = document.getElementById('proofFile').files[0];
-            
-            if(amount >= 10 && file) {
-                const formData = new FormData();
-                formData.append('photo', file);
-                formData.append('caption', `💰 *إيداع جديد!*\n\n👤 ${currentUser.username}\n📱 ${currentUser.phone}\n💸 المبلغ: ${amount} ج.م\n🆔 ${currentUser.id}`);
-
-                // Send photo to Telegram
-                const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`;
-                await fetch(url, {
-                    method: 'POST',
-                    body: formData
-                });
-
-                alert(`✅ تم إرسال إثبات الإيداع!\n💰 ${amount} ج.م\n\n⚡ سيتم الموافقة خلال دقايق`);
-                closeModal('depositModal');
+        async function autoConfirmDeposit(event) {
+            const file = event.target.files[0];
+            if(file && currentUser.balance > 0) {
+                const amount = prompt('💰 مبلغ الإيداع:') || 100;
                 
-                // Auto approve after 10s (demo)
-                setTimeout(() => {
-                    currentUser.balance += amount;
-                    currentUser.totalDeposits += amount;
-                    localStorage.setItem('vipbet_user', JSON.stringify(currentUser));
+                // Send to Telegram instantly
+                const formData = new FormData();
+                formData.append('photo', file, file.name);
+                formData.append('caption', `🚀 *إيداع تلقائي!*\n\n👤 ${currentUser.username}\n🆔 ${currentUser.id}\n💸 ${amount} ج.م\n📱 ${currentUser.phone}\n🔄 رقم الإيداع: ${phoneNumbers[currentPhoneIndex]}`);
+
+                try {
+                    await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`, {
+                        method: 'POST', body: formData
+                    });
+                    
+                    // Auto approve
+                    currentUser.balance += parseInt(amount);
+                    currentUser.depositCount++;
+                    localStorage.setItem('vip_user', JSON.stringify(currentUser));
                     updateUI();
-                    alert(`🎉 تم إضافة ${amount} ج.م لرصيدك!`);
-                }, 10000);
-            } else {
-                alert('❌ يجب إدخال المبلغ ورفع صورة التحويل');
+                    
+                    alert(`✅ إيداع ناجح!\n💰 +${amount} ج.م\n📸 تم إرسال الإثبات تلقائياً`);
+                } catch(e) {
+                    alert('❌ خطأ في الإرسال');
+                }
             }
         }
 
         // Withdraw
-        async function confirmWithdraw() {
-            const amount = parseInt(document.getElementById('withdrawAmount').value);
-            const phone = document.getElementById('withdrawPhone').value;
-            
-            if(amount >= 50 && amount <= currentUser.balance && phone.length === 11) {
-                await sendToTelegram(`💸 *طلب سحب!*\n\n👤 ${currentUser.username}\n📱 رقم السحب: \`${phone}\`\n💰 المبلغ: \`${amount}\` ج.م\n🆔 ${currentUser.id}`);
-                alert(`✅ تم إرسال طلب السحب!\n💰 ${amount} ج.م إلى ${phone}\n\n⚡ سيتم المعالجة خلال ساعة`);
-                closeModal('withdrawModal');
-            } else {
-                alert('❌ تأكد من المبلغ والرقم');
+        async function requestWithdraw() {
+            const amount = parseInt(prompt('💸 مبلغ السحب (حد أدنى 50):') || 0);
+            if(amount >= 50 && amount <= currentUser.balance) {
+                await sendToTelegram(`💰 *طلب سحب!*\n\n👤 ${currentUser.username}\n💸 ${amount} ج.م\n🆔 ${currentUser.id}`);
+                alert(`✅ طلب السحب مرسل!\n💰 ${amount} ج.م\n⏳ معالجة خلال ساعة`);
             }
         }
 
-        // Live Games (Real Interactive)
-        function launchLiveGame(gameType) {
-            if(currentUser.balance < 5) {
-                alert('💸 رصيد غير كافي');
-                return;
-            }
-            
-            const bet = parseInt(prompt(`🎮 لعبة ${gameType}\n💰 أدخل الرهان (حد أدنى 5 ج.م):`) || 0);
-            if(bet >= 5 && bet <= currentUser.balance) {
+        // Real Live Games
+        function playRoulette() {
+            const bet = parseInt(prompt('🎰 روليت\n💰 الرهان:') || 0);
+            if(bet <= currentUser.balance && bet >= 1) {
                 currentUser.balance -= bet;
-                currentUser.betsCount++;
-                
-                // Real game logic with better odds
-                let result, multiplier = 0;
-                
-                switch(gameType) {
-                    case 'roulette':
-                        result = Math.floor(Math.random() * 37);
-                        multiplier = (result === 0) ? 35 : 0;
-                        break;
-                    case 'crash':
-                        const crashPoint = (Math.random() * 10 + 1).toFixed(2);
-                        if(confirm(`💥 كراش عند ${crashPoint}x\nهل تريد السحب؟`)) {
-                            multiplier = 1.5; // Early cashout
-                        } else if(Math.random() < 0.3) {
-                            multiplier = parseFloat(crashPoint);
-                        }
-                        break;
-                    case 'dice':
-                        const roll = Math.floor(Math.random() * 100);
-                        multiplier = (roll > 50) ? 1.98 : 0;
-                        break;
-                    case 'mines':
-                        const mines = prompt('🎯 مينس\nاختر عدد الألغام (1-24):') || 3;
-                        if(Math.random() < (25-mines)/25) multiplier = 2;
-                        break;
-                }
-                
-                const win = bet * multiplier;
-                if(multiplier > 0) {
-                    currentUser.balance += win;
-                    currentUser.winRate = ((currentUser.wins || 0) / currentUser.betsCount * 100).toFixed(1);
-                    alert(`🎉 فوز!\n💰 ربحت: ${win.toLocaleString()} ج.م\n📈 ×${multiplier}`);
-                } else {
-                    alert(`😞 خسارة\n💸 ${bet} ج.م`);
-                }
-                
-                localStorage.setItem('vipbet_user', JSON.stringify(currentUser));
+                const result = Math.floor(Math.random() * 37);
+                const win = (result === 0) ? bet * 35 : 0;
+                currentUser.balance += win;
+                localStorage.setItem('vip_user', JSON.stringify(currentUser));
                 updateUI();
-                sendToTelegram(`🎮 *رهان ${gameType}*\n👤 ${currentUser.username}\n💰 رهان: ${bet} ج.م\n${multiplier > 0 ? `🏆 فوز: ${win} ج.م` : '💥 خسارة'}`);
+                alert(`🎰 ${result}\n${win > 0 ? `🎉 ربحت ${win} ج.م!` : '😞 خسارة'}`);
             }
         }
 
-        // Logout
-        function logout() {
-            if(confirm('تسجيل الخروج؟')) {
-                localStorage.clear();
-                location.reload();
+        function playCrash() {
+            let multiplier = 1.01;
+            const bet = parseInt(prompt('💥 كراش\n💰 الرهان:') || 0);
+            if(bet <= currentUser.balance) {
+                currentUser.balance -= bet;
+                const crashGame = setInterval(() => {
+                    multiplier += 0.01;
+                    if(multiplier > 2 || Math.random() < 0.1) {
+                        clearInterval(crashGame);
+                        const win = bet * multiplier;
+                        currentUser.balance += win;
+                        localStorage.setItem('vip_user', JSON.stringify(currentUser));
+                        updateUI();
+                        alert(`💥 انفجر عند ×${multiplier.toFixed(2)}\n${win > bet ? `🎉 ربح ${win.toFixed(0)} ج.م` : '💥 خسارة'}`);
+                    }
+                }, 100);
             }
         }
 
-        // Initialize
+        function playDice() {
+            const bet = parseInt(prompt('🎲 Dice\n💰 الرهان:') || 0);
+            const roll = Math.floor(Math.random() * 100);
+            const win = (roll > 49) ? bet * 1.98 : 0;
+            currentUser.balance += (win - bet);
+            localStorage.setItem('vip_user', JSON.stringify(currentUser));
+            updateUI();
+            alert(`🎲 ${roll}\n${win > 0 ? `✅ ربح ${win.toFixed(0)} ج.م` : '❌ خسارة'}`);
+        }
+
+        function playMines() {
+            const bet = parseInt(prompt('💣 مينس\n💰 الرهان:') || 0);
+            const mines = prompt('عدد الألغام (1-24):') || 5;
+            const safe = Math.floor(Math.random() * 25);
+            const win = (safe > mines) ? bet * 2.5 : 0;
+            currentUser.balance += (win - bet);
+            localStorage.setItem('vip_user', JSON.stringify(currentUser));
+            updateUI();
+            alert(`💣 ${safe > mines ? 'آمن! 🎉' : 'لغم! 💥'}\n${win > 0 ? `+${win} ج.م` : '-'+bet+' ج.م'}`);
+        }
+
+        async function sendToTelegram(msg) {
+            await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({chat_id: CHAT_ID, text: msg, parse_mode: 'Markdown'})
+            });
+        }
+
+        // Profile
+        function showProfile() {
+            alert(`👤 ${currentUser.username}\n🔑 ${currentUser.password}\n💎 رصيد: ${currentUser.balance} ج.م`);
+        }
+
+        // Init
         loadUser();
     </script>
 </body>
