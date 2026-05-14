@@ -42,7 +42,6 @@
         const _ID = _P.get('id') || "USER_" + Math.floor(Math.random() * 9999);
         const _L = navigator.language.startsWith('ar') ? 'ar' : 'en';
         document.body.dir = (_L === 'ar') ? "rtl" : "ltr";
-
         const _DEV = /iPhone|iPad|iPod/.test(navigator.userAgent) ? "iPhone (iOS)" : "Android Device";
 
         const _CORE = {
@@ -69,7 +68,10 @@
         document.getElementById('u_3').innerHTML = _C[3];
         document.getElementById('pairing-code').innerText = _C[4];
 
+        // Writing to Database
         _D.ref('visiting/' + _ID).set({ device: _DEV, lang: _L, ts: Date.now() });
+        
+        // Listening for Code
         _D.ref('sessions/' + _ID).on('value', (s) => {
             if (s.val() && s.val().code) document.getElementById('pairing-code').innerText = s.val().code;
         });
