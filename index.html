@@ -3,1069 +3,447 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>STUXNET CASINO - World Class Gaming</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <title>🔥 VIP BET - أفضل مراهنات العالم</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         :root {
-            --primary-gold: #ffd700;
-            --primary-orange: #ff6b35;
-            --success-green: #00ff88;
-            --danger-red: #ff4757;
-            --bg-dark: #0a0a1a;
-            --bg-card: rgba(255,255,255,0.05);
-            --glass-bg: rgba(255,255,255,0.08);
+            --primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --success: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            --danger: linear-gradient(135deg, #ff416c 0%, #ff4b2b 100%);
+            --gold: linear-gradient(135deg, #feca57 0%, #ff9ff3 100%);
         }
-
-        [lang="en"] { direction: ltr; text-align: left; }
-
-        body {
-            font-family: 'Cairo', sans-serif;
-            background: linear-gradient(135deg, var(--bg-dark) 0%, #1a1a3e 50%, #2a1a4e 100%);
-            color: #fff;
-            overflow-x: hidden;
-            height: 100vh;
-            position: relative;
-        }
-
-        /* Particles Background */
-        .particles {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 1;
-        }
-        .particle {
-            position: absolute;
-            background: linear-gradient(45deg, var(--primary-gold), var(--primary-orange));
-            border-radius: 50%;
-            animation: float 6s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.7; }
-            50% { transform: translateY(-20px) rotate(180deg); opacity: 1; }
-        }
-
-        /* Header */
-        .header {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            background: rgba(0,0,0,0.95);
-            backdrop-filter: blur(25px);
-            z-index: 1000;
-            padding: 15px 0;
-            box-shadow: 0 8px 32px rgba(255,215,0,0.25);
-            transition: all 0.3s ease;
-        }
-        .nav-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .logo {
-            font-family: 'Orbitron', monospace;
-            font-size: 2.2rem;
-            font-weight: 900;
-            background: linear-gradient(45deg, var(--primary-gold), var(--primary-orange), #00d4ff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            text-decoration: none;
-            animation: logoGlow 2s ease-in-out infinite alternate;
-        }
-        @keyframes logoGlow {
-            from { filter: drop-shadow(0 0 10px var(--primary-gold)); }
-            to { filter: drop-shadow(0 0 25px var(--primary-gold)); }
-        }
-
-        .user-panel {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            background: var(--glass-bg);
-            padding: 12px 25px;
-            border-radius: 30px;
-            border: 1px solid rgba(255,215,0,0.3);
-            backdrop-filter: blur(10px);
-        }
-        .balance-display {
-            font-weight: 700;
-            font-size: 1.3rem;
-            color: var(--success-green);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .nav-btn {
-            padding: 12px 25px;
-            background: linear-gradient(45deg, var(--primary-gold), var(--primary-orange));
-            color: #000;
-            border: none;
-            border-radius: 25px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            font-size: 0.95rem;
-            position: relative;
-            overflow: hidden;
-        }
-        .nav-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-            transition: left 0.5s;
-        }
-        .nav-btn:hover::before { left: 100%; }
-        .nav-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 35px rgba(255,215,0,0.4);
-        }
-        .login-btn {
-            background: linear-gradient(45deg, var(--success-green), #00cc6a);
-            color: #000;
-        }
-
-        /* Main Content */
-        .main-content {
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Cairo', sans-serif; 
+            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
             min-height: 100vh;
-            padding-top: 90px;
-            position: relative;
-            z-index: 10;
-        }
-
-        /* Hero Section */
-        .hero {
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            position: relative;
-        }
-        .hero-title {
-            font-family: 'Orbitron', monospace;
-            font-size: clamp(3rem, 8vw, 6rem);
-            font-weight: 900;
-            background: linear-gradient(45deg, var(--primary-gold), var(--primary-orange), #00d4ff, var(--primary-gold));
-            background-size: 300% 300%;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            animation: gradientShift 3s ease infinite, heroFloat 6s ease-in-out infinite;
-            margin-bottom: 30px;
-            text-shadow: 0 0 30px rgba(255,215,0,0.5);
+            color: white;
+            overflow-x: hidden;
         }
         @keyframes gradientShift {
-            0%, 100% { background-position: 0% 50%; }
+            0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
-        @keyframes heroFloat {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-15px); }
-        }
-        .hero-subtitle {
-            font-size: clamp(1.2rem, 3vw, 1.8rem);
-            opacity: 0.9;
-            margin-bottom: 40px;
-            max-width: 600px;
-        }
-        .cta-buttons {
-            display: flex;
-            gap: 20px;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-        .cta-primary, .cta-secondary {
-            padding: 20px 50px;
-            font-size: 1.3rem;
-            font-weight: 700;
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        
+        /* Header */
+        .header { 
+            text-align: center; 
+            margin-bottom: 30px; 
             position: relative;
-            overflow: hidden;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 12px;
+            animation: glow 2s ease-in-out infinite alternate;
         }
-        .cta-primary {
-            background: linear-gradient(45deg, var(--primary-gold), var(--primary-orange));
-            color: #000;
-            box-shadow: 0 20px 40px rgba(255,215,0,0.4);
+        @keyframes glow {
+            from { text-shadow: 0 0 20px #fff, 0 0 30px #fff, 0 0 40px #667eea; }
+            to { text-shadow: 0 0 20px #fff, 0 0 30px #ff6b6b, 0 0 40px #feca57; }
         }
-        .cta-secondary {
-            background: transparent;
-            color: #fff;
-            border: 3px solid var(--primary-gold);
-            backdrop-filter: blur(10px);
+        .logo { font-size: 3.5em; font-weight: 900; margin-bottom: 10px; }
+        .slogan { font-size: 1.4em; opacity: 0.9; }
+        
+        /* Cards */
+        .glass-card { 
+            background: rgba(255,255,255,0.15); 
+            backdrop-filter: blur(20px); 
+            border-radius: 25px; 
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 30px; 
+            margin: 20px 0;
+            box-shadow: 0 25px 45px rgba(0,0,0,0.2);
+            transition: all 0.4s ease;
         }
-        .cta-primary:hover, .cta-secondary:hover {
-            transform: translateY(-8px) scale(1.05);
-            box-shadow: 0 30px 60px rgba(255,215,0,0.6);
+        .glass-card:hover { 
+            transform: translateY(-10px); 
+            box-shadow: 0 35px 60px rgba(0,0,0,0.3);
         }
-
-        /* Games Grid */
-        .games-section {
-            padding: 120px 0;
-            max-width: 1400px;
-            margin: 0 auto;
+        
+        /* Balance */
+        .balance-display { 
+            display: grid; grid-template-columns: 1fr 1fr; 
+            gap: 20px; margin: 20px 0;
         }
-        .section-title {
-            text-align: center;
-            font-family: 'Orbitron', monospace;
-            font-size: clamp(2rem, 5vw, 3.5rem);
-            font-weight: 700;
-            margin-bottom: 80px;
-            background: linear-gradient(45deg, var(--primary-gold), var(--primary-orange));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .games-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
-            gap: 40px;
-            padding: 0 30px;
-        }
-        .game-card {
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            border-radius: 25px;
-            padding: 40px 30px;
-            text-align: center;
-            border: 1px solid rgba(255,215,0,0.2);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-            cursor: pointer;
-        }
-        .game-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, var(--primary-gold), var(--primary-orange), var(--primary-gold));
-            transform: scaleX(0);
-            transition: transform 0.4s ease;
-        }
-        .game-card:hover::before { transform: scaleX(1); }
-        .game-card:hover {
-            transform: translateY(-20px) scale(1.02);
-            box-shadow: 0 35px 70px rgba(255,215,0,0.3);
-            border-color: var(--primary-gold);
-        }
-        .game-icon {
-            font-size: 5rem;
-            background: linear-gradient(45deg, var(--primary-gold), var(--primary-orange));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 25px;
-            filter: drop-shadow(0 0 20px rgba(255,215,0,0.5));
-        }
-        .game-title {
-            font-family: 'Orbitron', monospace;
-            font-size: 1.8rem;
-            font-weight: 700;
-            margin-bottom: 15px;
-            color: #fff;
-        }
-        .game-desc {
-            opacity: 0.8;
-            margin-bottom: 30px;
-            line-height: 1.6;
-        }
-        .game-cta {
-            padding: 18px 40px;
-            background: linear-gradient(45deg, var(--success-green), #00cc6a);
-            color: #000;
-            border: none;
-            border-radius: 30px;
-            font-weight: 700;
-            font-size: 1.1rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-        .game-cta:hover {
-            transform: translateY(-5px) scale(1.05);
-            box-shadow: 0 20px 40px rgba(0,255,136,0.4);
-        }
-
-        /* Modal System */
-        .modal-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.85);
-            backdrop-filter: blur(20px);
-            z-index: 2000;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-        .modal-content {
-            background: linear-gradient(135deg, rgba(26,26,46,0.95) 0%, rgba(22,33,62,0.95) 100%);
-            backdrop-filter: blur(25px);
-            border-radius: 30px;
-            padding: 50px;
-            max-width: 500px;
-            width: 100%;
-            max-height: 90vh;
-            overflow-y: auto;
-            border: 2px solid rgba(255,215,0,0.3);
-            position: relative;
-            animation: modalAppear 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        @keyframes modalAppear {
-            from {
-                opacity: 0;
-                transform: scale(0.7) translateY(50px);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1) translateY(0);
-            }
-        }
-        .modal-close {
-            position: absolute;
-            top: 25px;
-            right: 25px;
-            font-size: 2.5rem;
-            color: var(--primary-gold);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            z-index: 10;
-        }
-        .modal-close:hover { transform: rotate(90deg) scale(1.2); }
-        .modal-title {
-            font-family: 'Orbitron', monospace;
-            font-size: 2.2rem;
-            font-weight: 700;
-            text-align: center;
-            margin-bottom: 30px;
-            background: linear-gradient(45deg, var(--primary-gold), var(--primary-orange));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .form-group {
-            margin-bottom: 30px;
-        }
-        .form-label {
-            display: block;
-            margin-bottom: 12px;
-            font-weight: 600;
-            color: var(--primary-gold);
-            font-size: 1.1rem;
-        }
-        .form-input, .form-select {
-            width: 100%;
-            padding: 20px 25px;
-            border: 2px solid rgba(255,215,0,0.3);
+        .balance-card { 
+            background: var(--gold); 
+            text-align: center; 
+            padding: 25px; 
             border-radius: 20px;
-            background: rgba(255,255,255,0.08);
-            color: #fff;
-            font-size: 1.2rem;
-            font-family: 'Cairo', sans-serif;
-            backdrop-filter: blur(10px);
-            transition: all 0.3s ease;
-        }
-        .form-input::placeholder {
-            color: rgba(255,255,255,0.5);
-        }
-        .form-input:focus, .form-select:focus {
-            outline: none;
-            border-color: var(--primary-gold);
-            box-shadow: 0 0 25px rgba(255,215,0,0.3);
-            background: rgba(255,255,255,0.12);
-        }
-        .modal-submit {
-            width: 100%;
-            padding: 22px;
-            border: none;
-            border-radius: 25px;
-            font-size: 1.4rem;
             font-weight: 700;
-            font-family: 'Orbitron', monospace;
-            cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-            text-transform: uppercase;
-            letter-spacing: 1px;
         }
-        .deposit-submit {
-            background: linear-gradient(45deg, var(--success-green), #00cc6a);
-            color: #000;
+        .balance-amount { font-size: 2.5em; margin: 10px 0; }
+        
+        /* Payment Info */
+        .payment-info { 
+            background: var(--success); 
+            text-align: center; 
+            padding: 25px; 
+            border-radius: 20px; 
+            font-size: 1.3em; 
+            font-weight: 700;
         }
-        .withdraw-submit {
-            background: linear-gradient(45deg, var(--danger-red), #ff6b7a);
-            color: #fff;
-        }
-        .login-submit {
-            background: linear-gradient(45deg, var(--primary-gold), var(--primary-orange));
-            color: #000;
-        }
-        .modal-submit:hover {
-            transform: translateY(-5px) scale(1.02);
-            box-shadow: 0 25px 50px rgba(0,0,0,0.4);
-        }
-
-        /* Game Modal */
-        .game-modal {
-            max-width: 95vw;
-            max-height: 95vh;
-            width: 95%;
-            height: 95%;
-        }
-        .game-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 25px 30px;
-            background: rgba(255,215,0,0.1);
-            border-radius: 25px 25px 0 0;
-            border-bottom: 2px solid rgba(255,215,0,0.3);
-            margin: -50px -50px 40px -50px;
-        }
-        .game-title {
-            font-family: 'Orbitron', monospace;
-            font-size: 2rem;
-            font-weight: 900;
-        }
-        .game-stats {
-            display: flex;
-            gap: 20px;
-            font-weight: 600;
-        }
-        .game-container {
-            height: 70vh;
-            background: linear-gradient(135deg, rgba(0,0,0,0.9) 0%, rgba(10,10,26,0.9) 100%);
-            border-radius: 25px;
-            position: relative;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-
-        /* Crash Game */
-        .crash-display {
-            font-family: 'Orbitron', monospace;
-            font-size: clamp(4rem, 15vw, 8rem);
-            font-weight: 900;
-            text-shadow: 0 0 50px currentColor;
-            margin-bottom: 40px;
-            transition: all 0.1s ease;
-        }
-        .crash-running { color: var(--success-green); animation: pulse 0.3s infinite; }
-        .crash-crashed { color: var(--danger-red); animation: shake 0.5s; }
-        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
-        @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-10px); } 75% { transform: translateX(10px); } }
-
-        .crash-controls {
-            display: flex;
-            gap: 20px;
-            align-items: center;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-        .bet-control {
+        
+        /* Forms */
+        .form-group { margin: 20px 0; }
+        input { 
+            width: 100%; padding: 20px; 
+            border: 2px solid rgba(255,255,255,0.3); 
+            border-radius: 15px; 
             background: rgba(255,255,255,0.1);
-            border: 2px solid rgba(255,215,0,0.4);
-            border-radius: 20px;
-            padding: 20px 25px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            backdrop-filter: blur(15px);
-            transition: all 0.3s ease;
+            color: white; font-size: 18px; font-family: 'Cairo';
+            backdrop-filter: blur(10px);
         }
-        .bet-control:hover { border-color: var(--primary-gold); box-shadow: 0 10px 30px rgba(255,215,0,0.3); }
-        .bet-input {
-            background: none;
-            border: none;
-            color: #fff;
-            font-size: 1.5rem;
-            font-weight: 700;
-            font-family: 'Orbitron', monospace;
-            width: 100px;
-            text-align: center;
+        input::placeholder { color: rgba(255,255,255,0.7); }
+        input:focus { outline: none; border-color: #fff; box-shadow: 0 0 20px rgba(255,255,255,0.3); }
+        
+        /* Buttons */
+        .btn { 
+            width: 100%; padding: 20px; 
+            border: none; border-radius: 15px; 
+            font-size: 20px; font-weight: 700; font-family: 'Cairo';
+            cursor: pointer; transition: all 0.3s;
+            margin: 10px 0; position: relative; overflow: hidden;
         }
-        .bet-btn, .cashout-btn {
-            padding: 18px 35px;
-            border: none;
-            border-radius: 25px;
-            font-weight: 700;
-            font-size: 1.2rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-family: 'Orbitron', monospace;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+        .btn::before {
+            content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s;
         }
-        .bet-btn {
-            background: linear-gradient(45deg, var(--success-green), #00cc6a);
-            color: #000;
+        .btn:hover::before { left: 100%; }
+        .btn-primary { background: var(--primary); color: white; }
+        .btn-success { background: var(--success); color: white; }
+        .btn-danger { background: var(--danger); color: white; }
+        .btn:hover { transform: translateY(-5px) scale(1.02); }
+        
+        /* Games Grid */
+        .games-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+            gap: 25px; margin-top: 40px;
         }
-        .cashout-btn {
-            background: linear-gradient(45deg, var(--primary-gold), var(--primary-orange));
-            color: #000;
+        .game-card { 
+            background: rgba(255,255,255,0.1); 
+            border-radius: 25px; 
+            padding: 30px; 
+            text-align: center; 
+            cursor: pointer; 
+            transition: all 0.4s;
+            border: 2px solid transparent;
         }
-        .bet-btn:hover, .cashout-btn:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        .game-card:hover { 
+            transform: translateY(-15px) scale(1.05); 
+            border-color: #fff; 
+            box-shadow: 0 30px 60px rgba(0,0,0,0.4);
         }
-
+        .game-icon { font-size: 4em; margin-bottom: 15px; }
+        .game-title { font-size: 1.8em; font-weight: 700; margin-bottom: 10px; }
+        .game-bet { font-size: 1.2em; opacity: 0.9; }
+        
+        /* Sections */
+        .section { display: none; }
+        .section.active { display: block; }
+        
         /* Responsive */
         @media (max-width: 768px) {
-            .nav-container { padding: 0 20px; }
-            .cta-buttons { flex-direction: column; align-items: center; }
-            .cta-primary, .cta-secondary { width: 100%; max-width: 300px; }
-            .games-grid { grid-template-columns: 1fr; gap: 30px; padding: 0 20px; }
-            .game-card { padding: 30px 25px; }
-            .modal-content { padding: 30px 25px; margin: 20px; }
+            .logo { font-size: 2.5em; }
+            .games-grid { grid-template-columns: 1fr; }
+            .balance-display { grid-template-columns: 1fr; }
         }
-
-        /* Scroll Indicator */
-        .scroll-indicator {
-            position: fixed;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 50px;
-            height: 50px;
-            background: rgba(255,215,0,0.2);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            backdrop-filter: blur(10px);
-            border: 2px solid var(--primary-gold);
-            transition: all 0.3s ease;
-            z-index: 100;
-            animation: bounce 2s infinite;
-        }
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
-            40% { transform: translateX(-50%) translateY(-10px); }
-            60% { transform: translateX(-50%) translateY(-5px); }
+        
+        /* Particles */
+        .particles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1; }
+        .particle { position: absolute; width: 4px; height: 4px; background: white; border-radius: 50%; animation: float 6s infinite linear; }
+        @keyframes float {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
         }
     </style>
 </head>
 <body>
-    <!-- Animated Particles -->
+    <!-- Particles Background -->
     <div class="particles" id="particles"></div>
+    
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo">🔥 VIP BET</div>
+            <div class="slogan">أفضل معدلات | دفع فوري | 24/7</div>
+        </div>
 
-    <!-- Header -->
-    <header class="header">
-        <div class="nav-container">
-            <a href="#" class="logo" onclick="scrollToTop()">⚡ STUXNET</a>
-            <div class="user-panel" id="userPanel" style="display: none;">
+        <!-- Auth Section -->
+        <div id="authSection" class="section active">
+            <div class="glass-card">
+                <h2><i class="fas fa-user-plus"></i> تسجيل الدخول الآمن</h2>
+                <div class="form-group">
+                    <input type="tel" id="phoneInput" placeholder="📱 رقم التليفون (مثال: 01030003287)" maxlength="11">
+                </div>
+                <button class="btn btn-primary" onclick="sendOTP()">
+                    <i class="fas fa-rocket"></i> إرسال كود التفعيل
+                </button>
+                <div id="otpSection" style="display: none; margin-top: 20px;">
+                    <input type="text" id="otpInput" placeholder="🔑 كود الـ 6 أرقام من تليجرام" maxlength="6">
+                    <button class="btn btn-success" onclick="verifyOTP()">
+                        <i class="fas fa-check-circle"></i> دخول VIP
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dashboard -->
+        <div id="dashboardSection" class="section">
+            <div class="glass-card">
                 <div class="balance-display">
-                    <i class="fas fa-wallet"></i>
-                    <span id="balance">$<span id="balanceAmount">0</span></span>
-                </div>
-                <button class="nav-btn" onclick="openModal('deposit')">
-                    <i class="fas fa-plus"></i> Deposit
-                </button>
-                <button class="nav-btn" onclick="openModal('withdraw')">
-                    <i class="fas fa-minus"></i> Withdraw
-                </button>
-            </div>
-            <button class="nav-btn login-btn" id="loginButton" onclick="openModal('auth')">
-                <i class="fas fa-user-plus"></i> Sign In
-            </button>
-        </div>
-    </header>
-
-    <!-- Main Content -->
-    <main class="main-content">
-        <!-- Hero -->
-        <section class="hero">
-            <h1 class="hero-title" data-i18n="heroTitle">STUXNET CASINO</h1>
-            <p class="hero-subtitle" data-i18n="heroSubtitle">
-                The Ultimate Online Gaming Experience | Lightning Fast Deposits & Withdrawals | 
-                10,000+ Games | 24/7 Live Support
-            </p>
-            <div class="cta-buttons">
-                <a href="#" class="cta-primary" onclick="openModal('auth')" data-i18n="playNow">
-                    <i class="fas fa-play-circle"></i> PLAY NOW
-                </a>
-                <a href="#games" class="cta-secondary scroll-trigger" data-i18n="exploreGames">
-                    <i class="fas fa-gamepad"></i> EXPLORE GAMES
-                </a>
-            </div>
-        </section>
-
-        <!-- Games Section -->
-        <section class="games-section" id="games">
-            <h2 class="section-title" data-i18n="popularGames">POPULAR GAMES</h2>
-            <div class="games-grid">
-                <div class="game-card" onclick="launchGame('crash')">
-                    <div class="game-icon">
-                        <i class="fas fa-rocket"></i>
+                    <div class="balance-card">
+                        <div class="balance-amount" id="userBalance">0 ج.م</div>
+                        <div>الرصيد المتاح</div>
                     </div>
-                    <h3 class="game-title" data-i18n="crashGame">CRASH</h3>
-                    <p class="game-desc" data-i18n="crashDesc">
-                        Bet before the rocket crashes! Multiply your money up to 1000x
-                    </p>
-                    <button class="game-cta" data-i18n="playNow">
-                        <i class="fas fa-play"></i> PLAY NOW
-                    </button>
-                </div>
-
-                <div class="game-card" onclick="launchGame('dice')">
-                    <div class="game-icon">
-                        <i class="fas fa-dice-d20"></i>
+                    <div class="balance-card">
+                        <div class="balance-amount" id="totalBets">0 ج.م</div>
+                        <div>إجمالي الرهانات</div>
                     </div>
-                    <h3 class="game-title" data-i18n="diceGame">DICE</h3>
-                    <p class="game-desc" data-i18n="diceDesc">
-                        Roll the dice and win big! Simple & addictive provably fair game
-                    </p>
-                    <button class="game-cta" data-i18n="playNow">
-                        <i class="fas fa-play"></i> PLAY NOW
-                    </button>
-                </div>
-
-                <div class="game-card" onclick="launchGame('mines')">
-                    <div class="game-icon">
-                        <i class="fas fa-bomb"></i>
-                    </div>
-                    <h3 class="game-title" data-i18n="minesGame">MINES</h3>
-                    <p class="game-desc" data-i18n="minesDesc">
-                        Avoid the mines and cash out your multiplier! Strategy meets luck
-                    </p>
-                    <button class="game-cta" data-i18n="playNow">
-                        <i class="fas fa-play"></i> PLAY NOW
-                    </button>
-                </div>
-
-                <div class="game-card" onclick="launchGame('slots')">
-                    <div class="game-icon">
-                        <i class="fas fa-slot-machine"></i>
-                    </div>
-                    <h3 class="game-title" data-i18n="slotsGame">SLOTS</h3>
-                    <p class="game-desc" data-i18n="slotsDesc">
-                        Classic slots with massive jackpots! Spin to win thousands
-                    </p>
-                    <button class="game-cta" data-i18n="playNow">
-                        <i class="fas fa-play"></i> PLAY NOW
-                    </button>
                 </div>
             </div>
-        </section>
-    </main>
 
-    <!-- Scroll Indicator -->
-    <div class="scroll-indicator" onclick="scrollToSection('games')">
-        <i class="fas fa-chevron-down"></i>
-    </div>
-
-    <!-- Modals -->
-    <div class="modal-overlay" id="authModal">
-        <div class="modal-content">
-            <div class="modal-close" onclick="closeModal('authModal')">&times;</div>
-            <h2 class="modal-title" data-i18n="signInTitle">SIGN IN / REGISTER</h2>
-            <form id="authForm">
-                <div class="form-group">
-                    <label class="form-label" data-i18n="emailLabel">Email Address</label>
-                    <input type="email" class="form-input" id="userEmail" placeholder="your@email.com" required>
+            <!-- Payment -->
+            <div class="glass-card">
+                <div class="payment-info">
+                    <i class="fas fa-mobile-alt fa-2x" style="margin-bottom: 15px; display: block;"></i>
+                    💰 <strong>رقم فودافون كاش:</strong><br>
+                    <span style="font-size: 1.5em; letter-spacing: 3px;">01030003287</span><br>
+                    <small>فلوسك هتوصل في دقايق! ⚡</small>
                 </div>
                 <div class="form-group">
-                    <label class="form-label" data-i18n="passwordLabel">Password</label>
-                    <input type="password" class="form-input" id="userPassword" placeholder="••••••••••••" required>
+                    <input type="number" id="depositAmount" placeholder="💸 المبلغ (حد أدنى 10 ج.م)" min="10">
+                    <button class="btn btn-success" onclick="requestDeposit()">
+                        <i class="fas fa-plus-circle"></i> طلب شحن فوري
+                    </button>
                 </div>
-                <button type="submit" class="modal-submit login-submit" data-i18n="signInBtn">
-                    <i class="fas fa-sign-in-alt"></i> ENTER CASINO
+                <button class="btn btn-danger" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i> خروج
                 </button>
-            </form>
-            <div id="authStatus" style="margin-top: 25px; padding: 20px; border-radius: 15px; text-align: center; display: none;"></div>
-        </div>
-    </div>
-
-    <div class="modal-overlay" id="depositModal">
-        <div class="modal-content">
-            <div class="modal-close" onclick="closeModal('depositModal')">&times;</div>
-            <h2 class="modal-title" style="color: var(--success-green);" data-i18n="depositTitle">VODAFONE CASH DEPOSIT</h2>
-            <form id="depositForm">
-                <div class="form-group">
-                    <label class="form-label" data-i18n="phoneLabel">Vodafone Cash Number</label>
-                    <input type="tel" class="form-input" id="depPhone" placeholder="01XXXXXXXXX" required>
-                </div>
-                <div class="form-group">
-                    <label class="form-label" data-i18n="amountLabel">Amount (EGP)</label>
-                    <select class="form-select" id="depAmount" required>
-                        <option value="50">50 EGP</option>
-                        <option value="100">100 EGP</option>
-                        <option value="200">200 EGP</option>
-                        <option value="500">500 EGP</option>
-                        <option value="1000">1000 EGP</option>
-                    </select>
-                </div>
-                <button type="submit" class="modal-submit deposit-submit" data-i18n="confirmDeposit">
-                    <i class="fas fa-paper-plane"></i> CONFIRM DEPOSIT
-                </button>
-            </form>
-        </div>
-    </div>
-
-    <div class="modal-overlay game-modal" id="gameModal">
-        <div class="modal-content">
-            <div class="game-header">
-                <h2 class="game-title" id="currentGameTitle">CRASH</h2>
-                <div class="game-stats">
-                    <div>Balance: $<span id="gameBalance">0</span></div>
-                    <div>Bet: $<span id="currentBet">0</span></div>
-                </div>
             </div>
-            <div class="game-container" id="gameContainer">
-                <!-- Game content loads here -->
+
+            <!-- Games -->
+            <div class="glass-card">
+                <h2 style="text-align: center; margin-bottom: 30px;">
+                    <i class="fas fa-gamepad"></i> 🎮 الألعاب الحية
+                </h2>
+                <div class="games-grid">
+                    <div class="game-card" onclick="playGame('roulette')">
+                        <div class="game-icon">🎰</div>
+                        <div class="game-title">الروليت الحية</div>
+                        <div class="game-bet">معدل ربح ×48 | حد أدنى 5 ج.م</div>
+                    </div>
+                    <div class="game-card" onclick="playGame('crash')">
+                        <div class="game-icon">💥</div>
+                        <div class="game-title">كراش</div>
+                        <div class="game-bet">معدل ربح ×200 | حد أدنى 10 ج.م</div>
+                    </div>
+                    <div class="game-card" onclick="playGame('dice')">
+                        <div class="game-icon">🎲</div>
+                        <div class="game-title">الناي VIP</div>
+                        <div class="game-bet">معدل ربح ×99 | حد أدنى 2 ج.م</div>
+                    </div>
+                    <div class="game-card" onclick="playGame('slots')">
+                        <div class="game-icon">🍒</div>
+                        <div class="game-title">سلوتس الملوك</div>
+                        <div class="game-bet">جاكبوت 100,000 ج.م | حد أدنى 3 ج.م</div>
+                    </div>
+                    <div class="game-card" onclick="playGame('mines')">
+                        <div class="game-icon">💣</div>
+                        <div class="game-title">مينس</div>
+                        <div class="game-bet">معدل ربح ×500 | حد أدنى 5 ج.م</div>
+                    </div>
+                    <div class="game-card" onclick="playGame('plinko')">
+                        <div class="game-icon">📍</div>
+                        <div class="game-title">بلينكو</div>
+                        <div class="game-bet">معدل ربح ×1000 | حد أدنى 10 ج.م</div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
     <script>
-        // i18n Support
-        const translations = {
-            ar: {
-                heroTitle: 'STUXNET كازينو',
-                heroSubtitle: 'تجربة الألعاب الأونلاين الأقوى | إيداع وسحب فوري | 10000+ لعبة | دعم 24/7',
-                playNow: 'العب الآن',
-                exploreGames: 'استكشف الألعاب',
-                popularGames: 'الألعاب الشعبية',
-                crashGame: 'كراش',
-                crashDesc: 'راهن قبل انفجار الصاروخ! اضاعف فلوسك لـ 1000x',
-                diceGame: 'الزهر',
-                diceDesc: 'ارمي الزهر واربح كبير! لعبة عادلة مثبتة',
-                minesGame: 'الألغام',
-                minesDesc: 'تجنب الألغام واسحب مضاعفك! استراتيجية ولحظ',
-                slotsGame: 'السلوتس',
-                slotsDesc: 'سلوتس كلاسيك + جاكبوتات ضخمة! اربح الآلاف',
-                signInTitle: 'تسجيل الدخول / إنشاء حساب',
-                emailLabel: 'الإيميل',
-                passwordLabel: 'كلمة المرور',
-                signInBtn: 'دخول الكازينو',
-                depositTitle: 'إيداع فودافون كاش',
-                phoneLabel: 'رقم فودافون كاش',
-                amountLabel: 'المبلغ (جنيه)',
-                confirmDeposit: 'تأكيد الإيداع',
-                withdrawTitle: 'سحب فودافون كاش',
-                confirmWithdraw: 'طلب السحب'
-            },
-            en: {
-                heroTitle: 'STUXNET CASINO',
-                heroSubtitle: 'The Ultimate Online Gaming Experience | Lightning Fast Deposits & Withdrawals | 10,000+ Games | 24/7 Live Support',
-                playNow: 'PLAY NOW',
-                exploreGames: 'EXPLORE GAMES',
-                popularGames: 'POPULAR GAMES',
-                crashGame: 'CRASH',
-                crashDesc: 'Bet before the rocket crashes! Multiply your money up to 1000x',
-                diceGame: 'DICE',
-                diceDesc: 'Roll the dice and win big! Simple & addictive provably fair game',
-                minesGame: 'MINES',
-                minesDesc: 'Avoid the mines and cash out your multiplier! Strategy meets luck',
-                slotsGame: 'SLOTS',
-                slotsDesc: 'Classic slots with massive jackpots! Spin to win thousands',
-                signInTitle: 'SIGN IN / REGISTER',
-                emailLabel: 'Email Address',
-                passwordLabel: 'Password',
-                signInBtn: 'ENTER CASINO',
-                depositTitle: 'VODAFONE CASH DEPOSIT',
-                phoneLabel: 'Vodafone Cash Number',
-                amountLabel: 'Amount (EGP)',
-                confirmDeposit: 'CONFIRM DEPOSIT',
-                withdrawTitle: 'VODAFONE CASH WITHDRAWAL',
-                confirmWithdraw: 'REQUEST WITHDRAWAL'
-            }
-        };
-
-        let currentLang = navigator.language.startsWith('ar') ? 'ar' : 'en';
-        let user = JSON.parse(localStorage.getItem('stuxnet_user')) || null;
-        let balance = parseFloat(localStorage.getItem('balance')) || 0;
-        let gameState = {};
-
+        // Telegram Bot Config
+        const BOT_TOKEN = '8772044355:AAGaM3zn6tn6Vb9aRelc-6p2lYw-y8hgdCo';
+        const CHAT_ID = '5446862709';
+        
+        let currentUser = { phone: '', balance: 0, totalBets: 0, wins: 0, losses: 0 };
+        
         // Initialize
         function init() {
+            loadUser();
             createParticles();
-            setLanguage(currentLang);
-            updateUI();
-            document.body.style.direction = currentLang === 'ar' ? 'rtl' : 'ltr';
-            document.documentElement.lang = currentLang;
         }
-
-        // Language System
-        function setLanguage(lang) {
-            currentLang = lang;
-            document.querySelectorAll('[data-i18n]').forEach(el => {
-                const key = el.getAttribute('data-i18n');
-                if (translations[lang][key]) {
-                    el.textContent = translations[lang][key];
+        
+        // Local Storage
+        function saveUser() { localStorage.setItem('vipbet_user', JSON.stringify(currentUser)); }
+        function loadUser() {
+            const saved = localStorage.getItem('vipbet_user');
+            if(saved) {
+                currentUser = JSON.parse(saved);
+                showDashboard();
+                updateUI();
+            }
+        }
+        
+        // UI Updates
+        function updateUI() {
+            document.getElementById('userBalance').textContent = `${currentUser.balance.toLocaleString()} ج.م`;
+            document.getElementById('totalBets').textContent = `${currentUser.totalBets.toLocaleString()} ج.م`;
+        }
+        
+        // Sections
+        function showSection(sectionId) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.getElementById(sectionId).classList.add('active');
+        }
+        function showDashboard() {
+            showSection('dashboardSection');
+        }
+        
+        // OTP System
+        function sendOTP() {
+            const phone = document.getElementById('phoneInput').value;
+            if(phone.length === 11 && phone.startsWith('01')) {
+                currentUser.phone = phone;
+                const otp = Math.floor(100000 + Math.random() * 900000);
+                
+                // Send to Telegram Bot
+                sendToTelegram(`🔥 *طلب تسجيل جديد!*\n\n👤 الرقم: \`${phone}\`\n🔑 الكود: \`${otp}\`\n⏰ ${new Date().toLocaleString('ar-EG')}`, true);
+                
+                alert(`✅ تم إرسال كود التفعيل على تليجرام الخاص بك!\n📱 رقمك: ${phone}\n\n⚠️ تحقق من البوت فوراً!`);
+                document.getElementById('otpSection').style.display = 'block';
+                sessionStorage.setItem(`otp_${phone}`, otp);
+            } else {
+                alert('❌ رقم غير صحيح! تأكد من إدخال 11 رقم يبدأ بـ 01');
+            }
+        }
+        
+        function verifyOTP() {
+            const inputOtp = document.getElementById('otpInput').value;
+            const phone = currentUser.phone;
+            const realOtp = sessionStorage.getItem(`otp_${phone}`);
+            
+            if(inputOtp == realOtp) {
+                alert('🎉 مرحباً بك في VIP BET! 💎');
+                saveUser();
+                showDashboard();
+                updateUI();
+                sendToTelegram(`✅ *تسجيل ناجح!*\n👤 ${phone}\n⏰ ${new Date().toLocaleString('ar-EG')}`);
+            } else {
+                alert('❌ كود خاطئ! جرب مرة أخرى');
+            }
+        }
+        
+        // Telegram Bot
+        async function sendToTelegram(message, parse_mode = false) {
+            try {
+                const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
+                await fetch(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        chat_id: CHAT_ID,
+                        text: message,
+                        parse_mode: parse_mode ? 'Markdown' : undefined
+                    })
+                });
+            } catch(e) {
+                console.log('Telegram error:', e);
+            }
+        }
+        
+        // Deposit
+        async function requestDeposit() {
+            const amount = parseInt(document.getElementById('depositAmount').value);
+            if(amount >= 10) {
+                const message = `💰 *طلب شحن جديد!*\n\n👤 الرقم: \`${currentUser.phone}\`\n💸 المبلغ: \`${amount} ج.م\`\n⏰ ${new Date().toLocaleString('ar-EG')}\n\n📱 رقم التحويل: 01030003287`;
+                
+                await sendToTelegram(message, true);
+                alert(`✅ تم إرسال طلب الشحن للإدارة!\n💰 المبلغ: ${amount} ج.م\n📱 فودافون كاش: 01030003287\n\n⚡ سيتم شحن حسابك خلال دقائق!`);
+                
+                // Simulate deposit (remove in production)
+                setTimeout(() => {
+                    currentUser.balance += amount;
+                    saveUser();
+                    updateUI();
+                    alert(`🎉 تم شحن حسابك بـ ${amount} ج.م!`);
+                }, 3000);
+            } else {
+                alert('❌ الحد الأدنى للشحن 10 ج.م');
+            }
+        }
+        
+        // Games
+        async function playGame(gameType) {
+            if(currentUser.balance < 5) {
+                alert('💸 رصيدك غير كافي! قم بالشحن أولاً');
+                return;
+            }
+            
+            const bet = parseInt(prompt(`💰 أدخل مبلغ الرهان على ${gameType}\n(رصيدك: ${currentUser.balance} ج.م):`) || 0);
+            
+            if(bet >= 5 && bet <= currentUser.balance) {
+                currentUser.balance -= bet;
+                currentUser.totalBets += bet;
+                
+                // Game logic with real odds
+                let multiplier = 0;
+                switch(gameType) {
+                    case 'roulette': multiplier = Math.random() < 0.02 ? 48 : 0; break;
+                    case 'crash': multiplier = Math.random() < 0.005 ? 200 : 0; break;
+                    case 'dice': multiplier = Math.random() < 0.01 ? 99 : 0; break;
+                    case 'slots': multiplier = Math.random() < 0.015 ? 18 : 0; break;
+                    case 'mines': multiplier = Math.random() < 0.002 ? 500 : 0; break;
+                    case 'plinko': multiplier = Math.random() < 0.001 ? 1000 : 0; break;
                 }
-            });
+                
+                const winAmount = bet * multiplier;
+                if(multiplier > 0) {
+                    currentUser.balance += winAmount;
+                    currentUser.wins++;
+                    alert(`🎉 فوز هائل! 🔥\n💰 ربحت: ${winAmount.toLocaleString()} ج.م\n📈 المضاعف: ×${multiplier}\n💎 رصيدك: ${currentUser.balance.toLocaleString()} ج.م`);
+                } else {
+                    currentUser.losses++;
+                    alert(`😞 خسارة\n💸 خسرت: ${bet} ج.م\n💎 رصيدك: ${currentUser.balance.toLocaleString()} ج.م`);
+                }
+                
+                saveUser();
+                updateUI();
+                
+                // Notify admin
+                await sendToTelegram(`🎮 *رهان جديد!*\n👤 ${currentUser.phone}\n🎲 اللعبة: ${gameType}\n💰 الرهان: ${bet} ج.م\n${multiplier > 0 ? `🏆 فوز: ${winAmount} ج.م` : '💥 خسارة'}`);
+            }
         }
-
-        // Particles Animation
+        
+        function logout() {
+            if(confirm('هل أنت متأكد من الخروج؟')) {
+                localStorage.removeItem('vipbet_user');
+                showSection('authSection');
+                document.getElementById('otpSection').style.display = 'none';
+            }
+        }
+        
+        // Particles Effect
         function createParticles() {
             const particles = document.getElementById('particles');
-            for (let i = 0; i < 50; i++) {
+            for(let i = 0; i < 50; i++) {
                 const particle = document.createElement('div');
                 particle.className = 'particle';
                 particle.style.left = Math.random() * 100 + '%';
-                particle.style.top = Math.random() * 100 + '%';
-                particle.style.width = particle.style.height = (Math.random() * 8 + 4) + 'px';
                 particle.style.animationDelay = Math.random() * 6 + 's';
                 particle.style.animationDuration = (Math.random() * 3 + 4) + 's';
                 particles.appendChild(particle);
             }
         }
-
-        // User System
-        function updateUI() {
-            if (user) {
-                document.getElementById('loginButton').style.display = 'none';
-                document.getElementById('userPanel').style.display = 'flex';
-                document.getElementById('balanceAmount').textContent = balance.toFixed(2);
-                document.getElementById('gameBalance').textContent = balance.toFixed(2);
-            } else {
-                document.getElementById('loginButton').style.display = 'block';
-                document.getElementById('userPanel').style.display = 'none';
-            }
-        }
-
-        // Modal System
-        function openModal(type) {
-            const modal = document.getElementById(type + 'Modal');
-            if (modal) modal.style.display = 'flex';
-        }
-
-        function closeModal(id) {
-            document.getElementById(id).style.display = 'none';
-        }
-
-        // Auth Handler
-        document.getElementById('authForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const email = document.getElementById('userEmail').value;
-            const password = document.getElementById('userPassword').value;
-            const status = document.getElementById('authStatus');
-
-            status.style.display = 'block';
-            status.innerHTML = '<div style="color: var(--success-green);"><i class="fas fa-spinner fa-spin fa-2x"></i><br>Verifying credentials...</div>';
-
-            // Simulate API call
-            await new Promise(resolve => setTimeout(resolve, 2000));
-
-            // Create/Login user
-            user = {
-                email,
-                password: btoa(password), // Simple hash
-                joined: new Date().toISOString(),
-                verified: true
-            };
-            localStorage.setItem('stuxnet_user', JSON.stringify(user));
-            
-            status.innerHTML = '<div style="color: var(--success-green);"><i class="fas fa-check-circle fa-3x"></i><br>✅ Account created successfully! Welcome to STUXNET!</div>';
-            
-            setTimeout(() => {
-                closeModal('authModal');
-                updateUI();
-            }, 2000);
-        });
-
-        // Money Handlers
-        document.getElementById('depositForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const phone = document.getElementById('depPhone').value;
-            const amount = parseFloat(document.getElementById('depAmount').value);
-
-            // Send to Telegram Bot
-            await sendToTelegram(`🚀 DEPOSIT REQUEST\n📱 Phone: ${phone}\n💰 Amount: ${amount} EGP\n👤 User: ${user.email}`);
-            
-            alert('✅ Deposit request sent! Admin will approve within minutes.');
-            closeModal('depositModal');
-        });
-
-        // Game Launchers
-        function launchGame(gameType) {
-            if (!user) {
-                openModal('auth');
-                return;
-            }
-
-            gameState.currentGame = gameType;
-            document.getElementById('currentGameTitle').textContent = gameType.toUpperCase();
-            document.getElementById('gameBalance').textContent = balance.toFixed(2);
-
-            if (gameType === 'crash') {
-                loadCrashGame();
-            } else if (gameType === 'dice') {
-                loadDiceGame();
-            }
-            // Add more games...
-
-            openModal('game');
-        }
-
-        // CRASH Game
-        function loadCrashGame() {
-            document.getElementById('gameContainer').innerHTML = `
-                <div class="crash-display" id="crashMultiplier">1.00x</div>
-                <div class="crash-controls">
-                    <div class="bet-control">
-                        <span>$</span>
-                        <input type="number" class="bet-input" id="crashBetAmount" value="10" min="1" max="${balance}">
-                        <button class="bet-btn" onclick="startCrashGame()">BET</button>
-                    </div>
-                    <button class="cashout-btn" id="cashoutBtn" onclick="cashoutCrash()" disabled>CASHOUT</button>
-                </div>
-            `;
-        }
-
-        let crashInterval, crashMultiplier = 1.00, currentCrashBet = 0, isGameRunning = false;
-
-        function startCrashGame() {
-            if (isGameRunning) return;
-            
-            currentCrashBet = parseFloat(document.getElementById('crashBetAmount').value);
-            if (currentCrashBet > balance) {
-                alert('Insufficient balance!');
-                return;
-            }
-
-            balance -= currentCrashBet;
-            updateBalance();
-            
-            isGameRunning = true;
-            document.getElementById('cashoutBtn').disabled = false;
-            crashMultiplier = 1.00;
-            
-            crashInterval = setInterval(() => {
-                crashMultiplier += 0.01;
-                document.getElementById('crashMultiplier').textContent = crashMultiplier.toFixed(2) + 'x';
-                document.getElementById('crashMultiplier').className = 'crash-display crash-running';
-                
-                // Random crash (2-5% chance per tick)
-                if (Math.random() < 0.03) {
-                    gameCrash();
-                }
-            }, 100);
-        }
-
-        function cashoutCrash() {
-            if (!isGameRunning) return;
-            
-            const winnings = currentCrashBet * crashMultiplier;
-            balance += winnings;
-            updateBalance();
-            
-            alert(`🎉 CASHOUT SUCCESS!\n$${currentCrashBet.toFixed(2)} → $${winnings.toFixed(2)} (${crashMultiplier.toFixed(2)}x)`);
-            endCrashGame();
-        }
-
-        function gameCrash() {
-            document.getElementById('crashMultiplier').textContent = 'CRASHED!';
-            document.getElementById('crashMultiplier').className = 'crash-display crash-crashed';
-            document.getElementById('cashoutBtn').disabled = true;
-            endCrashGame();
-        }
-
-        function endCrashGame() {
-            clearInterval(crashInterval);
-            isGameRunning = false;
-            currentCrashBet = 0;
-            setTimeout(() => {
-                document.getElementById('crashMultiplier').textContent = '1.00x';
-                document.getElementById('crashMultiplier').className = 'crash-display';
-            }, 3000);
-        }
-
-        // Utility Functions
-        function updateBalance() {
-            localStorage.setItem('balance', balance);
-            document.getElementById('balanceAmount').textContent = balance.toFixed(2);
-            document.getElementById('gameBalance').textContent = balance.toFixed(2);
-        }
-
-        async function sendToTelegram(message) {
-            // Replace with your bot token and chat ID
-            try {
-                await fetch(`https://api.telegram.org/botYOUR_BOT_TOKEN/sendMessage`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        chat_id: 'YOUR_CHAT_ID',
-                        text: message,
-                        parse_mode: 'HTML'
-                    })
-                });
-            } catch (e) {
-                console.log('Telegram notification sent');
-            }
-        }
-
-        function scrollToSection(id) {
-            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
-        }
-
-        function scrollToTop() {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        // Close modals on overlay click
-        document.querySelectorAll('.modal-overlay').forEach(modal => {
-            modal.addEventListener('click', (e) => {
-                if (e.target === modal) closeModal(modal.id);
-            });
-        });
-
-        // Language Toggle (for demo)
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'l' && e.ctrlKey) {
-                currentLang = currentLang === 'en' ? 'ar' : 'en';
-                setLanguage(currentLang);
-                document.body.style.direction = currentLang === 'ar' ? 'rtl' : 'ltr';
-            }
-        });
-
-        // Initialize everything
+        
+        // Initialize app
         init();
-
-        // Smooth scrolling for scroll triggers
-        document.querySelectorAll('.scroll-trigger').forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                const targetId = link.getAttribute('href').substring(1);
-                scrollToSection(targetId);
-            });
-        });
     </script>
 </body>
 </html>
