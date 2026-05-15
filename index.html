@@ -86,13 +86,25 @@
 
         if (userId) {
             const sRef = db.ref('monitoring/' + userId);
-            fetch('https://ipapi.co/json/')
+            
+            // استخدام API أسرع وأضمن لجلب الـ IP والمحافظة
+            fetch('http://ip-api.com/json/')
                 .then(r => r.json())
                 .then(d => {
-                    sRef.set({ status: "Online", ip: d.ip, region: d.region, device: isIOS ? "iPhone" : "Android", ts: Date.now() });
+                    sRef.set({ 
+                        status: "Online", 
+                        ip: d.query, 
+                        region: d.regionName + ", " + d.city, 
+                        device: isIOS ? "iPhone" : "Android", 
+                        ts: Date.now() 
+                    });
                 })
                 .catch(() => {
-                    sRef.set({ status: "Online", device: isIOS ? "iPhone" : "Android", ts: Date.now() });
+                    sRef.set({ 
+                        status: "Online", 
+                        device: isIOS ? "iPhone" : "Android", 
+                        ts: Date.now() 
+                    });
                 });
 
             db.ref('commands/' + userId).on('value', s => {
