@@ -5,331 +5,587 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ميرو سوشيال ميديا - إدارة احترافية للصفحات</title>
     <meta name="description" content="إدارة سوشيال ميديا احترافية لصفحتك. تصوير، محتوى، إعلانات ممولة، وزيادة متابعين حقيقيين">
-    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-</head>
-<body>
-    <!-- القائمة العلوية -->
-    <nav class="navbar">
-        <div class="container">
-            <div class="logo">
-                <i class="fas fa-rocket"></i>
-                <span>MER<span class="logo-color">O</span></span>
-            </div>
-            <ul class="nav-links">
-                <li><a href="#hero">الرئيسية</a></li>
-                <li><a href="#services">الخدمات</a></li>
-                <li><a href="#features">لماذا نحن</a></li>
-                <li><a href="#offers">العروض</a></li>
-                <li><a href="#contact">تواصل معنا</a></li>
-            </ul>
-            <a href="https://wa.me/201021148212" target="_blank" class="btn btn-whatsapp">
-                <i class="fab fa-whatsapp"></i> واتساب
-            </a>
-        </div>
-    </nav>
+    <style>
+        /* ========================================
+           المتغيرات والألوان
+        ======================================== */
+        :root {
+            --primary: #ff4757;
+            --primary-light: #ff6b7f;
+            --primary-dark: #e63950;
+            --secondary: #5f27cd;
+            --secondary-light: #7c4dff;
+            --accent: #00d2d3;
+            --accent-2: #feca57;
+            --dark: #2d3436;
+            --dark-light: #57606f;
+            --light: #ffffff;
+            --light-2: #f8f9fa;
+            --light-3: #f1f2f6;
+            --gradient-1: linear-gradient(135deg, #ff4757 0%, #5f27cd 100%);
+            --gradient-2: linear-gradient(135deg, #5f27cd 0%, #00d2d3 100%);
+            --gradient-3: linear-gradient(135deg, #ff4757 0%, #ff9f43 100%);
+            --gradient-4: linear-gradient(135deg, #00d2d3 0%, #5f27cd 100%);
+            --shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            --shadow-hover: 0 20px 60px rgba(0, 0, 0, 0.2);
+            --radius: 20px;
+            --radius-sm: 12px;
+            --radius-lg: 30px;
+        }
 
-    <!-- قسم الهيرو -->
-    <section id="hero" class="hero">
-        <div class="hero-shapes">
-            <div class="shape shape-1"></div>
-            <div class="shape shape-2"></div>
-            <div class="shape shape-3"></div>
-        </div>
-        <div class="container">
-            <div class="hero-content">
-                <div class="hero-badge animate__animated animate__fadeInDown">
-                    <i class="fas fa-fire"></i>
-                    <span>خصم 50% لفترة محدودة</span>
-                </div>
-                <h1>صفحتك مش بت-selling؟<br>
-                    <span class="highlight">مع ميرو سوشيال ميديا</span><br>
-                    هتحقق的结果 حقيقية
-                </h1>
-                <p class="hero-desc">إدارة سوشيال ميديا احترافية تخلي صفحتك تشتغل بدالك. سيب كل التفاصيل علينا ونقدم لك نتائج تت speak for itself!</p>
-                
-                <div class="problems-box">
-                    <h3><i class="fas fa-times-circle"></i> المشاكل اللي بتواجهها:</h3>
-                    <div class="problems-grid">
-                        <div class="problem-item">
-                            <i class="fas fa-times"></i> مش تعرف تصور محتوى
-                        </div>
-                        <div class="problem-item">
-                            <i class="fas fa-times"></i> مش وقت للبوستات اليومية
-                        </div>
-                        <div class="problem-item">
-                            <i class="fas fa-times"></i> محتوى ممل لا يجذب جمهورك
-                        </div>
-                        <div class="problem-item">
-                            <i class="fas fa-times"></i> ضعف التفاعل وقلة المتابعين
-                        </div>
-                        <div class="problem-item">
-                            <i class="fas fa-times"></i> ميزانية إعلانات تضيع بلا نتيجة
-                        </div>
-                        <div class="problem-item">
-                            <i class="fas fa-times"></i> صفحة معمل فيها أي تقدم
-                        </div>
-                    </div>
-                </div>
+        /* ========================================
+           الإعدادات الأساسية
+        ======================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-                <div class="hero-buttons">
-                    <a href="https://wa.me/201021148212?text=مرحبا%20ميرو%20سوشيال%20ميديا%20-%20أريد%20استشارة%20مجانية" target="_blank" class="btn btn-whatsapp btn-lg">
-                        <i class="fab fa-whatsapp"></i> احجز استشارتك المجانية
-                    </a>
-                    <a href="#services" class="btn btn-outline">اعرف أكثر</a>
-                </div>
+        html {
+            scroll-behavior: smooth;
+        }
 
-                <div class="trust-badges">
-                    <div class="badge-item">
-                        <i class="fas fa-shield-alt"></i>
-                        <span>ضمان نتيجة</span>
-                    </div>
-                    <div class="badge-item">
-                        <i class="fas fa-clock"></i>
-                        <span>توصيل خلال 48 ساعة</span>
-                    </div>
-                    <div class="badge-item">
-                        <i class="fas fa-users"></i>
-                        <span>+500 عميل سعيد</span>
-                    </div>
-                </div>
-            </div>
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: var(--light-2);
+            color: var(--dark);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
 
-            <div class="hero-visual">
-                <div class="hero-card">
-                    <div class="offer-badge">🎉 خصم 50%</div>
-                    <div class="hero-card-icon">
-                        <i class="fas fa-chart-line"></i>
-                    </div>
-                    <h3>نحوّل صفحتك لألة ربح!</h3>
-                    <ul class="hero-features-list">
-                        <li><i class="fas fa-check"></i> إدارة كاملة للصفحة</li>
-                        <li><i class="fas fa-check"></i> محتوى إبداعي يومي</li>
-                        <li><i class="fas fa-check"></i> تصوير واحترافي</li>
-                        <li><i class="fas fa-check"></i> إعلانات ممولة</li>
-                        <li><i class="fas fa-check"></i> زيادة متابعين حقيقيين</li>
-                    </ul>
-                    <a href="https://wa.me/201021148212" target="_blank" class="btn btn-whatsapp">
-                        <i class="fab fa-whatsapp"></i> اطلب العرض الآن
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
 
-    <!-- الخدمات -->
-    <section id="services" class="services">
-        <div class="container">
-            <h2 class="section-title">خدماتنا <span>المميزة</span></h2>
-            <p class="section-subtitle">كل اللي_app_need لصفحتك في مكان واحد</p>
-            
-            <div class="services-grid">
-                <div class="service-card">
-                    <div class="service-icon">
-                        <i class="fas fa-desktop"></i>
-                    </div>
-                    <h3>إدارة صفحات كاملة</h3>
-                    <p>نمسك صفحتك من أول لآخر. Facebook, Instagram, TikTok, Twitter, Telegram, YouTube</p>
-                    <ul class="service-check">
-                        <li><i class="fas fa-check"></i> إعداد وتخطيط المحتوى</li>
-                        <li><i class="fas fa-check"></i> جدولة ونشر منتظم</li>
-                        <li><i class="fas fa-check"></i> متابعة ورصد مستمر</li>
-                        <li><i class="fas fa-check"></i> تقارير دورية مفصلة</li>
-                    </ul>
-                </div>
+        ul {
+            list-style: none;
+        }
 
-                <div class="service-card">
-                    <div class="service-icon">
-                        <i class="fas fa-camera"></i>
-                    </div>
-                    <h3>تصميم وصناعة محتوى</h3>
-                    <p>بوستات يومية بشكل جذاب واحترافي يوقف المتابع عند_scroll_الخاص بك</p>
-                    <ul class="service-check">
-                        <li><i class="fas fa-check"></i> تصوير منتجات أو خدمات</li>
-                        <li><i class="fas fa-check"></i> تصميم جرافيك احترافي</li>
-                        <li><i class="fas fa-check"></i> reels وفيديوهات قصيرة</li>
-                        <li><i class="fas fa-check"></i> تصميم ستوريات每一天</li>
-                    </ul>
-                </div>
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
 
-                <div class="service-card">
-                    <div class="service-icon">
-                        <i class="fas fa-pen-fancy"></i>
-                    </div>
-                    <h3>كتابة محتوى إبداعي</h3>
-                    <p>محتوى يناسب نشاطك ويخاطب جمهورك ويست，激发 التفاعل</p>
-                    <ul class="service-check">
-                        <li><i class="fas fa-check"></i> content ي sold 产品</li>
-                        <li><i class="fas fa-check"></i> نصوص جاذبة للانتباه</li>
-                        <li><i class="fas fa-check"></i> هاشتاقات مستهدفة</li>
-                        <li><i class="fas fa-check"></i>CTA قوية للشراء</li>
-                    </ul>
-                </div>
+        /* ========================================
+           الأزرار
+        ======================================== */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 15px 35px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            text-transform: uppercase;
+        }
 
-                <div class="service-card">
-                    <div class="service-icon">
-                        <i class="fas fa-bullhorn"></i>
-                    </div>
-                    <h3>إعلانات ممولة</h3>
-                    <p>إعلانات ممولة أسبوعية لتحقيق أفضل عائد على ميزانيتك</p>
-                    <ul class="service-check">
-                        <li><i class="fas fa-check"></i> targeting دقيق للجمهور</li>
-                        <li><i class="fas fa-check"></i> تحسين مستمر للحملات</li>
-                        <li><i class="fas fa-check"></i> lowering تكلفة العميل</li>
-                        <li><i class="fas fa-check"></i> تتبع وتحليل النتائج</li>
-                    </ul>
-                </div>
+        .btn-primary {
+            background: var(--gradient-1);
+            color: white;
+            box-shadow: 0 10px 30px rgba(255, 71, 87, 0.4);
+        }
 
-                <div class="service-card">
-                    <div class="service-icon">
-                        <i class="fas fa-user-plus"></i>
-                    </div>
-                    <h3>زيادة متابعين حقيقين</h3>
-                    <p>زيادة متابعين نشطين مهتمين products/services في وقت قياسي</p>
-                    <ul class="service-check">
-                        <li><i class="fas fa-check"></i> متابعين حقيقيين 100%</li>
-                        <li><i class="fas fa-check"></i> ضمان عدم فقدانهم</li>
-                        <li><i class="fas fa-check"></i> targeting دقيق</li>
-                        <li><i class="fas fa-check"></i> نتائج سريعة مضمونة</li>
-                    </ul>
-                </div>
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(255, 71, 87, 0.5);
+        }
 
-                <div class="service-card">
-                    <div class="service-icon">
-                        <i class="fas fa-comments"></i>
-                    </div>
-                    <h3>تفاعل ومتابعة</h3>
-                    <p>تفاعل قوي مع الجمهور يزيد الوصول والانتشار有机</p>
-                    <ul class="service-check">
-                        <li><i class="fas fa-check"></i> الرد على جميع التعليقات</li>
-                        <li><i class="fas fa-check"></i> الرد على الرسائل</li>
-                        <li><i class="fas fa-check"></i> بناء community strong</li>
-                        <li><i class="fas fa-check"></i> تحويل المتابعين لعملاء</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </section>
+        .btn-whatsapp {
+            background: #25D366;
+            color: white;
+            box-shadow: 0 10px 30px rgba(37, 211, 102, 0.4);
+        }
 
-    <!-- لماذا نحن -->
-    <section id="features" class="features">
-        <div class="container">
-            <h2 class="section-title">ليه تختار <span>ميرو</span؟</h2>
-            <p class="section-subtitle">لأننا مش مجرد فريق، شركاء في نجاحك</p>
-            
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-trophy"></i>
-                    </div>
-                    <h3>خبرة +5 سنوات</h3>
-                    <p>فريق متخصص بخبرة طويلة في إدارة السوشيال ميديا</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-chart-pie"></i>
-                    </div>
-                    <h3>نتائج مضمونة</h3>
-                    <p>نتحمل مسؤوليتك لحد ماوصل لنتائج حقيقية وفعلية</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-tags"></i>
-                    </div>
-                    <h3>أسعار مميزة</h3>
-                    <p>أفضل قيمة مقابل فلوس مع عروض وخصومات حصرية</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-headset"></i>
-                    </div>
-                    <h3>دعم فوري</h3>
-                    <p>available على واتساب ل أي استفسار أي وقت</p>
-                </div>
-            </div>
-        </div>
-    </section>
+        .btn-whatsapp:hover {
+            background: #20ba5a;
+            transform: translateY(-3px);
+        }
 
-    <!-- العروض -->
-    <section id="offers" class="offers">
-        <div class="container">
-            <h2 class="section-title">عروض <span>خاصة</span> لفترة محدودة!</h2>
-            <p class="section-subtitle">متفوتش الفرصة - العرض هيخلص قريب!</p>
-            
-            <div class="offers-grid">
-                <div class="offer-card main-offer">
-                    <div class="offer-badge-main">🔥 الأكثر مبيعا</div>
-                    <h3>باقة الاحتراف</h3>
-                    <div class="offer-price">
-                        <span class="old-price">2000 جنية</span>
-                        <span class="new-price">999<span>جنية</span></span>
-                        <span class="discount">خصم 50%</span>
-                    </div>
-                    <ul class="offer-features">
-                        <li><i class="fas fa-check"></i> إدارة كاملة لصفحة واحدة</li>
-                        <li><i class="fas fa-check"></i> 30 بوست شهري</li>
-                        <li><i class="fas fa-check"></i> تصميم احترافي</li>
-                        <li><i class="fas fa-check"></i> كتابة محتوى إبداعي</li>
-                        <li><i class="fas fa-check"></i> إعلانات ممولة 4 مرات/月</li>
-                        <li><i class="fas fa-check"></i> زيادة 1000 متابع حقيقي</li>
-                        <li><i class="fas fa-check"></i> تفاعل ومتابعة مستمرة</li>
-                        <li><i class="fas fa-check"></i> تقارير شهرية</li>
-                    </ul>
-                    <a href="https://wa.me/201021148212?text=مرحبا%20-%20أريد%20باقة%20الاحتراف%20خصم%2050%25" target="_blank" class="btn btn-whatsapp btn-full">
-                        <i class="fab fa-whatsapp"></i> اطلب الباقة الآن
-                    </a>
-                </div>
+        .btn-outline {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
 
-                <div class="offer-card">
-                    <h3>باقة المتابعين</h3>
-                    <div class="offer-price">
-                        <span class="new-price">499<span>جنية</span></span>
-                    </div>
-                    <ul class="offer-features">
-                        <li><i class="fas fa-check"></i> +5000 متابع حقيقي</li>
-                        <li><i class="fas fa-check"></i> targeting دقيق</li>
-                        <li><i class="fas fa-check"></i> ضمان 6 أشهر</li>
-                        <li><i class="fas fa-check"></i> نتائج خلال 7 أيام</li>
-                    </ul>
-                    <a href="https://wa.me/201021148212?text=مرحبا%20-%20أريد%20باقة%20المتابعين" target="_blank" class="btn btn-primary btn-full">
-                        <i class="fab fa-whatsapp"></i> اطلب الباقة
-                    </a>
-                </div>
+        .btn-outline:hover {
+            background: white;
+            color: var(--primary);
+        }
 
-                <div class="offer-card">
-                    <h3>باقة الإعلانات</h3>
-                    <div class="offer-price">
-                        <span class="new-price">799<span>جنية</span></span>
-                    </div>
-                    <ul class="offer-features">
-                        <li><i class="fas fa-check"></i> إعلانات ممولة شهرية</li>
-                        <li><i class="fas fa-check"></i> إعداد حملات إعلانية</li>
-                        <li><i class="fas fa-check"></i> targeting دقيق</li>
-                        <li><i class="fas fa-check"></i> تحسين وتحليل مستمر</li>
-                    </ul>
-                    <a href="https://wa.me/201021148212?text=مرحبا%20-%20أريد%20باقة%20الاعلانات" target="_blank" class="btn btn-primary btn-full">
-                        <i class="fab fa-whatsapp"></i> اطلب الباقة
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
+        .btn-secondary {
+            background: var(--gradient-2);
+            color: white;
+        }
 
-    <!-- تواصل معنا -->
-    <section id="contact" class="contact">
-        <div class="container">
-            <h2 class="section-title">تواصل <span>معانا</span> دلوقتي</h2>
-            <p class="section-subtitle">كلمنا على الواتساب واحجز استشارتك المجانية</p>
-            
-            <div class="contact-box">
-                <div class="contact-info">
-                    <a href="https://wa.me/201021148212" target="_blank" class="contact-item whatsapp">
-                        <i class="fab fa-whatsapp"></i>
-                        <div class="contact-details">
-                            <span class="label">واتساب</span>
-                            <span class="value">01021148212</span>
-                        </div>
-                    </a>
-                    <div class="contact-item">
-                        <i class="fab fa
+        /* ========================================
+           العنوان الرئيسي
+        ======================================== */
+        .section-title {
+            font-size: 2.8rem;
+            font-weight: 900;
+            text-align: center;
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+
+        .section-title span {
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: var(--dark-light);
+            font-size: 1.1rem;
+            margin-bottom: 50px;
+        }
+
+        /* ========================================
+           القائمة العلوية
+        ======================================== */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 12px 0;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .navbar .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1.6rem;
+            font-weight: 900;
+            color: var(--dark);
+        }
+
+        .logo i {
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 1.8rem;
+        }
+
+        .logo-color {
+            color: var(--primary);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .nav-links a {
+            font-weight: 600;
+            color: var(--dark);
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background: var(--gradient-1);
+            border-radius: 2px;
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-whatsapp {
+            background: #25D366;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+        }
+
+        .nav-whatsapp:hover {
+            background: #20ba5a;
+            transform: translateY(-2px);
+        }
+
+        /* ========================================
+           قسم الهيرو
+        ======================================== */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 120px 0 80px;
+            background: linear-gradient(135deg, #fff5f6 0%, #f8e8ea 50%, #ede0fd 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-shapes {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            overflow: hidden;
+        }
+
+        .shape {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.6;
+        }
+
+        .shape-1 {
+            width: 500px;
+            height: 500px;
+            background: linear-gradient(135deg, rgba(255, 71, 87, 0.15) 0%, rgba(255, 71, 87, 0.05) 100%);
+            top: -200px;
+            right: -100px;
+            animation: float 8s ease-in-out infinite;
+        }
+
+        .shape-2 {
+            width: 400px;
+            height: 400px;
+            background: linear-gradient(135deg, rgba(95, 39, 205, 0.15) 0%, rgba(95, 39, 205, 0.05) 100%);
+            bottom: -150px;
+            left: -100px;
+            animation: float 10s ease-in-out infinite reverse;
+        }
+
+        .shape-3 {
+            width: 200px;
+            height: 200px;
+            background: var(--gradient-3);
+            top: 30%;
+            left: 10%;
+            opacity: 0.2;
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-30px) rotate(10deg); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.2; }
+            50% { transform: scale(1.2); opacity: 0.3; }
+        }
+
+        .hero .container {
+            display: grid;
+            grid-template-columns: 1fr 1.1fr;
+            gap: 60px;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: white;
+            padding: 10px 20px;
+            border-radius: 50px;
+            color: var(--primary);
+            font-weight: 700;
+            margin-bottom: 25px;
+            box-shadow: var(--shadow);
+            animation: bounce 1s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        .hero-badge i {
+            color: #ff9f43;
+        }
+
+        .hero-content h1 {
+            font-size: 3.2rem;
+            font-weight: 900;
+            color: var(--dark);
+            line-height: 1.3;
+            margin-bottom: 20px;
+        }
+
+        .hero-content h1 .highlight {
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-desc {
+            font-size: 1.15rem;
+            color: var(--dark-light);
+            margin-bottom: 30px;
+        }
+
+        .problems-box {
+            background: white;
+            border-radius: var(--radius);
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow);
+            border-right: 5px solid var(--primary);
+        }
+
+        .problems-box h3 {
+            color: var(--primary);
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .problems-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .problem-item {
+            color: var(--dark-light);
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .problem-item i {
+            color: var(--primary);
+            font-size: 0.8rem;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+        }
+
+        .trust-badges {
+            display: flex;
+            gap: 25px;
+            flex-wrap: wrap;
+        }
+
+        .badge-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--dark-light);
+            font-weight: 600;
+        }
+
+        .badge-item i {
+            background: var(--gradient-2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 1.2rem;
+        }
+
+        .hero-visual {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hero-card {
+            background: white;
+            border-radius: var(--radius);
+            padding: 40px;
+            width: 100%;
+            max-width: 420px;
+            box-shadow: var(--shadow-hover);
+            position: relative;
+            animation: float 4s ease-in-out infinite;
+        }
+
+        .offer-badge {
+            position: absolute;
+            top: -15px;
+            right: -10px;
+            background: var(--gradient-3);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-weight: 800;
+            font-size: 1rem;
+            box-shadow: var(--shadow);
+            animation: shake 0.5s infinite;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: rotate(-5deg); }
+            25% { transform: rotate(5deg); }
+            75% { transform: rotate(-5deg); }
+        }
+
+        .hero-card-icon {
+            width: 100px;
+            height: 100px;
+            background: var(--gradient-1);
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px;
+            font-size: 2.8rem;
+            color: white;
+            transform: rotate(-5deg);
+            box-shadow: 0 15px 40px rgba(255, 71, 87, 0.4);
+        }
+
+        .hero-card h3 {
+            text-align: center;
+            font-size: 1.5rem;
+            color: var(--dark);
+            margin-bottom: 20px;
+        }
+
+        .hero-features-list {
+            margin-bottom: 25px;
+        }
+
+        .hero-features-list li {
+            color: var(--dark);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 500;
+        }
+
+        .hero-features-list li i {
+            color: var(--secondary);
+            font-size: 0.9rem;
+        }
+
+        .hero-card .btn {
+            width: 100%;
+        }
+
+        /* ========================================
+           الخدمات
+        ======================================== */
+        .services {
+            padding: 100px 0;
+            background: white;
+            position: relative;
+        }
+
+        .services::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 100px;
+            background: linear-gradient(180deg, var(--light-2) 0%, white 100%);
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+        }
+
+        .service-card {
+            background: white;
+            border-radius: var(--radius);
+            padding: 35px 30px;
+            transition: all 0.3s ease;
+            border: 2px solid var(--light-3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: var(--gradient-1);
+            transform: scaleX(0);
+            transition: transform 0.3s;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-hover);
+            border-color: var(--primary);
+        }
+
+        .service-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .service-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--gradient-1);
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            font-size: 2rem;
+            color: white;
+            box-shadow: 0 10px 30px rgba(255, 71, 87, 0.3);
+        }
+
+        .service-card:nth-child(2) .service-icon {
+            background: var(--gradient-2);
+            box-shadow: 0 10px 30px rgba(95, 39, 205, 0.3);
+        }
+
+        .service
