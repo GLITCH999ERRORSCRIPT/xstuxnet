@@ -3,513 +3,573 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mero Social Media - إدارة سوشيال ميديا احترافية</title>
-    <!-- خط القاهرة المحدث -->
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
-    <!-- مكتبة الأيقونات الشهيرة -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>ميرو سوشيال ميديا - إدارة صفحات احترافية</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #6c5ce7;
-            --secondary: #a55eea;
-            --accent: #00cec9;
-            --dark-bg: #0f0c1b;
-            --card-bg: #1e1b34;
-            --text-light: #ffffff;
-            --text-muted: #b2bec3;
-            --warning: #fdcb6e;
-            --danger: #ff7675;
-            --success: #00b894;
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #10b981;
+            --dark: #1e293b;
+            --light: #f8fafc;
+            --gray: #64748b;
+            --white: #ffffff;
+            --gradient: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
         }
-
+        
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            transition: all 0.3s ease;
         }
-
+        
         body {
             font-family: 'Cairo', sans-serif;
-            background-color: var(--dark-bg);
-            color: var(--text-light);
-            line-height: 1.8;
-            overflow-x: hidden;
+            line-height: 1.7;
+            color: var(--dark);
+            background: var(--light);
         }
-
-        /* تنسيق عام للعناوين */
-        .section-title {
-            text-align: center;
-            margin-bottom: 50px;
-        }
-
-        .section-title h2 {
-            font-size: 36px;
-            font-weight: 900;
-            background: linear-gradient(45deg, #fff, var(--text-muted));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            position: relative;
-            display: inline-block;
-        }
-
-        .section-title h2::after {
-            content: '';
-            display: block;
-            width: 50px;
-            height: 4px;
-            background: var(--accent);
-            margin: 10px auto 0;
-            border-radius: 2px;
-        }
-
+        
         /* Header */
         .header {
-            background: rgba(15, 12, 27, 0.85);
-            backdrop-filter: blur(10px);
-            padding: 20px;
-            text-align: center;
-            position: sticky;
-            top: 0;
+            background: var(--white);
+            box-shadow: 0 2px 20px rgba(0,0,0,0.05);
+            position: fixed;
+            width: 100%;
             z-index: 1000;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
         }
-
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
         .logo {
-            font-size: 28px;
+            font-size: 1.5rem;
             font-weight: 900;
-            letter-spacing: 1px;
-            background: linear-gradient(45deg, var(--accent), var(--secondary));
+            background: var(--gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-
+        
+        .nav-btn {
+            background: var(--gradient);
+            color: var(--white);
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.3);
+        }
+        
         /* Hero Section */
         .hero {
-            position: relative;
-            background: radial-gradient(circle at top right, rgba(108, 92, 231, 0.2), transparent), 
-                        radial-gradient(circle at bottom left, rgba(165, 94, 234, 0.15), transparent);
-            padding: 120px 20px;
+            padding: 8rem 2rem 4rem;
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
             text-align: center;
+            min-height: 90vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
-
+        
+        .hero-content {
+            max-width: 800px;
+        }
+        
         .hero h1 {
-            font-size: 48px;
+            font-size: clamp(2rem, 5vw, 3.5rem);
             font-weight: 900;
-            margin-bottom: 25px;
-            line-height: 1.4;
-            background: linear-gradient(135deg, #ffffff 0%, #a55eea 100%);
+            margin-bottom: 1.5rem;
+            line-height: 1.3;
+        }
+        
+        .hero h1 span {
+            background: var(--gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-
+        
         .hero p {
-            font-size: 22px;
-            color: var(--text-muted);
-            max-width: 700px;
-            margin: 0 auto 40px;
-            font-weight: 300;
+            font-size: 1.25rem;
+            color: var(--gray);
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
         }
-
+        
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
         .btn {
-            display: inline-block;
-            padding: 16px 40px;
-            background: linear-gradient(45deg, var(--primary), var(--secondary));
-            color: white;
-            text-decoration: none;
+            padding: 1rem 2rem;
             border-radius: 50px;
             font-weight: 700;
-            font-size: 18px;
-            box-shadow: 0 8px 25px rgba(108, 92, 231, 0.4);
+            font-size: 1.1rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-block;
         }
-
-        .btn:hover {
+        
+        .btn-primary {
+            background: var(--gradient);
+            color: var(--white);
+            border: none;
+        }
+        
+        .btn-primary:hover {
             transform: translateY(-3px);
-            box-shadow: 0 12px 30px rgba(108, 92, 231, 0.6);
+            box-shadow: 0 15px 40px rgba(99, 102, 241, 0.4);
         }
-
-        /* Services */
-        .services {
-            padding: 80px 20px;
-            background: #151226;
+        
+        .btn-secondary {
+            background: var(--white);
+            color: var(--primary);
+            border: 2px solid var(--primary);
         }
-
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
+        
+        .btn-secondary:hover {
+            background: var(--primary);
+            color: var(--white);
+        }
+        
+        /* Stats */
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            flex-wrap: wrap;
+            margin-top: 3rem;
+            padding-top: 3rem;
+            border-top: 1px solid rgba(99, 102, 241, 0.1);
+        }
+        
+        .stat {
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 900;
+            color: var(--primary);
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+        
+        /* Section Styles */
+        .section {
+            padding: 5rem 2rem;
+        }
+        
+        .container {
             max-width: 1200px;
             margin: 0 auto;
         }
-
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .section-header h2 {
+            font-size: clamp(1.75rem, 4vw, 2.5rem);
+            font-weight: 900;
+            margin-bottom: 1rem;
+        }
+        
+        .section-header p {
+            color: var(--gray);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        /* Services */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
         .service-card {
-            background: var(--card-bg);
-            padding: 40px 30px;
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        .service-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #e0e7ff 0%, #ede9fe 100%);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 1.75rem;
+        }
+        
+        .service-card h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        
+        .service-card p {
+            color: var(--gray);
+            font-size: 0.95rem;
+        }
+        
+        /* Problems Section */
+        .problems {
+            background: var(--dark);
+            color: var(--white);
+        }
+        
+        .problems h2 {
+            color: var(--white);
+        }
+        
+        .problems-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .problem-item {
+            background: rgba(255,255,255,0.05);
+            padding: 1.5rem;
+            border-radius: 15px;
+            border-right: 4px solid var(--secondary);
+        }
+        
+        .problem-item h4 {
+            color: var(--secondary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .problem-item p {
+            color: rgba(255,255,255,0.7);
+            font-size: 0.9rem;
+        }
+        
+        /* Solutions */
+        .solutions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+        
+        .solution-card {
+            background: var(--gradient);
+            color: var(--white);
+            padding: 2rem;
             border-radius: 20px;
             text-align: center;
-            border: 1px solid rgba(255,255,255,0.03);
+        }
+        
+        .solution-card .check {
+            width: 50px;
+            height: 50px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 1.5rem;
+        }
+        
+        .solution-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .solution-card p {
+            opacity: 0.9;
+            font-size: 0.9rem;
+        }
+        
+        /* Platform Stats */
+        .platforms {
+            background: var(--white);
+        }
+        
+        .platforms-grid {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .platform {
+            text-align: center;
+            padding: 1.5rem 2rem;
+        }
+        
+        .platform-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--light);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 0.75rem;
+            font-size: 1.5rem;
+        }
+        
+        .platform h4 {
+            font-size: 1rem;
+            color: var(--dark);
+        }
+        
+        /* Offer Banner */
+        .offer {
+            background: var(--gradient);
+            color: var(--white);
+            text-align: center;
+            padding: 4rem 2rem;
             position: relative;
             overflow: hidden;
         }
-
-        .service-card::before {
-            content: '';
+        
+        .offer::before {
+            content: '🔥';
             position: absolute;
-            top: 0; left: 0; width: 100%; height: 4px;
-            background: linear-gradient(90deg, var(--accent), var(--primary));
-            opacity: 0;
+            font-size: 15rem;
+            opacity: 0.1;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
         }
-
-        .service-card:hover {
-            transform: translateY(-10px);
-            border-color: rgba(0, 206, 201, 0.3);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
-        }
-
-        .service-card:hover::before {
-            opacity: 1;
-        }
-
-        .service-icon {
-            font-size: 45px;
-            color: var(--accent);
-            margin-bottom: 25px;
-            background: rgba(0, 206, 201, 0.1);
-            width: 90px;
-            height: 90px;
-            line-height: 90px;
-            border-radius: 50px;
-            margin: 0 auto 20px;
-        }
-
-        .service-card h3 {
-            font-size: 22px;
-            margin-bottom: 15px;
-            font-weight: 700;
-        }
-
-        .service-card p {
-            color: var(--text-muted);
-            font-size: 15px;
-        }
-
-        /* Problems */
-        .problems {
-            padding: 80px 20px;
-            background: var(--dark-bg);
-        }
-
-        .problems-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 20px;
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-
-        .problem-item {
-            background: rgba(255, 118, 117, 0.08);
-            border: 1px solid rgba(255, 118, 117, 0.2);
-            padding: 20px;
-            border-radius: 15px;
-            font-size: 18px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .problem-item i {
-            color: var(--danger);
-            font-size: 20px;
-        }
-
-        /* Solutions */
-        .solutions {
-            padding: 80px 20px;
-            background: #151226;
-        }
-
-        .solutions-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 20px;
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-
-        .solution-item {
-            background: rgba(0, 184, 148, 0.08);
-            border: 1px solid rgba(0, 184, 148, 0.2);
-            padding: 24px;
-            border-radius: 15px;
-            font-size: 18px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .solution-item i {
-            color: var(--success);
-            font-size: 20px;
-        }
-
-        /* Offers */
-        .offers {
-            padding: 80px 20px;
-            background: var(--dark-bg);
-        }
-
-        .offers-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-
-        .offer-card {
-            background: var(--card-bg);
-            border: 1px solid rgba(255,255,255,0.05);
-            padding: 40px 30px;
-            border-radius: 24px;
-            text-align: center;
-            position: relative;
-        }
-
-        .offer-card.featured {
-            border: 2px solid var(--secondary);
-            box-shadow: 0 10px 30px rgba(165, 94, 234, 0.2);
-        }
-
-        .discount {
-            background: linear-gradient(45deg, #ff7675, #ef5777);
-            color: white;
-            padding: 6px 16px;
-            border-radius: 50px;
-            font-weight: 700;
-            font-size: 14px;
+        
+        .offer-badge {
             display: inline-block;
-            margin-bottom: 20px;
+            background: rgba(255,255,255,0.2);
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
         }
-
-        .offer-card h3 {
-            font-size: 24px;
-            margin-bottom: 15px;
+        
+        .offer h2 {
+            font-size: clamp(1.75rem, 4vw, 2.5rem);
+            margin-bottom: 1rem;
         }
-
-        .offer-card p {
-            color: var(--text-muted);
+        
+        .offer p {
+            opacity: 0.9;
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
         }
-
-        /* Platforms */
-        .platforms {
-            padding: 80px 20px;
-            background: #151226;
+        
+        .offer .btn {
+            background: var(--white);
+            color: var(--primary);
         }
-
-        .platforms-icons {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 25px;
-            margin-top: 40px;
+        
+        .offer .btn:hover {
+            transform: scale(1.05);
         }
-
-        .platform {
-            width: 70px;
-            height: 70px;
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 32px;
-            color: white;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-        }
-
-        .platform:hover {
-            transform: scale(1.15) rotate(5deg);
-        }
-
+        
         /* Contact */
         .contact {
-            padding: 100px 20px;
-            background: radial-gradient(circle at center, rgba(108, 92, 231, 0.15) 0%, var(--dark-bg) 100%);
+            background: var(--light);
+        }
+        
+        .contact-card {
+            background: var(--white);
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 3rem;
+            border-radius: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
             text-align: center;
         }
-
-        .contact h2 {
-            font-size: 42px;
-            font-weight: 900;
-            margin-bottom: 15px;
+        
+        .contact-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
         }
-
-        .contact-info {
-            font-size: 20px;
-            color: var(--text-muted);
-            margin-bottom: 35px;
+        
+        .contact-card p {
+            color: var(--gray);
+            margin-bottom: 2rem;
         }
-
-        .whatsapp-btn {
-            display: inline-flex;
+        
+        .contact-options {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .contact-btn {
+            display: flex;
             align-items: center;
-            gap: 12px;
-            padding: 18px 45px;
-            background: #25D366;
-            color: white;
+            gap: 0.5rem;
+            padding: 1rem 2rem;
+            border-radius: 15px;
             text-decoration: none;
-            border-radius: 50px;
             font-weight: 700;
-            font-size: 22px;
-            box-shadow: 0 10px 30px rgba(37, 211, 102, 0.4);
+            transition: all 0.3s ease;
         }
-
-        .whatsapp-btn:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 35px rgba(37, 211, 102, 0.6);
-            background: #20ba5a;
+        
+        .contact-btn.whatsapp {
+            background: #25d366;
+            color: var(--white);
         }
-
+        
+        .contact-btn.call {
+            background: var(--dark);
+            color: var(--white);
+        }
+        
+        .contact-btn:hover {
+            transform: translateY(-3px);
+        }
+        
+        .contact-phone {
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--light);
+        }
+        
+        .contact-phone p {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--dark);
+        }
+        
+        /* Footer */
+        .footer {
+            background: var(--dark);
+            color: var(--white);
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        .footer p {
+            opacity: 0.7;
+            font-size: 0.9rem;
+        }
+        
         /* Responsive */
         @media (max-width: 768px) {
-            .hero h1 { font-size: 32px; }
-            .hero p { font-size: 18px; }
-            .section-title h2 { font-size: 28px; }
-            .contact h2 { font-size: 30px; }
-            .whatsapp-btn { font-size: 18px; padding: 15px 35px; }
+            .hero {
+                padding: 6rem 1.5rem 3rem;
+            }
+            
+            .stats {
+                gap: 2rem;
+            }
+            
+            .contact-card {
+                padding: 2rem;
+            }
+            
+            .contact-options {
+                flex-direction: column;
+            }
+            
+            .contact-btn {
+                justify-content: center;
+            }
         }
     </style>
 </head>
 <body>
-
     <!-- Header -->
     <header class="header">
-        <div class="logo">Mero Social Media</div>
+        <nav class="nav-container">
+            <div class="logo">ميرو سوشيال</div>
+            <a href="#contact" class="nav-btn">أحجز استشارة مجانية</a>
+        </nav>
     </header>
 
     <!-- Hero Section -->
     <section class="hero">
-        <h1>🚀 إدارة سوشيال ميديا احترافية</h1>
-        <p>حوّل صفحتك من مجرد وجود رقمي إلى منصة تولد نتائج حقيقية وأرباحاً تصاعدية!</p>
-        <a href="https://wa.me/201021148212" class="btn"><i class="fa-solid fa-paper-plane"></i> ابدأ معنا الآن</a>
-    </section>
-
-    <!-- Services -->
-    <section class="services">
-        <div class="section-title">
-            <h2>✨ خدماتنا الاحترافية</h2>
-        </div>
-        <div class="services-grid">
-            <div class="service-card">
-                <div class="service-icon"><i class="fa-solid fa-sliders"></i></div>
-                <h3>إدارة صفحات كاملة</h3>
-                <p>ندير منصاتك بالكامل برؤية استراتيجية من الألف إلى الياء.</p>
+        <div class="hero-content">
+            <h1>خلصنا من <span>عناء إدارة السوشيال ميديا</span> وحولها لأرباح حقيقية</h1>
+            <p>نأخذ على عاتقنا كل شيء من التصوير كتابة ونشر وإعلانات. صفحتك تشتغل وأنت مرتاح</p>
+            
+            <div class="hero-buttons">
+                <a href="#contact" class="btn btn-primary">احجز استشارتك المجانية</a>
+                <a href="#services" class="btn btn-secondary">شوف خدماتنا</a>
             </div>
-            <div class="service-card">
-                <div class="service-icon"><i class="fa-solid fa-palette"></i></div>
-                <h3>تصميم بوستات جذابة</h3>
-                <p>تصاميم عصرية ومبتكرة تبرز هويتك البصرية وتخطف الأنظار.</p>
-            </div>
-            <div class="service-card">
-                <div class="service-icon"><i class="fa-solid fa-pen-nib"></i></div>
-                <h3>كتابة محتوى إبداعي</h3>
-                <p>صياغة نصوص بيعية وتفاعلية تخاطب اهتمامات جمهورك المستهدف.</p>
-            </div>
-            <div class="service-card">
-                <div class="service-icon"><i class="fa-solid fa-rectangle-ad"></i></div>
-                <h3>إعلانات ممولة</h3>
-                <p>إطلاق وإدارة حملات إعلانية ذكية تضمن لك أعلى عائد على الاستثمار.</p>
-            </div>
-            <div class="service-card">
-                <div class="service-icon"><i class="fa-solid fa-user-plus"></i></div>
-                <h3>زيادة متابعين</h3>
-                <p>جذب متابعين حقيقيين ومهتمين بمجال عملك لضمان الفاعلية.</p>
-            </div>
-            <div class="service-card">
-                <div class="service-icon"><i class="fa-solid fa-fire"></i></div>
-                <h3>تفاعل قوي</h3>
-                <p>تحفيز النشاط على صفحاتك لزيادة ثقة العملاء ومحركات البحث.</p>
+            
+            <div class="stats">
+                <div class="stat">
+                    <div class="stat-number">500+</div>
+                    <div class="stat-label">صفحة ناجحة</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">1M+</div>
+                    <div class="stat-label">تفاعل شهري</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">98%</div>
+                    <div class="stat-label">رضا عملاء</div>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Problems -->
-    <section class="problems">
-        <div class="section-title">
-            <h2>❌ المشاكل التي سنخلصك منها</h2>
-        </div>
-        <div class="problems-list">
-            <div class="problem-item"><i class="fa-solid fa-circle-xmark"></i> عبء التصوير والإنتاج المستمر</div>
-            <div class="problem-item"><i class="fa-solid fa-circle-xmark"></i> تشتت التفكير في كتابة المحتوى</div>
-            <div class="problem-item"><i class="fa-solid fa-circle-xmark"></i> ضعف تفاعل الجمهور والجمود</div>
-            <div class="problem-item"><i class="fa-solid fa-circle-xmark"></i> قلة المتابعين وصعوبة الوصول</div>
-            <div class="problem-item"><i class="fa-solid fa-circle-xmark"></i> هدر الميزانية في إعلانات غير مدروسة</div>
-            <div class="problem-item"><i class="fa-solid fa-circle-xmark"></i> اختفاء الصفحة وعدم ظهورها للمهتمين</div>
-        </div>
-    </section>
-
-    <!-- Solutions -->
-    <section class="solutions">
-        <div class="section-title">
-            <h2>✅ ما ستحصل عليه معنا</h2>
-        </div>
-        <div class="solutions-grid">
-            <div class="solution-item"><i class="fa-solid fa-circle-check"></i> صفحة نشطة على مدار الساعة</div>
-            <div class="solution-item"><i class="fa-solid fa-circle-check"></i> محتوى احترافي يعكس قيمة براندك</div>
-            <div class="solution-item"><i class="fa-solid fa-circle-check"></i> تفاعل حقيقي ونمو مستمر</div>
-            <div class="solution-item"><i class="fa-solid fa-circle-check"></i> زيادة المبيعات والطلبات الفعلية</div>
-            <div class="solution-item"><i class="fa-solid fa-circle-check"></i> بناء براند قوي وموثوق بـ السوق</div>
-            <div class="solution-item"><i class="fa-solid fa-circle-check"></i> أرباح مضاعفة ونمو مستدام لأعمالك</div>
-        </div>
-    </section>
-
-    <!-- Offers -->
-    <section class="offers">
-        <div class="section-title">
-            <h2>🎯 عروض حصرية لفترة محدودة</h2>
-        </div>
-        <div class="offers-grid">
-            <div class="offer-card">
-                <div class="discount">خصم 50%</div>
-                <h3>باقات إدارة الصفحات</h3>
-                <p>باقات مرنة ومخصصة لتناسب حجم مشروعك الحالي.</p>
+    <!-- Problems Section -->
+    <section class="section problems">
+        <div class="container">
+            <div class="section-header">
+                <h2>🚫 هل هذه المشاكل مألوفة لك؟</h2>
             </div>
-            <div class="offer-card featured">
-                <div class="discount" style="background: linear-gradient(45deg, #fdcb6e, #e17055);">الأكثر طلباً</div>
-                <h3>الباقة الشاملة</h3>
-                <p>كل الخدمات مدمجة في حزمة واحدة قوية لنتائج أسرع.</p>
-            </div>
-            <div class="offer-card">
-                <div class="discount">عرض خاص</div>
-                <h3>زيادة المتابعين</h3>
-                <p>استراتيجيات نمو آمنة ومعززة بضمان حقيقي.</p>
+            <div class="problems-grid">
+                <div class="problem-item">
+                    <h4>❌ لا وقت للتصوير</h4>
+                    <p>يومياتك مشغولة ومش تقدر تتفرغ لإنتاج محتوى مستمر</p>
+                </div>
+                <div class="problem-item">
+                    <h4>❌ مش عارف تكتب</h4>
+                    <p>تحس إن الكلمات مش上场 معاك وصورك ماتجاذب حد</p>
+                </div>
+                <div class="problem-item">
+                    <h4>❌ تفاعل ضعيف</h4>
+                    <p>الانتشار قليل واللي يشاهد مش يتحول لعميل</p>
+                </div>
+                <div class="problem-item">
+                    <h4>❌ الإعلانات مكلفة</h4>
+                    <p>بتصرف في الميزانية وما يرجعلك نتائج</p>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Platforms -->
-    <section class="platforms">
-        <div class="section-title">
-            <h2>📱 المنصات التي نعمل عليها</h2>
-        </div>
-        <div class="platforms-icons">
-            <div class="platform" style="background: #1877F2;"><i class="fa-brands fa-facebook-f"></i></div>
-            <div class="platform" style="background: linear-gradient(45deg, #f9ce34, #ee2a7b, #6228d7);"><i class="fa-brands fa-instagram"></i></div>
-            <div class="platform" style="background: #000000;"><i class="fa-brands fa-tiktok"></i></div>
-            <div class="platform" style="background: #1D9BF0;"><i class="fa-brands fa-x-twitter"></i></div>
-            <div class="platform" style="background: #0088cc;"><i class="fa-brands fa-telegram"></i></div>
-            <div class="platform" style="background: #FF0000;"><i class="fa-brands fa-youtube"></i></div>
-        </div>
-    </section>
-
-    <!-- Contact -->
-    <section class="contact">
-        <h2>📲 جاهز لنقل صفحتك للمستوى التالي؟</h2>
-        <p class="contact-info">دعنا ندير الجانب الرقمي بالنيابة عنك، وتفرغ أنت لإدارة مبيعاتك.</p>
-        <a href="https://wa.me/201021148212" class="whatsapp-btn">
-            <i class="fa-brands fa-whatsapp"></i> تواصل معنا عبر واتساب
-        </a>
-    </section>
-
-</body>
-</html>
+    <!-- Solutions Section -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2>✅ الحل عندنا</h2>
+                <p>نمسك صفح
